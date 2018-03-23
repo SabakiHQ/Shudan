@@ -1,128 +1,9 @@
 const {h, Component} = require('preact')
-const classNames = require('classnames')
+const classnames = require('classnames')
 
 const helper = require('../modules/helper')
-
-const alpha = 'ABCDEFGHJKLMNOPQRSTUVWXYZ'
-const range = n => [...Array(n)].map((_, i) => i)
-const random = n => Math.floor(Math.random() * n)
-
-class GobanVertex extends Component {
-    shouldComponentUpdate({
-        sign,
-        hoshi,
-        shift,
-        highlight,
-        heat,
-        paint,
-        dimmed,
-        animate,
-        label,
-        markupType,
-        ghostTypes
-    }) {
-        return sign !== this.props.sign
-            || highlight !== this.props.highlight
-            || ghostTypes !== this.props.ghostTypes
-            || markupType !== this.props.markupType
-            || label !== this.props.label
-            || shift !== this.props.shift
-            || animate !== this.props.animate
-            || heat !== this.props.heat
-            || paint !== this.props.paint
-            || dimmed !== this.props.dimmed
-            || hoshi !== this.props.hoshi
-    }
-
-    render({
-        position: [x, y],
-        shift,
-        random,
-        sign,
-        highlight,
-        heat,
-        paint,
-        dimmed,
-        hoshi,
-        animate,
-        markupType,
-        label,
-        ghostTypes,
-
-        onMouseDown,
-        onMouseUp,
-        onMouseMove
-    }) {
-        let classes = {
-            [`pos_${x}-${y}`]: true,
-            [`shift_${shift}`]: true,
-            [`random_${random}`]: true,
-            [`sign_${sign}`]: true,
-            [`heat_${heat}`]: !!heat,
-            [`paint_${paint}`]: !!paint,
-            [markupType]: !!markupType,
-            dimmed,
-            hoshi,
-            animate,
-            smalllabel: label.length >= 3
-        }
-
-        for (let type of ghostTypes) {
-            classes[type] = true
-        }
-
-        return h('li',
-            {
-                'data-vertex': `${x}-${y}`,
-                class: classNames(classes),
-                onMouseDown,
-                onMouseUp,
-                onMouseMove
-            },
-            
-            h('div', {class: 'heat'}),
-
-            h('div', {class: 'stone'},
-                h('img', {src: './img/goban/blank.svg'}),
-                h('span', {title: label}),
-            ),
-
-            !!paint && h('div', {class: 'paint'}),
-            highlight && h('div', {class: 'highlight'})
-        )
-    }
-}
-
-class GobanLine extends Component {
-    shouldComponentUpdate(nextProps) {
-        for (let i in nextProps)
-            if (nextProps[i] !== this.props[i]) return true
-
-        return false
-    }
-
-    render({v1, v2, type, temporary, showCoordinates, fieldSize}) {
-        if (helper.vertexEquals(v1, v2)) return
-
-        let [pos1, pos2] = [v1, v2].map(v => v.map(x => (showCoordinates ? x + 1 : x) * fieldSize))
-        let [dx, dy] = pos1.map((x, i) => pos2[i] - x)
-        let [left, top] = pos1.map((x, i) => (x + pos2[i] + fieldSize) / 2)
-
-        let angle = Math.atan2(dy, dx) * 180 / Math.PI
-        let length = Math.sqrt(dx * dx + dy * dy)
-
-        return h('hr', {
-            class: classNames({[type]: true, temporary}),
-            style: {
-                width: length,
-                transform: `
-                    translate(${left - length / 2}px, ${top}px)
-                    rotate(${angle}deg)
-                `
-            }
-        })
-    }
-}
+const Vertex = require('./Vertex')
+const Line = require('./Line')
 
 class CoordX extends Component {
     shouldComponentUpdate({rangeX}) {
@@ -131,7 +12,7 @@ class CoordX extends Component {
 
     render({rangeX}) {
         return h('ol', {class: 'coordx'},
-            rangeX.map(i => h('li', {}, alpha[i]))
+            rangeX.map(i => h('li', {}, helper.alpha[i]))
         )
     }
 }
@@ -198,18 +79,18 @@ class Goban extends Component {
         if (!this.props || !helper.vertexEquals(dim(board), dim(this.props.board))) {
             // Update state to accomodate new board size
 
-            let rangeX = range(board.width)
-            let rangeY = range(board.height)
-            let hoshis = board.getHandicapPlacement(9)
+            let rangeX = helper.range(board.width)
+            let rangeY = helper.range(board.height)
+            let hoshis = helper.getHoshis(board.width, board.height)
 
-            let shifts = rangeY.map(_ => rangeX.map(__ => random(9)))
+            let shifts = rangeY.map(_ => rangeX.map(__ => helper.random(9)))
             this.readjustShifts(shifts)
 
             this.setState({
                 rangeX,
                 rangeY,
                 hoshis,
-                randomizer: rangeY.map(_ => rangeX.map(__ => random(5))),
+                randomizer: rangeY.map(_ => rangeX.map(__ => helper.random(5))),
                 shifts
             }, () => this.resize())
         } else if (animatedVertex
@@ -219,7 +100,7 @@ class Goban extends Component {
             let [x, y] = animatedVertex
             let {shifts} = this.state
 
-            shifts[y][x] = random(9)
+            shifts[y][x] = helper.random(9)
             this.readjustShifts(shifts, animatedVertex)
 
             this.setState({shifts, animatedVertex})
@@ -236,7 +117,7 @@ class Goban extends Component {
     resize() {
         if (!this.element || !this.element.parentElement) return
 
-        let {board, showCoordinates, onBeforeResize = helper.noop} = this.props
+        let {board, showCoordinates, onBeforeResize = () => {}} = this.props
         onBeforeResize()
 
         let {width: outerWidth, height: outerHeight} = window.getComputedStyle(this.element.parentElement)
@@ -326,7 +207,7 @@ class Goban extends Component {
     handleVertexMouseUp(evt) {
         if (!this.mouseDown) return
 
-        let {onVertexClick = helper.noop, onLineDraw = helper.noop} = this.props
+        let {onVertexClick = () => {}, onLineDraw = () => {}} = this.props
         let {currentTarget} = evt
 
         this.mouseDown = false
@@ -344,7 +225,7 @@ class Goban extends Component {
     }
 
     handleVertexMouseMove(evt) {
-        let {drawLineMode, onVertexMouseMove = helper.noop} = this.props
+        let {drawLineMode, onVertexMouseMove = () => {}} = this.props
         let {currentTarget} = evt
 
         onVertexMouseMove(Object.assign(evt, {
@@ -356,7 +237,7 @@ class Goban extends Component {
         if (!!drawLineMode && evt.mouseDown && evt.button === 0) {
             let temporaryLine = [evt.startVertex, evt.vertex]
 
-            if (!helper.equals(temporaryLine, this.state.temporaryLine)) {
+            if (!helper.lineEquals(temporaryLine, this.state.temporaryLine)) {
                 this.setState({temporaryLine})
             }
         }
@@ -388,8 +269,7 @@ class Goban extends Component {
             {
                 ref: el => this.element = el,
                 id: 'goban',
-                class: classNames({
-                    goban: true,
+                class: classnames('goban', {
                     crosshair,
                     coordinates: showCoordinates,
                     movecolorization: showMoveColorization,
@@ -442,7 +322,7 @@ class Goban extends Component {
                     let [markupType, label] = board.markups[[x, y]] || [null, '']
                     let equalsVertex = v => helper.vertexEquals(v, [x, y])
 
-                    return h(GobanVertex, {
+                    return h(Vertex, {
                         position: [x, y],
                         shift: this.state.shifts[y][x],
                         random: this.state.randomizer[y][x],
@@ -472,21 +352,21 @@ class Goban extends Component {
 
             board.lines.map(([v1, v2, arrow]) => {
                 if (drawTemporaryLine) {
-                    if (helper.equals([v1, v2], temporaryLine)
+                    if (helper.lineEquals([v1, v2], temporaryLine)
                     || (!arrow || drawLineMode === 'line')
-                    && helper.equals([v2, v1], temporaryLine)) {
+                    && helper.lineEquals([v2, v1], temporaryLine)) {
                         drawTemporaryLine = false
                         return
                     }
                 }
 
-                return h(GobanLine, {
+                return h(Line, {
                     v1, v2, showCoordinates, fieldSize,
                     type: arrow ? 'arrow' : 'line'
                 })
             }),
 
-            drawTemporaryLine && h(GobanLine, {
+            drawTemporaryLine && h(Line, {
                 temporary: true,
                 v1: temporaryLine[0], v2: temporaryLine[1],
                 showCoordinates, fieldSize,

@@ -25,5 +25,8 @@
   "homepage": "https://github.com/SabakiHQ/preact-goban",
   "peerDependencies": {
     "preact": "~8.0"
+  },
+  "dependencies": {
+    "classnames": "^2.2.5"
   }
 }
