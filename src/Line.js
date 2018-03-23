@@ -4,16 +4,19 @@ const {vertexEquals} = require('./helper')
 
 class Line extends Component {
     shouldComponentUpdate(nextProps) {
-        for (let i in nextProps)
-            if (nextProps[i] !== this.props[i]) return true
+        let {v1, v2, type, fieldSize} = this.props
 
-        return false
+        return type !== nextProps.type
+            || fieldSize !== nextProps.fieldSize
+            || !vertexEquals(v1, nextProps.v1)
+            || !vertexEquals(v2, nextProps.v2)
     }
 
-    render({v1, v2, type, temporary, showCoordinates, fieldSize}) {
+    render() {
+        let {v1, v2, type, fieldSize} = this.props
         if (vertexEquals(v1, v2)) return
 
-        let [pos1, pos2] = [v1, v2].map(v => v.map(x => (showCoordinates ? x + 1 : x) * fieldSize))
+        let [pos1, pos2] = [v1, v2].map(v => v.map(x => x * fieldSize))
         let [dx, dy] = pos1.map((x, i) => pos2[i] - x)
         let [left, top] = pos1.map((x, i) => (x + pos2[i] + fieldSize) / 2)
 
@@ -21,7 +24,7 @@ class Line extends Component {
         let length = Math.sqrt(dx * dx + dy * dy)
 
         return h('hr', {
-            class: classnames(type, {temporary}),
+            class: type,
             style: {
                 width: length,
                 transform: [
