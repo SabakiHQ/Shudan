@@ -84,8 +84,8 @@ class Goban extends Component {
     }
 
     render() {
-        let {containerSize, signMap, paintMap, heatMap, markers, lines,
-            ghostStones, highlightVertices, dimmedVertices, showCoordinates} = this.props
+        let {containerSize, signMap, paintMap, heatMap, showCoordinates = false,
+            markers = {}, lines = [], ghostStones = {}, highlightVertices = [], dimmedStones = []} = this.props
         let {fieldSize, hoshis, animatedVertex, shiftMap, randomMap} = this.state
 
         let rangeY = helper.range(signMap.length)
@@ -134,7 +134,7 @@ class Goban extends Component {
 
             // Draw lines & arrows
 
-            board.lines.map(({v1, v2, type}) =>
+            lines.map(({v1, v2, type}) =>
                 h(Line, {v1, v2, type, fieldSize})
             )
         )
