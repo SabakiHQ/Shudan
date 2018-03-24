@@ -24,9 +24,18 @@
   },
   "homepage": "https://github.com/SabakiHQ/preact-goban",
   "peerDependencies": {
-    "preact": "~8.0"
+    "preact": "8.x"
   },
   "dependencies": {
     "classnames": "^2.2.5"
+  },
+  "devDependencies": {
+    "preact": "^8.2.7",
+    "webpack": "^4.2.0",
+    "webpack-cli": "^2.0.13"
+  },
+  "scripts": {
+    "build-demo": "webpack --entry ./demo/main.js -o ./demo/bundle.js --progress --mode production",
+    "watch-demo": "webpack --entry ./demo/main.js -o ./demo/bundle.js --progress --mode development --watch"
   }
 }

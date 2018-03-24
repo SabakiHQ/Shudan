@@ -1,7 +1,7 @@
 const {h, Component} = require('preact')
 const classnames = require('classnames')
 
-const helper = require('../modules/helper')
+const helper = require('./helper')
 const Vertex = require('./Vertex')
 const Line = require('./Line')
 
@@ -35,8 +35,6 @@ class Goban extends Component {
 
         this.state = {
             fieldSize: 0,
-            rangeY: [],
-            rangeX: [],
             hoshis: [],
             animatedVertex: null,
             shiftMap: null,
@@ -86,10 +84,12 @@ class Goban extends Component {
     }
 
     render() {
-        let {size, signMap, paintMap, heatMap, markers, lines,
+        let {containerSize, signMap, paintMap, heatMap, markers, lines,
             ghostStones, highlightVertices, dimmedVertices, showCoordinates} = this.props
-        let {fieldSize, rangeY, rangeX, hoshis, animatedVertex, shiftMap, randomMap} = this.state
+        let {fieldSize, hoshis, animatedVertex, shiftMap, randomMap} = this.state
 
+        let rangeY = helper.range(signMap.length)
+        let rangeX = helper.range(signMap.length === 0 ? 0 : signMap[0].length)
         let animatedVertices = animatedVertex ? helper.neighborhood(animatedVertex) : []
 
         return h('section',
