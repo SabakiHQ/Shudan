@@ -10,9 +10,23 @@ class CoordX extends Component {
         return rangeX.length !== this.props.rangeX.length
     }
 
-    render({rangeX}) {
-        return h('ol', {class: 'coordx'},
-            rangeX.map(i => h('li', {}, helper.alpha[i]))
+    render() {
+        let {style, rangeX} = this.props
+
+        return h('div', 
+            {
+                class: 'coordx',
+                style: Object.assign({
+                    display: 'flex',
+                    textAlign: 'center'
+                }, style)
+            },
+
+            rangeX.map(i => 
+                h('div', {style: {width: '1em'}},
+                    h('span', {style: {display: 'block', fontSize: '.6em'}}, helper.alpha[i])
+                )
+            )
         )
     }
 }
@@ -22,9 +36,22 @@ class CoordY extends Component {
         return rangeY.length !== this.props.rangeY.length
     }
 
-    render({rangeY}) {
-        return h('ol', {class: 'coordy'},
-            rangeY.map(i => h('li', {}, rangeY.length - i))
+    render() {
+        let {style, rangeY} = this.props
+
+        return h('div', 
+            {
+                class: 'coordy',
+                style: Object.assign({
+                    textAlign: 'center'
+                }, style)
+            },
+
+            rangeY.map(i => 
+                h('div', {style: {height: '1em'}},
+                    h('span', {style: {display: 'block', fontSize: '.6em'}}, rangeY.length - i)
+                )
+            )
         )
     }
 }
@@ -34,7 +61,6 @@ class Goban extends Component {
         super(props)
 
         this.state = {
-            fieldSize: 0,
             hoshis: [],
             animatedVertex: null,
             shiftMap: null,
@@ -84,9 +110,9 @@ class Goban extends Component {
     }
 
     render() {
-        let {containerSize, signMap, paintMap, heatMap, showCoordinates = false,
+        let {vertexSize = 24, signMap, paintMap, heatMap, showCoordinates = false,
             markers = {}, lines = [], ghostStones = {}, highlightVertices = [], dimmedStones = []} = this.props
-        let {fieldSize, hoshis, animatedVertex, shiftMap, randomMap} = this.state
+        let {hoshis, animatedVertex, shiftMap, randomMap} = this.state
 
         let rangeY = helper.range(signMap.length)
         let rangeX = helper.range(signMap.length === 0 ? 0 : signMap[0].length)
@@ -95,48 +121,87 @@ class Goban extends Component {
         return h('section',
             {
                 ref: el => this.element = el,
-                class: classnames('sabaki-goban', {
-                    coordinates: showCoordinates
-                })
+                style: {
+                    display: 'inline-grid',
+                    gridTemplateRows: showCoordinates ? `1em ${rangeY.length}em 1em` : 'auto',
+                    gridTemplateColumns: showCoordinates ? `1em ${rangeX.length}em 1em` : 'auto',
+                    fontSize: vertexSize,
+                    lineHeight: '1em'
+                },
+                class: 'sabaki-goban'
             },
 
-            h('div', {},
-                h(CoordY, {rangeY}),
-                h(CoordX, {rangeX}),
+            showCoordinates && h(CoordX, {rangeX, style: {gridRow: '1', gridColumn: '2'}}),
+            showCoordinates && h(CoordY, {rangeY, style: {gridRow: '2', gridColumn: '1'}}),
 
-                rangeY.map(y => h('ol', {key: y, class: 'row'}, rangeX.map(x => {
-                    let equalsVertex = v => helper.vertexEquals(v, [x, y])
+            h('div', 
+                {
+                    class: 'content',
+                    style: {position: 'relative', gridRow: '2', gridColumn: '2'}
+                },
 
-                    return h(Vertex, {
-                        key: x,
-                        position: [x, y],
-                        shift: shiftMap && shiftMap[y][x],
-                        random: randomMap && randomMap[y][x],
-                        sign: signMap && signMap[y][x],
-                        heat: heatMap && heatMap[y][x],
-                        paint: paintMap && paintMap[y][x],
-                        dimmed: dimmedStones.some(equalsVertex),
-                        highlight: highlightVertices.some(equalsVertex),
-                        hoshi: hoshis.some(equalsVertex),
-                        animate: animatedVertices.some(equalsVertex),
-                        marker: markers[[x, y]],
-                        ghostStone: ghostStones[[x, y]],
+                h('div', 
+                    {
+                        class: 'vertices',
+                        style: {
+                            display: 'grid',
+                            gridTemplateColumns: `repeat(${rangeX.length}, 1em)`,
+                            gridTemplateRows: `repeat(${rangeY.length}, 1em)`,
+                            gridRow: '2',
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0
+                        }
+                    },
 
-                        onMouseUp: this.handleVertexMouseUp,
-                        onMouseDown: this.handleVertexMouseDown,
-                        onMouseMove: this.handleVertexMouseMove
-                    })
-                }))),
+                    rangeY.map(y => rangeX.map(x => {
+                        let equalsVertex = v => helper.vertexEquals(v, [x, y])
 
-                h(CoordX, {rangeX}),
-                h(CoordY, {rangeY})
+                        return h(Vertex, {
+                            key: x,
+                            position: [x, y],
+                            shift: shiftMap && shiftMap[y][x],
+                            random: randomMap && randomMap[y][x],
+                            sign: signMap && signMap[y][x],
+                            heat: heatMap && heatMap[y][x],
+                            paint: paintMap && paintMap[y][x],
+                            dimmed: dimmedStones.some(equalsVertex),
+                            highlight: highlightVertices.some(equalsVertex),
+                            hoshi: hoshis.some(equalsVertex),
+                            animate: animatedVertices.some(equalsVertex),
+                            marker: markers[[x, y]],
+                            ghostStone: ghostStones[[x, y]],
+
+                            onMouseUp: this.handleVertexMouseUp,
+                            onMouseDown: this.handleVertexMouseDown,
+                            onMouseMove: this.handleVertexMouseMove
+                        })
+                    }))
+                ),
+
+                h('div',
+                    {
+                        class: 'lines',
+                        style: {
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            pointerEvents: 'none'
+                        }
+                    },
+
+                    lines.map(({v1, v2, type}) =>
+                        h(Line, {v1, v2, type, vertexSize})
+                    )
+                )
             ),
 
-            // Draw lines & arrows
-
-            lines.map(({v1, v2, type}) =>
-                h(Line, {v1, v2, type, fieldSize})
-            )
+            showCoordinates && h(CoordY, {rangeY, style: {gridRow: '2', gridColumn: '3'}}),
+            showCoordinates && h(CoordX, {rangeX, style: {gridRow: '3', gridColumn: '2'}})
         )
     }
 }

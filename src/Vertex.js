@@ -4,14 +4,14 @@ const classnames = require('classnames')
 class Vertex extends Component {
     render() {
         let {position: [x, y], shift, random, sign, highlight, heat,
-            paint, dimmed, hoshi, animate, marker, ghostStone, fieldSize} = this.props
+            paint, dimmed, hoshi, animate, marker, ghostStone} = this.props
 
-        return h('li',
+        return h('div',
             {
                 'data-vertex': `${x}-${y}`,
                 style: {
-                    width: fieldSize,
-                    height: fieldSize
+                    width: '1em',
+                    height: '1em'
                 },
                 class: classnames(
                     `pos_${x}-${y}`,
