@@ -14,6 +14,7 @@ class Vertex extends Component {
                     height: '1em'
                 },
                 class: classnames(
+                    'vertex',
                     `pos_${x}-${y}`,
                     `shift_${shift}`,
                     `random_${random}`,
@@ -38,22 +39,19 @@ class Vertex extends Component {
                 onMouseMove: this.props.onMouseMove
             },
             
-            h('div', {class: 'heat'}),
+            h('div', {class: 'board'}),
+            hoshi && h('div', {class: 'hoshi'}),
 
-            h('div', {class: 'stone'},
-                h('img', {
-                    // Blank image
-                    alt: sign,
-                    src: 'data:image/svg+xml;base64,'
-                        + 'PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaH'
-                        + 'R0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg=='
-                })
+            h('div', {class: 'ghost'}),
+            h('div', {class: 'stone'}, 
+                h('div', {class: 'shadow'}),
+                h('div', {class: 'inner'}, sign),
+                h('div', {class: 'marker'}, marker && marker.label && h('span', {title: marker.label}))
             ),
 
-            h('div', {class: 'marker'}, marker && marker.label && h('span', {title: marker.label})),
-            h('div', {class: 'ghost'}),
             !!paint && h('div', {class: 'paint'}),
-            highlight && h('div', {class: 'highlight'})
+            highlight && h('div', {class: 'highlight'}),
+            h('div', {class: 'heat'})
         )
     }
 }

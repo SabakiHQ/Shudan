@@ -6,11 +6,6 @@ exports.neighborhood = ([x, y]) => [[x, y], [x - 1, y], [x + 1, y], [x, y - 1], 
 exports.vertexEquals = ([x1, y1], [x2, y2]) => x1 === x2 && y1 === y2
 exports.lineEquals = ([v1, w1], [v2, w2]) => exports.vertexEquals(v1, v2) && exports.vertexEquals(w1, w2)
 
-exports.floorEven = function(float) {
-    let value = Math.floor(float)
-    return value % 2 === 0 ? value : value - 1
-}
-
 exports.getHoshis = function(width, height) {
     if (Math.min(width, height) < 6) return []
 

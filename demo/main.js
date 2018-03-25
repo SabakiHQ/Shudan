@@ -25,7 +25,7 @@ const signMap = [
 
 render((
     h(Goban, {
-        containerSize: 800,
+        vertexSize: 24,
         signMap,
         showCoordinates: true,
         lines: [
