@@ -1,6 +1,11 @@
 const {h, Component} = require('preact')
 const classnames = require('classnames')
 
+const absoluteStyle = zIndex => ({
+    position: 'absolute',
+    zIndex
+})
+
 class Vertex extends Component {
     render() {
         let {position: [x, y], types, shift, random, sign, highlight, heat,
@@ -10,6 +15,7 @@ class Vertex extends Component {
             {
                 'data-vertex': `${x}-${y}`,
                 style: {
+                    position: 'relative',
                     width: '1em',
                     height: '1em'
                 },
@@ -40,19 +46,21 @@ class Vertex extends Component {
                 onMouseMove: this.props.onMouseMove
             },
 
-            h('div', {class: 'board'}),
-            hoshi && h('div', {class: 'hoshi'}),
+            h('div', {class: 'board', style: absoluteStyle(1)}),
+            hoshi && h('div', {class: 'hoshi', style: absoluteStyle(2)}),
 
-            h('div', {class: 'ghost'}),
-            h('div', {class: 'stone'},
-                h('div', {class: 'shadow'}),
-                h('div', {class: 'inner'}, sign),
-                h('div', {class: 'marker'}, marker && marker.label && h('span', {title: marker.label}))
+            h('div', {class: 'ghost', style: absoluteStyle(3)}),
+            h('div', {class: 'stone', style: absoluteStyle(4)},
+                h('div', {class: 'shadow', style: absoluteStyle(1)}),
+                h('div', {class: 'inner', style: absoluteStyle(2)}, sign),
+                h('div', {class: 'marker', style: absoluteStyle(3)}, 
+                    marker && marker.label && h('span', {class: 'label', title: marker.label}, marker.label)
+                )
             ),
 
-            !!paint && h('div', {class: 'paint'}),
-            highlight && h('div', {class: 'highlight'}),
-            h('div', {class: 'heat'})
+            !!paint && h('div', {class: 'paint', style: absoluteStyle(5)}),
+            highlight && h('div', {class: 'highlight', style: absoluteStyle(6)}),
+            h('div', {class: 'heat', style: absoluteStyle(7)})
         )
     }
 }

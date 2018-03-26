@@ -1,5 +1,5 @@
 .sabaki-goban {
-        --board-color: #EBB55B;
+        --board-color: #FCC66C;
         --foreground-color: #5E2E0C;
 
         border: .3em solid #CA933A;
@@ -10,30 +10,25 @@
         padding: .3em;
 }
 
-.sabaki-goban .vertex {
-        position: relative;
-    }
-    .sabaki-goban .vertex div {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
+.sabaki-goban .vertex div {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .sabaki-goban .vertex .board::before {
         content: '';
         display: block;
         position: absolute;
-        top: calc(50% - 1px);
+        top: 50%;
         left: 0;
         width: 100%;
         height: 1px;
         background: var(--foreground-color);
-        z-index: 1;
     }
     .sabaki-goban .vertex.left .board::before {
-        left: calc(50% - 1px);
+        left: 50%;
     }
     .sabaki-goban .vertex.right .board::before {
         width: 50%;
@@ -43,16 +38,16 @@
         display: block;
         position: absolute;
         top: 0;
-        left: calc(50% - 1px);
+        left: 50%;
         width: 1px;
         height: 100%;
         background: var(--foreground-color);
     }
     .sabaki-goban .vertex.top .board::after {
-        top: calc(50% - 1px);
+        top: 50%;
     }
     .sabaki-goban .vertex.bottom .board::after {
-        height: calc(50% - 1px);
+        height: calc(50% + 1px);
     }
     .sabaki-goban .vertex .hoshi {
         left: 50%;
@@ -61,8 +56,7 @@
         height: .2em;
         border-radius: 50%;
         background: var(--foreground-color);
-        transform: translate(-50%, -50%);
-        z-index: 2;
+        transform: translate(calc(-50% + .5px), calc(-50% + .5px));
 }
 
 .sabaki-goban .vertex .stone {
@@ -70,7 +64,6 @@
         left: .04em;
         width: calc(100% - .08em);
         height: calc(100% - .08em);
-        z-index: 4;
     }
     .sabaki-goban .vertex .stone .shadow,
     .sabaki-goban .vertex .stone .inner {
@@ -123,7 +116,6 @@
 .sabaki-goban .vertex.paint_1 .paint,
 .sabaki-goban .vertex.paint_-1 .paint {    
         opacity: .3;
-        z-index: 5;
     }
     .sabaki-goban .vertex.paint_1 .paint {
         background: black;

@@ -92,7 +92,6 @@ class App extends Component {
             ),
 
             h(Goban, {
-                vertexSize: 25,
                 signMap,
                 showCoordinates,
                 fuzzyStonePlacement,
