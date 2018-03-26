@@ -1,7 +1,10 @@
 .sabaki-goban {
-    border: .5rem solid #CA933A;
-    background: #EBB55B;
-    color: #5E2E0C;
+        border: .3em solid #CA933A;
+        background: #EBB55B;
+        color: #5E2E0C;
+    }
+    .sabaki-goban:not(.coordinates) {
+        padding: .3em;
 }
 
 .sabaki-goban .vertex {
@@ -13,6 +16,41 @@
         top: 0;
         width: 100%;
         height: 100%;
+}
+
+.sabaki-goban .vertex .board::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: #5E2E0C;
+    }
+    .sabaki-goban .vertex.left .board::before {
+        left: 50%;
+        width: 50%;
+    }
+    .sabaki-goban .vertex.right .board::before {
+        width: 50%;
+    }
+    .sabaki-goban .vertex .board::after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 1px;
+        height: 100%;
+        background: #5E2E0C;
+    }
+    .sabaki-goban .vertex.top .board::after {
+        top: 50%;
+        height: 50%;
+    }
+    .sabaki-goban .vertex.bottom .board::after {
+        height: calc(50% + 1px);
     }
     .sabaki-goban .vertex .hoshi {
         left: 50%;
@@ -24,10 +62,13 @@
         border-radius: 50%;
         background: #5E2E0C;
         z-index: 2;
-    }
-    .sabaki-goban .vertex .stone {
-        width: calc(100% - 2px);
-        height: calc(100% - 2px);
+}
+
+.sabaki-goban .vertex .stone {
+        top: .04em;
+        left: .04em;
+        width: calc(100% - .08em);
+        height: calc(100% - .08em);
     }
     .sabaki-goban .vertex .stone .shadow,
     .sabaki-goban .vertex .stone .inner {
@@ -36,21 +77,20 @@
         text-indent: -9999rem;
         z-index: 12;
     }
-    .sabaki-goban .vertex.sign_1 .stone .shadow,
-    .sabaki-goban .vertex.sign_-1 .stone .shadow {
+    .sabaki-goban .vertex:not(.sign_0) .stone .shadow {
         box-shadow: 0 .1em .5em rgba(0, 0, 0, .3);
         z-index: 11;
     }
     .sabaki-goban .vertex.sign_1 .stone .inner {
         background: #222;
-        border: 1px solid #111;
     }
     .sabaki-goban .vertex.sign_-1 .stone .inner {
         background: white;
-        border: 1px solid #ccc;
 }
 
 .sabaki-goban hr {
-    border-color: #5E2E0C;
+    border: none;
+    height: 2px;
+    background: #5E2E0C;
     z-index: 20;
 }

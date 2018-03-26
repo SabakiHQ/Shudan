@@ -13,7 +13,7 @@ class CoordX extends Component {
     render() {
         let {style, rangeX} = this.props
 
-        return h('div', 
+        return h('div',
             {
                 class: 'coordx',
                 style: Object.assign({
@@ -22,7 +22,7 @@ class CoordX extends Component {
                 }, style)
             },
 
-            rangeX.map(i => 
+            rangeX.map(i =>
                 h('div', {style: {width: '1em'}},
                     h('span', {style: {display: 'block', fontSize: '.6em'}}, helper.alpha[i])
                 )
@@ -39,7 +39,7 @@ class CoordY extends Component {
     render() {
         let {style, rangeY} = this.props
 
-        return h('div', 
+        return h('div',
             {
                 class: 'coordy',
                 style: Object.assign({
@@ -47,7 +47,7 @@ class CoordY extends Component {
                 }, style)
             },
 
-            rangeY.map(i => 
+            rangeY.map(i =>
                 h('div', {style: {height: '1em'}},
                     h('span', {style: {display: 'block', fontSize: '.6em'}}, rangeY.length - i)
                 )
@@ -123,31 +123,38 @@ class Goban extends Component {
                 ref: el => this.element = el,
                 style: {
                     display: 'inline-grid',
-                    gridTemplateRows: showCoordinates ? `1em ${rangeY.length}em 1em` : 'auto',
-                    gridTemplateColumns: showCoordinates ? `1em ${rangeX.length}em 1em` : 'auto',
+                    gridTemplateRows: showCoordinates ? '1em auto 1em' : '1fr',
+                    gridTemplateColumns: showCoordinates ? '1em auto 1em' : '1fr',
                     fontSize: vertexSize,
                     lineHeight: '1em'
                 },
-                class: 'sabaki-goban'
+                class: classnames('sabaki-goban', {
+                    coordinates: showCoordinates
+                })
             },
 
             showCoordinates && h(CoordX, {rangeX, style: {gridRow: '1', gridColumn: '2'}}),
             showCoordinates && h(CoordY, {rangeY, style: {gridRow: '2', gridColumn: '1'}}),
 
-            h('div', 
+            h('div',
                 {
                     class: 'content',
-                    style: {position: 'relative', gridRow: '2', gridColumn: '2'}
+                    style: {
+                        position: 'relative',
+                        width: `${rangeX.length}em`,
+                        height: `${rangeY.length}em`,
+                        gridRow: showCoordinates ? '2' : '1',
+                        gridColumn: showCoordinates ? '2' : '1'
+                    }
                 },
 
-                h('div', 
+                h('div',
                     {
                         class: 'vertices',
                         style: {
                             display: 'grid',
                             gridTemplateColumns: `repeat(${rangeX.length}, 1em)`,
                             gridTemplateRows: `repeat(${rangeY.length}, 1em)`,
-                            gridRow: '2',
                             position: 'absolute',
                             top: 0,
                             left: 0,
@@ -162,6 +169,12 @@ class Goban extends Component {
                         return h(Vertex, {
                             key: x,
                             position: [x, y],
+                            types: [
+                                y === 0 && 'top',
+                                x === rangeX.length - 1 && 'right',
+                                y === rangeY.length - 1 && 'bottom',
+                                x === 0 && 'left'
+                            ],
                             shift: shiftMap && shiftMap[y][x],
                             random: randomMap && randomMap[y][x],
                             sign: signMap && signMap[y][x],

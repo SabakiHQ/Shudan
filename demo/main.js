@@ -27,9 +27,6 @@ render((
     h(Goban, {
         vertexSize: 24,
         signMap,
-        showCoordinates: true,
-        lines: [
-            {v1: [10, 6], v2: [3, 4]}
-        ]
+        showCoordinates: true
     })
 ), document.body)

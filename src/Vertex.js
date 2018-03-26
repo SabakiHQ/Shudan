@@ -3,7 +3,7 @@ const classnames = require('classnames')
 
 class Vertex extends Component {
     render() {
-        let {position: [x, y], shift, random, sign, highlight, heat,
+        let {position: [x, y], types, shift, random, sign, highlight, heat,
             paint, dimmed, hoshi, animate, marker, ghostStone} = this.props
 
         return h('div',
@@ -15,6 +15,8 @@ class Vertex extends Component {
                 },
                 class: classnames(
                     'vertex',
+                    ...types,
+
                     `pos_${x}-${y}`,
                     `shift_${shift}`,
                     `random_${random}`,
@@ -38,12 +40,12 @@ class Vertex extends Component {
                 onMouseUp: this.props.onMouseUp,
                 onMouseMove: this.props.onMouseMove
             },
-            
+
             h('div', {class: 'board'}),
             hoshi && h('div', {class: 'hoshi'}),
 
             h('div', {class: 'ghost'}),
-            h('div', {class: 'stone'}, 
+            h('div', {class: 'stone'},
                 h('div', {class: 'shadow'}),
                 h('div', {class: 'inner'}, sign),
                 h('div', {class: 'marker'}, marker && marker.label && h('span', {title: marker.label}))
