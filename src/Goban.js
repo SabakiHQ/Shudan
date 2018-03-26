@@ -130,8 +130,9 @@ class Goban extends Component {
     }
 
     render() {
-        let {vertexSize = 24, signMap, paintMap, heatMap, showCoordinates = false,
-            markers = {}, lines = [], ghostStones = {}, highlightVertices = [], dimmedStones = []} = this.props
+        let {vertexSize = 25, signMap, paintMap, heatMap, 
+            showCoordinates = false, markers = {}, lines = [], ghostStones = {}, 
+            highlightVertices = [], dimmedVertices = []} = this.props
         let {hoshis, animatedVertex, shiftMap, randomMap} = this.state
 
         let rangeY = helper.range(signMap.length)
@@ -187,7 +188,7 @@ class Goban extends Component {
                         let equalsVertex = v => helper.vertexEquals(v, [x, y])
 
                         return h(Vertex, {
-                            key: x,
+                            key: [x, y].join('-'),
                             position: [x, y],
                             types: [
                                 y === 0 && 'top',
@@ -200,7 +201,7 @@ class Goban extends Component {
                             sign: signMap && signMap[y] && signMap[y][x],
                             heat: heatMap && heatMap[y] && heatMap[y][x],
                             paint: paintMap && paintMap[y] && paintMap[y][x],
-                            dimmed: dimmedStones.some(equalsVertex),
+                            dimmed: dimmedVertices.some(equalsVertex),
                             highlight: highlightVertices.some(equalsVertex),
                             hoshi: hoshis.some(equalsVertex),
                             animate: animatedVertices.some(equalsVertex),

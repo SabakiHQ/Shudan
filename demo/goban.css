@@ -1,7 +1,10 @@
 .sabaki-goban {
+        --board-color: #EBB55B;
+        --foreground-color: #5E2E0C;
+
         border: .3em solid #CA933A;
-        background: #EBB55B;
-        color: #5E2E0C;
+        background: var(--board-color);
+        color: var(--foreground-color);
     }
     .sabaki-goban:not(.coordinates) {
         padding: .3em;
@@ -26,7 +29,7 @@
         left: 0;
         width: 100%;
         height: 1px;
-        background: #5E2E0C;
+        background: var(--foreground-color);
     }
     .sabaki-goban .vertex.left .board::before {
         left: calc(50% - 1px);
@@ -42,7 +45,7 @@
         left: calc(50% - 1px);
         width: 1px;
         height: 100%;
-        background: #5E2E0C;
+        background: var(--foreground-color);
     }
     .sabaki-goban .vertex.top .board::after {
         top: calc(50% - 1px);
@@ -56,7 +59,7 @@
         width: .2em;
         height: .2em;
         border-radius: 50%;
-        background: #5E2E0C;
+        background: var(--foreground-color);
         transform: translate(-50%, -50%);
 }
 
@@ -71,6 +74,9 @@
         box-sizing: border-box;
         border-radius: 50%;
         text-indent: -9999rem;
+    }
+    .sabaki-goban .vertex:not(.sign_0).dimmed .stone {
+        opacity: .6;
     }
     .sabaki-goban .vertex:not(.sign_0) .stone .shadow {
         box-shadow: 0 .1em .2em rgba(23, 10, 2, .3);
@@ -113,6 +119,6 @@
 
 .sabaki-goban hr {
     border: none;
-    height: 2px;
-    background: #5E2E0C;
+    height: .08em;
+    background: var(--foreground-color);
 }
