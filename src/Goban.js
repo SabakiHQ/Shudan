@@ -66,6 +66,22 @@ class Goban extends Component {
             shiftMap: null,
             randomMap: null
         }
+
+        this.componentWillReceiveProps()
+    }
+
+    componentWillReceiveProps(nextProps) {
+        let dim = props => [props.signMap.length === 0 ? 0 : props.signMap[0].length, props.signMap.length]
+
+        if (nextProps == null || !helper.vertexEquals(dim(this.props), dim(nextProps))) {
+            if (nextProps == null) nextProps = this.props
+
+            this.setState({
+                hoshis: helper.getHoshis(...dim(nextProps)),
+                shiftMap: nextProps.signMap.map(row => row.map(_ => helper.random(8))),
+                randomMap: nextProps.signMap.map(row => row.map(_ => helper.random(5)))
+            })
+        }
     }
 
     readjustShifts(shifts, vertex = null) {
@@ -175,11 +191,11 @@ class Goban extends Component {
                                 y === rangeY.length - 1 && 'bottom',
                                 x === 0 && 'left'
                             ],
-                            shift: shiftMap && shiftMap[y][x],
-                            random: randomMap && randomMap[y][x],
-                            sign: signMap && signMap[y][x],
-                            heat: heatMap && heatMap[y][x],
-                            paint: paintMap && paintMap[y][x],
+                            shift: shiftMap && shiftMap[y] && shiftMap[y][x],
+                            random: randomMap && randomMap[y] && randomMap[y][x],
+                            sign: signMap && signMap[y] && signMap[y][x],
+                            heat: heatMap && heatMap[y] && heatMap[y][x],
+                            paint: paintMap && paintMap[y] && paintMap[y][x],
                             dimmed: dimmedStones.some(equalsVertex),
                             highlight: highlightVertices.some(equalsVertex),
                             hoshi: hoshis.some(equalsVertex),

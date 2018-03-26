@@ -53,8 +53,8 @@
         height: calc(50% + 1px);
     }
     .sabaki-goban .vertex .hoshi {
-        left: 50%;
-        top: 50%;
+        left: calc(50% + 1px);
+        top: calc(50% + 1px);
         margin-left: -.1em;
         margin-top: -.1em;
         width: .2em;
@@ -78,7 +78,7 @@
         z-index: 12;
     }
     .sabaki-goban .vertex:not(.sign_0) .stone .shadow {
-        box-shadow: 0 .1em .5em rgba(0, 0, 0, .3);
+        box-shadow: 0 .1em .2em rgba(23, 10, 2, .3);
         z-index: 11;
     }
     .sabaki-goban .vertex.sign_1 .stone .inner {
