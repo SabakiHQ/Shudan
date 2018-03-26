@@ -30,6 +30,7 @@
         width: 100%;
         height: 1px;
         background: var(--foreground-color);
+        z-index: 1;
     }
     .sabaki-goban .vertex.left .board::before {
         left: calc(50% - 1px);
@@ -61,6 +62,7 @@
         border-radius: 50%;
         background: var(--foreground-color);
         transform: translate(-50%, -50%);
+        z-index: 2;
 }
 
 .sabaki-goban .vertex .stone {
@@ -68,6 +70,7 @@
         left: .04em;
         width: calc(100% - .08em);
         height: calc(100% - .08em);
+        z-index: 4;
     }
     .sabaki-goban .vertex .stone .shadow,
     .sabaki-goban .vertex .stone .inner {
@@ -88,9 +91,7 @@
         background: white;
 }
 
-/**
- * Fuzzy stone placement
- */
+/* Fuzzy stone placement */
 
 .sabaki-goban .vertex:not(.sign_0).shift_1 .stone {
         transform: translateX(-.08em);
@@ -116,6 +117,22 @@
     .sabaki-goban .vertex:not(.sign_0).shift_8 .stone {
         transform: translate(-.04em, .04em);
 }
+
+/* Pain map */
+
+.sabaki-goban .vertex.paint_1 .paint,
+.sabaki-goban .vertex.paint_-1 .paint {    
+        opacity: .3;
+        z-index: 5;
+    }
+    .sabaki-goban .vertex.paint_1 .paint {
+        background: black;
+    }
+    .sabaki-goban .vertex.paint_-1 .paint {
+        background: white;
+}
+
+/* Lines */
 
 .sabaki-goban hr {
     border: none;

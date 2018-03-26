@@ -18,10 +18,10 @@ class Vertex extends Component {
                     ...types,
 
                     `pos_${x}-${y}`,
-                    `shift_${shift}`,
                     `random_${random}`,
                     `sign_${sign}`,
                     {
+                        [`shift_${shift}`]: shift != null,
                         [`heat_${heat}`]: !!heat,
                         [`paint_${paint}`]: !!paint,
                         dimmed,

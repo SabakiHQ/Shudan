@@ -23,52 +23,81 @@ const signMap = [
     [0,0,0,1,-1,-1,-1,-1,-1,0,-1,-1,1,1,0,1,1,1,0]
 ]
 
+const paintMap = [
+    [-1,-1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,-1,-1,-1,1,1],
+    [-1,-1,-1,-1,-1,1,1,1,1,1,-1,-1,-1,-1,-1,-1,1,1,1],
+    [-1,-1,-1,-1,-1,1,1,1,1,1,1,-1,-1,1,-1,1,1,1,1],
+    [-1,-1,-1,-1,-1,-1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    [-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1,0,0,0,1,1,1,1],
+    [-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1,-1,-1,0,1,1,1,1],
+    [-1,-1,-1,-1,-1,1,1,1,1,1,1,1,1,-1,-1,-1,1,1,1],
+    [-1,-1,-1,1,1,1,1,-1,-1,1,0,1,-1,-1,-1,-1,-1,-1,1],
+    [-1,-1,-1,-1,1,1,1,0,-1,1,-1,-1,-1,-1,-1,1,1,1,1],
+    [-1,-1,-1,1,1,-1,-1,-1,-1,1,1,1,-1,-1,-1,-1,1,-1,-1],
+    [-1,-1,-1,-1,1,1,1,-1,-1,-1,1,-1,-1,-1,-1,1,1,-1,-1],
+    [-1,1,-1,0,-1,-1,-1,-1,-1,-1,1,-1,-1,-1,-1,1,-1,-1,-1],
+    [1,1,1,1,-1,1,1,1,-1,1,1,1,-1,-1,-1,1,-1,-1,-1],
+    [1,1,1,1,1,1,1,1,-1,1,1,1,-1,-1,-1,1,1,-1,-1],
+    [1,1,1,1,1,1,1,1,-1,-1,0,1,-1,-1,-1,1,-1,-1,-1],
+    [1,1,1,1,1,1,1,1,1,-1,-1,1,-1,-1,1,-1,-1,-1,-1],
+    [1,1,1,1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1],
+    [1,1,1,1,-1,1,1,-1,-1,-1,-1,1,1,1,1,1,1,-1,1],
+    [1,1,1,1,-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1,1,1]
+]
+
+const createTwoWayCheckBox = (state, setState) => (
+    ({stateKey, text}) => h('label', {},
+        h('input', {
+            type: 'checkbox',
+            checked: state[stateKey],
+
+            onClick: () => setState(s => ({[stateKey]: !s[stateKey]}))
+        }), ' ',
+
+        text, ' '
+    )
+)
+
 class App extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            showCoordinates: true,
-            showDimmedStones: false
+            showCoordinates: false,
+            showDimmedStones: false,
+            fuzzyStonePlacement: false
         }
     }
 
     render() {
-        let {showCoordinates, showDimmedStones} = this.state
+        let {showCoordinates, showDimmedStones, fuzzyStonePlacement,
+            showPaintMap} = this.state
+        let CheckBox = createTwoWayCheckBox(this.state, this.setState.bind(this))
 
         return h('section', {},
-            h('form', {},
-                h('label', {},
-                    h('input', {
-                        type: 'checkbox',
-                        checked: showCoordinates,
+            h('form',
+                {
+                    style: {
+                        display: 'grid',
+                        gridTemplateColumns: '1fr 1fr 1fr',
+                        width: 600,
+                        margin: '1em 0'
+                    }
+                },
 
-                        onClick: () => {
-                            this.setState(s => ({showCoordinates: !s.showCoordinates}))
-                        }
-                    }),
-
-                    'Show coordinates'
-                ),
-
-                h('label', {},
-                    h('input', {
-                        type: 'checkbox',
-                        checked: showDimmedStones,
-
-                        onClick: () => {
-                            this.setState(s => ({showDimmedStones: !s.showDimmedStones}))
-                        }
-                    }),
-
-                    'Show dimmed stones'
-                )
+                h(CheckBox, {stateKey: 'showCoordinates', text: 'Show coordinates'}),
+                h(CheckBox, {stateKey: 'showDimmedStones', text: 'Dim dead stones'}),
+                h(CheckBox, {stateKey: 'fuzzyStonePlacement', text: 'Fuzzy stone placement'}),
+                h(CheckBox, {stateKey: 'showPaintMap', text: 'Show paint map'})
             ),
 
             h(Goban, {
-                vertexSize: 33,
+                vertexSize: 25,
                 signMap,
                 showCoordinates,
+                fuzzyStonePlacement,
+                paintMap: showPaintMap && paintMap,
+
                 dimmedVertices: showDimmedStones ? [
                     [2, 14], [2, 13], [5, 13], [6, 13],
                     [9, 3], [9, 5], [10, 5], [14, 7],

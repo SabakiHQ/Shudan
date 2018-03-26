@@ -71,7 +71,10 @@ class Goban extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        let dim = props => [props.signMap.length === 0 ? 0 : props.signMap[0].length, props.signMap.length]
+        let dim = props => [
+            props.signMap.length === 0 ? 0 : props.signMap[0].length,
+            props.signMap.length
+        ]
 
         if (nextProps == null || !helper.vertexEquals(dim(this.props), dim(nextProps))) {
             if (nextProps == null) nextProps = this.props
@@ -130,7 +133,7 @@ class Goban extends Component {
     }
 
     render() {
-        let {vertexSize = 25, signMap, paintMap, heatMap, 
+        let {vertexSize = 25, signMap, paintMap, heatMap, fuzzyStonePlacement = false,
             showCoordinates = false, markers = {}, lines = [], ghostStones = {}, 
             highlightVertices = [], dimmedVertices = []} = this.props
         let {hoshis, animatedVertex, shiftMap, randomMap} = this.state
@@ -196,7 +199,7 @@ class Goban extends Component {
                                 y === rangeY.length - 1 && 'bottom',
                                 x === 0 && 'left'
                             ],
-                            shift: shiftMap && shiftMap[y] && shiftMap[y][x],
+                            shift: fuzzyStonePlacement && shiftMap && shiftMap[y] && shiftMap[y][x],
                             random: randomMap && randomMap[y] && randomMap[y][x],
                             sign: signMap && signMap[y] && signMap[y][x],
                             heat: heatMap && heatMap[y] && heatMap[y][x],
