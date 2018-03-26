@@ -25,7 +25,6 @@ class Vertex extends Component {
                         [`heat_${heat}`]: !!heat,
                         [`paint_${paint}`]: !!paint,
                         dimmed,
-                        hoshi,
                         animate,
                         highlight
                     },

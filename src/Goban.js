@@ -81,16 +81,20 @@ class Goban extends Component {
                 shiftMap: nextProps.signMap.map(row => row.map(_ => helper.random(8))),
                 randomMap: nextProps.signMap.map(row => row.map(_ => helper.random(5)))
             })
+
+            this.readjustShifts()
         }
     }
 
-    readjustShifts(shifts, vertex = null) {
+    readjustShifts(vertex = null) {
+        let {shiftMap} = this.state
+
         if (vertex == null) {
             let movedVertices = []
 
-            for (let y = 0; y < shifts.length; y++) {
-                for (let x = 0; x < shifts[0].length; x++) {
-                    movedVertices.push(...this.readjustShifts(shifts, [x, y]))
+            for (let y = 0; y < shiftMap.length; y++) {
+                for (let x = 0; x < shiftMap[0].length; x++) {
+                    movedVertices.push(...this.readjustShifts([x, y]))
                 }
             }
 
@@ -98,7 +102,7 @@ class Goban extends Component {
         }
 
         let [x, y] = vertex
-        let direction = shifts[y][x]
+        let direction = shiftMap[y][x]
 
         let data = [
             // Left
@@ -116,8 +120,8 @@ class Goban extends Component {
         for (let [directions, [qx, qy], removeShifts] of data) {
             if (!directions.includes(direction)) continue
 
-            if (shifts[qy] && removeShifts.includes(shifts[qy][qx])) {
-                shifts[qy][qx] = 0
+            if (shiftMap[qy] && removeShifts.includes(shiftMap[qy][qx])) {
+                shiftMap[qy][qx] = 0
                 movedVertices.push([qx, qy])
             }
         }
