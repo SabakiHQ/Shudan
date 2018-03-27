@@ -67,12 +67,13 @@ class App extends Component {
             showDimmedStones: false,
             fuzzyStonePlacement: false
         }
+
+        this.CheckBox = createTwoWayCheckBox(this.state, this.setState.bind(this))
     }
 
     render() {
         let {showCoordinates, showDimmedStones, fuzzyStonePlacement,
             showPaintMap} = this.state
-        let CheckBox = createTwoWayCheckBox(this.state, this.setState.bind(this))
 
         return h('section', {},
             h('form',
@@ -85,10 +86,10 @@ class App extends Component {
                     }
                 },
 
-                h(CheckBox, {stateKey: 'showCoordinates', text: 'Show coordinates'}),
-                h(CheckBox, {stateKey: 'showDimmedStones', text: 'Dim dead stones'}),
-                h(CheckBox, {stateKey: 'fuzzyStonePlacement', text: 'Fuzzy stone placement'}),
-                h(CheckBox, {stateKey: 'showPaintMap', text: 'Show paint map'})
+                h(this.CheckBox, {stateKey: 'showCoordinates', text: 'Show coordinates'}),
+                h(this.CheckBox, {stateKey: 'showDimmedStones', text: 'Dim dead stones'}),
+                h(this.CheckBox, {stateKey: 'fuzzyStonePlacement', text: 'Fuzzy stone placement'}),
+                h(this.CheckBox, {stateKey: 'showPaintMap', text: 'Show paint map'})
             ),
 
             h(Goban, {

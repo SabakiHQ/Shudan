@@ -46,21 +46,21 @@ class Vertex extends Component {
                 onMouseMove: this.props.onMouseMove
             },
 
-            h('div', {class: 'board', style: absoluteStyle(1)}),
-            hoshi && h('div', {class: 'hoshi', style: absoluteStyle(2)}),
+            h('div', {key: 'board', class: 'board', style: absoluteStyle(1)}),
+            hoshi && h('div', {key: 'hoshi', class: 'hoshi', style: absoluteStyle(2)}),
 
-            h('div', {class: 'ghost', style: absoluteStyle(3)}),
-            h('div', {class: 'stone', style: absoluteStyle(4)},
-                h('div', {class: 'shadow', style: absoluteStyle(1)}),
-                h('div', {class: 'inner', style: absoluteStyle(2)}, sign),
-                h('div', {class: 'marker', style: absoluteStyle(3)}, 
-                    marker && marker.label && h('span', {class: 'label', title: marker.label}, marker.label)
+            h('div', {key: 'ghost', class: 'ghost', style: absoluteStyle(3)}),
+            h('div', {key: 'stone', class: 'stone', style: absoluteStyle(4)},
+                h('div', {key: 'shadow', class: 'shadow', style: absoluteStyle(1)}),
+                h('div', {key: 'inner', class: 'inner', style: absoluteStyle(2)}, sign),
+                h('div', {key: 'marker', class: 'marker', style: absoluteStyle(3)}, 
+                    marker && marker.label && h('span', {key: 'label', class: 'label', title: marker.label}, marker.label)
                 )
             ),
 
-            !!paint && h('div', {class: 'paint', style: absoluteStyle(5)}),
-            highlight && h('div', {class: 'highlight', style: absoluteStyle(6)}),
-            h('div', {class: 'heat', style: absoluteStyle(7)})
+            !!paint && h('div', {key: 'paint', class: 'paint', style: absoluteStyle(5)}),
+            highlight && h('div', {key: 'highlight', class: 'highlight', style: absoluteStyle(6)}),
+            h('div', {key: 'heat', class: 'heat', style: absoluteStyle(7)})
         )
     }
 }
