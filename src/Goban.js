@@ -62,6 +62,8 @@ class Goban extends Component {
 
         this.state = {
             hoshis: [],
+            rangeX: [],
+            rangeY: [],
             animatedVertex: null,
             shiftMap: null,
             randomMap: null
@@ -81,6 +83,8 @@ class Goban extends Component {
 
             this.setState({
                 hoshis: helper.getHoshis(...dim(nextProps)),
+                rangeX: helper.range(nextProps.signMap.length === 0 ? 0 : nextProps.signMap[0].length),
+                rangeY: helper.range(nextProps.signMap.length),
                 shiftMap: nextProps.signMap.map(row => row.map(_ => helper.random(8))),
                 randomMap: nextProps.signMap.map(row => row.map(_ => helper.random(5)))
             })
@@ -136,10 +140,8 @@ class Goban extends Component {
         let {vertexSize = 24, signMap, paintMap, heatMap, fuzzyStonePlacement = false,
             showCoordinates = false, markers = {}, lines = [], ghostStones = {}, 
             highlightVertices = [], dimmedVertices = []} = this.props
-        let {hoshis, animatedVertex, shiftMap, randomMap} = this.state
+        let {hoshis, rangeX, rangeY, animatedVertex, shiftMap, randomMap} = this.state
 
-        let rangeY = helper.range(signMap.length)
-        let rangeX = helper.range(signMap.length === 0 ? 0 : signMap[0].length)
         let animatedVertices = animatedVertex ? helper.neighborhood(animatedVertex) : []
 
         return h('section',
