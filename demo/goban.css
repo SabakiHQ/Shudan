@@ -17,6 +17,8 @@
     height: 100%;
 }
 
+/* Grid lines and hoshis */
+
 .sabaki-goban .vertex .board::before {
         content: '';
         display: block;
@@ -59,11 +61,14 @@
         transform: translate(calc(-50% + .5px), calc(-50% + .5px));
 }
 
+/* Stone render */
+
 .sabaki-goban .vertex .stone {
         top: .04em;
         left: .04em;
         width: calc(100% - .08em);
         height: calc(100% - .08em);
+        transform: translate(.5px, .5px);
     }
     .sabaki-goban .vertex .stone .shadow,
     .sabaki-goban .vertex .stone .inner {
@@ -114,7 +119,7 @@
 /* Pain map */
 
 .sabaki-goban .vertex.paint_1 .paint,
-.sabaki-goban .vertex.paint_-1 .paint {    
+.sabaki-goban .vertex.paint_-1 .paint {
         opacity: .3;
     }
     .sabaki-goban .vertex.paint_1 .paint {
