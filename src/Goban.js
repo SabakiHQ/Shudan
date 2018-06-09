@@ -138,7 +138,7 @@ class Goban extends Component {
 
     render() {
         let {vertexSize = 24, signMap, paintMap, heatMap, fuzzyStonePlacement = false,
-            showCoordinates = false, markers = {}, lines = [], ghostStones = {}, 
+            showCoordinates = false, markers = {}, lines = [], ghostStones = {},
             highlightVertices = [], dimmedVertices = []} = this.props
         let {hoshis, rangeX, rangeY, animatedVertex, shiftMap, randomMap} = this.state
 

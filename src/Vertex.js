@@ -53,7 +53,7 @@ class Vertex extends Component {
             h('div', {key: 'stone', class: 'stone', style: absoluteStyle(4)},
                 h('div', {key: 'shadow', class: 'shadow', style: absoluteStyle(1)}),
                 h('div', {key: 'inner', class: 'inner', style: absoluteStyle(2)}, sign),
-                h('div', {key: 'marker', class: 'marker', style: absoluteStyle(3)}, 
+                h('div', {key: 'marker', class: 'marker', style: absoluteStyle(3)},
                     marker && marker.label && h('span', {key: 'label', class: 'label', title: marker.label}, marker.label)
                 )
             ),
