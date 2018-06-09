@@ -139,7 +139,7 @@ class Goban extends Component {
     render() {
         let {vertexSize = 24, signMap, paintMap, heatMap, fuzzyStonePlacement = false,
             showCoordinates = false, markers = {}, lines = [], ghostStones = {},
-            highlightVertices = [], dimmedVertices = []} = this.props
+            selectedVertices = [], dimmedVertices = []} = this.props
         let {hoshis, rangeX, rangeY, animatedVertex, shiftMap, randomMap} = this.state
 
         let animatedVertices = animatedVertex ? helper.neighborhood(animatedVertex) : []
@@ -208,7 +208,7 @@ class Goban extends Component {
                             heat: heatMap && heatMap[y] && heatMap[y][x],
                             paint: paintMap && paintMap[y] && paintMap[y][x],
                             dimmed: dimmedVertices.some(equalsVertex),
-                            highlight: highlightVertices.some(equalsVertex),
+                            selected: selectedVertices.some(equalsVertex),
                             hoshi: hoshis.some(equalsVertex),
                             animate: animatedVertices.some(equalsVertex),
                             marker: markers[[x, y]],

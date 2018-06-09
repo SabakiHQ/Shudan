@@ -8,7 +8,7 @@ const absoluteStyle = zIndex => ({
 
 class Vertex extends Component {
     render() {
-        let {position: [x, y], types, shift, random, sign, highlight, heat,
+        let {position: [x, y], types, shift, random, sign, selected, heat,
             paint, dimmed, hoshi, animate, marker, ghostStone} = this.props
 
         return h('div',
@@ -32,7 +32,7 @@ class Vertex extends Component {
                         [`paint_${paint}`]: !!paint,
                         dimmed,
                         animate,
-                        highlight
+                        selected
                     },
 
                     marker && marker.type,
@@ -60,7 +60,7 @@ class Vertex extends Component {
             ),
 
             !!paint && h('div', {key: 'paint', class: 'paint', style: absoluteStyle(5)}),
-            highlight && h('div', {key: 'highlight', class: 'highlight', style: absoluteStyle(6)}),
+            selected && h('div', {key: 'selection', class: 'selection', style: absoluteStyle(6)}),
             h('div', {key: 'heat', class: 'heat', style: absoluteStyle(7)})
         )
     }

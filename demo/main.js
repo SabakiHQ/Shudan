@@ -98,7 +98,8 @@ class App extends Component {
             fuzzyStonePlacement: false,
             showPaintMap: false,
             showHeatMap: false,
-            showLines: false
+            showLines: false,
+            showSelection: false
         }
 
         this.CheckBox = createTwoWayCheckBox(this.state, this.setState.bind(this))
@@ -106,7 +107,8 @@ class App extends Component {
 
     render() {
         let {showCoordinates, showDimmedStones, fuzzyStonePlacement,
-            showPaintMap, showHeatMap, showLines} = this.state
+            showPaintMap, showHeatMap, showLines,
+            showSelection} = this.state
 
         return h('section',
             {
@@ -124,15 +126,19 @@ class App extends Component {
                 paintMap: showPaintMap && paintMap,
                 heatMap: showHeatMap && heatMap,
 
-                lines: !showLines ? [] : [
+                lines: showLines ? [
                     {type: 'line', v1: [15, 6], v2: [12, 15]},
                     {type: 'arrow', v1: [10, 4], v2: [5, 7]}
-                ],
+                ] : [],
 
                 dimmedVertices: showDimmedStones ? [
                     [2, 14], [2, 13], [5, 13], [6, 13],
                     [9, 3], [9, 5], [10, 5], [14, 7],
                     [13, 13], [13, 14], [18, 13]
+                ] : [],
+
+                selectedVertices: showSelection ? [
+                    [9, 7], [9, 8], [9, 9], [10, 9]
                 ] : []
             }),
 
@@ -149,7 +155,8 @@ class App extends Component {
                 h(this.CheckBox, {stateKey: 'fuzzyStonePlacement', text: 'Fuzzy stone placement'}),
                 h(this.CheckBox, {stateKey: 'showPaintMap', text: 'Show paint map'}),
                 h(this.CheckBox, {stateKey: 'showHeatMap', text: 'Show heat map'}),
-                h(this.CheckBox, {stateKey: 'showLines', text: 'Show lines'})
+                h(this.CheckBox, {stateKey: 'showLines', text: 'Show lines'}),
+                h(this.CheckBox, {stateKey: 'showSelection', text: 'Show selection'})
             )
         )
     }
