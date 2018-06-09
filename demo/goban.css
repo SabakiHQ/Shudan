@@ -119,7 +119,7 @@
         transform: translate(-.04em, .04em);
 }
 
-/* Pain map */
+/* Paint map */
 
 .sabaki-goban .vertex.paint_1 .paint,
 .sabaki-goban .vertex.paint_-1 .paint {
@@ -132,7 +132,7 @@
         background: white;
 }
 
-/* Lines */
+/* Lines & arrows */
 
 .sabaki-goban hr {
     border: none;

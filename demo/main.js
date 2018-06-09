@@ -77,14 +77,20 @@ class App extends Component {
         let {showCoordinates, showDimmedStones, fuzzyStonePlacement,
             showPaintMap, showLines} = this.state
 
-        return h('section', {},
+        return h('section',
+            {
+                style: {
+                    display: 'inline-grid',
+                    gridTemplateColumns: '200px auto',
+                    gridColumnGap: '1em'
+                }
+            },
+
             h('form',
                 {
                     style: {
-                        display: 'grid',
-                        gridTemplateColumns: '1fr 1fr 1fr',
-                        width: 600,
-                        margin: '1em 0'
+                        display: 'flex',
+                        flexDirection: 'column'
                     }
                 },
 
