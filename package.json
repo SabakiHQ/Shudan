@@ -27,12 +27,12 @@
     "preact": "8.x"
   },
   "dependencies": {
-    "classnames": "^2.2.5"
+    "classnames": "^2.2.6"
   },
   "devDependencies": {
-    "preact": "^8.2.7",
-    "webpack": "^4.2.0",
-    "webpack-cli": "^2.0.13"
+    "preact": "^8.2.9",
+    "webpack": "^4.12.0",
+    "webpack-cli": "^2.1.5"
   },
   "scripts": {
     "build-demo": "webpack --entry ./demo/main.js -o ./demo/bundle.js --progress --mode production",
