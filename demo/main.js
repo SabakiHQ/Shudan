@@ -80,26 +80,11 @@ class App extends Component {
         return h('section',
             {
                 style: {
-                    display: 'inline-grid',
-                    gridTemplateColumns: '200px auto',
+                    display: 'grid',
+                    gridTemplateColumns: 'auto 1fr',
                     gridColumnGap: '1em'
                 }
             },
-
-            h('form',
-                {
-                    style: {
-                        display: 'flex',
-                        flexDirection: 'column'
-                    }
-                },
-
-                h(this.CheckBox, {stateKey: 'showCoordinates', text: 'Show coordinates'}),
-                h(this.CheckBox, {stateKey: 'showDimmedStones', text: 'Dim dead stones'}),
-                h(this.CheckBox, {stateKey: 'fuzzyStonePlacement', text: 'Fuzzy stone placement'}),
-                h(this.CheckBox, {stateKey: 'showPaintMap', text: 'Show paint map'}),
-                h(this.CheckBox, {stateKey: 'showLines', text: 'Show lines'})
-            ),
 
             h(Goban, {
                 signMap,
@@ -116,7 +101,22 @@ class App extends Component {
                     [9, 3], [9, 5], [10, 5], [14, 7],
                     [13, 13], [13, 14], [18, 13]
                 ] : []
-            })
+            }),
+
+            h('form',
+                {
+                    style: {
+                        display: 'flex',
+                        flexDirection: 'column'
+                    }
+                },
+
+                h(this.CheckBox, {stateKey: 'showCoordinates', text: 'Show coordinates'}),
+                h(this.CheckBox, {stateKey: 'showDimmedStones', text: 'Dim dead stones'}),
+                h(this.CheckBox, {stateKey: 'fuzzyStonePlacement', text: 'Fuzzy stone placement'}),
+                h(this.CheckBox, {stateKey: 'showPaintMap', text: 'Show paint map'}),
+                h(this.CheckBox, {stateKey: 'showLines', text: 'Show lines'})
+            )
         )
     }
 }

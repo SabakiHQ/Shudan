@@ -80,13 +80,17 @@
         opacity: .6;
     }
     .sabaki-goban .vertex:not(.sign_0) .stone .shadow {
-        box-shadow: 0 .1em .2em rgba(23, 10, 2, .3);
+        box-shadow: 0 .1em .2em rgba(23, 10, 2, .4);
     }
     .sabaki-goban .vertex.sign_1 .stone .inner {
-        background: #222;
+        background: radial-gradient(#222, transparent 80%),
+            radial-gradient(circle at 50% 20%, #555, transparent 50%),
+            #222;
     }
     .sabaki-goban .vertex.sign_-1 .stone .inner {
-        background: white;
+        background: radial-gradient(white, transparent 80%),
+            radial-gradient(circle at 50% 80%, #ccc, transparent 50%),
+            white;
 }
 
 /* Fuzzy stone placement */
