@@ -21,7 +21,7 @@ class Vertex extends Component {
                 },
                 class: classnames(
                     'vertex',
-                    ...types,
+                    types,
 
                     `pos_${x}-${y}`,
                     `random_${random}`,
@@ -54,7 +54,8 @@ class Vertex extends Component {
                 h('div', {key: 'shadow', class: 'shadow', style: absoluteStyle(1)}),
                 h('div', {key: 'inner', class: 'inner', style: absoluteStyle(2)}, sign),
                 h('div', {key: 'marker', class: 'marker', style: absoluteStyle(3)},
-                    marker && marker.label && h('span', {key: 'label', class: 'label', title: marker.label}, marker.label)
+                    marker && marker.label 
+                    && h('span', {key: 'label', class: 'label', title: marker.label}, marker.label)
                 )
             ),
 

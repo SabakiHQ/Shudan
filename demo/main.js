@@ -68,15 +68,23 @@ const heatMap = [
 ]
 
 const createTwoWayCheckBox = (state, setState) => (
-    ({stateKey, text}) => h('label', {},
+    ({stateKey, text}) => h('label',
+        {
+            style: {
+                display: 'flex',
+                alignItems: 'center'
+            }
+        },
+
         h('input', {
+            style: {marginRight: '.5em'},
             type: 'checkbox',
             checked: state[stateKey],
 
             onClick: () => setState(s => ({[stateKey]: !s[stateKey]}))
-        }), ' ',
+        }),
 
-        text, ' '
+        h('span', {}, text)
     )
 )
 
