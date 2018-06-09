@@ -45,6 +45,28 @@ const paintMap = [
     [1,1,1,1,-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1,1,1]
 ]
 
+const heatMap = [
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,7,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,5,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+]
+
 const createTwoWayCheckBox = (state, setState) => (
     ({stateKey, text}) => h('label', {},
         h('input', {
@@ -67,6 +89,7 @@ class App extends Component {
             showDimmedStones: false,
             fuzzyStonePlacement: false,
             showPaintMap: false,
+            showHeatMap: false,
             showLines: false
         }
 
@@ -75,7 +98,7 @@ class App extends Component {
 
     render() {
         let {showCoordinates, showDimmedStones, fuzzyStonePlacement,
-            showPaintMap, showLines} = this.state
+            showPaintMap, showHeatMap, showLines} = this.state
 
         return h('section',
             {
@@ -91,6 +114,8 @@ class App extends Component {
                 showCoordinates,
                 fuzzyStonePlacement,
                 paintMap: showPaintMap && paintMap,
+                heatMap: showHeatMap && heatMap,
+
                 lines: !showLines ? [] : [
                     {type: 'line', v1: [15, 6], v2: [12, 15]},
                     {type: 'arrow', v1: [10, 4], v2: [5, 7]}
@@ -115,6 +140,7 @@ class App extends Component {
                 h(this.CheckBox, {stateKey: 'showDimmedStones', text: 'Dim dead stones'}),
                 h(this.CheckBox, {stateKey: 'fuzzyStonePlacement', text: 'Fuzzy stone placement'}),
                 h(this.CheckBox, {stateKey: 'showPaintMap', text: 'Show paint map'}),
+                h(this.CheckBox, {stateKey: 'showHeatMap', text: 'Show heat map'}),
                 h(this.CheckBox, {stateKey: 'showLines', text: 'Show lines'})
             )
         )

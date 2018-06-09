@@ -136,6 +136,62 @@
         background: white;
 }
 
+/**
+ * Heat
+ */
+
+.sabaki-goban .vertex .heat {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -1px;
+        margin-top: -1px;
+        border-radius: 50%;
+        width: 1px;
+        height: 1px;
+        background: red;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .5s, box-shadow .5s;
+        z-index: 5;
+    }
+    .sabaki-goban .vertex.heat_9 .heat {
+        box-shadow: 0 0 1em 1em red;
+        opacity: .8;
+    }
+    .sabaki-goban .vertex.heat_8 .heat {
+        box-shadow: 0 0 1em .9em red;
+        opacity: .8;
+    }
+    .sabaki-goban .vertex.heat_7 .heat {
+        box-shadow: 0 0 1em .75em red;
+        opacity: .8;
+    }
+    .sabaki-goban .vertex.heat_6 .heat {
+        box-shadow: 0 0 1em .6em red;
+        opacity: .75;
+    }
+    .sabaki-goban .vertex.heat_5 .heat {
+        box-shadow: 0 0 .9em .55em red;
+        opacity: .7;
+    }
+    .sabaki-goban .vertex.heat_4 .heat {
+        box-shadow: 0 0 .85em .5em red;
+        opacity: .65;
+    }
+    .sabaki-goban .vertex.heat_3 .heat {
+        box-shadow: 0 0 .8em .45em red;
+        opacity: .6;
+    }
+    .sabaki-goban .vertex.heat_2 .heat {
+        box-shadow: 0 0 .75em .4em red;
+        opacity: .55;
+    }
+    .sabaki-goban .vertex.heat_1 .heat {
+        box-shadow: 0 0 .7em .35em red;
+        opacity: .5;
+}
+
 /* Lines & arrows */
 
 .sabaki-goban hr {
