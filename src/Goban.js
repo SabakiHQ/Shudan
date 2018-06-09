@@ -185,7 +185,8 @@ class Goban extends Component {
                             top: 0,
                             left: 0,
                             right: 0,
-                            bottom: 0
+                            bottom: 0,
+                            zIndex: 0
                         }
                     },
 
@@ -201,7 +202,7 @@ class Goban extends Component {
                                 y === rangeY.length - 1 && 'bottom',
                                 x === 0 && 'left'
                             ],
-                            shift: fuzzyStonePlacement && shiftMap && shiftMap[y] && shiftMap[y][x],
+                            shift: fuzzyStonePlacement ? shiftMap && shiftMap[y] && shiftMap[y][x] : 0,
                             random: randomMap && randomMap[y] && randomMap[y][x],
                             sign: signMap && signMap[y] && signMap[y][x],
                             heat: heatMap && heatMap[y] && heatMap[y][x],
@@ -229,7 +230,8 @@ class Goban extends Component {
                             left: 0,
                             right: 0,
                             bottom: 0,
-                            pointerEvents: 'none'
+                            pointerEvents: 'none',
+                            zIndex: 1
                         }
                     },
 
