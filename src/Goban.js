@@ -88,7 +88,7 @@ class Goban extends Component {
 
     render() {
         let {vertexSize = 24, signMap, paintMap, heatMap, fuzzyStonePlacement = false,
-            showCoordinates = false, markers = {}, lines = [], ghostStones = {},
+            showCoordinates = false, markerMap = {}, lines = [], ghostStones = {},
             selectedVertices = [], dimmedVertices = []} = this.props
         let {hoshis, rangeX, rangeY, animatedVertex, shiftMap, randomMap} = this.state
 
@@ -99,8 +99,8 @@ class Goban extends Component {
                 ref: el => this.element = el,
                 style: {
                     display: 'inline-grid',
-                    gridTemplateRows: showCoordinates ? '1em auto 1em' : '1fr',
-                    gridTemplateColumns: showCoordinates ? '1em auto 1em' : '1fr',
+                    gridTemplateRows: showCoordinates ? '1em 1fr 1em' : '1fr',
+                    gridTemplateColumns: showCoordinates ? '1em 1fr 1em' : '1fr',
                     fontSize: vertexSize,
                     lineHeight: '1em'
                 },
@@ -145,6 +145,7 @@ class Goban extends Component {
 
                         return h(Vertex, {
                             key: [x, y].join('-'),
+
                             position: [x, y],
                             types: [
                                 y === 0 && 'top',
@@ -157,12 +158,12 @@ class Goban extends Component {
                             sign: signMap && signMap[y] && signMap[y][x],
                             heat: heatMap && heatMap[y] && heatMap[y][x],
                             paint: paintMap && paintMap[y] && paintMap[y][x],
+                            marker: markerMap && markerMap[y] && markerMap[y][x],
+                            ghostStone: ghostStones[[x, y]],
                             dimmed: dimmedVertices.some(equalsVertex),
                             selected: selectedVertices.some(equalsVertex),
                             hoshi: hoshis.some(equalsVertex),
                             animate: animatedVertices.some(equalsVertex),
-                            marker: markers[[x, y]],
-                            ghostStone: ghostStones[[x, y]],
 
                             onMouseUp: this.handleVertexMouseUp,
                             onMouseDown: this.handleVertexMouseDown,
