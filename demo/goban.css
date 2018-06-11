@@ -1,5 +1,6 @@
 .sabaki-goban {
-        --board-background-color: #FCC66C;
+        --board-background-image: url('./board.png');
+        --board-background-color: #EBB55B;
         --board-foreground-color: #5E2E0C;
         --black-background-color: #222;
         --black-foreground-color: #eee;
@@ -7,7 +8,7 @@
         --white-foreground-color: #222;
 
         border: .25em solid #CA933A;
-        background: var(--board-background-color);
+        background: var(--board-background-image), var(--board-background-color);
         color: var(--board-foreground-color);
     }
     .sabaki-goban:not(.coordinates) {
@@ -145,7 +146,7 @@
         position: absolute;
         left: 50%;
         top: 50%;
-        background: var(--board-background-color);
+        background: var(--board-background-image), var(--board-background-color);
         border: .07em solid var(--board-foreground-color);
     }
     .sabaki-goban .vertex.sign_1 .stone .marker::before,
@@ -197,7 +198,7 @@
         top: 50%;
         margin-left: -.35em;
         margin-top: -.35em;
-        background: var(--board-background-color);
+        background: var(--board-background-image), var(--board-background-color);
     }
     .sabaki-goban .vertex.marker_cross.sign_1 .stone .marker,
     .sabaki-goban .vertex.marker_cross.sign_-1 .stone .marker {
