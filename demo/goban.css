@@ -1,7 +1,9 @@
 .sabaki-goban {
         --board-background-color: #FCC66C;
         --board-foreground-color: #5E2E0C;
+        --black-background-color: #222;
         --black-foreground-color: #eee;
+        --white-background-color: #fff;
         --white-foreground-color: #222;
 
         border: .25em solid #CA933A;
@@ -123,6 +125,142 @@
     }
     .sabaki-goban .vertex:not(.sign_0).shift_8 .stone {
         transform: translate(-.04em, .04em);
+}
+
+/* Markers */
+
+.sabaki-goban .vertex .stone .marker {
+        left: 0;
+        top: 0;
+        text-align: center;
+    }
+    .sabaki-goban .vertex .stone .marker::before,
+    .sabaki-goban .vertex .stone .marker::after {
+        box-sizing: border-box;
+        content: '';
+        display: none;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        background: var(--board-background-color);
+        border: .07em solid var(--board-foreground-color);
+    }
+    .sabaki-goban .vertex.sign_1 .stone .marker::before,
+    .sabaki-goban .vertex.sign_1 .stone .marker::after {
+        background: transparent;
+        border-color: var(--black-foreground-color);
+        color: var(--black-foreground-color);
+    }
+    .sabaki-goban .vertex.sign_-1 .stone .marker::before,
+    .sabaki-goban .vertex.sign_-1 .stone .marker::after {
+        background: transparent;
+        border-color: var(--white-foreground-color);
+        color: var(--white-foreground-color);
+}
+
+.sabaki-goban .vertex.marker_point .stone .marker {
+        left: 50%;
+        top: 50%;
+        width: .3em;
+        height: .3em;
+        margin-left: -.15em;
+        margin-top: -.15em;
+        border-radius: 50%;
+        background: var(--board-foreground-color);
+    }
+    .sabaki-goban .vertex.marker_point.sign_1 .stone .marker {
+        background: var(--black-foreground-color);
+    }
+    .sabaki-goban .vertex.marker_point.sign_-1 .stone .marker {
+        background: var(--white-foreground-color);
+}
+
+.sabaki-goban .vertex.marker_square .stone .marker::before,
+.sabaki-goban .vertex.marker_circle .stone .marker::before {
+        display: block;
+        width: .5em;
+        height: .5em;
+        margin-left: -.25em;
+        margin-top: -.25em;
+    }
+    .sabaki-goban .vertex.marker_circle .stone .marker::before {
+        border-radius: 50%;
+}
+
+.sabaki-goban .vertex.marker_cross .stone .marker {
+        width: .7em;
+        height: .7em;
+        left: 50%;
+        top: 50%;
+        margin-left: -.35em;
+        margin-top: -.35em;
+        background: var(--board-background-color);
+    }
+    .sabaki-goban .vertex.marker_cross.sign_1 .stone .marker,
+    .sabaki-goban .vertex.marker_cross.sign_-1 .stone .marker {
+        background: transparent;
+    }
+    .sabaki-goban .vertex.marker_cross .stone .marker::before,
+    .sabaki-goban .vertex.marker_cross .stone .marker::after {
+        content: '';
+        display: block;
+        border-width: .07em 0 0 0;
+        width: .7em;
+        height: 0;
+        margin-left: -.35em;
+        margin-top: -.035em;
+        transform: rotate(45deg);
+    }
+    .sabaki-goban .vertex.marker_cross .stone .marker::after {
+        transform: rotate(-45deg);
+}
+
+.sabaki-goban .vertex.marker_triangle .stone .marker::before {
+        box-sizing: content-box;
+        display: block;
+        border-top: none;
+        border-left: .3em solid transparent;
+        border-right: .3em solid transparent;
+        border-bottom: .5em solid;
+        margin-left: -.3em;
+        margin-top: -.25em;
+        background: none;
+    }
+    .sabaki-goban .vertex.marker_triangle .stone .marker::after {
+        box-sizing: content-box;
+        display: block;
+        border-top: none;
+        border-left: .3em solid transparent;
+        border-right: .3em solid transparent;
+        border-bottom: .5em solid var(--board-background-color);
+        margin-left: -.3em;
+        margin-top: -.2em;
+        transform: scale(.6);
+        background: none;
+    }
+    .sabaki-goban .vertex.marker_triangle.sign_1 .stone .marker::after {
+        border-bottom-color: var(--black-background-color);
+    }
+    .sabaki-goban .vertex.marker_triangle.sign_-1 .stone .marker::after {
+        border-bottom-color: var(--white-background-color);
+}
+
+.sabaki-goban .vertex.marker_label .stone .marker::before {
+        content: attr(title);
+        display: inline-block;
+        border: none;
+        max-width: 1.67em;
+        height: 1.1em;
+        overflow: hidden;
+        font-size: .6em;
+        line-height: .9;
+        text-overflow: ellipsis;
+        transform: translate(-50%, -50%);
+    }
+    .sabaki-goban .vertex.smalllabel .stone .marker::before {
+        max-width: 2.2em;
+        height: 1.1em;
+        font-size: .36em;
 }
 
 /* Paint map */

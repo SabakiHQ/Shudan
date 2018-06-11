@@ -36,6 +36,7 @@ class Vertex extends Component {
                     },
 
                     marker && `marker_${marker.type}`,
+                    marker && marker.label && marker.label.length >= 3 && `smalllabel`,
                     ghostStone && `ghost_${ghostStone.type}`,
                     ghostStone && `ghost_${ghostStone.sign}`
                 ),
@@ -52,14 +53,7 @@ class Vertex extends Component {
             h('div', {key: 'stone', class: 'stone', style: absoluteStyle(4)},
                 h('div', {key: 'shadow', class: 'shadow', style: absoluteStyle(1)}),
                 h('div', {key: 'inner', class: 'inner', style: absoluteStyle(2)}, sign),
-                h('div', {key: 'marker', class: 'marker', style: absoluteStyle(3)},
-                    marker && marker.label 
-                    && h('span', {
-                        key: 'label',
-                        class: classnames('label', {small: marker.label.length >= 3}),
-                        title: marker.label
-                    }, marker.label)
-                )
+                h('div', {key: 'marker', class: 'marker', title: marker && marker.label, style: absoluteStyle(3)})
             ),
 
             !!paint && h('div', {key: 'paint', class: 'paint', style: absoluteStyle(5)}),
