@@ -258,6 +258,7 @@
         font-size: .6em;
         line-height: .9;
         text-overflow: ellipsis;
+        white-space: nowrap;
         transform: translate(-50%, -50%);
     }
     .sabaki-goban .vertex.smalllabel .stone .marker::before {
