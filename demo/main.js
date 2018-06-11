@@ -50,8 +50,8 @@ const heatMap = [
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,7,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,7,9,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -128,6 +128,7 @@ class App extends Component {
         super(props)
 
         this.state = {
+            vertexSize: 24,
             showCoordinates: false,
             showDimmedStones: false,
             fuzzyStonePlacement: false,
@@ -142,42 +143,18 @@ class App extends Component {
     }
 
     render() {
-        let {showCoordinates, showDimmedStones, fuzzyStonePlacement,
-            showPaintMap, showHeatMap, showMarkerMap,
-            showLines, showSelection} = this.state
+        let {vertexSize, showCoordinates, showDimmedStones,
+            fuzzyStonePlacement, showPaintMap, showHeatMap,
+            showMarkerMap, showLines, showSelection} = this.state
 
         return h('section',
             {
                 style: {
                     display: 'grid',
-                    gridTemplateColumns: 'auto 1fr',
+                    gridTemplateColumns: '12em auto',
                     gridColumnGap: '1em'
                 }
             },
-
-            h(Goban, {
-                signMap,
-                showCoordinates,
-                fuzzyStonePlacement,
-                paintMap: showPaintMap && paintMap,
-                heatMap: showHeatMap && heatMap,
-                markerMap: showMarkerMap && markerMap,
-
-                lines: showLines ? [
-                    {type: 'line', v1: [15, 6], v2: [12, 15]},
-                    {type: 'arrow', v1: [10, 4], v2: [5, 7]}
-                ] : [],
-
-                dimmedVertices: showDimmedStones ? [
-                    [2, 14], [2, 13], [5, 13], [6, 13],
-                    [9, 3], [9, 5], [10, 5], [14, 7],
-                    [13, 13], [13, 14], [18, 13]
-                ] : [],
-
-                selectedVertices: showSelection ? [
-                    [9, 7]
-                ] : []
-            }),
 
             h('form',
                 {
@@ -187,6 +164,29 @@ class App extends Component {
                     }
                 },
 
+                h('p', {},
+                    h('button', {
+                        type: 'button',
+                        onClick: evt => {
+                            this.setState(s => ({vertexSize: Math.max(s.vertexSize - 4, 4)}))
+                        }
+                    }, '-'), ' ',
+
+                    h('button', {
+                        type: 'button',
+                        onClick: evt => {
+                            this.setState({vertexSize: 24})
+                        }
+                    }, '•'), ' ',
+
+                    h('button', {
+                        type: 'button',
+                        onClick: evt => {
+                            this.setState(s => ({vertexSize: s.vertexSize + 4}))
+                        }
+                    }, '+')
+                ),
+
                 h(this.CheckBox, {stateKey: 'showCoordinates', text: 'Show coordinates'}),
                 h(this.CheckBox, {stateKey: 'showDimmedStones', text: 'Dim dead stones'}),
                 h(this.CheckBox, {stateKey: 'fuzzyStonePlacement', text: 'Fuzzy stone placement'}),
@@ -195,6 +195,33 @@ class App extends Component {
                 h(this.CheckBox, {stateKey: 'showHeatMap', text: 'Show heat map'}),
                 h(this.CheckBox, {stateKey: 'showLines', text: 'Show lines'}),
                 h(this.CheckBox, {stateKey: 'showSelection', text: 'Show selection'})
+            ),
+
+            h('div', {},
+                h(Goban, {
+                    vertexSize,
+                    signMap,
+                    showCoordinates,
+                    fuzzyStonePlacement,
+                    paintMap: showPaintMap && paintMap,
+                    heatMap: showHeatMap && heatMap,
+                    markerMap: showMarkerMap && markerMap,
+
+                    lines: showLines ? [
+                        {type: 'line', v1: [15, 6], v2: [12, 15]},
+                        {type: 'arrow', v1: [10, 4], v2: [5, 7]}
+                    ] : [],
+
+                    dimmedVertices: showDimmedStones ? [
+                        [2, 14], [2, 13], [5, 13], [6, 13],
+                        [9, 3], [9, 5], [10, 5], [14, 7],
+                        [13, 13], [13, 14], [18, 13]
+                    ] : [],
+
+                    selectedVertices: showSelection ? [
+                        [9, 7]
+                    ] : []
+                })
             )
         )
     }

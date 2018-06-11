@@ -338,11 +338,11 @@
 
 .sabaki-goban .vertex .selection {
     position: absolute;
-    left: -2px;
-    right: -2px;
-    top: -2px;
-    bottom: -2px;
-    border: 2px solid #0082F0;
+    left: -.1em;
+    right: -.1em;
+    top: -.1em;
+    bottom: -.1em;
+    border: .1em solid #0082F0;
     border-radius: 5px;
     background: rgba(0, 130, 240, .2);
 }
