@@ -24,7 +24,7 @@ class Line extends Component {
         let length = Math.sqrt(dx * dx + dy * dy)
 
         return h('hr', {
-            class: type,
+            className: type,
             style: {
                 position: 'absolute',
                 left, top,

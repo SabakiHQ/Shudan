@@ -31,10 +31,12 @@ class Goban extends Component {
         if (nextProps == null || !helper.vertexEquals(dim(this.props), dim(nextProps))) {
             if (nextProps == null) nextProps = this.props
 
+            let nextDim = dim(nextProps)
+
             this.setState({
-                hoshis: helper.getHoshis(...dim(nextProps)),
-                rangeX: helper.range(nextProps.signMap.length === 0 ? 0 : nextProps.signMap[0].length),
-                rangeY: helper.range(nextProps.signMap.length),
+                hoshis: helper.getHoshis(...nextDim),
+                rangeX: helper.range(nextDim[0]),
+                rangeY: helper.range(nextDim[1]),
                 shiftMap: nextProps.signMap.map(row => row.map(_ => helper.random(8))),
                 randomMap: nextProps.signMap.map(row => row.map(_ => helper.random(5)))
             })
@@ -104,7 +106,7 @@ class Goban extends Component {
                     fontSize: vertexSize,
                     lineHeight: '1em'
                 },
-                class: classnames('sabaki-goban', {
+                className: classnames('sabaki-goban', {
                     coordinates: showCoordinates
                 })
             },
@@ -114,7 +116,7 @@ class Goban extends Component {
 
             h('div',
                 {
-                    class: 'content',
+                    className: 'content',
                     style: {
                         position: 'relative',
                         width: `${rangeX.length}em`,
@@ -126,7 +128,7 @@ class Goban extends Component {
 
                 h('div',
                     {
-                        class: 'vertices',
+                        className: 'vertices',
                         style: {
                             display: 'grid',
                             gridTemplateColumns: `repeat(${rangeX.length}, 1em)`,
@@ -174,7 +176,7 @@ class Goban extends Component {
 
                 h('div',
                     {
-                        class: 'lines',
+                        className: 'lines',
                         style: {
                             position: 'absolute',
                             top: 0,

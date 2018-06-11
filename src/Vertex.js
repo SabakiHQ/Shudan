@@ -19,7 +19,7 @@ class Vertex extends Component {
                     width: '1em',
                     height: '1em'
                 },
-                class: classnames(
+                className: classnames(
                     'vertex',
                     types,
 
@@ -46,19 +46,19 @@ class Vertex extends Component {
                 onMouseMove: this.props.onMouseMove
             },
 
-            h('div', {key: 'board', class: 'board', style: absoluteStyle(1)}),
-            hoshi && h('div', {key: 'hoshi', class: 'hoshi', style: absoluteStyle(2)}),
+            h('div', {key: 'board', className: 'board', style: absoluteStyle(1)}),
+            hoshi && h('div', {key: 'hoshi', className: 'hoshi', style: absoluteStyle(2)}),
 
-            h('div', {key: 'ghost', class: 'ghost', style: absoluteStyle(3)}),
-            h('div', {key: 'stone', class: 'stone', style: absoluteStyle(4)},
-                h('div', {key: 'shadow', class: 'shadow', style: absoluteStyle(1)}),
-                h('div', {key: 'inner', class: 'inner', style: absoluteStyle(2)}, sign),
-                h('div', {key: 'marker', class: 'marker', title: marker && marker.label, style: absoluteStyle(3)})
+            h('div', {key: 'ghost', className: 'ghost', style: absoluteStyle(3)}),
+            h('div', {key: 'stone', className: 'stone', style: absoluteStyle(4)},
+                h('div', {key: 'shadow', className: 'shadow', style: absoluteStyle(1)}),
+                h('div', {key: 'inner', className: 'inner', style: absoluteStyle(2)}, sign),
+                h('div', {key: 'marker', className: 'marker', title: marker && marker.label, style: absoluteStyle(3)})
             ),
 
-            !!paint && h('div', {key: 'paint', class: 'paint', style: absoluteStyle(5)}),
-            selected && h('div', {key: 'selection', class: 'selection', style: absoluteStyle(6)}),
-            h('div', {key: 'heat', class: 'heat', style: absoluteStyle(7)})
+            !!paint && h('div', {key: 'paint', className: 'paint', style: absoluteStyle(5)}),
+            selected && h('div', {key: 'selection', className: 'selection', style: absoluteStyle(6)}),
+            h('div', {key: 'heat', className: 'heat', style: absoluteStyle(7)})
         )
     }
 }
