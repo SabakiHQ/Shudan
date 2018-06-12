@@ -103,20 +103,20 @@
 
 /* Fuzzy stone placement */
 
-.sabaki-goban .vertex:not(.sign_0).shift_1 .stone {
-        transform: translate(0, 0);
+.sabaki-goban .vertex:not(.sign_0).shift_0 .stone {
+        transform: translate(.5px, .5px);
     }
     .sabaki-goban .vertex:not(.sign_0).shift_1 .stone {
-        transform: translate(-.08em, 0);
+        transform: translate(-.07em, 0);
     }
     .sabaki-goban .vertex:not(.sign_0).shift_2 .stone {
-        transform: translate(0, -.08em);
+        transform: translate(0, -.07em);
     }
     .sabaki-goban .vertex:not(.sign_0).shift_3 .stone {
-        transform: translate(.08em, 0);
+        transform: translate(.07em, 0);
     }
     .sabaki-goban .vertex:not(.sign_0).shift_4 .stone {
-        transform: translate(0, .08em);
+        transform: translate(0, .07em);
     }
     .sabaki-goban .vertex:not(.sign_0).shift_5 .stone {
         transform: translate(-.04em, -.04em);
@@ -284,7 +284,6 @@
 /* Heat map */
 
 .sabaki-goban .vertex .heat {
-        position: absolute;
         top: 50%;
         left: 50%;
         margin-left: -1px;
@@ -296,7 +295,6 @@
         opacity: 0;
         pointer-events: none;
         transition: opacity .5s, box-shadow .5s;
-        z-index: 5;
     }
     .sabaki-goban .vertex.heat_9 .heat {
         box-shadow: 0 0 1em 1em red;
@@ -338,7 +336,6 @@
 /* Selection */
 
 .sabaki-goban .vertex .selection {
-    position: absolute;
     left: -.1em;
     right: -.1em;
     top: -.1em;

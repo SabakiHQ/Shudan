@@ -15,9 +15,7 @@ class Vertex extends Component {
             {
                 'data-vertex': `${x}-${y}`,
                 style: {
-                    position: 'relative',
-                    width: '1em',
-                    height: '1em'
+                    position: 'relative'
                 },
                 className: classnames(
                     'vertex',
