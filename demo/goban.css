@@ -103,10 +103,8 @@
 
 /* Fuzzy stone placement */
 
-.sabaki-goban .vertex:not(.sign_0).shift_0 .stone {
-        transform: translate(.5px, .5px);
-    }
-    .sabaki-goban .vertex:not(.sign_0).shift_1 .stone {
+
+.sabaki-goban .vertex:not(.sign_0).shift_1 .stone {
         transform: translate(-.07em, 0);
     }
     .sabaki-goban .vertex:not(.sign_0).shift_2 .stone {

@@ -102,6 +102,36 @@ const markerMap = (() => {
     ]
 })()
 
+const ghostStoneMap = (() => {
+    let _ = null
+    let O = t => ({sign: -1, types: [t]})
+    let X = t => ({sign: 1, types: [t]})
+    let o = t => ({sign: -1, types: [t, 'sibling']})
+    let x = t => ({sign: 1, types: [t, 'sibling']})
+
+    return [
+        [X(),x(),_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+        [X('good'),x('good'),_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+        [X('interesting'),x('interesting'),_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+        [X('doubtful'),x('doubtful'),_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+        [X('bad'),x('bad'),_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+        [O(),o(),_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+        [O('good'),o('good'),_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+        [O('interesting'),o('interesting'),_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+        [O('doubtful'),o('doubtful'),_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+        [O('bad'),o('bad'),_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+        [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+        [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+        [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+        [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+        [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+        [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+        [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+        [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+        [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_]
+    ]
+})()
+
 const createTwoWayCheckBox = (state, setState) => (
     ({stateKey, text}) => h('label',
         {
@@ -135,6 +165,7 @@ class App extends Component {
             showPaintMap: false,
             showHeatMap: false,
             showMarkerMap: false,
+            showGhostStones: false,
             showLines: false,
             showSelection: false
         }
@@ -145,7 +176,8 @@ class App extends Component {
     render() {
         let {vertexSize, showCoordinates, showDimmedStones,
             fuzzyStonePlacement, showPaintMap, showHeatMap,
-            showMarkerMap, showLines, showSelection} = this.state
+            showMarkerMap, showGhostStones, showLines,
+            showSelection} = this.state
 
         return h('section',
             {
@@ -191,6 +223,7 @@ class App extends Component {
                 h(this.CheckBox, {stateKey: 'showDimmedStones', text: 'Dim dead stones'}),
                 h(this.CheckBox, {stateKey: 'fuzzyStonePlacement', text: 'Fuzzy stone placement'}),
                 h(this.CheckBox, {stateKey: 'showMarkerMap', text: 'Show markers'}),
+                h(this.CheckBox, {stateKey: 'showGhostStones', text: 'Show ghost stones'}),
                 h(this.CheckBox, {stateKey: 'showPaintMap', text: 'Show paint map'}),
                 h(this.CheckBox, {stateKey: 'showHeatMap', text: 'Show heat map'}),
                 h(this.CheckBox, {stateKey: 'showLines', text: 'Show lines'}),
@@ -206,6 +239,7 @@ class App extends Component {
                     paintMap: showPaintMap && paintMap,
                     heatMap: showHeatMap && heatMap,
                     markerMap: showMarkerMap && markerMap,
+                    ghostStoneMap: showGhostStones && ghostStoneMap,
 
                     lines: showLines ? [
                         {type: 'line', v1: [15, 6], v2: [12, 15]},

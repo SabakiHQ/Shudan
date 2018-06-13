@@ -25,7 +25,7 @@ class Vertex extends Component {
                     `random_${random}`,
                     `sign_${sign}`,
                     {
-                        [`shift_${shift}`]: shift != null,
+                        [`shift_${shift}`]: !!shift,
                         [`heat_${heat}`]: !!heat,
                         [`paint_${paint}`]: !!paint,
                         dimmed,
@@ -33,10 +33,11 @@ class Vertex extends Component {
                         selected
                     },
 
-                    marker && `marker_${marker.type}`,
+                    marker && marker.type && `marker_${marker.type}`,
                     marker && marker.label && marker.label.length >= 3 && `smalllabel`,
-                    ghostStone && `ghost_${ghostStone.type}`,
-                    ghostStone && `ghost_${ghostStone.sign}`
+                    
+                    ghostStone && `ghost_${ghostStone.sign}`,
+                    ghostStone && ghostStone.types && ghostStone.types.map(t => t && `ghost_${t}`)
                 ),
 
                 onMouseDown: this.props.onMouseDown,
