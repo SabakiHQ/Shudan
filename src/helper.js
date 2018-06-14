@@ -24,3 +24,37 @@ exports.getHoshis = function(width, height) {
 
     return result
 }
+
+exports.readjustShifts = function(shiftMap, vertex = null) {
+    if (vertex == null) {
+        for (let y = 0; y < shiftMap.length; y++) {
+            for (let x = 0; x < shiftMap[0].length; x++) {
+                exports.readjustShifts(shiftMap, [x, y])
+            }
+        }
+    } else {
+        let [x, y] = vertex
+        let direction = shiftMap[y][x]
+
+        let data = [
+            // Left
+            [[1, 5, 8], [x - 1, y], [3, 7, 6]],
+            // Top
+            [[2, 5, 6], [x, y - 1], [4, 7, 8]],
+            // Right
+            [[3, 7, 6], [x + 1, y], [1, 5, 8]],
+            // Bottom
+            [[4, 7, 8], [x, y + 1], [2, 5, 6]],
+        ]
+
+        for (let [directions, [qx, qy], removeShifts] of data) {
+            if (!directions.includes(direction)) continue
+
+            if (shiftMap[qy] && removeShifts.includes(shiftMap[qy][qx])) {
+                shiftMap[qy][qx] = 0
+            }
+        }
+    }
+
+    return shiftMap
+}

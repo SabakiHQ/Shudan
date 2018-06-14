@@ -10,82 +10,11 @@ class Goban extends Component {
     constructor(props) {
         super(props)
 
-        this.state = {
-            hoshis: [],
-            rangeX: [],
-            rangeY: [],
-            animatedVertex: null,
-            shiftMap: null,
-            randomMap: null
-        }
-
-        this.componentWillReceiveProps()
+        this.state = Goban.getDerivedStateFromProps(props, {})
     }
 
-    componentWillReceiveProps(nextProps) {
-        let dim = props => [
-            props.signMap.length === 0 ? 0 : props.signMap[0].length,
-            props.signMap.length
-        ]
-
-        if (nextProps == null || !helper.vertexEquals(dim(this.props), dim(nextProps))) {
-            if (nextProps == null) nextProps = this.props
-
-            let nextDim = dim(nextProps)
-
-            this.setState({
-                hoshis: helper.getHoshis(...nextDim),
-                rangeX: helper.range(nextDim[0]),
-                rangeY: helper.range(nextDim[1]),
-                shiftMap: nextProps.signMap.map(row => row.map(_ => helper.random(8))),
-                randomMap: nextProps.signMap.map(row => row.map(_ => helper.random(5)))
-            })
-
-            this.readjustShifts()
-        }
-    }
-
-    readjustShifts(vertex = null) {
-        let {shiftMap} = this.state
-
-        if (vertex == null) {
-            let movedVertices = []
-
-            for (let y = 0; y < shiftMap.length; y++) {
-                for (let x = 0; x < shiftMap[0].length; x++) {
-                    movedVertices.push(...this.readjustShifts([x, y]))
-                }
-            }
-
-            return movedVertices
-        }
-
-        let [x, y] = vertex
-        let direction = shiftMap[y][x]
-
-        let data = [
-            // Left
-            [[1, 5, 8], [x - 1, y], [3, 7, 6]],
-            // Top
-            [[2, 5, 6], [x, y - 1], [4, 7, 8]],
-            // Right
-            [[3, 7, 6], [x + 1, y], [1, 5, 8]],
-            // Bottom
-            [[4, 7, 8], [x, y + 1], [2, 5, 6]],
-        ]
-
-        let movedVertices = []
-
-        for (let [directions, [qx, qy], removeShifts] of data) {
-            if (!directions.includes(direction)) continue
-
-            if (shiftMap[qy] && removeShifts.includes(shiftMap[qy][qx])) {
-                shiftMap[qy][qx] = 0
-                movedVertices.push([qx, qy])
-            }
-        }
-
-        return movedVertices
+    componentWillReceiveProps(props) {
+        this.setState(Goban.getDerivedStateFromProps(props, this.state))
     }
 
     render() {
@@ -197,6 +126,26 @@ class Goban extends Component {
             showCoordinates && h(CoordY, {rangeY, style: {gridRow: '2', gridColumn: '3'}}),
             showCoordinates && h(CoordX, {rangeX, style: {gridRow: '3', gridColumn: '2'}})
         )
+    }
+}
+
+Goban.getDerivedStateFromProps = function(props, state) {
+    let {signMap = []} = props
+    let width = signMap.length === 0 ? 0 : signMap[0].length
+    let height = signMap.length
+
+    if (state.width === width && state.height === height) {
+        return null
+    }
+
+    return {
+        width,
+        height,
+        hoshis: helper.getHoshis(width, height),
+        rangeX: helper.range(width),
+        rangeY: helper.range(height),
+        shiftMap: helper.readjustShifts(signMap.map(row => row.map(_ => helper.random(8)))),
+        randomMap: signMap.map(row => row.map(_ => helper.random(5)))
     }
 }
 
