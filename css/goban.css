@@ -262,8 +262,7 @@
         opacity: .6;
         transform: translate(calc(-50% + .5px), calc(-50% + .5px));
     }
-    .sabaki-goban .vertex .ghost::before,
-    .sabaki-goban .vertex .ghost::after {
+    .sabaki-goban .vertex .ghost::before {
         content: '';
         box-sizing: border-box;
         display: none;
@@ -282,47 +281,24 @@
     .sabaki-goban .vertex.ghost_-1 .ghost::before {
         display: block;
     }
-    .sabaki-goban .vertex.ghost_1 .ghost::before,
-    .sabaki-goban .vertex.ghost_1 .ghost::after {
-        color: var(--black-background-color);
-        border-color: var(--black-background-color);
+    .sabaki-goban .vertex.ghost_1 .ghost::before {
         background: var(--black-background-color);
     }
-    .sabaki-goban .vertex.ghost_-1 .ghost::before,
-    .sabaki-goban .vertex.ghost_-1 .ghost::after {
-        color: var(--white-background-color);
-        border-color: var(--white-background-color);
+    .sabaki-goban .vertex.ghost_-1 .ghost::before {
         background: var(--white-background-color);
     }
-    .sabaki-goban .vertex.ghost_good .ghost::before,
-    .sabaki-goban .vertex.ghost_good .ghost::after,
-    .sabaki-goban .vertex.ghost_interesting .ghost::before,
-    .sabaki-goban .vertex.ghost_doubtful .ghost::before,
-    .sabaki-goban .vertex.ghost_bad .ghost::before,
-    .sabaki-goban .vertex.ghost_bad .ghost::after {
-        border-left: .2em solid transparent;
-        border-right: .2em solid transparent;
-        border-bottom: .35em solid;
-        border-radius: 0;
-        transform: translate(-50%, calc(-50% - .08em));
-        background: none;
+    .sabaki-goban .vertex.ghost_good .ghost::before {
+        background: #59A80F;
     }
-    .sabaki-goban .vertex.ghost_doubtful .ghost::before,
-    .sabaki-goban .vertex.ghost_bad .ghost::before,
-    .sabaki-goban .vertex.ghost_bad .ghost::after {
-        border-bottom: 0;
-        border-top: .35em solid;
-        transform: translate(-50%, calc(-50% + .08em));
+    .sabaki-goban .vertex.ghost_interesting .ghost::before {
+        background: #4886D5;
     }
-    .sabaki-goban .vertex.ghost_good .ghost::before,
+    .sabaki-goban .vertex.ghost_doubtful .ghost::before {
+        background: #92278F;
+    }
     .sabaki-goban .vertex.ghost_bad .ghost::before {
-        margin-top: -.1em;
-    }
-    .sabaki-goban .vertex.ghost_good .ghost::after,
-    .sabaki-goban .vertex.ghost_bad .ghost::after {
-        display: block;
-        margin-top: .1em;
-    }
+        background: #F02311;
+}
 
 /* Paint map */
 
