@@ -149,7 +149,7 @@ const createTwoWayCheckBox = (state, setState) => (
             onClick: () => setState(s => ({[stateKey]: !s[stateKey]}))
         }),
 
-        h('span', {}, text)
+        h('span', {style: {userSelect: 'none'}}, text)
     )
 )
 
