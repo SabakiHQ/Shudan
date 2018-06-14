@@ -1,2 +1,5 @@
 # preact-goban
-WIP: A preact Goban component
+
+A highly customizable Preact Goban component. This is a work in progress.
+
+![Screenshot](./screenshot.png)
