@@ -2,9 +2,11 @@
         --board-background-image: url('./board.png');
         --board-background-color: #EBB55B;
         --board-foreground-color: #5E2E0C;
+        --black-background-image: url('./stone_1.png');
         --black-background-color: #222;
         --black-foreground-color: #eee;
-        --white-background-color: #fff;
+        --white-background-image: url('./stone_-1.png');
+        --white-background-color: #eee;
         --white-foreground-color: #222;
 
         border: .25em solid #CA933A;
@@ -75,30 +77,25 @@
         height: calc(100% - .08em);
         transform: translate(.5px, .5px);
     }
-    .sabaki-goban .vertex .stone .shadow,
-    .sabaki-goban .vertex .stone .inner {
-        box-sizing: border-box;
-        border: 1px solid transparent;
+    .sabaki-goban .vertex .stone .shadow {
         border-radius: 50%;
+    }
+    .sabaki-goban .vertex .stone .inner {
         text-indent: -9999rem;
+        background-size: 100%;
     }
     .sabaki-goban .vertex:not(.sign_0).dimmed .stone {
         opacity: .6;
     }
     .sabaki-goban .vertex:not(.sign_0) .stone .shadow {
+        background: rgba(23, 10, 2, .4);
         box-shadow: 0 .1em .2em rgba(23, 10, 2, .4);
     }
     .sabaki-goban .vertex.sign_1 .stone .inner {
-        border-color: #151515;
-        background: radial-gradient(#222, transparent 80%),
-            radial-gradient(circle at 50% 20%, #555, transparent 50%),
-            #222;
+        background-image: var(--black-background-image);
     }
     .sabaki-goban .vertex.sign_-1 .stone .inner {
-        border-color: #ccc;
-        background: radial-gradient(white, transparent 80%),
-            radial-gradient(circle at 50% 80%, #ccc, transparent 50%),
-            white;
+        background-image: var(--white-background-image);
 }
 
 /* Fuzzy stone placement */
