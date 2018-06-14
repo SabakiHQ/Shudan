@@ -7,7 +7,7 @@
         --black-background-color: #222;
         --black-foreground-color: #eee;
         --white-background-image: url('./stone_-1.png');
-        --white-background-color: #eee;
+        --white-background-color: #fff;
         --white-foreground-color: #222;
 
         border: .25em solid var(--board-border-color);
@@ -101,7 +101,6 @@
 
 /* Fuzzy stone placement */
 
-
 .sabaki-goban .vertex:not(.sign_0).shift_1 .stone {
         transform: translate(-.07em, 0);
     }
@@ -142,8 +141,9 @@
         position: absolute;
         left: 50%;
         top: 50%;
-        background: var(--board-background-image), var(--board-background-color);
         border: .07em solid var(--board-foreground-color);
+        background: var(--board-background-image), var(--board-background-color);
+        transform: translate(-50%, -50%);
     }
     .sabaki-goban .vertex.sign_1 .stone .marker::before,
     .sabaki-goban .vertex.sign_1 .stone .marker::after {
@@ -163,10 +163,9 @@
         top: 50%;
         width: .3em;
         height: .3em;
-        margin-left: -.15em;
-        margin-top: -.15em;
         border-radius: 50%;
         background: var(--board-foreground-color);
+        transform: translate(-50%, -50%);
     }
     .sabaki-goban .vertex.marker_point.sign_1 .stone .marker {
         background: var(--black-foreground-color);
@@ -180,8 +179,6 @@
         display: block;
         width: .5em;
         height: .5em;
-        margin-left: -.25em;
-        margin-top: -.25em;
     }
     .sabaki-goban .vertex.marker_circle .stone .marker::before {
         border-radius: 50%;
@@ -192,9 +189,8 @@
         height: .7em;
         left: 50%;
         top: 50%;
-        margin-left: -.35em;
-        margin-top: -.35em;
         background: var(--board-background-image), var(--board-background-color);
+        transform: translate(-50%, -50%);
     }
     .sabaki-goban .vertex.marker_cross.sign_1 .stone .marker,
     .sabaki-goban .vertex.marker_cross.sign_-1 .stone .marker {
@@ -202,7 +198,6 @@
     }
     .sabaki-goban .vertex.marker_cross .stone .marker::before,
     .sabaki-goban .vertex.marker_cross .stone .marker::after {
-        content: '';
         display: block;
         border-width: .07em 0 0 0;
         width: .7em;
@@ -216,25 +211,20 @@
 }
 
 .sabaki-goban .vertex.marker_triangle .stone .marker::before {
-        box-sizing: content-box;
         display: block;
         border-top: none;
         border-left: .3em solid transparent;
         border-right: .3em solid transparent;
         border-bottom: .5em solid;
-        margin-left: -.3em;
-        margin-top: -.25em;
         background: none;
     }
     .sabaki-goban .vertex.marker_triangle .stone .marker::after {
-        box-sizing: content-box;
         display: block;
         border-top: none;
         border-left: .18em solid transparent;
         border-right: .18em solid transparent;
         border-bottom: .3em solid var(--board-background-color);
-        margin-left: -.18em;
-        margin-top: -.12em;
+        transform: translate(-.18em, -.12em);
         background: none;
     }
     .sabaki-goban .vertex.marker_triangle.sign_1 .stone .marker::after {
@@ -255,13 +245,84 @@
         line-height: .9;
         text-overflow: ellipsis;
         white-space: nowrap;
-        transform: translate(-50%, -50%);
     }
     .sabaki-goban .vertex.smalllabel .stone .marker::before {
         max-width: 2.2em;
         height: 1.1em;
         font-size: .36em;
 }
+
+/* Ghost stones */
+
+.sabaki-goban .vertex .ghost {
+        left: 50%;
+        top: 50%;
+        width: .4em;
+        height: .4em;
+        opacity: .6;
+        transform: translate(calc(-50% + .5px), calc(-50% + .5px));
+    }
+    .sabaki-goban .vertex .ghost::before,
+    .sabaki-goban .vertex .ghost::after {
+        content: '';
+        box-sizing: border-box;
+        display: none;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: .4em;
+        height: .4em;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .sabaki-goban .vertex.ghost_faint .ghost {
+        opacity: .35;
+    }
+    .sabaki-goban .vertex.ghost_1 .ghost::before,
+    .sabaki-goban .vertex.ghost_-1 .ghost::before {
+        display: block;
+    }
+    .sabaki-goban .vertex.ghost_1 .ghost::before,
+    .sabaki-goban .vertex.ghost_1 .ghost::after {
+        color: var(--black-background-color);
+        border-color: var(--black-background-color);
+        background: var(--black-background-color);
+    }
+    .sabaki-goban .vertex.ghost_-1 .ghost::before,
+    .sabaki-goban .vertex.ghost_-1 .ghost::after {
+        color: var(--white-background-color);
+        border-color: var(--white-background-color);
+        background: var(--white-background-color);
+    }
+    .sabaki-goban .vertex.ghost_good .ghost::before,
+    .sabaki-goban .vertex.ghost_good .ghost::after,
+    .sabaki-goban .vertex.ghost_interesting .ghost::before,
+    .sabaki-goban .vertex.ghost_doubtful .ghost::before,
+    .sabaki-goban .vertex.ghost_bad .ghost::before,
+    .sabaki-goban .vertex.ghost_bad .ghost::after {
+        border-left: .2em solid transparent;
+        border-right: .2em solid transparent;
+        border-bottom: .35em solid;
+        border-radius: 0;
+        transform: translate(-50%, calc(-50% - .08em));
+        background: none;
+    }
+    .sabaki-goban .vertex.ghost_doubtful .ghost::before,
+    .sabaki-goban .vertex.ghost_bad .ghost::before,
+    .sabaki-goban .vertex.ghost_bad .ghost::after {
+        border-bottom: 0;
+        border-top: .35em solid;
+        transform: translate(-50%, calc(-50% + .08em));
+    }
+    .sabaki-goban .vertex.ghost_good .ghost::before,
+    .sabaki-goban .vertex.ghost_bad .ghost::before {
+        margin-top: -.1em;
+    }
+    .sabaki-goban .vertex.ghost_good .ghost::after,
+    .sabaki-goban .vertex.ghost_bad .ghost::after {
+        display: block;
+        margin-top: .1em;
+    }
 
 /* Paint map */
 
@@ -270,10 +331,10 @@
         opacity: .3;
     }
     .sabaki-goban .vertex.paint_1 .paint {
-        background: black;
+        background: var(--black-background-color);
     }
     .sabaki-goban .vertex.paint_-1 .paint {
-        background: white;
+        background: var(--white-background-color);
 }
 
 /* Heat map */

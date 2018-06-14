@@ -106,8 +106,8 @@ const ghostStoneMap = (() => {
     let _ = null
     let O = t => ({sign: -1, types: [t]})
     let X = t => ({sign: 1, types: [t]})
-    let o = t => ({sign: -1, types: [t, 'sibling']})
-    let x = t => ({sign: 1, types: [t, 'sibling']})
+    let o = t => ({sign: -1, types: [t, 'faint']})
+    let x = t => ({sign: 1, types: [t, 'faint']})
 
     return [
         [X(),x(),_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
