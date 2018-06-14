@@ -106,7 +106,7 @@ class Goban extends Component {
                     fontSize: vertexSize,
                     lineHeight: '1em'
                 },
-                className: classnames('sabaki-goban', {
+                className: classnames('shudan-goban', {
                     coordinates: showCoordinates
                 })
             },
