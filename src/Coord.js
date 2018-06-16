@@ -2,12 +2,8 @@ const {h, Component} = require('preact')
 const helper = require('./helper')
 
 class CoordX extends Component {
-    shouldComponentUpdate({rangeX}) {
-        return rangeX.length !== this.props.rangeX.length
-    }
-
     render() {
-        let {style, rangeX} = this.props
+        let {style, xs} = this.props
 
         return h('div',
             {
@@ -18,7 +14,7 @@ class CoordX extends Component {
                 }, style)
             },
 
-            rangeX.map(i =>
+            xs.map(i =>
                 h('div', {style: {width: '1em'}},
                     h('span', {style: {display: 'block', fontSize: '.6em'}}, helper.alpha[i])
                 )
@@ -28,12 +24,8 @@ class CoordX extends Component {
 }
 
 class CoordY extends Component {
-    shouldComponentUpdate({rangeY}) {
-        return rangeY.length !== this.props.rangeY.length
-    }
-
     render() {
-        let {style, rangeY} = this.props
+        let {style, height, ys} = this.props
 
         return h('div',
             {
@@ -43,9 +35,9 @@ class CoordY extends Component {
                 }, style)
             },
 
-            rangeY.map(i =>
+            ys.map(i =>
                 h('div', {style: {height: '1em'}},
-                    h('span', {style: {display: 'block', fontSize: '.6em'}}, rangeY.length - i)
+                    h('span', {style: {display: 'block', fontSize: '.6em'}}, height - i)
                 )
             )
         )

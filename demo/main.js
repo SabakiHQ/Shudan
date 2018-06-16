@@ -160,6 +160,7 @@ class App extends Component {
         this.state = {
             vertexSize: 24,
             showCoordinates: false,
+            showCorner: false,
             showDimmedStones: false,
             fuzzyStonePlacement: false,
             showPaintMap: false,
@@ -174,7 +175,7 @@ class App extends Component {
     }
 
     render() {
-        let {vertexSize, showCoordinates, showDimmedStones,
+        let {vertexSize, showCoordinates, showCorner, showDimmedStones,
             fuzzyStonePlacement, showPaintMap, showHeatMap,
             showMarkerMap, showGhostStones, showLines,
             showSelection} = this.state
@@ -183,7 +184,7 @@ class App extends Component {
             {
                 style: {
                     display: 'grid',
-                    gridTemplateColumns: '12em auto',
+                    gridTemplateColumns: '15em auto',
                     gridColumnGap: '1em'
                 }
             },
@@ -220,6 +221,7 @@ class App extends Component {
                 ),
 
                 h(this.CheckBox, {stateKey: 'showCoordinates', text: 'Show coordinates'}),
+                h(this.CheckBox, {stateKey: 'showCorner', text: 'Show lower right corner only'}),
                 h(this.CheckBox, {stateKey: 'showDimmedStones', text: 'Dim dead stones'}),
                 h(this.CheckBox, {stateKey: 'fuzzyStonePlacement', text: 'Fuzzy stone placement'}),
                 h(this.CheckBox, {stateKey: 'showMarkerMap', text: 'Show markers'}),
@@ -233,6 +235,9 @@ class App extends Component {
             h('div', {},
                 h(Goban, {
                     vertexSize,
+                    rangeX: showCorner ? [7, 18] : undefined,
+                    rangeY: showCorner ? [12, 18] : undefined,
+
                     signMap,
                     showCoordinates,
                     fuzzyStonePlacement,
