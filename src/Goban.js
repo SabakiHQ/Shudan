@@ -113,11 +113,10 @@ class Goban extends Component {
                             dimmed: dimmedVertices.some(equalsVertex),
                             selected: selectedVertices.some(equalsVertex),
                             hoshi: hoshis.some(equalsVertex),
-                            animate: animatedVertices.some(equalsVertex),
 
-                            onMouseUp: this.handleVertexMouseUp,
-                            onMouseDown: this.handleVertexMouseDown,
-                            onMouseMove: this.handleVertexMouseMove
+                            onMouseUp: this.props.onVertexMouseUp,
+                            onMouseDown: this.props.onVertexMouseDown,
+                            onMouseMove: this.props.onVertexMouseMove
                         })
                     }))
                 ),

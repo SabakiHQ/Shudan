@@ -7,9 +7,24 @@ const absoluteStyle = zIndex => ({
 })
 
 class Vertex extends Component {
+    constructor(props) {
+        super(props)
+
+        function generateMouseHandler(prop) {
+            return evt => {
+                let handler = this.props[prop] || () => {}
+                handler(evt, this.props.position)
+            }
+        }
+
+        this.handleMouseDown = generateMouseHandler('onMouseDown')
+        this.handleMouseUp = generateMouseHandler('onMouseUp')
+        this.handleMouseMove = generateMouseHandler('onMouseMove')
+    }
+
     render() {
         let {position: [x, y], types, shift, random, sign, selected, heat,
-            paint, dimmed, hoshi, animate, marker, ghostStone} = this.props
+            paint, dimmed, hoshi, marker, ghostStone} = this.props
 
         return h('div',
             {
@@ -29,7 +44,6 @@ class Vertex extends Component {
                         [`heat_${heat}`]: !!heat,
                         [`paint_${paint}`]: !!paint,
                         dimmed,
-                        animate,
                         selected
                     },
 
@@ -40,9 +54,9 @@ class Vertex extends Component {
                     !sign && ghostStone && ghostStone.types && ghostStone.types.map(t => t && `ghost_${t}`)
                 ),
 
-                onMouseDown: this.props.onMouseDown,
-                onMouseUp: this.props.onMouseUp,
-                onMouseMove: this.props.onMouseMove
+                onMouseDown: this.handleMouseDown,
+                onMouseUp: this.handleMouseUp,
+                onMouseMove: this.handleMouseMove
             },
 
             h('div', {key: 'board', className: 'board', style: absoluteStyle(1)}),

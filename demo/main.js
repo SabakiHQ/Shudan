@@ -235,7 +235,7 @@ class App extends Component {
             h('div', {},
                 h(Goban, {
                     vertexSize,
-                    rangeX: showCorner ? [7, 18] : undefined,
+                    rangeX: showCorner ? [8, 18] : undefined,
                     rangeY: showCorner ? [12, 18] : undefined,
 
                     signMap,
