@@ -42,8 +42,6 @@ class Goban extends Component {
             dimmedVertices = []
         } = this.props
 
-        let animatedVertices = animatedVertex ? helper.neighborhood(animatedVertex) : []
-
         return h('section',
             {
                 ref: el => this.element = el,
@@ -133,7 +131,7 @@ class Goban extends Component {
                             overflow: 'hidden',
                             pointerEvents: 'none',
                             zIndex: 1
-                        }   
+                        }
                     },
 
                     h('div',

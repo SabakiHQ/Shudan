@@ -12,7 +12,7 @@ class Vertex extends Component {
 
         function generateMouseHandler(prop) {
             return evt => {
-                let handler = this.props[prop] || () => {}
+                let handler = this.props[prop] || (() => {})
                 handler(evt, this.props.position)
             }
         }
@@ -49,7 +49,7 @@ class Vertex extends Component {
 
                     marker && marker.type && `marker_${marker.type}`,
                     marker && marker.label && marker.label.length >= 3 && `smalllabel`,
-                    
+
                     !sign && ghostStone && `ghost_${ghostStone.sign}`,
                     !sign && ghostStone && ghostStone.types && ghostStone.types.map(t => t && `ghost_${t}`)
                 ),
@@ -61,11 +61,11 @@ class Vertex extends Component {
 
             h('div', {key: 'board', className: 'board', style: absoluteStyle(1)}),
             hoshi && h('div', {key: 'hoshi', className: 'hoshi', style: absoluteStyle(2)}),
-            
+
             h('div', {key: 'stone', className: 'stone', style: absoluteStyle(3)},
                 !!sign && h('div', {key: 'shadow', className: 'shadow', style: absoluteStyle(1)}),
                 !!sign && h('div', {key: 'inner', className: 'inner', style: absoluteStyle(2)}, sign),
-                
+
                 !!marker && h('div', {
                     key: 'marker',
                     className: 'marker',
