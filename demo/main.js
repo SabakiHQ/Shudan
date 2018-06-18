@@ -158,6 +158,7 @@ class App extends Component {
         super(props)
 
         this.state = {
+            signMap: JSON.parse(JSON.stringify(signMap)),
             vertexSize: 24,
             showCoordinates: false,
             showCorner: false,
@@ -175,10 +176,10 @@ class App extends Component {
     }
 
     render() {
-        let {vertexSize, showCoordinates, showCorner, showDimmedStones,
-            fuzzyStonePlacement, showPaintMap, showHeatMap,
-            showMarkerMap, showGhostStones, showLines,
-            showSelection} = this.state
+        let {vertexSize, showCoordinates, showCorner,
+            showDimmedStones, fuzzyStonePlacement, showPaintMap,
+            showHeatMap, showMarkerMap, showGhostStones,
+            showLines, showSelection} = this.state
 
         return h('section',
             {
@@ -197,7 +198,9 @@ class App extends Component {
                     }
                 },
 
-                h('p', {},
+                h('p', {style: {margin: '0 0 .5em 0'}},
+                    'Size: ',
+
                     h('button', {
                         type: 'button',
                         onClick: evt => {
@@ -220,6 +223,41 @@ class App extends Component {
                     }, '+')
                 ),
 
+                h('p', {style: {margin: '0 0 .5em 0'}},
+                    'Stones: ',
+
+                    h('button', {
+                        type: 'button',
+                        onClick: evt => {
+                            this.setState({signMap: JSON.parse(JSON.stringify(signMap))})
+                        }
+                    }, '•'), ' ',
+
+                    h('button', {
+                        type: 'button',
+                        onClick: evt => {
+                            let emptyVertices = []
+
+                            for (let x = 0; x < signMap.length; x++) {
+                                for (let y = 0; y < signMap[0].length; y++) {
+                                    if (this.state.signMap[y][x] === 0) {
+                                        emptyVertices.push([x, y])
+                                    }
+                                }
+                            }
+
+                            if (emptyVertices.length === 0) return
+
+                            this.setState(({signMap}) => {
+                                let [x, y] = emptyVertices[Math.floor(Math.random() * emptyVertices.length)]
+                                signMap[y][x] = Math.sign(Math.random() - .5) || 1
+
+                                return {signMap}
+                            })
+                        }
+                    }, '+')
+                ),
+
                 h(this.CheckBox, {stateKey: 'showCoordinates', text: 'Show coordinates'}),
                 h(this.CheckBox, {stateKey: 'showCorner', text: 'Show lower right corner only'}),
                 h(this.CheckBox, {stateKey: 'showDimmedStones', text: 'Dim dead stones'}),
@@ -235,10 +273,11 @@ class App extends Component {
             h('div', {},
                 h(Goban, {
                     vertexSize,
+                    animate: true,
                     rangeX: showCorner ? [8, 18] : undefined,
                     rangeY: showCorner ? [12, 18] : undefined,
 
-                    signMap,
+                    signMap: this.state.signMap,
                     showCoordinates,
                     fuzzyStonePlacement,
                     paintMap: showPaintMap && paintMap,
@@ -259,7 +298,14 @@ class App extends Component {
 
                     selectedVertices: showSelection ? [
                         [9, 7]
-                    ] : []
+                    ] : [],
+
+                    onVertexMouseUp: (evt, [x, y]) => {
+                        let {signMap} = this.state
+                        signMap[y][x] = Math.sign(Math.random() - .5) || 1
+
+                        this.setState({signMap})
+                    }
                 })
             )
         )

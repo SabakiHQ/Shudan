@@ -101,7 +101,10 @@
 
 /* Fuzzy stone placement */
 
-.shudan-goban .vertex:not(.sign_0).shift_1 .stone {
+.shudan-goban .vertex:not(.sign_0).animate .stone {
+        transition: transform .2s;
+    }
+    .shudan-goban .vertex:not(.sign_0).shift_1 .stone {
         transform: translate(-.07em, 0);
     }
     .shudan-goban .vertex:not(.sign_0).shift_2 .stone {

@@ -17,13 +17,30 @@ class Goban extends Component {
         this.setState(Goban.getDerivedStateFromProps(props, this.state))
     }
 
+    componentDidUpdate() {
+        if (this.props.animate
+        && !this.clearAnimatedVerticesHandler
+        && this.state.animatedVertices.length > 0) {
+            for (let v of this.state.animatedVertices) {
+                this.state.shiftMap[v[1]][v[0]] = helper.random(8)
+                helper.readjustShifts(this.state.shiftMap, v)
+            }
+
+            this.setState({shiftMap: this.state.shiftMap})
+
+            this.clearAnimatedVerticesHandler = setTimeout(() => {
+                this.setState({animatedVertices: []})
+                this.clearAnimatedVerticesHandler = null
+            }, this.props.animationDuration || 200)
+        }
+    }
+
     render() {
         let {
             width, height,
             rangeX, rangeY,
             xs, ys,
             hoshis,
-            animatedVertex,
             shiftMap,
             randomMap
         } = this.state
@@ -41,6 +58,8 @@ class Goban extends Component {
             selectedVertices = [],
             dimmedVertices = []
         } = this.props
+
+        let animatedVertices = [].concat(...this.state.animatedVertices.map(helper.neighborhood))
 
         return h('section',
             {
@@ -111,6 +130,7 @@ class Goban extends Component {
                             dimmed: dimmedVertices.some(equalsVertex),
                             selected: selectedVertices.some(equalsVertex),
                             hoshi: hoshis.some(equalsVertex),
+                            animate: animatedVertices.some(equalsVertex),
 
                             onMouseUp: this.props.onVertexMouseUp,
                             onMouseDown: this.props.onVertexMouseDown,
@@ -165,27 +185,41 @@ Goban.getDerivedStateFromProps = function(props, state) {
         rangeY = [0, Infinity]
     } = props
 
+    let stringifiedSignMap = JSON.stringify(signMap)
     let width = signMap.length === 0 ? 0 : signMap[0].length
     let height = signMap.length
 
     if (state && state.width === width && state.height === height) {
-        if (helper.vertexEquals(state.rangeX, rangeX) && helper.vertexEquals(state.rangeY, rangeY)) {
-            return null
+        let animatedVertices = state.animatedVertices
+
+        if (props.animate) {
+            animatedVertices = helper.diffSignMap(JSON.parse(state.signMap), signMap)
         }
 
-        return {
-            rangeX,
-            rangeY,
-            xs: helper.range(width).slice(rangeX[0], rangeX[1] + 1),
-            ys: helper.range(height).slice(rangeY[0], rangeY[1] + 1)
+        let result = {
+            signMap: stringifiedSignMap,
+            animatedVertices
         }
+
+        if (!helper.vertexEquals(state.rangeX, rangeX) || !helper.vertexEquals(state.rangeY, rangeY)) {
+            Object.assign(result, {
+                rangeX,
+                rangeY,
+                xs: helper.range(width).slice(rangeX[0], rangeX[1] + 1),
+                ys: helper.range(height).slice(rangeY[0], rangeY[1] + 1)
+            })
+        }
+
+        return result
     }
 
     return {
+        signMap: stringifiedSignMap,
         width,
         height,
         rangeX,
         rangeY,
+        animatedVertices: [],
         xs: helper.range(width).slice(rangeX[0], rangeX[1] + 1),
         ys: helper.range(height).slice(rangeY[0], rangeY[1] + 1),
         hoshis: helper.getHoshis(width, height),

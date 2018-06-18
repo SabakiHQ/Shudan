@@ -10,7 +10,7 @@ class Vertex extends Component {
     constructor(props) {
         super(props)
 
-        function generateMouseHandler(prop) {
+        let generateMouseHandler = prop => {
             return evt => {
                 let handler = this.props[prop] || (() => {})
                 handler(evt, this.props.position)
@@ -24,7 +24,7 @@ class Vertex extends Component {
 
     render() {
         let {position: [x, y], types, shift, random, sign, selected, heat,
-            paint, dimmed, hoshi, marker, ghostStone} = this.props
+            paint, dimmed, hoshi, marker, ghostStone, animate} = this.props
 
         return h('div',
             {
@@ -44,7 +44,8 @@ class Vertex extends Component {
                         [`heat_${heat}`]: !!heat,
                         [`paint_${paint}`]: !!paint,
                         dimmed,
-                        selected
+                        selected,
+                        animate
                     },
 
                     marker && marker.type && `marker_${marker.type}`,
