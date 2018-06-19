@@ -178,13 +178,29 @@
 }
 
 .shudan-goban .vertex.marker_square .stone .marker::before,
-.shudan-goban .vertex.marker_circle .stone .marker::before {
+.shudan-goban .vertex.marker_circle .stone .marker::before,
+.shudan-goban .vertex.marker_loader .stone .marker::before {
         display: block;
         width: .5em;
         height: .5em;
     }
-    .shudan-goban .vertex.marker_circle .stone .marker::before {
+    .shudan-goban .vertex.marker_circle .stone .marker::before,
+    .shudan-goban .vertex.marker_loader .stone .marker::before {
         border-radius: 50%;
+    }
+    .shudan-goban .vertex.marker_loader .stone .marker::before {
+        border-left-color: transparent;
+        border-top-color: transparent;
+        animation: 1.5s linear 0s shudan-rotation infinite;
+}
+
+@keyframes shudan-rotation {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
 }
 
 .shudan-goban .vertex.marker_cross .stone .marker {
