@@ -210,6 +210,7 @@ class App extends Component {
 
                     h('button', {
                         type: 'button',
+                        title: 'Reset',
                         onClick: evt => {
                             this.setState({vertexSize: 24})
                         }
@@ -228,34 +229,11 @@ class App extends Component {
 
                     h('button', {
                         type: 'button',
+                        title: 'Reset',
                         onClick: evt => {
                             this.setState({signMap: JSON.parse(JSON.stringify(signMap))})
                         }
-                    }, '•'), ' ',
-
-                    h('button', {
-                        type: 'button',
-                        onClick: evt => {
-                            let emptyVertices = []
-
-                            for (let x = 0; x < signMap.length; x++) {
-                                for (let y = 0; y < signMap[0].length; y++) {
-                                    if (this.state.signMap[y][x] === 0) {
-                                        emptyVertices.push([x, y])
-                                    }
-                                }
-                            }
-
-                            if (emptyVertices.length === 0) return
-
-                            this.setState(({signMap}) => {
-                                let [x, y] = emptyVertices[Math.floor(Math.random() * emptyVertices.length)]
-                                signMap[y][x] = Math.sign(Math.random() - .5) || 1
-
-                                return {signMap}
-                            })
-                        }
-                    }, '+')
+                    }, '•')
                 ),
 
                 h(this.CheckBox, {stateKey: 'showCoordinates', text: 'Show coordinates'}),
