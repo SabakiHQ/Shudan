@@ -76,7 +76,6 @@
         left: .04em;
         width: calc(100% - .08em);
         height: calc(100% - .08em);
-        transform: translate(.5px, .5px);
     }
     .shudan-goban .vertex .stone .shadow {
         border-radius: 50%;
