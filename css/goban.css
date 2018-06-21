@@ -35,6 +35,7 @@
     left: -.25em;
     bottom: -.25em;
     right: -.25em;
+    background-color: rgba(23, 10, 2, .1);
     background-image: linear-gradient(to right, transparent 30%, rgba(23, 10, 2, .2) 50%, transparent 70%);
     background-size: 19em 100%;
     background-repeat: no-repeat;
