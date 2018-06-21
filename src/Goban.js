@@ -76,13 +76,13 @@ class Goban extends Component {
                   coordinates: showCoordinates
                 }) + ' ' + (this.props.className || ''),
 
-                style: {
+                style: Object.assign({
                     display: 'inline-grid',
                     gridTemplateRows: showCoordinates ? '1em 1fr 1em' : '1fr',
                     gridTemplateColumns: showCoordinates ? '1em 1fr 1em' : '1fr',
                     fontSize: vertexSize,
                     lineHeight: '1em'
-                }
+                }, this.props.style || {})
             },
 
             showCoordinates && h(CoordX, {xs, style: {gridRow: '1', gridColumn: '2'}}),
