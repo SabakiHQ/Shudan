@@ -72,8 +72,8 @@ class Goban extends Component {
 
                 id: this.props.id,
                 className: classnames('shudan-goban', {
-                  busy,
-                  coordinates: showCoordinates
+                    busy,
+                    coordinates: showCoordinates
                 }) + ' ' + (this.props.className || ''),
 
                 style: Object.assign({
