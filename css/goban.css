@@ -1,4 +1,5 @@
 .shudan-goban {
+        --board-border-width: .25em;
         --board-border-color: #CA933A;
         --board-background-image: url('./board.png');
         --board-background-color: #EBB55B;
@@ -11,7 +12,7 @@
         --white-foreground-color: #222;
 
         position: relative;
-        border: .25em solid var(--board-border-color);
+        border: var(--board-border-width) solid var(--board-border-color);
         background: var(--board-background-image), var(--board-background-color);
         color: var(--board-foreground-color);
     }
@@ -31,10 +32,10 @@
 .shudan-goban.busy::after {
     content: '';
     position: absolute;
-    top: -.25em;
-    left: -.25em;
-    bottom: -.25em;
-    right: -.25em;
+    top: calc(-1 * var(--board-border-width));
+    left: calc(-1 * var(--board-border-width));
+    bottom: calc(-1 * var(--board-border-width));
+    right: calc(-1 * var(--board-border-width));
     background-color: rgba(23, 10, 2, .1);
     background-image: linear-gradient(to right, transparent 30%, rgba(23, 10, 2, .2) 50%, transparent 70%);
     background-size: 19em 100%;
