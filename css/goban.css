@@ -17,24 +17,29 @@
     }
     .shudan-goban:not(.coordinates) {
         padding: .25em;
-    }
-    .shudan-goban::after {
-        content: '';
-        position: absolute;
-        top: -.25em;
-        left: -.25em;
-        bottom: -.25em;
-        right: -.25em;
-        background-image: linear-gradient(to right, transparent 30%, rgba(0, 0, 0, .2) 50%, transparent 70%);
-        background-size: 19em 100%;
-        background-repeat: no-repeat;
-        opacity: 0;
-        transition: opacity .2s;
-        animation: 2.5s linear 0s shudan-busy infinite;
-        pointer-events: none;
-    }
-    .shudan-goban.busy::after {
-        opacity: 1;
+}
+
+.shudan-goban .vertex div {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Busy screen */
+
+.shudan-goban.busy::after {
+    content: '';
+    position: absolute;
+    top: -.25em;
+    left: -.25em;
+    bottom: -.25em;
+    right: -.25em;
+    background-image: linear-gradient(to right, transparent 30%, rgba(23, 10, 2, .2) 50%, transparent 70%);
+    background-size: 19em 100%;
+    background-repeat: no-repeat;
+    animation: 2s linear 0s shudan-busy infinite;
+    pointer-events: none;
 }
 
 @keyframes shudan-busy {
@@ -44,13 +49,6 @@
     to {
         background-position: calc(100% + 19em) 0;
     }
-}
-
-.shudan-goban .vertex div {
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
 }
 
 /* Grid lines and hoshis */

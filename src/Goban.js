@@ -69,17 +69,20 @@ class Goban extends Component {
         return h('section',
             {
                 ref: el => this.element = el,
+
+                id: this.props.id,
+                className: classnames('shudan-goban', {
+                  busy,
+                  coordinates: showCoordinates
+                }) + ' ' + (this.props.className || ''),
+
                 style: {
                     display: 'inline-grid',
                     gridTemplateRows: showCoordinates ? '1em 1fr 1em' : '1fr',
                     gridTemplateColumns: showCoordinates ? '1em 1fr 1em' : '1fr',
                     fontSize: vertexSize,
                     lineHeight: '1em'
-                },
-                className: classnames('shudan-goban', {
-                    busy,
-                    coordinates: showCoordinates
-                })
+                }
             },
 
             showCoordinates && h(CoordX, {xs, style: {gridRow: '1', gridColumn: '2'}}),
