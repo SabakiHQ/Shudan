@@ -9,10 +9,11 @@ A highly customizable Preact Goban component. This is a work in progress.
 - Easy customization
 - Fuzzy stone placement
 - Stone placing animation
+- Board and stone markers
 - Lines and arrows
-- Heat & paint map
+- Heat and paint map
 - Busy state
-- Show only part of board
+- Partial board
 
 ## Installation
 
