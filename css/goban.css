@@ -40,8 +40,7 @@
     background-image: linear-gradient(to right, transparent 30%, rgba(23, 10, 2, .2) 50%, transparent 70%);
     background-size: 19em 100%;
     background-repeat: no-repeat;
-    animation: 2s linear 0s shudan-busy infinite;
-    pointer-events: none;
+    animation: 2s linear -.5s shudan-busy infinite;
 }
 
 @keyframes shudan-busy {
