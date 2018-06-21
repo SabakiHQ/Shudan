@@ -170,7 +170,8 @@ class App extends Component {
             showMarkerMap: false,
             showGhostStones: false,
             showLines: false,
-            showSelection: false
+            showSelection: false,
+            isBusy: false
         }
 
         this.CheckBox = createTwoWayCheckBox(this.state, this.setState.bind(this))
@@ -246,13 +247,15 @@ class App extends Component {
                 h(this.CheckBox, {stateKey: 'showPaintMap', text: 'Show paint map'}),
                 h(this.CheckBox, {stateKey: 'showHeatMap', text: 'Show heat map'}),
                 h(this.CheckBox, {stateKey: 'showLines', text: 'Show lines'}),
-                h(this.CheckBox, {stateKey: 'showSelection', text: 'Show selection'})
+                h(this.CheckBox, {stateKey: 'showSelection', text: 'Show selection'}),
+                h(this.CheckBox, {stateKey: 'isBusy', text: 'Busy'})
             ),
 
             h('div', {},
                 h(Goban, {
                     vertexSize,
                     animate: true,
+                    busy: this.state.isBusy,
                     rangeX: showCorner ? [8, 18] : undefined,
                     rangeY: showCorner ? [12, 18] : undefined,
 

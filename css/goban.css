@@ -10,12 +10,40 @@
         --white-background-color: #fff;
         --white-foreground-color: #222;
 
+        position: relative;
         border: .25em solid var(--board-border-color);
         background: var(--board-background-image), var(--board-background-color);
         color: var(--board-foreground-color);
     }
     .shudan-goban:not(.coordinates) {
         padding: .25em;
+    }
+    .shudan-goban::after {
+        content: '';
+        position: absolute;
+        top: -.25em;
+        left: -.25em;
+        bottom: -.25em;
+        right: -.25em;
+        background-image: linear-gradient(to right, transparent 30%, rgba(0, 0, 0, .2) 50%, transparent 70%);
+        background-size: 19em 100%;
+        background-repeat: no-repeat;
+        opacity: 0;
+        transition: opacity .2s;
+        animation: 2.5s linear 0s shudan-busy infinite;
+        pointer-events: none;
+    }
+    .shudan-goban.busy::after {
+        opacity: 1;
+}
+
+@keyframes shudan-busy {
+    from {
+        background-position: -19em 0;
+    }
+    to {
+        background-position: calc(100% + 19em) 0;
+    }
 }
 
 .shudan-goban .vertex div {

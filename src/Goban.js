@@ -17,7 +17,7 @@ class Goban extends Component {
         this.setState(Goban.getDerivedStateFromProps(props, this.state))
     }
 
-    componentDidUpdate() {        
+    componentDidUpdate() {
         if (this.props.animate
         && !this.clearAnimatedVerticesHandler
         && this.state.animatedVertices.length > 0) {
@@ -51,6 +51,7 @@ class Goban extends Component {
 
         let {
             vertexSize = 24,
+            busy,
             signMap,
             paintMap,
             heatMap,
@@ -76,6 +77,7 @@ class Goban extends Component {
                     lineHeight: '1em'
                 },
                 className: classnames('shudan-goban', {
+                    busy,
                     coordinates: showCoordinates
                 })
             },
