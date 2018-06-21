@@ -33,26 +33,26 @@ class Vertex extends Component {
                     position: 'relative'
                 },
                 className: classnames(
-                    'vertex',
-                    types,
+                    'shudan-vertex',
+                    types.map(x => `shudan-${x}`),
 
-                    `pos_${x}-${y}`,
-                    `random_${random}`,
-                    `sign_${sign}`,
+                    `shudan-pos_${x}-${y}`,
+                    `shudan-random_${random}`,
+                    `shudan-sign_${sign}`,
                     {
-                        [`shift_${shift}`]: !!shift,
-                        [`heat_${heat}`]: !!heat,
-                        [`paint_${paint}`]: !!paint,
-                        dimmed,
-                        selected,
-                        animate
+                        [`shudan-shift_${shift}`]: !!shift,
+                        [`shudan-heat_${heat}`]: !!heat,
+                        [`shudan-paint_${paint}`]: !!paint,
+                        'shudan-dimmed': dimmed,
+                        'shudan-selected': selected,
+                        'shudan-animate': animate
                     },
 
-                    marker && marker.type && `marker_${marker.type}`,
-                    marker && marker.label && marker.label.length >= 3 && `smalllabel`,
+                    marker && marker.type && `shudan-marker_${marker.type}`,
+                    marker && marker.label && marker.label.length >= 3 && `shudan-smalllabel`,
 
-                    !sign && ghostStone && `ghost_${ghostStone.sign}`,
-                    !sign && ghostStone && ghostStone.types && ghostStone.types.map(t => t && `ghost_${t}`)
+                    !sign && ghostStone && `shudan-ghost_${ghostStone.sign}`,
+                    !sign && ghostStone && ghostStone.types && ghostStone.types.map(t => t && `shudan-ghost_${t}`)
                 ),
 
                 onMouseDown: this.handleMouseDown,
@@ -60,25 +60,25 @@ class Vertex extends Component {
                 onMouseMove: this.handleMouseMove
             },
 
-            h('div', {key: 'board', className: 'board', style: absoluteStyle(1)}),
-            hoshi && h('div', {key: 'hoshi', className: 'hoshi', style: absoluteStyle(2)}),
+            h('div', {key: 'board', className: 'shudan-board', style: absoluteStyle(1)}),
+            hoshi && h('div', {key: 'hoshi', className: 'shudan-hoshi', style: absoluteStyle(2)}),
 
-            h('div', {key: 'stone', className: 'stone', style: absoluteStyle(3)},
-                !!sign && h('div', {key: 'shadow', className: 'shadow', style: absoluteStyle(1)}),
-                !!sign && h('div', {key: 'inner', className: 'inner', style: absoluteStyle(2)}, sign),
+            h('div', {key: 'stone', className: 'shudan-stone', style: absoluteStyle(3)},
+                !!sign && h('div', {key: 'shadow', className: 'shudan-shadow', style: absoluteStyle(1)}),
+                !!sign && h('div', {key: 'inner', className: 'shudan-inner', style: absoluteStyle(2)}, sign),
 
                 !!marker && h('div', {
                     key: 'marker',
-                    className: 'marker',
+                    className: 'shudan-marker',
                     title: marker.label,
                     style: absoluteStyle(3)
                 })
             ),
 
-            !sign && !!ghostStone && h('div', {key: 'ghost', className: 'ghost', style: absoluteStyle(4)}),
-            !!paint && h('div', {key: 'paint', className: 'paint', style: absoluteStyle(5)}),
-            !!selected && h('div', {key: 'selection', className: 'selection', style: absoluteStyle(6)}),
-            h('div', {key: 'heat', className: 'heat', style: absoluteStyle(7)})
+            !sign && !!ghostStone && h('div', {key: 'ghost', className: 'shudan-ghost', style: absoluteStyle(4)}),
+            !!paint && h('div', {key: 'paint', className: 'shudan-paint', style: absoluteStyle(5)}),
+            !!selected && h('div', {key: 'selection', className: 'shudan-selection', style: absoluteStyle(6)}),
+            h('div', {key: 'heat', className: 'shudan-heat', style: absoluteStyle(7)})
         )
     }
 }

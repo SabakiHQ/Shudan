@@ -23,8 +23,8 @@ class Line extends Component {
         let angle = Math.atan2(dy, dx) * 180 / Math.PI
         let length = Math.sqrt(dx * dx + dy * dy)
 
-        return h('hr', {
-            className: type,
+        return h('div', {
+            className: `shudan-${type}`,
             style: {
                 position: 'absolute',
                 left, top,

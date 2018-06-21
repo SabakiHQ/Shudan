@@ -7,7 +7,7 @@ class CoordX extends Component {
 
         return h('div',
             {
-                className: 'coordx',
+                className: 'shudan-coordx',
                 style: Object.assign({
                     display: 'flex',
                     textAlign: 'center'
@@ -29,7 +29,7 @@ class CoordY extends Component {
 
         return h('div',
             {
-                className: 'coordy',
+                className: 'shudan-coordy',
                 style: Object.assign({
                     textAlign: 'center'
                 }, style)

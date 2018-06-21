@@ -66,14 +66,14 @@ class Goban extends Component {
 
         let animatedVertices = [].concat(...this.state.animatedVertices.map(helper.neighborhood))
 
-        return h('section',
+        return h('div',
             {
                 ref: el => this.element = el,
 
                 id: this.props.id,
                 className: classnames('shudan-goban', {
-                    busy,
-                    coordinates: showCoordinates
+                    'shudan-busy': busy,
+                    'shudan-coordinates': showCoordinates
                 }) + ' ' + (this.props.className || ''),
 
                 style: Object.assign({
@@ -90,7 +90,7 @@ class Goban extends Component {
 
             h('div',
                 {
-                    className: 'content',
+                    className: 'shudan-content',
                     style: {
                         position: 'relative',
                         width: `${xs.length}em`,
@@ -102,7 +102,7 @@ class Goban extends Component {
 
                 h('div',
                     {
-                        className: 'vertices',
+                        className: 'shudan-vertices',
                         style: {
                             display: 'grid',
                             gridTemplateColumns: `repeat(${xs.length}, 1em)`,
@@ -150,7 +150,7 @@ class Goban extends Component {
 
                 h('div',
                     {
-                        className: 'lines',
+                        className: 'shudan-lines',
                         style: {
                             position: 'absolute',
                             top: 0,
