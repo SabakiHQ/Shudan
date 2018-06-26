@@ -20,6 +20,10 @@
         padding: .25em;
 }
 
+.shudan-coordx span, .shudan-coordy span {
+    font-size: .6em;
+}
+
 .shudan-vertex div {
     left: 0;
     top: 0;

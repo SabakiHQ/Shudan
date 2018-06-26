@@ -3,7 +3,7 @@ const helper = require('./helper')
 
 class CoordX extends Component {
     render() {
-        let {style, xs} = this.props
+        let {style, xs, coordX = i => helper.alpha[i]} = this.props
 
         return h('div',
             {
@@ -16,7 +16,7 @@ class CoordX extends Component {
 
             xs.map(i =>
                 h('div', {style: {width: '1em'}},
-                    h('span', {style: {display: 'block', fontSize: '.6em'}}, helper.alpha[i])
+                    h('span', {style: {display: 'block'}}, coordX(i))
                 )
             )
         )
@@ -25,7 +25,7 @@ class CoordX extends Component {
 
 class CoordY extends Component {
     render() {
-        let {style, height, ys} = this.props
+        let {style, height, ys, coordY = i => height - i} = this.props
 
         return h('div',
             {
@@ -37,7 +37,7 @@ class CoordY extends Component {
 
             ys.map(i =>
                 h('div', {style: {height: '1em'}},
-                    h('span', {style: {display: 'block', fontSize: '.6em'}}, height - i)
+                    h('span', {style: {display: 'block'}}, coordY(i))
                 )
             )
         )

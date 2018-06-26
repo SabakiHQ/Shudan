@@ -51,6 +51,7 @@ class Goban extends Component {
 
         let {
             vertexSize = 24,
+            coordX, coordY,
             busy,
             signMap,
             paintMap,
@@ -85,8 +86,8 @@ class Goban extends Component {
                 }, this.props.style || {})
             },
 
-            showCoordinates && h(CoordX, {xs, style: {gridRow: '1', gridColumn: '2'}}),
-            showCoordinates && h(CoordY, {height, ys, style: {gridRow: '2', gridColumn: '1'}}),
+            showCoordinates && h(CoordX, {xs, style: {gridRow: '1', gridColumn: '2'}, coordX}),
+            showCoordinates && h(CoordY, {height, ys, style: {gridRow: '2', gridColumn: '1'}, coordY}),
 
             h('div',
                 {
@@ -181,8 +182,8 @@ class Goban extends Component {
                 )
             ),
 
-            showCoordinates && h(CoordY, {height, ys, style: {gridRow: '2', gridColumn: '3'}}),
-            showCoordinates && h(CoordX, {xs, style: {gridRow: '3', gridColumn: '2'}})
+            showCoordinates && h(CoordY, {height, ys, style: {gridRow: '2', gridColumn: '3'}, coordY}),
+            showCoordinates && h(CoordX, {xs, style: {gridRow: '3', gridColumn: '2'}, coordX})
         )
     }
 }
