@@ -29,3 +29,27 @@ const CustomComponent = props => (
 ~~~
 
 In this case, we assume you have a bundler set up correctly and Preact installed.
+
+### Board Representation
+
+The board is represented by an array of arrays. Each of those subarrays represent one row, all of the same size. For `signMap`, the subarrays consists of integers: `-1` denotes a white stone, `1` a black stone, and `0` represents an empty vertex
+
+#### Example
+
+~~~js
+[[ 0,  0,  1,  0, -1, -1,  1,  0, 0],
+ [ 1,  0,  1, -1, -1,  1,  1,  1, 0],
+ [ 0,  0,  1, -1,  0,  1, -1, -1, 0],
+ [ 1,  1,  1, -1, -1, -1,  1, -1, 0],
+ [ 1, -1,  1,  1, -1,  1,  1,  1, 0],
+ [-1, -1, -1, -1, -1,  1,  0,  0, 0],
+ [ 0, -1, -1,  0, -1,  1,  1,  1, 1],
+ [ 0,  0,  0,  0,  0, -1, -1, -1, 1],
+ [ 0,  0,  0,  0,  0,  0,  0, -1, 0]]
+~~~
+
+### Vertex Representation
+
+Board positions are represented by an array of the form `[x, y]` where `x` and `y` are non-negative integers, zero-based coordinates of the vertex. `[0, 0]` denotes the top left position of the board.
+
+## API Reference
