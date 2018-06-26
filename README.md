@@ -39,3 +39,24 @@ const CustomComponent = props => (
 
 We assume you have a bundler set up correctly and Preact installed.
 
+## Build Demo
+
+Make sure you have Node.js v8 and npm installed. First, clone this repository via Git, then install all dependencies with npm:
+
+~~~
+$ git clone https://github.com/SabakiHQ/shudan-goban
+$ cd shudan-goban
+$ npm install
+~~~
+
+Use the `build-demo` script to build the demo project:
+
+~~~
+$ npm run build-demo
+~~~
+
+You can use the `watch-demo` command for development:
+
+~~~
+$ npm run watch-demo
+~~~
