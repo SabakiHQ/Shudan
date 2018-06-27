@@ -52,37 +52,55 @@ The board is represented by an array of arrays. Each of those subarrays represen
 
 Board positions are represented by an array of the form `[x, y]` where `x` and `y` are non-negative integers, zero-based coordinates of the vertex. `[0, 0]` denotes the top left position of the board.
 
+### Styling
+
 ## API Reference
 
 All props are optional. The following props are supported:
 
-### Board props
+### Board Props
 
 - `busy` `<boolean>` - Default: `false`
 
   Determines whether component is busy. When busy, no user input are accepted.
 
-- `vertexSize`
-- `rangeX`
-- `rangeY`
-- `fuzzyStonePlacement` `<boolean>` - Default: `false`
+- `vertexSize` `<integer>` - Default: `24`
 
-  When set to `true`, stones are placed slightly off-grid.
+  The width and height of a single vertex in pixels. Adjust this prop to change the size of the component.
 
-- `animateStonePlacement` `<boolean>` - Default: `false`
+- `rangeX` `<[<integer>, <integer>]>` - Default: `[0, Infinity]`
 
-  When set to `true`, stones that are added to the board will slide into place, adjusting nearby stones if necessary. Only works if `fuzzyStonePlacement` is set to `true`.
+  Only vertices with `x` value inside this range are displayed.
 
-### Coordinates props
+- `rangeY` `<[<integer>, <integer>]>` - Default: `[0, Infinity]`
+
+  Only vertices with `y` value inside this range are displayed.
+
+### Coordinates Props
 
 - `showCoordinates` `<boolean>` - Default: `false`
 
   Determines rendering of coordinates.
 
-- `coordX`
-- `coordY`
+- `coordX` `<Function>` - Default: `x => ['A', 'B', 'C', ...][x]`
 
-### Map props
+  A function that determines coordinate label by `x` value of a vertex.
+
+- `coordY` `<Function>` - Default: `y => height - y`
+
+  A function that determines coordinate label by `y` value of a vertex.
+
+### Behavior Props
+
+- `fuzzyStonePlacement` `<boolean>` - Default: `false`
+
+  When set to `true`, stones are rendered slightly off-grid.
+
+- `animateStonePlacement` `<boolean>` - Default: `false`
+
+  When set to `true`, stones that are added to the board will slide into place, adjusting nearby stones if necessary. Only works if `fuzzyStonePlacement` is set to `true`.
+
+### Map Props
 
 - `signMap`
 - `markerMap`
@@ -90,8 +108,32 @@ All props are optional. The following props are supported:
 - `ghostStoneMap`
 - `heatMap`
 
-### Vertex specific props
+### Vertex Specific Props
 
-- `selectedVertices`
-- `dimmedVertices`
-- `lines`
+- `selectedVertices` `<Array<Vertex>>` - Default: `[]`
+
+  An array of [vertices](#vertex-representation) which should be in a selected state.
+
+- `dimmedVertices` `<Array<Vertex>>` - Default: `[]`
+
+  An array of [vertices](#vertex-representation) which should be dimmed.
+
+- `lines` `<Array<Object>>` - Default: `[]`
+
+  An array of objects of the following form:
+
+  ~~~js
+  {
+      v1: <Vertex>,
+      v2: <Vertex>,
+      type: <string>
+  }
+  ~~~
+
+  Shudan provides default styles for `'line'` and `'arrow'` types.
+
+### Event Props
+
+- `onVertexMouseUp`
+- `onVertexMouseDown`
+- `onVertexMouseMove`
