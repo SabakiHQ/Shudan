@@ -53,3 +53,32 @@ The board is represented by an array of arrays. Each of those subarrays represen
 Board positions are represented by an array of the form `[x, y]` where `x` and `y` are non-negative integers, zero-based coordinates of the vertex. `[0, 0]` denotes the top left position of the board.
 
 ## API Reference
+
+### Board props
+
+- `busy`
+- `vertexSize`
+- `rangeX`
+- `rangeY`
+- `fuzzyStonePlacement`
+- `animateStonePlacement`
+
+### Coordinates props
+
+- `showCoordinates`
+- `coordX`
+- `coordY`
+
+### Map props
+
+- `signMap`
+- `markerMap`
+- `paintMap`
+- `ghostStoneMap`
+- `heatMap`
+
+### Vertex specific props
+
+- `selectedVertices`
+- `dimmedVertices`
+- `lines`
