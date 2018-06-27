@@ -18,7 +18,7 @@ class Goban extends Component {
     }
 
     componentDidUpdate() {
-        if (this.props.animate
+        if (this.props.animateStonePlacement
         && !this.clearAnimatedVerticesHandler
         && this.state.animatedVertices.length > 0) {
             // Handle stone animation
@@ -202,7 +202,7 @@ Goban.getDerivedStateFromProps = function(props, state) {
     if (state && state.width === width && state.height === height) {
         let animatedVertices = state.animatedVertices
 
-        if (props.animate && props.fuzzyStonePlacement) {
+        if (props.animateStonePlacement && props.fuzzyStonePlacement) {
             animatedVertices = helper.diffSignMap(JSON.parse(state.stringifiedSignMap), signMap)
         }
 
