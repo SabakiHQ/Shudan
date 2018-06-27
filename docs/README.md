@@ -54,18 +54,31 @@ Board positions are represented by an array of the form `[x, y]` where `x` and `
 
 ## API Reference
 
+All props are optional. The following props are supported:
+
 ### Board props
 
-- `busy`
+- `busy` `<boolean>` - Default: `false`
+
+  Determines whether component is busy. When busy, no user input are accepted.
+
 - `vertexSize`
 - `rangeX`
 - `rangeY`
-- `fuzzyStonePlacement`
-- `animateStonePlacement`
+- `fuzzyStonePlacement` `<boolean>` - Default: `false`
+
+  When set to `true`, stones are placed slightly off-grid.
+
+- `animateStonePlacement` `<boolean>` - Default: `false`
+
+  When set to `true`, stones that are added to the board will slide into place, adjusting nearby stones if necessary. Only works if `fuzzyStonePlacement` is set to `true`.
 
 ### Coordinates props
 
-- `showCoordinates`
+- `showCoordinates` `<boolean>` - Default: `false`
+
+  Determines rendering of coordinates.
+
 - `coordX`
 - `coordY`
 
