@@ -171,6 +171,7 @@ class App extends Component {
             showCorner: false,
             showDimmedStones: false,
             fuzzyStonePlacement: false,
+            animateStonePlacement: false,
             showPaintMap: false,
             showHeatMap: false,
             showMarkerMap: false,
@@ -185,7 +186,7 @@ class App extends Component {
 
     render() {
         let {vertexSize, showCoordinates, alternateCoordinates, showCorner,
-            showDimmedStones, fuzzyStonePlacement, showPaintMap,
+            showDimmedStones, fuzzyStonePlacement, animateStonePlacement, showPaintMap,
             showHeatMap, showMarkerMap, showGhostStones,
             showLines, showSelection} = this.state
 
@@ -249,6 +250,7 @@ class App extends Component {
                 h(this.CheckBox, {stateKey: 'showCorner', text: 'Show lower right corner only'}),
                 h(this.CheckBox, {stateKey: 'showDimmedStones', text: 'Dim dead stones'}),
                 h(this.CheckBox, {stateKey: 'fuzzyStonePlacement', text: 'Fuzzy stone placement'}),
+                h(this.CheckBox, {stateKey: 'animateStonePlacement', text: 'Animate stone placement'}),
                 h(this.CheckBox, {stateKey: 'showMarkerMap', text: 'Show markers'}),
                 h(this.CheckBox, {stateKey: 'showGhostStones', text: 'Show ghost stones'}),
                 h(this.CheckBox, {stateKey: 'showPaintMap', text: 'Show paint map'}),
@@ -271,6 +273,7 @@ class App extends Component {
                     signMap: this.state.signMap,
                     showCoordinates,
                     fuzzyStonePlacement,
+                    animateStonePlacement,
                     paintMap: showPaintMap && paintMap,
                     heatMap: showHeatMap && heatMap,
                     markerMap: showMarkerMap && markerMap,
