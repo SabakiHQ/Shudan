@@ -32,7 +32,7 @@ In this case, we assume you have a bundler set up correctly and Preact installed
 
 ### Board Representation
 
-The board is represented by an array of arrays. Each of those subarrays represent one row, all of the same size. For `signMap`, the subarrays consists of integers: `-1` denotes a white stone, `1` a black stone, and `0` represents an empty vertex
+The board is represented by an array of arrays. Each of those subarrays represent one row, all of the same size. We shall refer to this structure as a **map**. For `signMap`, the subarrays consists of integers: `-1` denotes a white stone, `1` a black stone, and `0` represents an empty vertex
 
 #### Example
 
@@ -50,7 +50,7 @@ The board is represented by an array of arrays. Each of those subarrays represen
 
 ### Vertex Representation
 
-Board positions are represented by an array of the form `[x, y]` where `x` and `y` are non-negative integers, zero-based coordinates of the vertex. `[0, 0]` denotes the top left position of the board.
+Board positions are represented by a **vertex**, i.e. an array of the form `[x, y]` where `x` and `y` are non-negative integers, zero-based coordinates. `[0, 0]` denotes the upper left position of the board.
 
 ### Styling
 
@@ -102,11 +102,58 @@ All props are optional. The following props are supported:
 
 ### Map Props
 
-- `signMap`
-- `markerMap`
-- `paintMap`
-- `ghostStoneMap`
-- `heatMap`
+- `signMap` `<Map<integer>>`
+
+  A [`map`](#board-representation) consisting of `-1` (white stone), `0` (empty field), or `1` (black stone), representing the stone arrangement on the board.
+
+- `markerMap` `<Map<null | Object>>`
+
+  A [`map`](#board-representation) consisting of objects of the following structure:
+
+  ~~~js
+  {
+      type: <string>,
+      label?: <string>
+  }
+  ~~~
+
+  Shudan provides styles for the following types:
+
+  - `'circle'`
+  - `'cross'`
+  - `'triangle'`
+  - `'square'`
+  - `'point'`
+  - `'loader'`
+  - `'label'`
+
+- `paintMap` `<Map<integer>>`
+
+  A [`map`](#board-representation) consisting of `-1` (white), `0` (none), or `1` (black) that will paint the corresponding vertices accordingly.
+
+- `ghostStoneMap` `<Map<null | Object>>`
+
+  A [`map`](#board-representation) consisting of objects of the following structure:
+
+  ~~~js
+  {
+      sign: <integer>,
+      types: <Array<string>>
+  }
+  ~~~
+
+  `sign` can be `-1` (white stone), `0` (empty field), or `1` (black stone). Shudan provides styles for the following `types`:
+
+  - Empty array
+  - `'good'`
+  - `'interesting'`
+  - `'doubtful'`
+  - `'bad'`
+  - `'faint'` - Reduces opacity
+
+- `heatMap` `<Map<integer>>`
+
+  A [`map`](#board-representation) consisting of integers from `0` to `9`, representing the importance of certain vertices.
 
 ### Vertex Specific Props
 
