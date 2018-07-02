@@ -28,7 +28,6 @@ class Vertex extends Component {
 
         return h('div',
             {
-                'data-vertex': `${x}-${y}`,
                 style: {
                     position: 'relative'
                 },
@@ -49,7 +48,9 @@ class Vertex extends Component {
                     },
 
                     marker && marker.type && `shudan-marker_${marker.type}`,
-                    marker && marker.label && marker.label.length >= 3 && `shudan-smalllabel`,
+                    marker && marker.label
+                        && (marker.label.includes('\n') || marker.label.length >= 3)
+                        && `shudan-smalllabel`,
 
                     ghostStone && `shudan-ghost_${ghostStone.sign}`,
                     ghostStone && ghostStone.type && `shudan-ghost_${ghostStone.type}`,
