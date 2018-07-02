@@ -24,7 +24,7 @@ class Goban extends Component {
             // Handle stone animation
 
             for (let [x, y] of this.state.animatedVertices) {
-                this.state.shiftMap[y][x] = helper.random(8)
+                this.state.shiftMap[y][x] = helper.random(7) + 1
                 helper.readjustShifts(this.state.shiftMap, [x, y])
             }
 
