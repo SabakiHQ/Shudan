@@ -51,8 +51,9 @@ class Vertex extends Component {
                     marker && marker.type && `shudan-marker_${marker.type}`,
                     marker && marker.label && marker.label.length >= 3 && `shudan-smalllabel`,
 
-                    !sign && ghostStone && `shudan-ghost_${ghostStone.sign}`,
-                    !sign && ghostStone && ghostStone.types && ghostStone.types.map(t => t && `shudan-ghost_${t}`)
+                    ghostStone && `shudan-ghost_${ghostStone.sign}`,
+                    ghostStone && ghostStone.type && `shudan-ghost_${ghostStone.type}`,
+                    ghostStone && ghostStone.faint && `shudan-ghost_faint`
                 ),
 
                 onMouseDown: this.handleMouseDown,

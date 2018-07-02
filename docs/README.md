@@ -138,18 +138,17 @@ All props are optional. The following props are supported:
   ~~~js
   {
       sign: <integer>,
-      types: <Array<string>>
+      type?: <string>,
+      faint?: <boolean>
   }
   ~~~
 
-  `sign` can be `-1` (white stone), `0` (empty field), or `1` (black stone). Shudan provides styles for the following `types`:
+  `sign` can be `-1` (white stone), `0` (empty field), or `1` (black stone). Shudan provides styles for the following types:
 
-  - Empty array
   - `'good'`
   - `'interesting'`
   - `'doubtful'`
   - `'bad'`
-  - `'faint'` - Reduces opacity
 
 - `heatMap` `<Map<integer>>`
 

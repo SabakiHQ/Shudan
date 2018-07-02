@@ -326,8 +326,8 @@
     .shudan-vertex.shudan-ghost_faint .shudan-ghost {
         opacity: .35;
     }
-    .shudan-vertex.shudan-ghost_1 .shudan-ghost::before,
-    .shudan-vertex.shudan-ghost_-1 .shudan-ghost::before {
+    .shudan-vertex.sign_0.shudan-ghost_1 .shudan-ghost::before,
+    .shudan-vertex.sign_0.shudan-ghost_-1 .shudan-ghost::before {
         display: block;
     }
     .shudan-vertex.shudan-ghost_1 .shudan-ghost::before {
