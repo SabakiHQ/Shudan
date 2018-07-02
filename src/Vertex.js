@@ -34,7 +34,7 @@ class Vertex extends Component {
                 },
                 className: classnames(
                     'shudan-vertex',
-                    types.map(x => `shudan-${x}`),
+                    types.map(x => x && `shudan-${x}`),
 
                     `shudan-pos_${x}-${y}`,
                     `shudan-random_${random}`,

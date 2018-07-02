@@ -1,12 +1,15 @@
 .shudan-goban {
         --board-border-width: .25em;
         --board-border-color: #CA933A;
+
         --board-background-image: url('./board.png');
         --board-background-color: #EBB55B;
         --board-foreground-color: #5E2E0C;
+
         --black-background-image: url('./stone_1.png');
         --black-background-color: #222;
         --black-foreground-color: #eee;
+
         --white-background-image: url('./stone_-1.png');
         --white-background-color: #fff;
         --white-foreground-color: #222;
@@ -326,8 +329,8 @@
     .shudan-vertex.shudan-ghost_faint .shudan-ghost {
         opacity: .35;
     }
-    .shudan-vertex.sign_0.shudan-ghost_1 .shudan-ghost::before,
-    .shudan-vertex.sign_0.shudan-ghost_-1 .shudan-ghost::before {
+    .shudan-vertex.shudan-sign_0.shudan-ghost_1 .shudan-ghost::before,
+    .shudan-vertex.shudan-sign_0.shudan-ghost_-1 .shudan-ghost::before {
         display: block;
     }
     .shudan-vertex.shudan-ghost_1 .shudan-ghost::before {

@@ -54,6 +54,27 @@ Board positions are represented by a **vertex**, i.e. an array of the form `[x, 
 
 ### Styling
 
+Shudan only uses `<div>` and `<span>` elements with class names prefixed with `shudan-`. You can override Shudan's default CSS variables to change basic images and colors:
+
+~~~css
+.shudan-goban {
+    --board-border-width: .25em;
+    --board-border-color: #CA933A;
+
+    --board-background-image: url('./board.png');
+    --board-background-color: #EBB55B;
+    --board-foreground-color: #5E2E0C;
+
+    --black-background-image: url('./stone_1.png');
+    --black-background-color: #222;
+    --black-foreground-color: #eee;
+
+    --white-background-image: url('./stone_-1.png');
+    --white-background-color: #fff;
+    --white-foreground-color: #222;
+}
+~~~
+
 ## API Reference
 
 All props are optional. The following props are supported:
