@@ -28,6 +28,12 @@ const CustomComponent = props => (
 )
 ~~~
 
+Don't forget to include the `css/goban.css` file in your HTML:
+
+~~~html
+<link rel="stylesheet" href="path/to/css/goban.css"/>
+~~~
+
 In this case, we assume you have a bundler set up correctly and Preact installed.
 
 ### Board Representation
