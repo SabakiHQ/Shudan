@@ -164,7 +164,7 @@ class App extends Component {
         super(props)
 
         this.state = {
-            signMap: JSON.parse(JSON.stringify(signMap)),
+            signMap,
             vertexSize: 24,
             showCoordinates: false,
             alternateCoordinates: false,
@@ -240,7 +240,7 @@ class App extends Component {
                         type: 'button',
                         title: 'Reset',
                         onClick: evt => {
-                            this.setState({signMap: JSON.parse(JSON.stringify(signMap))})
+                            this.setState({signMap})
                         }
                     }, '•')
                 ),
