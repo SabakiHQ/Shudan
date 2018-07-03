@@ -60,7 +60,8 @@ exports.readjustShifts = function(shiftMap, vertex = null) {
 }
 
 exports.diffSignMap = function(before, after) {
-    if (before.length === 0
+    if (before === after
+    || before.length === 0
     || before.length !== after.length
     || before[0].length !== after[0].length) {
         return []

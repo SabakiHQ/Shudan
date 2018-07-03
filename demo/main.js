@@ -295,7 +295,7 @@ class App extends Component {
                     ] : [],
 
                     onVertexMouseUp: (evt, [x, y]) => {
-                        let {signMap} = this.state
+                        let signMap = JSON.parse(JSON.stringify(this.state.signMap))
                         signMap[y][x] = Math.sign(Math.random() - .5) || 1
 
                         this.setState({signMap})

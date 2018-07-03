@@ -125,7 +125,7 @@ All props are optional. The following props are supported:
 
 - `animateStonePlacement` `<boolean>` - Default: `false`
 
-  When set to `true`, stones that are added to the board will slide into place, adjusting nearby stones if necessary. Only works if `fuzzyStonePlacement` is set to `true`.
+  When set to `true`, stones that are added to the board will slide into place, adjusting nearby stones if necessary. Only works if `fuzzyStonePlacement` is set to `true`. Only triggers animation if `signMap` prop updates with a new object.
 
 ### Map Props
 
