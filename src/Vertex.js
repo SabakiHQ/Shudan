@@ -48,7 +48,8 @@ class Vertex extends Component {
                     },
 
                     marker && marker.type && `shudan-marker_${marker.type}`,
-                    marker && marker.label
+                    marker && marker.type === 'label'
+                        && marker.label
                         && (marker.label.includes('\n') || marker.label.length >= 3)
                         && `shudan-smalllabel`,
 

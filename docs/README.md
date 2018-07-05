@@ -139,12 +139,12 @@ All props are optional. The following props are supported:
 
   ~~~js
   {
-      type: <string>,
-      label?: <string>
+      type?: <string> | null,
+      label?: <string> | null
   }
   ~~~
 
-  Shudan provides styles for the following types:
+  The string specified in `label` is shown as tooltip. Shudan provides styles for the following types:
 
   - `'circle'`
   - `'cross'`
@@ -165,8 +165,8 @@ All props are optional. The following props are supported:
   ~~~js
   {
       sign: <integer>,
-      type?: <string>,
-      faint?: <boolean>
+      type?: <string> | null,
+      faint?: <boolean> | null
   }
   ~~~
 
