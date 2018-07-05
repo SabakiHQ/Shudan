@@ -85,6 +85,24 @@ Shudan only uses `<div>` and `<span>` elements with class names prefixed with `s
 
 All props are optional. The following props are supported:
 
+### DOM Props
+
+- `id` `<string>`
+
+  Sets the `id` attribute of the container element.
+
+- `className` `<string>`
+
+  Adds the specified classes to Shudan's own classes to the container element.
+
+- `style` `<Object>`
+
+  Adds the specified styles to Shudan's own styles to the container element.
+
+- `innerProps` `<Object>`
+
+  Applies other props to the container element.
+
 ### Board Props
 
 - `busy` `<boolean>` - Default: `false`

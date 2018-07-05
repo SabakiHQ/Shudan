@@ -50,6 +50,7 @@ class Goban extends Component {
         } = this.state
 
         let {
+            innerProps = {},
             vertexSize = 24,
             coordX, coordY,
             busy,
@@ -68,14 +69,14 @@ class Goban extends Component {
         let animatedVertices = [].concat(...this.state.animatedVertices.map(helper.neighborhood))
 
         return h('div',
-            {
+            Object.assign({}, innerProps, {
                 ref: el => this.element = el,
 
                 id: this.props.id,
                 className: classnames('shudan-goban', {
                     'shudan-busy': busy,
                     'shudan-coordinates': showCoordinates
-                }) + ' ' + (this.props.className || ''),
+                }) + ' ' + (this.props.class || this.props.className || ''),
 
                 style: Object.assign({
                     display: 'inline-grid',
@@ -84,7 +85,7 @@ class Goban extends Component {
                     fontSize: vertexSize,
                     lineHeight: '1em'
                 }, this.props.style || {})
-            },
+            }),
 
             showCoordinates && h(CoordX, {xs, style: {gridRow: '1', gridColumn: '2'}, coordX}),
             showCoordinates && h(CoordY, {height, ys, style: {gridRow: '2', gridColumn: '1'}, coordY}),
@@ -195,7 +196,7 @@ Goban.getDerivedStateFromProps = function(props, state) {
         rangeY = [0, Infinity]
     } = props
 
-    let oldSignMap = signMap
+    let stringifiedSignMap = JSON.stringify(signMap)
     let width = signMap.length === 0 ? 0 : signMap[0].length
     let height = signMap.length
 
@@ -203,11 +204,11 @@ Goban.getDerivedStateFromProps = function(props, state) {
         let animatedVertices = state.animatedVertices
 
         if (props.animateStonePlacement && props.fuzzyStonePlacement) {
-            animatedVertices = helper.diffSignMap(state.oldSignMap, signMap)
+            animatedVertices = helper.diffSignMap(JSON.parse(state.stringifiedSignMap), signMap)
         }
 
         let result = {
-            oldSignMap,
+            stringifiedSignMap,
             animatedVertices
         }
 
@@ -228,7 +229,7 @@ Goban.getDerivedStateFromProps = function(props, state) {
     // Board size changed
 
     return {
-        oldSignMap,
+        stringifiedSignMap,
         width,
         height,
         rangeX,
