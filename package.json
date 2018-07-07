@@ -1,11 +1,11 @@
 {
-  "name": "@sabaki/preact-goban",
+  "name": "@sabaki/shudan-goban",
   "version": "0.0.1-beta",
-  "description": "A preact Goban component.",
+  "description": "A highly customizable Preact Goban component.",
   "main": "./src/main.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SabakiHQ/preact-goban.git"
+    "url": "git+https://github.com/SabakiHQ/shudan-goban.git"
   },
   "keywords": [
     "go",
@@ -15,14 +15,15 @@
     "boardgame",
     "ui",
     "component",
-    "preact"
+    "preact",
+    "react"
   ],
   "author": "Yichuan Shen",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/SabakiHQ/preact-goban/issues"
+    "url": "https://github.com/SabakiHQ/shudan-goban/issues"
   },
-  "homepage": "https://github.com/SabakiHQ/preact-goban",
+  "homepage": "https://github.com/SabakiHQ/shudan-goban",
   "peerDependencies": {
     "preact": "8.x"
   },
