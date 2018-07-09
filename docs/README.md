@@ -64,20 +64,20 @@ Shudan only uses `<div>` and `<span>` elements with class names prefixed with `s
 
 ~~~css
 .shudan-goban {
-    --board-border-width: .25em;
-    --board-border-color: #CA933A;
+    --shudan-board-border-width: .25em;
+    --shudan-board-border-color: #CA933A;
 
-    --board-background-image: url('./board.png');
-    --board-background-color: #EBB55B;
-    --board-foreground-color: #5E2E0C;
+    --shudan-board-background-image: url('./board.png');
+    --shudan-board-background-color: #EBB55B;
+    --shudan-board-foreground-color: #5E2E0C;
 
-    --black-background-image: url('./stone_1.png');
-    --black-background-color: #222;
-    --black-foreground-color: #eee;
+    --shudan-black-background-image: url('./stone_1.png');
+    --shudan-black-background-color: #222;
+    --shudan-black-foreground-color: #eee;
 
-    --white-background-image: url('./stone_-1.png');
-    --white-background-color: #fff;
-    --white-foreground-color: #222;
+    --shudan-white-background-image: url('./stone_-1.png');
+    --shudan-white-background-color: #fff;
+    --shudan-white-foreground-color: #222;
 }
 ~~~
 
