@@ -111,9 +111,11 @@ All props are optional. The following props are supported:
 
   Determines whether component is busy. When busy, no user input are accepted.
 
-- `vertexSize` `<integer>` - Default: `24`
+- `vertexSize` `<number | string>` - Default: `24`
 
-  The width and height of a single vertex in pixels. Adjust this prop to change the size of the component.
+  The width and height of a single vertex as a pixel number or CSS size string. Adjust this prop to change the size of the component.
+
+  If you want to specify a maximum width and height instead, use the [`BoundedGoban`](#boundedgoban-component) component.
 
 - `rangeX` `<[<integer>, <integer>]>` - Default: `[0, Infinity]`
 
@@ -247,3 +249,7 @@ All props are optional. The following props are supported:
 
   1. `evt` - The original mouse event
   2. `vertex` [`<Vertex>`](#vertex-representation)
+
+### `BoundedGoban` Component
+
+Supports all props of `Goban`, but instead of `vertexSize`, you have to specify `maxWidth` and `maxHeight` to control the size of the board.
