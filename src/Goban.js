@@ -70,8 +70,6 @@ class Goban extends Component {
 
         return h('div',
             Object.assign({}, innerProps, {
-                ref: el => this.element = el,
-
                 id: this.props.id,
                 className: classnames('shudan-goban', {
                     'shudan-busy': busy,
