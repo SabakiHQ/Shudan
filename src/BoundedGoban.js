@@ -19,7 +19,7 @@ class BoundedGoban extends Component {
         let {maxWidth, maxHeight} = this.props
         let {offsetWidth, offsetHeight} = this.element
         let scale = Math.min(maxWidth / offsetWidth, maxHeight / offsetHeight)
-        let vertexSize = Math.floor(this.state.vertexSize * scale)
+        let vertexSize = Math.max(Math.floor(this.state.vertexSize * scale), 1)
 
         if (this.state.vertexSize !== vertexSize) {
             this.setState({vertexSize})
