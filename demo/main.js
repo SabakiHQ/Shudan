@@ -1,5 +1,5 @@
 const {h, render, Component} = require('preact')
-const Goban = require('..')
+const {Goban} = require('..')
 
 const chineseCoord = [
     '一', '二', '三', '四', '五', '六', '七', '八', '九', '十',

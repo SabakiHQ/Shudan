@@ -1,3 +1,3 @@
 const Goban = require('./Goban')
 
-module.exports = Goban
+module.exports = {Goban}

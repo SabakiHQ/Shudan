@@ -18,10 +18,10 @@ To use this module, require it as follows:
 
 ~~~js
 const {h} = require('preact')
-const Shudan = require('@sabaki/shudan-goban')
+const {Goban} = require('@sabaki/shudan-goban')
 
 const CustomComponent = props => (
-    <Shudan
+    <Goban
         vertexSize={24}
         signMap={props.signMap}
     />
@@ -83,9 +83,11 @@ Shudan only uses `<div>` and `<span>` elements with class names prefixed with `s
 
 ## API Reference
 
+### `Goban` Component
+
 All props are optional. The following props are supported:
 
-### DOM Props
+#### DOM Props
 
 - `id` `<string>`
 
@@ -103,7 +105,7 @@ All props are optional. The following props are supported:
 
   Applies other props to the container element.
 
-### Board Props
+#### Board Props
 
 - `busy` `<boolean>` - Default: `false`
 
@@ -121,7 +123,7 @@ All props are optional. The following props are supported:
 
   Only vertices with `y` value inside this range are displayed.
 
-### Coordinates Props
+#### Coordinates Props
 
 - `showCoordinates` `<boolean>` - Default: `false`
 
@@ -135,7 +137,7 @@ All props are optional. The following props are supported:
 
   A function that determines coordinate label by `y` value of a vertex.
 
-### Behavior Props
+#### Behavior Props
 
 - `fuzzyStonePlacement` `<boolean>` - Default: `false`
 
@@ -145,7 +147,7 @@ All props are optional. The following props are supported:
 
   When set to `true`, stones that are added to the board will slide into place, adjusting nearby stones if necessary. Only works if `fuzzyStonePlacement` is set to `true`. Only triggers animation if `signMap` prop updates with a new object.
 
-### Map Props
+#### Map Props
 
 - `signMap` `<Map<integer>>`
 
@@ -199,7 +201,7 @@ All props are optional. The following props are supported:
 
   A [`map`](#board-representation) consisting of integers from `0` to `9`, representing the importance of certain vertices.
 
-### Vertex Specific Props
+#### Vertex Specific Props
 
 - `selectedVertices` `<Array<Vertex>>` - Default: `[]`
 
@@ -223,7 +225,7 @@ All props are optional. The following props are supported:
 
   Shudan provides default styles for `'line'` and `'arrow'` types.
 
-### Event Props
+#### Event Props
 
 - `onVertexMouseUp` `<Function>`
 
