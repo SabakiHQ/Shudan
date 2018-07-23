@@ -79,7 +79,6 @@ class Goban extends Component {
                 }) + ' ' + (this.props.class || this.props.className || ''),
 
                 style: Object.assign({
-                    display: 'inline-grid',
                     gridTemplateRows: showCoordinates ? '1em 1fr 1em' : '1fr',
                     gridTemplateColumns: showCoordinates ? '1em 1fr 1em' : '1fr',
                     fontSize: vertexSize,

@@ -14,6 +14,7 @@
         --shudan-white-background-color: #fff;
         --shudan-white-foreground-color: #222;
 
+        display: inline-grid;
         position: relative;
         border: var(--shudan-board-border-width) solid var(--shudan-board-border-color);
         background: var(--shudan-board-background-image), var(--shudan-board-background-color);
