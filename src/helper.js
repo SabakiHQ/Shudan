@@ -71,11 +71,15 @@ exports.diffSignMap = function(before, after) {
 
     for (let y = 0; y < before.length; y++) {
         for (let x = 0; x < before[0].length; x++) {
-            if (before[y][x] === 0
-            && after[y] != null && after[y][x] != null && after[y][x] !== 0) {
+            if (
+                before[y][x] === 0
+                && after[y] != null && after[y][x] != null && after[y][x] !== 0
+            ) {
                 result.push([x, y])
-            } else if (before[y][x] !== 0
-            && (after[y] == null || after[y][x] == null || after[y][x] === 0)) {
+            } else if (
+                before[y][x] !== 0
+                && (after[y] == null || after[y][x] == null || after[y][x] === 0)
+            ) {
                 return []
             }
         }

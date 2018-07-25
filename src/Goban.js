@@ -18,9 +18,11 @@ class Goban extends Component {
     }
 
     componentDidUpdate() {
-        if (this.props.animateStonePlacement
-        && !this.clearAnimatedVerticesHandler
-        && this.state.animatedVertices.length > 0) {
+        if (
+            this.props.animateStonePlacement
+            && !this.clearAnimatedVerticesHandler
+            && this.state.animatedVertices.length > 0
+        ) {
             // Handle stone animation
 
             for (let [x, y] of this.state.animatedVertices) {
@@ -211,7 +213,10 @@ Goban.getDerivedStateFromProps = function(props, state) {
             animatedVertices
         }
 
-        if (!helper.vertexEquals(state.rangeX, rangeX) || !helper.vertexEquals(state.rangeY, rangeY)) {
+        if (
+            !helper.vertexEquals(state.rangeX, rangeX)
+            || !helper.vertexEquals(state.rangeY, rangeY)
+        ) {
             // Range changed
 
             Object.assign(result, {

@@ -30,7 +30,10 @@ BoundedGoban.getDerivedStateFromProps = function(props, state) {
             maxWidth: null,
             maxHeight: null
         }
-    } else if (props.maxWidth !== state.maxWidth || props.maxHeight !== state.maxHeight) {
+    } else if (
+        props.maxWidth !== state.maxWidth
+        || props.maxHeight !== state.maxHeight
+    ) {
         return {
             vertexSize: 1,
             visibility: 'hidden',
