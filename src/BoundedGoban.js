@@ -5,41 +5,46 @@ class BoundedGoban extends Component {
     constructor(props) {
         super(props)
 
-        this.state = BoundedGoban.getDerivedStateFromProps(props)
+        this.state = {
+            vertexSize: 1,
+            visibility: 'hidden'
+        }
     }
 
-    componentWillReceiveProps(props) {
-        this.setState(BoundedGoban.getDerivedStateFromProps(props, this.state))
+    componentDidMount() {
+        this.componentDidUpdate()
+    }
+
+    componentDidUpdate() {
+        let {maxWidth, maxHeight} = this.props
+        let {offsetWidth, offsetHeight} = this.element
+        let scale = Math.min(maxWidth / offsetWidth, maxHeight / offsetHeight)
+        let vertexSize = Math.max(Math.floor(this.state.vertexSize * scale), 1)
+
+        if (this.state.vertexSize !== vertexSize) {
+            this.setState({vertexSize})
+        }
+
+        if (this.state.visibility !== 'visible') {
+            this.setState({visibility: 'visible'})
+        }
     }
 
     render() {
+        let {innerProps = {}, style = {}} = this.props
+        let {ref: innerRef = () => {}} = innerProps
+
         return h(Goban, Object.assign(this.props, {
-            style: Object.assign({}, this.props.style, {
-                visibility: this.state.visibility
+            innerProps: Object.assign({}, innerProps, {
+                ref: el => (innerRef(el), this.element = el),
             }),
+
+            style: Object.assign({
+                visibility: this.state.visibility
+            }, style),
+
             vertexSize: this.state.vertexSize
         }))
-    }
-}
-
-BoundedGoban.getDerivedStateFromProps = function(props, state) {
-    if (state == null) {
-        return {
-            vertexSize: 1,
-            visibility: 'hidden',
-            maxWidth: null,
-            maxHeight: null
-        }
-    } else if (
-        props.maxWidth !== state.maxWidth
-        || props.maxHeight !== state.maxHeight
-    ) {
-        return {
-            vertexSize: 1,
-            visibility: 'hidden',
-            maxWidth: props.maxWidth,
-            maxHeight: props.maxHeight
-        }
     }
 }
 

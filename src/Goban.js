@@ -72,8 +72,6 @@ class Goban extends Component {
 
         return h('div',
             Object.assign({}, innerProps, {
-                ref: el => this.element = el,
-
                 id: this.props.id,
                 className: classnames('shudan-goban', {
                     'shudan-busy': busy,
@@ -197,7 +195,6 @@ Goban.getDerivedStateFromProps = function(props, state) {
         rangeY = [0, Infinity]
     } = props
 
-    let stringifiedSignMap = JSON.stringify(signMap)
     let width = signMap.length === 0 ? 0 : signMap[0].length
     let height = signMap.length
 
@@ -205,11 +202,11 @@ Goban.getDerivedStateFromProps = function(props, state) {
         let animatedVertices = state.animatedVertices
 
         if (props.animateStonePlacement && props.fuzzyStonePlacement) {
-            animatedVertices = helper.diffSignMap(JSON.parse(state.stringifiedSignMap), signMap)
+            animatedVertices = helper.diffSignMap(state.signMap, signMap)
         }
 
         let result = {
-            stringifiedSignMap,
+            signMap,
             animatedVertices
         }
 
@@ -233,7 +230,7 @@ Goban.getDerivedStateFromProps = function(props, state) {
     // Board size changed
 
     return {
-        stringifiedSignMap,
+        signMap,
         width,
         height,
         rangeX,
