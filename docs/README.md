@@ -252,7 +252,17 @@ All props are optional. The following props are supported:
 
 ### `BoundedGoban` Component
 
-Supports all props of `Goban`, but instead of `vertexSize`, you have to specify `maxWidth` and `maxHeight` to control the size of the board. Additionally, we have the following events:
+Supports all props of `Goban`, but instead of `vertexSize`, you have to specify `maxWidth` and `maxHeight` to control the size of the board.
+
+#### Board Props
+
+- `maxWidth` `<number>`
+
+  The maximum width in pixels of the Goban.
+
+- `maxHeight` `<number>`
+
+  The maximum height in pixels of the Goban.
 
 #### Event Props
 
