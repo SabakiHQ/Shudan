@@ -16,13 +16,13 @@ class BoundedGoban extends Component {
     }
 
     componentDidUpdate() {
-        let {maxWidth, maxHeight} = this.props
+        let {maxWidth, maxHeight, onResized = () => {}} = this.props
         let {offsetWidth, offsetHeight} = this.element
         let scale = Math.min(maxWidth / offsetWidth, maxHeight / offsetHeight)
         let vertexSize = Math.max(Math.floor(this.state.vertexSize * scale), 1)
 
         if (this.state.vertexSize !== vertexSize) {
-            this.setState({vertexSize})
+            this.setState({vertexSize}, onResized)
         }
 
         if (this.state.visibility !== 'visible') {

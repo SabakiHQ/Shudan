@@ -252,4 +252,10 @@ All props are optional. The following props are supported:
 
 ### `BoundedGoban` Component
 
-Supports all props of `Goban`, but instead of `vertexSize`, you have to specify `maxWidth` and `maxHeight` to control the size of the board.
+Supports all props of `Goban`, but instead of `vertexSize`, you have to specify `maxWidth` and `maxHeight` to control the size of the board. Additionally, we have the following events:
+
+#### Event Props
+
+- `onResized` `<Function>`
+
+  This function will be called when the component has finished resizing.
