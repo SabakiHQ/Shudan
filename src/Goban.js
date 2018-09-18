@@ -20,7 +20,7 @@ class Goban extends Component {
     componentDidUpdate() {
         if (
             this.props.animateStonePlacement
-            && !this.clearAnimatedVerticesHandler
+            && !this.state.clearAnimatedVerticesHandler
             && this.state.animatedVertices.length > 0
         ) {
             // Handle stone animation
