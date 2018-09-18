@@ -72,10 +72,10 @@
         height: 1px;
         background: var(--shudan-board-foreground-color);
     }
-    .shudan-vertex.shudan-left .shudan-board::before {
+    .shudan-vertex.shudan-left:not(.shudan-right) .shudan-board::before {
         left: 50%;
     }
-    .shudan-vertex.shudan-right .shudan-board::before {
+    .shudan-vertex.shudan-right:not(.shudan-left) .shudan-board::before {
         width: 50%;
     }
     .shudan-vertex .shudan-board::after {
@@ -88,10 +88,10 @@
         height: 100%;
         background: var(--shudan-board-foreground-color);
     }
-    .shudan-vertex.shudan-top .shudan-board::after {
+    .shudan-vertex.shudan-top:not(.shudan-bottom) .shudan-board::after {
         top: 50%;
     }
-    .shudan-vertex.shudan-bottom .shudan-board::after {
+    .shudan-vertex.shudan-bottom:not(.shudan-top) .shudan-board::after {
         height: calc(50% + 1px);
     }
     .shudan-vertex .shudan-hoshi {
