@@ -313,7 +313,7 @@
         top: 50%;
         width: .4em;
         height: .4em;
-        opacity: .6;
+        opacity: .5;
         transform: translate(calc(-50% + .5px), calc(-50% + .5px));
     }
     .shudan-vertex .shudan-ghost::before {
@@ -329,7 +329,7 @@
         transform: translate(-50%, -50%);
     }
     .shudan-vertex.shudan-ghost_faint .shudan-ghost {
-        opacity: .35;
+        opacity: .3;
     }
     .shudan-vertex.shudan-sign_0.shudan-ghost_1 .shudan-ghost::before,
     .shudan-vertex.shudan-sign_0.shudan-ghost_-1 .shudan-ghost::before {
