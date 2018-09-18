@@ -34,10 +34,14 @@ class Goban extends Component {
 
             // Clear animation classes
 
-            this.clearAnimatedVerticesHandler = setTimeout(() => {
-                this.setState({animatedVertices: []})
-                this.clearAnimatedVerticesHandler = null
-            }, this.props.animationDuration || 200)
+            this.setState({
+                clearAnimatedVerticesHandler: setTimeout(() => {
+                    this.setState({
+                        animatedVertices: [],
+                        clearAnimatedVerticesHandler: null
+                    })
+                }, this.props.animationDuration || 200)
+            })
         }
     }
 
@@ -201,7 +205,7 @@ Goban.getDerivedStateFromProps = function(props, state) {
     if (state && state.width === width && state.height === height) {
         let animatedVertices = state.animatedVertices
 
-        if (props.animateStonePlacement && props.fuzzyStonePlacement) {
+        if (props.animateStonePlacement && props.fuzzyStonePlacement && state.clearAnimatedVerticesHandler == null) {
             animatedVertices = helper.diffSignMap(state.signMap, signMap)
         }
 
@@ -236,6 +240,7 @@ Goban.getDerivedStateFromProps = function(props, state) {
         rangeX,
         rangeY,
         animatedVertices: [],
+        clearAnimatedVerticesHandler: null,
         xs: helper.range(width).slice(rangeX[0], rangeX[1] + 1),
         ys: helper.range(height).slice(rangeY[0], rangeY[1] + 1),
         hoshis: helper.getHoshis(width, height),
