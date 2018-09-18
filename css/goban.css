@@ -2,22 +2,19 @@
         --shudan-board-border-width: .25em;
         --shudan-board-border-color: #CA933A;
 
-        --shudan-board-background-image: url('./board.png');
         --shudan-board-background-color: #EBB55B;
         --shudan-board-foreground-color: #5E2E0C;
 
-        --shudan-black-background-image: url('./stone_1.png');
         --shudan-black-background-color: #222;
         --shudan-black-foreground-color: #eee;
 
-        --shudan-white-background-image: url('./stone_-1.png');
         --shudan-white-background-color: #fff;
         --shudan-white-foreground-color: #222;
 
         display: inline-grid;
         position: relative;
         border: var(--shudan-board-border-width) solid var(--shudan-board-border-color);
-        background: var(--shudan-board-background-image), var(--shudan-board-background-color);
+        background: url('./board.png') var(--shudan-board-background-color);
         color: var(--shudan-board-foreground-color);
     }
     .shudan-goban:not(.shudan-coordinates) {
@@ -127,10 +124,10 @@
         box-shadow: 0 .1em .2em rgba(23, 10, 2, .4);
     }
     .shudan-vertex.shudan-sign_1 .shudan-inner {
-        background-image: var(--shudan-black-background-image);
+        background-image: url('./stone_1.png');
     }
     .shudan-vertex.shudan-sign_-1 .shudan-inner {
-        background-image: var(--shudan-white-background-image);
+        background-image: url('./stone_-1.png');
 }
 
 /* Fuzzy stone placement */
@@ -179,7 +176,7 @@
         left: 50%;
         top: 50%;
         border: .07em solid var(--shudan-board-foreground-color);
-        background: var(--shudan-board-background-image), var(--shudan-board-background-color);
+        background: var(--shudan-board-background-color);
         transform: translate(-50%, -50%);
     }
     .shudan-vertex.shudan-sign_1 .shudan-marker::before,
@@ -242,7 +239,7 @@
         height: .7em;
         left: 50%;
         top: 50%;
-        background: var(--shudan-board-background-image), var(--shudan-board-background-color);
+        background: var(--shudan-board-background-color);
         transform: translate(-50%, -50%);
     }
     .shudan-vertex.shudan-marker_cross.shudan-sign_1 .shudan-marker,
