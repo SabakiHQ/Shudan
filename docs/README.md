@@ -246,7 +246,7 @@ All props are optional. The following props are supported:
   }
   ~~~
 
-  Shudan provides styles for `strength` between `1` and `9`.
+  Shudan provides styles for `strength` between `0` and `9`.
 
 #### Vertex Specific Props
 
