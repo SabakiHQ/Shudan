@@ -60,24 +60,60 @@ Board positions are represented by a **vertex**, i.e. an array of the form `[x, 
 
 ### Styling
 
-Shudan only uses `<div>` and `<span>` elements with class names prefixed with `shudan-`. You can override Shudan's default CSS variables to change basic images and colors:
+Shudan only uses `<div>` and `<span>` elements with class names prefixed with `shudan-`. Override the background image for certain classes to customize the appearance:
+
+~~~css
+.shudan-goban {
+    /* Board texture */
+    background-image: url('./board.png');
+}
+
+.shudan-vertex.shudan-sign_1 .shudan-inner {
+    /* Black stone */
+    background-image: url('./black_stone.png');
+}
+
+.shudan-vertex.shudan-sign_-1 .shudan-inner {
+    /* White stone */
+    background-image: url('./white_stone.png');
+}
+~~~
+
+Also override Shudan's default CSS variables to adjust the colors:
 
 ~~~css
 .shudan-goban {
     --shudan-board-border-width: .25em;
     --shudan-board-border-color: #CA933A;
 
-    --shudan-board-background-image: url('./board.png');
     --shudan-board-background-color: #EBB55B;
     --shudan-board-foreground-color: #5E2E0C;
 
-    --shudan-black-background-image: url('./stone_1.png');
     --shudan-black-background-color: #222;
     --shudan-black-foreground-color: #eee;
 
-    --shudan-white-background-image: url('./stone_-1.png');
     --shudan-white-background-color: #fff;
     --shudan-white-foreground-color: #222;
+}
+~~~
+
+Shudan adds random classes `.shudan-random_{n}` where `n = 0,...,4` to `.shudan-vertex`. Say, you have white shell stone images with different shell patterns. You can use the random classes to randomly assign a different pattern to each stone:
+
+~~~css
+.shudan-vertex.shudan-sign_-1 .shudan-inner {
+        background-image: url('white_stone_1.png');
+    }
+    .shudan-vertex.shudan-sign_-1.shudan-random_1 .shudan-inner {
+        background-image: url('white_stone_2.png');
+    }
+    .shudan-vertex.shudan-sign_-1.shudan-random_2 .shudan-inner {
+        background-image: url('white_stone_3.png');
+    }
+    .shudan-vertex.shudan-sign_-1.shudan-random_3 .shudan-inner {
+        background-image: url('white_stone_4.png');
+    }
+    .shudan-vertex.shudan-sign_-1.shudan-random_4 .shudan-inner {
+        background-image: url('white_stone_5.png');
 }
 ~~~
 

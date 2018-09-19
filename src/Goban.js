@@ -245,7 +245,7 @@ Goban.getDerivedStateFromProps = function(props, state) {
         ys: helper.range(height).slice(rangeY[0], rangeY[1] + 1),
         hoshis: helper.getHoshis(width, height),
         shiftMap: helper.readjustShifts(signMap.map(row => row.map(_ => helper.random(8)))),
-        randomMap: signMap.map(row => row.map(_ => helper.random(5)))
+        randomMap: signMap.map(row => row.map(_ => helper.random(4)))
     }
 }
 
