@@ -1,9 +1,9 @@
 const {h, Component} = require('preact')
-const helper = require('./helper')
+const {alpha} = require('./helper')
 
 class CoordX extends Component {
     render() {
-        let {style, xs, coordX = i => helper.alpha[i]} = this.props
+        let {style, xs, coordX = i => alpha[i] || alpha[alpha.length - 1]} = this.props
 
         return h('div',
             {
