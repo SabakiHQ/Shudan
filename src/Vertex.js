@@ -40,7 +40,7 @@ class Vertex extends Component {
                     `shudan-sign_${sign}`,
                     {
                         [`shudan-shift_${shift}`]: !!shift,
-                        [`shudan-heat_${heat}`]: !!heat,
+                        [`shudan-heat_${!!heat && heat.strength}`]: !!heat,
                         [`shudan-paint_${paint}`]: !!paint,
                         'shudan-dimmed': dimmed,
                         'shudan-selected': selected,
@@ -81,7 +81,13 @@ class Vertex extends Component {
             !sign && !!ghostStone && h('div', {key: 'ghost', className: 'shudan-ghost', style: absoluteStyle(4)}),
             !!paint && h('div', {key: 'paint', className: 'shudan-paint', style: absoluteStyle(5)}),
             !!selected && h('div', {key: 'selection', className: 'shudan-selection', style: absoluteStyle(6)}),
-            h('div', {key: 'heat', className: 'shudan-heat', style: absoluteStyle(7)})
+
+            h('div', {key: 'heat', className: 'shudan-heat', style: absoluteStyle(7)}),
+            !!heat && h('div', {
+                key: 'heatlabel',
+                className: 'shudan-heatlabel',
+                style: absoluteStyle(8)
+            }, heat.text)
         )
     }
 }

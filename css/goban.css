@@ -376,46 +376,71 @@
         border-radius: 50%;
         width: 1px;
         height: 1px;
-        background: red;
         opacity: 0;
         pointer-events: none;
         transition: opacity .5s, box-shadow .5s;
     }
     .shudan-vertex.shudan-heat_9 .shudan-heat {
-        box-shadow: 0 0 1em 1em red;
+        background: #59A80F;
+        box-shadow: 0 0 1em 1em #59A80F;
         opacity: .8;
     }
     .shudan-vertex.shudan-heat_8 .shudan-heat {
-        box-shadow: 0 0 1em .9em red;
-        opacity: .8;
+        background: #59A80F;
+        box-shadow: 0 0 1em .9em #59A80F;
+        opacity: .7;
     }
     .shudan-vertex.shudan-heat_7 .shudan-heat {
-        box-shadow: 0 0 1em .75em red;
+        background: #4886D5;
+        box-shadow: 0 0 1em .75em #4886D5;
         opacity: .8;
     }
     .shudan-vertex.shudan-heat_6 .shudan-heat {
-        box-shadow: 0 0 1em .6em red;
-        opacity: .75;
+        background: #4886D5;
+        box-shadow: 0 0 1em .6em #4886D5;
+        opacity: .8;
     }
     .shudan-vertex.shudan-heat_5 .shudan-heat {
-        box-shadow: 0 0 .9em .55em red;
+        background: #4886D5;
+        box-shadow: 0 0 .9em .55em #4886D5;
         opacity: .7;
     }
     .shudan-vertex.shudan-heat_4 .shudan-heat {
-        box-shadow: 0 0 .85em .5em red;
-        opacity: .65;
+        background: #92278F;
+        box-shadow: 0 0 .85em .5em #92278F;
+        opacity: .8;
     }
     .shudan-vertex.shudan-heat_3 .shudan-heat {
-        box-shadow: 0 0 .8em .45em red;
-        opacity: .6;
+        background: #92278F;
+        box-shadow: 0 0 .8em .45em #92278F;
+        opacity: .7;
     }
     .shudan-vertex.shudan-heat_2 .shudan-heat {
-        box-shadow: 0 0 .75em .4em red;
-        opacity: .55;
+        background: #F02311;
+        box-shadow: 0 0 .75em .4em #F02311;
+        opacity: .8;
     }
     .shudan-vertex.shudan-heat_1 .shudan-heat {
-        box-shadow: 0 0 .7em .35em red;
-        opacity: .5;
+        background: #F02311;
+        box-shadow: 0 0 .75em .4em #F02311;
+        opacity: .7;
+}
+
+.shudan-vertex .shudan-heatlabel {
+    display: inline-block;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    overflow: hidden;
+    color: white;
+    font-size: .36em;
+    line-height: 1.1;
+    text-align: center;
+    text-overflow: ellipsis;
+    text-shadow: 0 0 .2em var(--shudan-board-foreground-color);
+    opacity: .9;
+    transform: translate(-50%, -50%);
+    white-space: pre;
 }
 
 /* Selection */

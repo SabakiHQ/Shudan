@@ -235,9 +235,18 @@ All props are optional. The following props are supported:
   - `'doubtful'`
   - `'bad'`
 
-- `heatMap` `<Map<integer>>`
+- `heatMap` `<Map<null | Object>>`
 
-  A [`map`](#board-representation) consisting of integers from `0` to `9`, representing the importance of certain vertices.
+  A [`map`](#board-representation) consisting of objects of the following form:
+
+  ~~~js
+  {
+      strength: <integer>,
+      text?: <string> | null
+  }
+  ~~~
+
+  Shudan provides styles for `strength` between `1` and `9`.
 
 #### Vertex Specific Props
 
