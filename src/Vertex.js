@@ -87,7 +87,7 @@ class Vertex extends Component {
                 key: 'heatlabel',
                 className: 'shudan-heatlabel',
                 style: absoluteStyle(8)
-            }, heat.text)
+            }, heat.text.toString())
         )
     }
 }

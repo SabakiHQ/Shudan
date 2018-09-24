@@ -437,10 +437,11 @@
     line-height: 1.1;
     text-align: center;
     text-overflow: ellipsis;
-    text-shadow: 0 0 .2em var(--shudan-board-foreground-color);
+    text-shadow: 0 .1em .3em black;
+    white-space: pre;
     opacity: .9;
     transform: translate(-50%, -50%);
-    white-space: pre;
+    pointer-events: none;
 }
 
 /* Selection */
