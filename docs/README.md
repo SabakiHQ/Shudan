@@ -250,15 +250,15 @@ All props are optional. The following props are supported:
 
 #### Vertex Specific Props
 
-- `selectedVertices` `<Array<Vertex>>` - Default: `[]`
+- `selectedVertices` `<Vertex[]>` - Default: `[]`
 
   An array of [vertices](#vertex-representation) which should be in a selected state.
 
-- `dimmedVertices` `<Array<Vertex>>` - Default: `[]`
+- `dimmedVertices` `<Vertex[]>` - Default: `[]`
 
   An array of [vertices](#vertex-representation) which should be dimmed.
 
-- `lines` `<Array<Object>>` - Default: `[]`
+- `lines` `<Object[]>` - Default: `[]`
 
   An array of objects of the following form:
 
