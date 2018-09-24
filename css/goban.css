@@ -335,10 +335,10 @@
         display: block;
     }
     .shudan-vertex.shudan-ghost_1 .shudan-ghost::before {
-        background: var(--shudan-black-background-color);
+        background: black;
     }
     .shudan-vertex.shudan-ghost_-1 .shudan-ghost::before {
-        background: var(--shudan-white-background-color);
+        background: white;
     }
     .shudan-vertex.shudan-ghost_good .shudan-ghost::before {
         background: #59A80F;
