@@ -11,7 +11,7 @@ The Shudan Goban is the Goban component that powers [Sabaki](https://sabaki.yich
 Use npm to install:
 
 ~~~
-$ npm install @sabaki/shudan-goban
+$ npm install @sabaki/shudan
 ~~~
 
 To use this module, require it as follows:
