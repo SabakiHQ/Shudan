@@ -1,11 +1,11 @@
 {
-  "name": "@sabaki/shudan-goban",
+  "name": "@sabaki/shudan",
   "version": "0.0.5-beta",
   "description": "A highly customizable Preact Goban component.",
   "main": "./src/main.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SabakiHQ/shudan-goban.git"
+    "url": "git+https://github.com/SabakiHQ/Shudan.git"
   },
   "keywords": [
     "go",
@@ -21,9 +21,9 @@
   "author": "Yichuan Shen",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/SabakiHQ/shudan-goban/issues"
+    "url": "https://github.com/SabakiHQ/Shudan/issues"
   },
-  "homepage": "https://github.com/SabakiHQ/shudan-goban",
+  "homepage": "https://github.com/SabakiHQ/Shudan",
   "peerDependencies": {
     "preact": "8.x"
   },

@@ -26,8 +26,8 @@ See [documentation](./docs/README.md).
 Make sure you have Node.js v8 and npm installed. First, clone this repository via Git, then install all dependencies with npm:
 
 ~~~
-$ git clone https://github.com/SabakiHQ/shudan-goban
-$ cd shudan-goban
+$ git clone https://github.com/SabakiHQ/Shudan
+$ cd Shudan
 $ npm install
 ~~~
 

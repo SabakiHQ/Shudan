@@ -18,7 +18,7 @@ To use this module, require it as follows:
 
 ~~~js
 const {h} = require('preact')
-const {Goban} = require('@sabaki/shudan-goban')
+const {Goban} = require('@sabaki/shudan')
 
 const CustomComponent = props => (
     <Goban
