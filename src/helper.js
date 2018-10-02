@@ -1,4 +1,8 @@
 exports.alpha = 'ABCDEFGHJKLMNOPQRSTUVWXYZ'
+exports.vertexEvents = [
+    'Click', 'MouseDown', 'MouseUp',
+    'MouseMove', 'MouseEnter', 'MouseLeave'
+]
 
 exports.range = n => [...Array(n)].map((_, i) => i)
 exports.random = n => Math.floor(Math.random() * (n + 1))

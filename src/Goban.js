@@ -124,7 +124,7 @@ class Goban extends Component {
                     ys.map(y => xs.map(x => {
                         let equalsVertex = v => helper.vertexEquals(v, [x, y])
 
-                        return h(Vertex, {
+                        return h(Vertex, Object.assign({
                             key: [x, y].join('-'),
 
                             position: [x, y],
@@ -145,11 +145,9 @@ class Goban extends Component {
                             selected: selectedVertices.some(equalsVertex),
                             hoshi: hoshis.some(equalsVertex),
                             animate: animatedVertices.some(equalsVertex),
-
-                            onMouseUp: this.props.onVertexMouseUp,
-                            onMouseDown: this.props.onVertexMouseDown,
-                            onMouseMove: this.props.onVertexMouseMove
-                        })
+                        }, ...helper.vertexEvents.map(e => ({
+                            [`on${e}`]: this.props[`onVertex${e}`]
+                        }))))
                     }))
                 ),
 

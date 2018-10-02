@@ -1,5 +1,6 @@
 const {h, Component} = require('preact')
 const classnames = require('classnames')
+const {vertexEvents} = require('./helper')
 
 const absoluteStyle = zIndex => ({
     position: 'absolute',
@@ -10,16 +11,12 @@ class Vertex extends Component {
     constructor(props) {
         super(props)
 
-        let generateMouseHandler = prop => {
-            return evt => {
-                let handler = this.props[prop] || (() => {})
+        for (let e of vertexEvents) {
+            this[`handle${e}`] = evt => {
+                let handler = this.props[`on${e}`] || (() => {})
                 handler(evt, this.props.position)
             }
         }
-
-        this.handleMouseDown = generateMouseHandler('onMouseDown')
-        this.handleMouseUp = generateMouseHandler('onMouseUp')
-        this.handleMouseMove = generateMouseHandler('onMouseMove')
     }
 
     render() {
@@ -27,7 +24,7 @@ class Vertex extends Component {
             paint, dimmed, hoshi, marker, ghostStone, animate} = this.props
 
         return h('div',
-            {
+            Object.assign({
                 style: {
                     position: 'relative'
                 },
@@ -56,12 +53,10 @@ class Vertex extends Component {
                     ghostStone && `shudan-ghost_${ghostStone.sign}`,
                     ghostStone && ghostStone.type && `shudan-ghost_${ghostStone.type}`,
                     ghostStone && ghostStone.faint && `shudan-ghost_faint`
-                ),
-
-                onMouseDown: this.handleMouseDown,
-                onMouseUp: this.handleMouseUp,
-                onMouseMove: this.handleMouseMove
-            },
+                )
+            }, ...vertexEvents.map(e => ({
+                [`on${e}`]: this[`handle${e}`]
+            }))),
 
             h('div', {key: 'board', className: 'shudan-board', style: absoluteStyle(1)}),
             hoshi && h('div', {key: 'hoshi', className: 'shudan-hoshi', style: absoluteStyle(2)}),
