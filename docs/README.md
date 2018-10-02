@@ -274,26 +274,17 @@ All props are optional. The following props are supported:
 
 #### Event Props
 
+- `onVertexClick` `<Function>`
 - `onVertexMouseUp` `<Function>`
-
-  This function will be called when a pointing device button is released over a vertex. It will be called with two arguments:
-
-  1. `evt` - The original mouse event
-  2. `vertex` [`<Vertex>`](#vertex-representation)
-
 - `onVertexMouseDown` `<Function>`
-
-  This function will be called when a pointing device button is pressed on a vertex. It will be called with two arguments:
-
-  1. `evt` - The original mouse event
-  2. `vertex` [`<Vertex>`](#vertex-representation)
-
 - `onVertexMouseMove` `<Function>`
+- `onVertexMouseEnter` `<Function>`
+- `onVertexMouseLeave` `<Function>`
 
-  This function will be called when a pointing device button is moved while over a vertex. It will be called with two arguments:
+These functions will be called when the corresponding event is emitted on a vertex. It will be called with two arguments:
 
-  1. `evt` - The original mouse event
-  2. `vertex` [`<Vertex>`](#vertex-representation)
+1. `evt` - The original event
+2. `vertex` [`<Vertex>`](#vertex-representation)
 
 ### `BoundedGoban` Component
 
