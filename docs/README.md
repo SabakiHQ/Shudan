@@ -129,7 +129,7 @@ All props are optional. The following props are supported:
 
   Sets the `id` attribute of the container element.
 
-- `className` `<string>`
+- `class`/`className` `<string>`
 
   Adds the specified classes to Shudan's own classes to the container element.
 
