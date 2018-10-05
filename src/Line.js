@@ -1,5 +1,4 @@
-const {h, Component} = require('preact')
-const classnames = require('classnames')
+const {createElement: h, Component} = require('preact')
 const {vertexEquals} = require('./helper')
 
 class Line extends Component {

@@ -1,4 +1,4 @@
-const {h, Component} = require('preact')
+const {createElement: h, Component} = require('preact')
 const {alpha} = require('./helper')
 
 class CoordX extends Component {

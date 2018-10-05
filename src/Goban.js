@@ -1,4 +1,4 @@
-const {h, Component} = require('preact')
+const {createElement: h, Component} = require('preact')
 const classnames = require('classnames')
 
 const helper = require('./helper')
