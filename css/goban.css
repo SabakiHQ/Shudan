@@ -294,14 +294,14 @@
         max-width: 1.67em;
         overflow: hidden;
         font-size: .6em;
-        line-height: 1.1;
+        line-height: 1.26;
         text-align: center;
         text-overflow: ellipsis;
         white-space: pre;
     }
     .shudan-vertex.shudan-smalllabel .shudan-marker::before {
-        max-height: 2.2em;
-        max-width: 2.2em;
+        max-height: 2.7em;
+        max-width: 2.7em;
         font-size: .36em;
 }
 
