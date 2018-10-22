@@ -335,7 +335,7 @@
         display: block;
     }
     .shudan-vertex.shudan-ghost_1 .shudan-ghost::before {
-        background: black;
+        background: rgba(0, 0, 0, .8);
     }
     .shudan-vertex.shudan-ghost_-1 .shudan-ghost::before {
         background: white;
