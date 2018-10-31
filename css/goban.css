@@ -117,6 +117,7 @@
     .shudan-vertex .shudan-inner {
         text-indent: -9999rem;
         background-size: 100%;
+        background-repeat: no-repeat;
     }
     .shudan-vertex:not(.shudan-sign_0).shudan-dimmed .shudan-stone {
         opacity: .6;
