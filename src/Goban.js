@@ -77,10 +77,14 @@ class Goban extends Component {
         return h('div',
             Object.assign({}, innerProps, {
                 id: this.props.id,
-                className: classnames('shudan-goban', {
-                    'shudan-busy': busy,
-                    'shudan-coordinates': showCoordinates
-                }) + ' ' + (this.props.class || this.props.className || ''),
+                className: classnames(
+                    'shudan-goban',
+                    'shudan-goban-image',
+                    {
+                        'shudan-busy': busy,
+                        'shudan-coordinates': showCoordinates
+                    }
+                ) + ' ' + (this.props.class || this.props.className || ''),
 
                 style: Object.assign({
                     gridTemplateRows: showCoordinates ? '1em 1fr 1em' : '1fr',

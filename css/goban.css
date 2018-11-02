@@ -14,11 +14,13 @@
         display: inline-grid;
         position: relative;
         border: var(--shudan-board-border-width) solid var(--shudan-board-border-color);
-        background: url('./board.png') var(--shudan-board-background-color);
         color: var(--shudan-board-foreground-color);
     }
     .shudan-goban:not(.shudan-coordinates) {
         padding: .25em;
+    }
+    .shudan-goban-image {
+        background: url('./board.png') var(--shudan-board-background-color);
 }
 
 .shudan-coordx span, .shudan-coordy span {
@@ -116,8 +118,6 @@
     }
     .shudan-vertex .shudan-inner {
         text-indent: -9999rem;
-        background-size: 100%;
-        background-repeat: no-repeat;
     }
     .shudan-vertex:not(.shudan-sign_0).shudan-dimmed .shudan-stone {
         opacity: .6;
@@ -126,10 +126,14 @@
         background: rgba(23, 10, 2, .4);
         box-shadow: 0 .1em .2em rgba(23, 10, 2, .4);
     }
-    .shudan-vertex.shudan-sign_1 .shudan-inner {
+    .shudan-stone-image {
+        background-size: 100%;
+        background-repeat: no-repeat;
+    }
+    .shudan-stone-image.shudan-sign_1 {
         background-image: url('./stone_1.png');
     }
-    .shudan-vertex.shudan-sign_-1 .shudan-inner {
+    .shudan-stone-image.shudan-sign_-1 {
         background-image: url('./stone_-1.png');
 }
 

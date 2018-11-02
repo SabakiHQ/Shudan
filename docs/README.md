@@ -63,17 +63,17 @@ Board positions are represented by a **vertex**, i.e. an array of the form `[x, 
 Shudan only uses `<div>` and `<span>` elements with class names prefixed with `shudan-`. Override the background image for certain classes to customize the appearance:
 
 ~~~css
-.shudan-goban {
+.shudan-goban-image {
     /* Board texture */
     background-image: url('./board.png');
 }
 
-.shudan-vertex.shudan-sign_1 .shudan-inner {
+.shudan-stone-image.shudan-sign_1 {
     /* Black stone */
     background-image: url('./black_stone.png');
 }
 
-.shudan-vertex.shudan-sign_-1 .shudan-inner {
+.shudan-stone-image.shudan-sign_-1 {
     /* White stone */
     background-image: url('./white_stone.png');
 }
@@ -97,22 +97,22 @@ Also override Shudan's default CSS variables to adjust the colors:
 }
 ~~~
 
-Shudan adds random classes `.shudan-random_{n}` where `n = 0,...,4` to `.shudan-vertex`. Say, you have white shell stone images with different shell patterns. You can use the random classes to randomly assign a different pattern to each stone:
+Shudan adds random classes `.shudan-random_{n}` where `n = 0,...,4` to `.shudan-stone-image`. Say, you have white shell stone images with different shell patterns. You can use the random classes to randomly assign a different pattern to each stone:
 
 ~~~css
-.shudan-vertex.shudan-sign_-1 .shudan-inner {
+.shudan-stone-image.shudan-sign_-1 {
         background-image: url('white_stone_1.png');
     }
-    .shudan-vertex.shudan-sign_-1.shudan-random_1 .shudan-inner {
+    .shudan-stone-image.shudan-sign_-1.shudan-random_1 {
         background-image: url('white_stone_2.png');
     }
-    .shudan-vertex.shudan-sign_-1.shudan-random_2 .shudan-inner {
+    .shudan-stone-image.shudan-sign_-1.shudan-random_2 {
         background-image: url('white_stone_3.png');
     }
-    .shudan-vertex.shudan-sign_-1.shudan-random_3 .shudan-inner {
+    .shudan-stone-image.shudan-sign_-1.shudan-random_3 {
         background-image: url('white_stone_4.png');
     }
-    .shudan-vertex.shudan-sign_-1.shudan-random_4 .shudan-inner {
+    .shudan-stone-image.shudan-sign_-1.shudan-random_4 {
         background-image: url('white_stone_5.png');
 }
 ~~~

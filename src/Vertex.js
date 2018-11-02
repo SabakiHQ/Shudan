@@ -32,7 +32,6 @@ class Vertex extends Component {
                     'shudan-vertex',
                     types.map(x => x && `shudan-${x}`),
 
-                    `shudan-pos_${x}-${y}`,
                     `shudan-random_${random}`,
                     `shudan-sign_${sign}`,
                     {
@@ -54,8 +53,8 @@ class Vertex extends Component {
                     ghostStone && ghostStone.type && `shudan-ghost_${ghostStone.type}`,
                     ghostStone && ghostStone.faint && `shudan-ghost_faint`
                 )
-            }, ...vertexEvents.map(e => ({
-                [`on${e}`]: this[`handle${e}`]
+            }, ...vertexEvents.map(eventName => ({
+                [`on${eventName}`]: this[`handle${eventName}`]
             }))),
 
             h('div', {key: 'board', className: 'shudan-board', style: absoluteStyle(1)}),
@@ -63,7 +62,16 @@ class Vertex extends Component {
 
             h('div', {key: 'stone', className: 'shudan-stone', style: absoluteStyle(3)},
                 !!sign && h('div', {key: 'shadow', className: 'shudan-shadow', style: absoluteStyle(1)}),
-                !!sign && h('div', {key: 'inner', className: 'shudan-inner', style: absoluteStyle(2)}, sign),
+                !!sign && h('div', {
+                    key: 'inner',
+                    className: classnames(
+                        'shudan-inner',
+                        'shudan-stone-image',
+                        `shudan-random_${random}`,
+                        `shudan-sign_${sign}`,
+                    ),
+                    style: absoluteStyle(2)
+                }, sign),
 
                 !!marker && h('div', {
                     key: 'marker',
@@ -82,7 +90,7 @@ class Vertex extends Component {
                 key: 'heatlabel',
                 className: 'shudan-heatlabel',
                 style: absoluteStyle(8)
-            }, heat.text.toString())
+            }, heat.text && heat.text.toString())
         )
     }
 }
