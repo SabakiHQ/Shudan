@@ -108,10 +108,8 @@
 .shudan-vertex .shudan-stone {
         top: .04em;
         left: .04em;
-        right: .04em;
-        bottom: .04em;
-        width: auto;
-        height: auto;
+        width: calc(100% - .08em);
+        height: calc(100% - .08em);
     }
     .shudan-vertex .shudan-shadow {
         border-radius: 50%;
