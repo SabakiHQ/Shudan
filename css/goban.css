@@ -307,6 +307,9 @@
         max-height: 2.7em;
         max-width: 2.7em;
         font-size: .36em;
+    }
+    .shudan-vertex.shudan-marker_label:not(.shudan-smalllabel) .shudan-marker {
+        pointer-events: none;
 }
 
 /* Ghost stones */
