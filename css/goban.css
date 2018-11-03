@@ -125,8 +125,9 @@
         box-shadow: 0 .1em .2em rgba(23, 10, 2, .4);
     }
     .shudan-stone-image {
-        background-size: 100% 100%;
+        background-position: center;
         background-repeat: no-repeat;
+        background-size: contain;
     }
     .shudan-stone-image.shudan-sign_1 {
         background-image: url('./stone_1.png');
