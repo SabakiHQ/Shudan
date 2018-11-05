@@ -61,46 +61,11 @@
 
 /* Grid lines and hoshis */
 
-.shudan-vertex .shudan-board::before {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 50%;
-        left: 0;
-        width: 100%;
-        height: 1px;
-        background: var(--shudan-board-foreground-color);
+.shudan-grid line {
+        stroke: var(--shudan-board-foreground-color);
     }
-    .shudan-vertex.shudan-left:not(.shudan-right) .shudan-board::before {
-        left: 50%;
-    }
-    .shudan-vertex.shudan-right:not(.shudan-left) .shudan-board::before {
-        width: 50%;
-    }
-    .shudan-vertex .shudan-board::after {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 50%;
-        width: 1px;
-        height: 100%;
-        background: var(--shudan-board-foreground-color);
-    }
-    .shudan-vertex.shudan-top:not(.shudan-bottom) .shudan-board::after {
-        top: 50%;
-    }
-    .shudan-vertex.shudan-bottom:not(.shudan-top) .shudan-board::after {
-        height: calc(50% + 1px);
-    }
-    .shudan-vertex .shudan-hoshi {
-        left: 50%;
-        top: 50%;
-        width: .2em;
-        height: .2em;
-        border-radius: 50%;
-        background: var(--shudan-board-foreground-color);
-        transform: translate(calc(-50% + .5px), calc(-50% + .5px));
+    .shudan-grid circle {
+        fill: var(--shudan-board-foreground-color);
 }
 
 /* Stone render */
@@ -320,7 +285,7 @@
         width: .4em;
         height: .4em;
         opacity: .5;
-        transform: translate(calc(-50% + .5px), calc(-50% + .5px));
+        transform: translate(-50%, -50%);
     }
     .shudan-vertex .shudan-ghost::before {
         content: '';

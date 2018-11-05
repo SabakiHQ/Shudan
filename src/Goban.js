@@ -109,6 +109,52 @@ class Goban extends Component {
                     }
                 },
 
+                width > 0 && height > 0 && h('svg',
+                    {
+                        className: 'shudan-grid',
+                        style: {
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            zIndex: 0
+                        }
+                    },
+
+                    // Draw grid lines
+
+                    ys.map((_, i) => h('line', {
+                        x1: xs[0] === 0 ? '.5em' : '0',
+                        y1: `${i + .5}em`,
+                        x2: xs[xs.length - 1] === width - 1 ? `${xs.length - .5}em` : `${xs.length}em`,
+                        y2: `${i + .5}em`,
+                        'shape-rendering': 'crispEdges'
+                    })),
+
+                    xs.map((_, i) => h('line', {
+                        x1: `${i + .5}em`,
+                        y1: ys[0] === 0 ? '.5em' : '0',
+                        x2: `${i + .5}em`,
+                        y2: ys[ys.length - 1] === height - 1 ? `${ys.length - .5}em` : `${ys.length}em`,
+                        'shape-rendering': 'crispEdges'
+                    })),
+
+                    // Draw hoshi points
+
+                    hoshis.map(([x, y]) => {
+                        let i = xs.indexOf(x)
+                        let j = ys.indexOf(y)
+                        if (i < 0 || j < 0) return
+
+                        return h('circle', {
+                            cx: `${i + .5}em`,
+                            cy: `${j + .5}em`,
+                            r: '.1em'
+                        })
+                    })
+                ),
+
                 h('div',
                     {
                         className: 'shudan-vertices',
@@ -121,7 +167,7 @@ class Goban extends Component {
                             left: 0,
                             right: 0,
                             bottom: 0,
-                            zIndex: 0
+                            zIndex: 1
                         }
                     },
 
@@ -130,14 +176,8 @@ class Goban extends Component {
 
                         return h(Vertex, Object.assign({
                             key: [x, y].join('-'),
-
                             position: [x, y],
-                            types: [
-                                y === 0 && 'top',
-                                x === width - 1 && 'right',
-                                y === height - 1 && 'bottom',
-                                x === 0 && 'left'
-                            ],
+
                             shift: fuzzyStonePlacement ? shiftMap && shiftMap[y] && shiftMap[y][x] : 0,
                             random: randomMap && randomMap[y] && randomMap[y][x],
                             sign: signMap && signMap[y] && signMap[y][x],
@@ -166,7 +206,7 @@ class Goban extends Component {
                             bottom: 0,
                             overflow: 'hidden',
                             pointerEvents: 'none',
-                            zIndex: 1
+                            zIndex: 2
                         }
                     },
 
