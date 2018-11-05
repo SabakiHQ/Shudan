@@ -23,6 +23,13 @@ class Vertex extends Component {
         let {shift, random, sign, selected, heat,
             paint, dimmed, marker, ghostStone, animate} = this.props
 
+        let markerMarkup = !!marker && h('div', {
+            key: 'marker',
+            className: 'shudan-marker',
+            title: marker.label,
+            style: absoluteStyle(!sign ? 0 : 3)
+        })
+
         return h('div',
             Object.assign({
                 style: {
@@ -56,9 +63,9 @@ class Vertex extends Component {
                 [`on${eventName}`]: this[`handle${eventName}`]
             }))),
 
-            h('div', {key: 'stone', className: 'shudan-stone', style: absoluteStyle()},
-                h('div', {key: 'shadow', className: 'shudan-shadow', style: absoluteStyle(1)}),
-                h('div', {
+            h('div', {key: 'stone', className: 'shudan-stone', style: absoluteStyle(1)},
+                !!sign && h('div', {key: 'shadow', className: 'shudan-shadow', style: absoluteStyle()}),
+                !!sign && h('div', {
                     key: 'inner',
                     className: classnames(
                         'shudan-inner',
@@ -66,17 +73,13 @@ class Vertex extends Component {
                         `shudan-random_${random}`,
                         `shudan-sign_${sign}`,
                     ),
-                    style: absoluteStyle(2)
+                    style: absoluteStyle()
                 }, sign),
 
-                !!marker && h('div', {
-                    key: 'marker',
-                    className: 'shudan-marker',
-                    title: marker.label,
-                    style: absoluteStyle(!sign ? 0 : 3)
-                })
+                !!sign && markerMarkup
             ),
 
+            !sign && markerMarkup,
             !sign && !!ghostStone && h('div', {key: 'ghost', className: 'shudan-ghost', style: absoluteStyle(4)}),
             !!paint && h('div', {key: 'paint', className: 'shudan-paint', style: absoluteStyle(5)}),
             !!selected && h('div', {key: 'selection', className: 'shudan-selection', style: absoluteStyle(6)}),

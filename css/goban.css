@@ -104,31 +104,31 @@
 
 /* Fuzzy stone placement */
 
-.shudan-vertex:not(.shudan-sign_0).shudan-animate .shudan-stone > * {
+.shudan-vertex:not(.shudan-sign_0).shudan-animate .shudan-stone {
         transition: transform .2s;
     }
-    .shudan-vertex:not(.shudan-sign_0).shudan-shift_1 .shudan-stone > * {
+    .shudan-vertex:not(.shudan-sign_0).shudan-shift_1 .shudan-stone {
         transform: translate(-.07em, 0);
     }
-    .shudan-vertex:not(.shudan-sign_0).shudan-shift_2 .shudan-stone > * {
+    .shudan-vertex:not(.shudan-sign_0).shudan-shift_2 .shudan-stone {
         transform: translate(0, -.07em);
     }
-    .shudan-vertex:not(.shudan-sign_0).shudan-shift_3 .shudan-stone > * {
+    .shudan-vertex:not(.shudan-sign_0).shudan-shift_3 .shudan-stone {
         transform: translate(.07em, 0);
     }
-    .shudan-vertex:not(.shudan-sign_0).shudan-shift_4 .shudan-stone > * {
+    .shudan-vertex:not(.shudan-sign_0).shudan-shift_4 .shudan-stone {
         transform: translate(0, .07em);
     }
-    .shudan-vertex:not(.shudan-sign_0).shudan-shift_5 .shudan-stone > * {
+    .shudan-vertex:not(.shudan-sign_0).shudan-shift_5 .shudan-stone {
         transform: translate(-.04em, -.04em);
     }
-    .shudan-vertex:not(.shudan-sign_0).shudan-shift_6 .shudan-stone > * {
+    .shudan-vertex:not(.shudan-sign_0).shudan-shift_6 .shudan-stone {
         transform: translate(.04em, -.04em);
     }
-    .shudan-vertex:not(.shudan-sign_0).shudan-shift_7 .shudan-stone > * {
+    .shudan-vertex:not(.shudan-sign_0).shudan-shift_7 .shudan-stone {
         transform: translate(.04em, .04em);
     }
-    .shudan-vertex:not(.shudan-sign_0).shudan-shift_8 .shudan-stone > * {
+    .shudan-vertex:not(.shudan-sign_0).shudan-shift_8 .shudan-stone {
         transform: translate(-.04em, .04em);
 }
 
