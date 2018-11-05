@@ -3,6 +3,7 @@ const classnames = require('classnames')
 
 const helper = require('./helper')
 const {CoordX, CoordY} = require('./Coord')
+const Grid = require('./Grid')
 const Vertex = require('./Vertex')
 const Line = require('./Line')
 
@@ -109,51 +110,13 @@ class Goban extends Component {
                     }
                 },
 
-                width > 0 && height > 0 && h('svg',
-                    {
-                        className: 'shudan-grid',
-                        style: {
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: '100%',
-                            height: '100%',
-                            zIndex: 0
-                        }
-                    },
-
-                    // Draw grid lines
-
-                    ys.map((_, i) => h('line', {
-                        x1: xs[0] === 0 ? '.5em' : '0',
-                        y1: `${i + .5}em`,
-                        x2: xs[xs.length - 1] === width - 1 ? `${xs.length - .5}em` : `${xs.length}em`,
-                        y2: `${i + .5}em`,
-                        'shape-rendering': 'crispEdges'
-                    })),
-
-                    xs.map((_, i) => h('line', {
-                        x1: `${i + .5}em`,
-                        y1: ys[0] === 0 ? '.5em' : '0',
-                        x2: `${i + .5}em`,
-                        y2: ys[ys.length - 1] === height - 1 ? `${ys.length - .5}em` : `${ys.length}em`,
-                        'shape-rendering': 'crispEdges'
-                    })),
-
-                    // Draw hoshi points
-
-                    hoshis.map(([x, y]) => {
-                        let i = xs.indexOf(x)
-                        let j = ys.indexOf(y)
-                        if (i < 0 || j < 0) return
-
-                        return h('circle', {
-                            cx: `${i + .5}em`,
-                            cy: `${j + .5}em`,
-                            r: '.1em'
-                        })
-                    })
-                ),
+                h(Grid, {
+                    width,
+                    height,
+                    xs,
+                    ys,
+                    hoshis
+                }),
 
                 h('div',
                     {
@@ -187,7 +150,6 @@ class Goban extends Component {
                             ghostStone: ghostStoneMap && ghostStoneMap[y] && ghostStoneMap[y][x],
                             dimmed: dimmedVertices.some(equalsVertex),
                             selected: selectedVertices.some(equalsVertex),
-                            hoshi: hoshis.some(equalsVertex),
                             animate: animatedVertices.some(equalsVertex),
                         }, ...helper.vertexEvents.map(e => ({
                             [`on${e}`]: this.props[`onVertex${e}`]
