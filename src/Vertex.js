@@ -73,7 +73,7 @@ class Vertex extends Component {
                     key: 'marker',
                     className: 'shudan-marker',
                     title: marker.label,
-                    style: absoluteStyle(3)
+                    style: absoluteStyle(!sign ? 0 : 3)
                 })
             ),
 

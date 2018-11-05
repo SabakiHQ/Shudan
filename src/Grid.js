@@ -33,6 +33,7 @@ class Grid extends Component {
             // Draw grid lines
 
             ys.map((_, i) => h('line', {
+                className: 'shudan-gridline shudan-horizontal',
                 x1: xs[0] === 0 ? '.5em' : '0',
                 y1: `${i + .5}em`,
                 x2: xs[xs.length - 1] === width - 1 ? `${xs.length - .5}em` : `${xs.length}em`,
@@ -41,6 +42,7 @@ class Grid extends Component {
             })),
 
             xs.map((_, i) => h('line', {
+                className: 'shudan-gridline shudan-vertical',
                 x1: `${i + .5}em`,
                 y1: ys[0] === 0 ? '.5em' : '0',
                 x2: `${i + .5}em`,
@@ -56,6 +58,7 @@ class Grid extends Component {
                 if (i < 0 || j < 0) return
 
                 return h('circle', {
+                    className: 'shudan-hoshi',
                     cx: `${i + .5}em`,
                     cy: `${j + .5}em`,
                     r: '.1em'
