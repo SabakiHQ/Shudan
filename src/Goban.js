@@ -183,8 +183,8 @@ class Goban extends Component {
                             }
                         },
 
-                        lines.map(({v1, v2, type}) =>
-                            h(Line, {v1, v2, type, vertexSize})
+                        lines.map(({v1, v2, type}, i) =>
+                            h(Line, {key: i, v1, v2, type, vertexSize})
                         )
                     )
                 )
