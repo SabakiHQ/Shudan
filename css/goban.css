@@ -43,11 +43,12 @@
     left: calc(-1 * var(--shudan-board-border-width));
     bottom: calc(-1 * var(--shudan-board-border-width));
     right: calc(-1 * var(--shudan-board-border-width));
+    animation: 2s linear -.5s shudan-busy infinite;
     background-color: rgba(23, 10, 2, .1);
     background-image: linear-gradient(to right, transparent 30%, rgba(255, 255, 255, .2) 50%, transparent 70%);
     background-size: 19em 100%;
     background-repeat: no-repeat;
-    animation: 2s linear -.5s shudan-busy infinite;
+    z-index: 3;
 }
 
 @keyframes shudan-busy {
@@ -61,10 +62,10 @@
 
 /* Grid lines and hoshis */
 
-.shudan-grid line {
+.shudan-gridline {
         stroke: var(--shudan-board-foreground-color);
     }
-    .shudan-grid circle {
+    .shudan-hoshi {
         fill: var(--shudan-board-foreground-color);
 }
 
