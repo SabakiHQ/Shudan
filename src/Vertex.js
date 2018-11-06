@@ -23,11 +23,11 @@ class Vertex extends Component {
         let {shift, random, sign, selected, heat,
             paint, dimmed, marker, ghostStone, animate} = this.props
 
-        let markerMarkup = !!marker && h('div', {
+        let markerMarkup = z => !!marker && h('div', {
             key: 'marker',
             className: 'shudan-marker',
             title: marker.label,
-            style: absoluteStyle(!sign ? 0 : 3)
+            style: absoluteStyle(z)
         })
 
         return h('div',
@@ -63,7 +63,10 @@ class Vertex extends Component {
                 [`on${eventName}`]: this[`handle${eventName}`]
             }))),
 
-            h('div', {key: 'stone', className: 'shudan-stone', style: absoluteStyle(1)},
+            !sign && markerMarkup(0),
+            !sign && !!ghostStone && h('div', {key: 'ghost', className: 'shudan-ghost', style: absoluteStyle(1)}),
+
+            h('div', {key: 'stone', className: 'shudan-stone', style: absoluteStyle(2)},
                 !!sign && h('div', {key: 'shadow', className: 'shudan-shadow', style: absoluteStyle()}),
                 !!sign && h('div', {
                     key: 'inner',
@@ -76,19 +79,17 @@ class Vertex extends Component {
                     style: absoluteStyle()
                 }, sign),
 
-                !!sign && markerMarkup
+                !!sign && markerMarkup()
             ),
 
-            !sign && markerMarkup,
-            !sign && !!ghostStone && h('div', {key: 'ghost', className: 'shudan-ghost', style: absoluteStyle(4)}),
-            !!paint && h('div', {key: 'paint', className: 'shudan-paint', style: absoluteStyle(5)}),
-            !!selected && h('div', {key: 'selection', className: 'shudan-selection', style: absoluteStyle(6)}),
+            !!paint && h('div', {key: 'paint', className: 'shudan-paint', style: absoluteStyle(3)}),
+            !!selected && h('div', {key: 'selection', className: 'shudan-selection', style: absoluteStyle(4)}),
 
-            h('div', {key: 'heat', className: 'shudan-heat', style: absoluteStyle(7)}),
+            h('div', {key: 'heat', className: 'shudan-heat', style: absoluteStyle(5)}),
             !!heat && h('div', {
                 key: 'heatlabel',
                 className: 'shudan-heatlabel',
-                style: absoluteStyle(8)
+                style: absoluteStyle(6)
             }, heat.text && heat.text.toString())
         )
     }
