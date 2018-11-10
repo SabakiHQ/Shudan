@@ -34,7 +34,7 @@ class BoundedGoban extends Component {
         let {innerProps = {}, style = {}} = this.props
         let {ref: innerRef = () => {}} = innerProps
 
-        return h(Goban, Object.assign(this.props, {
+        return h(Goban, Object.assign({}, this.props, {
             innerProps: Object.assign({}, innerProps, {
                 ref: el => (innerRef(el), this.element = el),
             }),
