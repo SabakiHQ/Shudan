@@ -143,7 +143,7 @@ const ghostStoneMap = (() => {
     ]
 })()
 
-const createTwoWayCheckBox = (state, setState) => (
+const createTwoWayCheckBox = component => (
     ({stateKey, text}) => h('label',
         {
             style: {
@@ -155,9 +155,9 @@ const createTwoWayCheckBox = (state, setState) => (
         h('input', {
             style: {marginRight: '.5em'},
             type: 'checkbox',
-            checked: state[stateKey],
+            checked: component.state[stateKey],
 
-            onClick: () => setState(s => ({[stateKey]: !s[stateKey]}))
+            onClick: () => component.setState(s => ({[stateKey]: !s[stateKey]}))
         }),
 
         h('span', {style: {userSelect: 'none'}}, text)
@@ -186,7 +186,7 @@ class App extends Component {
             isBusy: false
         }
 
-        this.CheckBox = createTwoWayCheckBox(this.state, this.setState.bind(this))
+        this.CheckBox = createTwoWayCheckBox(this)
     }
 
     render() {

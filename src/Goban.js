@@ -10,12 +10,6 @@ const Line = require('./Line')
 class Goban extends Component {
     constructor(props) {
         super(props)
-
-        this.state = Goban.getDerivedStateFromProps(props)
-    }
-
-    componentWillReceiveProps(props) {
-        this.setState(Goban.getDerivedStateFromProps(props, this.state))
     }
 
     componentDidUpdate() {
