@@ -15,7 +15,7 @@ class CoordX extends Component {
             },
 
             xs.map(i =>
-                h('div', {style: {width: '1em'}},
+                h('div', {key: i, style: {width: '1em'}},
                     h('span', {style: {display: 'block'}}, coordX(i))
                 )
             )
@@ -36,7 +36,7 @@ class CoordY extends Component {
             },
 
             ys.map(i =>
-                h('div', {style: {height: '1em'}},
+                h('div', {key: i, style: {height: '1em'}},
                     h('span', {style: {display: 'block'}}, coordY(i))
                 )
             )
