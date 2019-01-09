@@ -5,7 +5,7 @@ class Grid extends Component {
         super()
     }
 
-    componentWillUpdate(nextProps) {
+    shouldComponentUpdate(nextProps) {
         return nextProps.width !== this.props.width
             || nextProps.height !== this.props.height
             || nextProps.xs.length !== this.props.xs.length
