@@ -168,10 +168,9 @@
         top: 50%;
         width: .3em;
         height: .3em;
-        margin-top: -.15em;
-        margin-left: -.15em;
         border-radius: 50%;
         background: var(--shudan-board-foreground-color);
+        transform: translate(-50%, -50%);
     }
     .shudan-vertex.shudan-marker_point.shudan-sign_1 .shudan-marker {
         background: var(--shudan-black-foreground-color);
@@ -209,11 +208,10 @@
 .shudan-vertex.shudan-marker_cross .shudan-marker {
         width: .7em;
         height: .7em;
-        margin-left: -.35em;
-        margin-top: -.35em;
         left: 50%;
         top: 50%;
         background: var(--shudan-board-background-color);
+        transform: translate(-50%, -50%);
     }
     .shudan-vertex.shudan-marker_cross.shudan-sign_1 .shudan-marker,
     .shudan-vertex.shudan-marker_cross.shudan-sign_-1 .shudan-marker {
@@ -225,12 +223,10 @@
         border-width: .07em 0 0 0;
         width: .7em;
         height: 0;
-        margin-left: -.35em;
-        margin-top: -.035em;
-        transform: rotate(45deg);
+        transform: translate(-.35em, -.035em) rotate(45deg);
     }
     .shudan-vertex.shudan-marker_cross .shudan-marker::after {
-        transform: rotate(-45deg);
+        transform: translate(-.35em, -.035em) rotate(-45deg);
 }
 
 .shudan-vertex.shudan-marker_triangle .shudan-marker::before {
