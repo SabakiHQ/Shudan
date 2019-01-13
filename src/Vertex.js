@@ -20,7 +20,7 @@ class Vertex extends Component {
     }
 
     render() {
-        let {shift, random, sign, selected, heat,
+        let {position, shift, random, sign, selected, heat,
             paint, dimmed, marker, ghostStone, animate} = this.props
 
         let markerMarkup = z => !!marker && h('div', {
@@ -32,6 +32,9 @@ class Vertex extends Component {
 
         return h('div',
             Object.assign({
+                'data-x': position[0],
+                'data-y': position[1],
+
                 style: {
                     position: 'relative'
                 },
