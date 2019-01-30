@@ -296,7 +296,7 @@ class App extends Component {
                     ] : [],
 
                     selectedVertices: showSelection ? [
-                        [9, 7]
+                        [9, 7], [9, 8], [10, 7], [10, 8]
                     ] : [],
 
                     onVertexClick: (evt, [x, y]) => {

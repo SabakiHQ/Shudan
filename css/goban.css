@@ -416,14 +416,14 @@
 /* Selection */
 
 .shudan-vertex .shudan-selection {
-    left: -.1em;
-    right: -.1em;
-    top: -.1em;
-    bottom: -.1em;
+    left: -.05em;
+    right: -.05em;
+    top: -.05em;
+    bottom: -.05em;
     width: auto;
     height: auto;
     border: .1em solid #0082F0;
-    border-radius: 5px;
+    border-radius: .2em;
     background: rgba(0, 130, 240, .2);
 }
 
