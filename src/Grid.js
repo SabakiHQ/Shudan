@@ -1,10 +1,6 @@
 const {createElement: h, Component} = require('preact')
 
 class Grid extends Component {
-    constructor() {
-        super()
-    }
-
     shouldComponentUpdate(nextProps) {
         return nextProps.vertexSize !== this.props.vertexSize
             || nextProps.width !== this.props.width
