@@ -62,7 +62,7 @@
 /* Grid lines and hoshis */
 
 .shudan-gridline {
-        stroke: var(--shudan-board-foreground-color);
+        fill: var(--shudan-board-foreground-color);
     }
     .shudan-hoshi {
         fill: var(--shudan-board-foreground-color);

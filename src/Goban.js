@@ -106,6 +106,7 @@ class Goban extends Component {
                 },
 
                 h(Grid, {
+                    vertexSize,
                     width,
                     height,
                     xs,
