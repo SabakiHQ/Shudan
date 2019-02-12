@@ -282,7 +282,7 @@
         width: .4em;
         height: .4em;
         opacity: .5;
-        transform: translate(-50%, -50%);
+        transform: translate(calc(-50% + .5px), calc(-50% + .5px));
     }
     .shudan-vertex .shudan-ghost::before {
         content: '';
