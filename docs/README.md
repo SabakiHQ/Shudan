@@ -147,9 +147,9 @@ All props are optional. The following props are supported:
 
   Determines whether component is busy. When busy, no user input are accepted.
 
-- `vertexSize` `<number | string>` - Default: `24`
+- `vertexSize` `<number>` - Default: `24`
 
-  The width and height of a single vertex as a pixel number or CSS size string. Adjust this prop to change the size of the component.
+  The width and height of a single vertex as a pixel number. Adjust this prop to change the size of the component.
 
   If you want to specify a maximum width and height instead, use the [`BoundedGoban`](#boundedgoban-component) component.
 
