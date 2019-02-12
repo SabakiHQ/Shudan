@@ -59,13 +59,10 @@
     }
 }
 
-/* Grid lines and hoshis */
+/* Board grid */
 
-.shudan-gridline {
-        fill: var(--shudan-board-foreground-color);
-    }
-    .shudan-hoshi {
-        fill: var(--shudan-board-foreground-color);
+.shudan-gridline, .shudan-hoshi {
+    fill: var(--shudan-board-foreground-color);
 }
 
 /* Stone render */
