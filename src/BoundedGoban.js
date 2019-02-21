@@ -16,12 +16,22 @@ class BoundedGoban extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        let {maxWidth, maxHeight, onResized = () => {}} = this.props
+        let {
+            showCoordinates,
+            maxWidth,
+            maxHeight,
+            rangeX,
+            rangeY,
+            onResized = () => {}
+        } = this.props
 
         if (
             this.state.visibility !== 'visible'
             || maxWidth !== prevProps.maxWidth
             || maxHeight !== prevProps.maxHeight
+            || showCoordinates !== prevProps.showCoordinates
+            || JSON.stringify(rangeX) !== JSON.stringify(prevProps.rangeX)
+            || JSON.stringify(rangeY) !== JSON.stringify(prevProps.rangeY)
         ) {
             let {offsetWidth, offsetHeight} = this.element
             let scale = Math.min(maxWidth / offsetWidth, maxHeight / offsetHeight)
