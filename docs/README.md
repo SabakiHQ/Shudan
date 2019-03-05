@@ -79,7 +79,7 @@ Shudan only uses `<div>`, `<span>`, `<svg>`, `<rect>`, and `<circle>` elements w
 }
 ~~~
 
-Also override Shudan's default CSS variables to adjust the colors:
+Also override Shudan's default CSS custom properties to adjust the colors:
 
 ~~~css
 .shudan-goban {
