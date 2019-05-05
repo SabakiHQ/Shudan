@@ -205,7 +205,11 @@ Goban.getDerivedStateFromProps = function(props, state) {
     if (state && state.width === width && state.height === height) {
         let animatedVertices = state.animatedVertices
 
-        if (props.animateStonePlacement && props.fuzzyStonePlacement && state.clearAnimatedVerticesHandler == null) {
+        if (
+            props.animateStonePlacement
+            && props.fuzzyStonePlacement
+            && state.clearAnimatedVerticesHandler == null
+        ) {
             animatedVertices = helper.diffSignMap(state.signMap, signMap)
         }
 
