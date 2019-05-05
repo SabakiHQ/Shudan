@@ -88,7 +88,7 @@
     }
     .shudan-stone-image {
         background-repeat: no-repeat;
-        background-size: contain;
+        background-size: 100% 100%;
     }
     .shudan-stone-image.shudan-sign_1 {
         background-image: url('./stone_1.png');
