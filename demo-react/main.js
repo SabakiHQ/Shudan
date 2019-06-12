@@ -158,7 +158,7 @@ const createTwoWayCheckBox = component => (
             type: 'checkbox',
             checked: component.state[stateKey],
 
-            onClick: () => component.setState(s => ({[stateKey]: !s[stateKey]}))
+            onChange: () => component.setState(s => ({[stateKey]: !s[stateKey]}))
         }),
 
         h('span', {style: {userSelect: 'none'}}, text)
@@ -318,4 +318,4 @@ class App extends Component {
     }
 }
 
-render(h(App), document.body)
+render(h(App), document.getElementById('root'))

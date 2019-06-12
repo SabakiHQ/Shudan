@@ -10,6 +10,8 @@ const Line = require('./Line')
 class Goban extends Component {
     constructor(props) {
         super(props)
+
+        this.state = {}
     }
 
     componentDidUpdate() {
@@ -202,7 +204,7 @@ Goban.getDerivedStateFromProps = function(props, state) {
     let width = signMap.length === 0 ? 0 : signMap[0].length
     let height = signMap.length
 
-    if (state && state.width === width && state.height === height) {
+    if (state.width === width && state.height === height) {
         let animatedVertices = state.animatedVertices
 
         if (
