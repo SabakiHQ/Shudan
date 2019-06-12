@@ -36,6 +36,32 @@ Don't forget to include the `css/goban.css` file in your HTML:
 
 In this case, we assume you have a bundler set up correctly and Preact installed.
 
+### Using with React
+
+Shudan is fully compatible with React. In your webpack configuration, additionally alias `preact` to `react`:
+
+~~~js
+module.exports = {
+    // ...
+    resolve: {
+        alias: {
+            preact: "react"
+        }
+    }
+}
+~~~
+
+### Demo
+
+To build the demo run one of the following commands:
+
+~~~
+$ npm run build-demo
+$ npm run build-demo-react
+~~~
+
+Then open `demo/index.html` or `demo-react/index.html` respectively.
+
 ### Board Representation
 
 The board is represented by an array of arrays. Each of those subarrays represent one row, all of the same size. We shall refer to this structure as a **map**. For `signMap`, the subarrays consists of integers: `-1` denotes a white stone, `1` a black stone, and `0` represents an empty vertex
