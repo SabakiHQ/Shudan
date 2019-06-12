@@ -51,17 +51,6 @@ module.exports = {
 }
 ~~~
 
-### Demo
-
-To build the demo run one of the following commands:
-
-~~~
-$ npm run build-demo
-$ npm run build-demo-react
-~~~
-
-Then open `demo/index.html` or `demo-react/index.html` respectively.
-
 ### Board Representation
 
 The board is represented by an array of arrays. Each of those subarrays represent one row, all of the same size. We shall refer to this structure as a **map**. For `signMap`, the subarrays consists of integers: `-1` denotes a white stone, `1` a black stone, and `0` represents an empty vertex
