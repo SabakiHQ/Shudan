@@ -1,5 +1,6 @@
 const {createElement: h, Component} = require('react')
 const {render} = require('react-dom')
+const Board = require('@sabaki/go-board')
 const {Goban} = require('..')
 
 const chineseCoord = [
@@ -8,25 +9,25 @@ const chineseCoord = [
 ]
 
 const signMap = [
-    [0,0,0,-1,-1,-1,1,0,1,1,-1,-1,0,-1,0,-1,-1,1,0],
-    [0,0,-1,0,-1,1,1,1,0,1,-1,0,-1,-1,-1,-1,1,1,0],
-    [0,0,-1,-1,-1,1,1,0,0,1,1,-1,-1,1,-1,1,0,1,0],
-    [0,0,0,0,-1,-1,1,0,1,-1,1,1,1,1,1,0,1,0,0],
-    [0,0,0,0,-1,0,-1,1,0,0,1,1,0,0,0,1,1,1,0],
-    [0,0,-1,0,0,-1,-1,1,0,-1,-1,1,-1,-1,0,1,0,0,1],
-    [0,0,0,-1,-1,1,1,1,1,1,1,1,1,-1,-1,-1,1,1,1],
-    [0,0,-1,1,1,0,1,-1,-1,1,0,1,-1,0,1,-1,-1,-1,1],
-    [0,0,-1,-1,1,1,1,0,-1,1,-1,-1,0,-1,-1,1,1,1,1],
-    [0,0,-1,1,1,-1,-1,-1,-1,1,1,1,-1,-1,-1,-1,1,-1,-1],
-    [-1,-1,-1,-1,1,1,1,-1,0,-1,1,-1,-1,0,-1,1,1,-1,0],
-    [-1,1,-1,0,-1,-1,-1,-1,-1,-1,1,-1,0,-1,-1,1,-1,0,-1],
-    [1,1,1,1,-1,1,1,1,-1,1,0,1,-1,0,-1,1,-1,-1,0],
-    [0,1,-1,1,1,-1,-1,1,-1,1,1,1,-1,1,-1,1,1,-1,1],
-    [0,0,-1,1,0,0,1,1,-1,-1,0,1,-1,1,-1,1,-1,0,-1],
-    [0,0,1,0,1,0,1,1,1,-1,-1,1,-1,-1,1,-1,-1,-1,0],
-    [0,0,0,0,1,1,0,1,-1,0,-1,-1,1,1,1,1,-1,-1,-1],
-    [0,0,1,1,-1,1,1,-1,0,-1,-1,1,1,1,1,0,1,-1,1],
-    [0,0,0,1,-1,-1,-1,-1,-1,0,-1,-1,1,1,0,1,1,1,0]
+    [ 0, 0, 0,-1,-1,-1, 1, 0, 1, 1,-1,-1, 0,-1, 0,-1,-1, 1, 0],
+    [ 0, 0,-1, 0,-1, 1, 1, 1, 0, 1,-1, 0,-1,-1,-1,-1, 1, 1, 0],
+    [ 0, 0,-1,-1,-1, 1, 1, 0, 0, 1, 1,-1,-1, 1,-1, 1, 0, 1, 0],
+    [ 0, 0, 0, 0,-1,-1, 1, 0, 1,-1, 1, 1, 1, 1, 1, 0, 1, 0, 0],
+    [ 0, 0, 0, 0,-1, 0,-1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0],
+    [ 0, 0,-1, 0, 0,-1,-1, 1, 0,-1,-1, 1,-1,-1, 0, 1, 0, 0, 1],
+    [ 0, 0, 0,-1,-1, 1, 1, 1, 1, 1, 1, 1, 1,-1,-1,-1, 1, 1, 1],
+    [ 0, 0,-1, 1, 1, 0, 1,-1,-1, 1, 0, 1,-1, 0, 1,-1,-1,-1, 1],
+    [ 0, 0,-1,-1, 1, 1, 1, 0,-1, 1,-1,-1, 0,-1,-1, 1, 1, 1, 1],
+    [ 0, 0,-1, 1, 1,-1,-1,-1,-1, 1, 1, 1,-1,-1,-1,-1, 1,-1,-1],
+    [-1,-1,-1,-1, 1, 1, 1,-1, 0,-1, 1,-1,-1, 0,-1, 1, 1,-1, 0],
+    [-1, 1,-1, 0,-1,-1,-1,-1,-1,-1, 1,-1, 0,-1,-1, 1,-1, 0,-1],
+    [ 1, 1, 1, 1,-1, 1, 1, 1,-1, 1, 0, 1,-1, 0,-1, 1,-1,-1, 0],
+    [ 0, 1,-1, 1, 1,-1,-1, 1,-1, 1, 1, 1,-1, 1,-1, 1, 1,-1, 1],
+    [ 0, 0,-1, 1, 0, 0, 1, 1,-1,-1, 0, 1,-1, 1,-1, 1,-1, 0,-1],
+    [ 0, 0, 1, 0, 1, 0, 1, 1, 1,-1,-1, 1,-1,-1, 1,-1,-1,-1, 0],
+    [ 0, 0, 0, 0, 1, 1, 0, 1,-1, 0,-1,-1, 1, 1, 1, 1,-1,-1,-1],
+    [ 0, 0, 1, 1,-1, 1, 1,-1, 0,-1,-1, 1, 1, 1, 1, 0, 1,-1, 1],
+    [ 0, 0, 0, 1,-1,-1,-1,-1,-1, 0,-1,-1, 1, 1, 0, 1, 1, 1, 0]
 ]
 
 const paintMap = [
@@ -158,7 +159,7 @@ const createTwoWayCheckBox = component => (
             type: 'checkbox',
             checked: component.state[stateKey],
 
-            onChange: () => component.setState(s => ({[stateKey]: !s[stateKey]}))
+            onClick: () => component.setState(s => ({[stateKey]: !s[stateKey]}))
         }),
 
         h('span', {style: {userSelect: 'none'}}, text)
@@ -170,7 +171,7 @@ class App extends Component {
         super(props)
 
         this.state = {
-            signMap,
+            board: new Board(signMap),
             vertexSize: 24,
             showCoordinates: false,
             alternateCoordinates: false,
@@ -246,7 +247,7 @@ class App extends Component {
                         type: 'button',
                         title: 'Reset',
                         onClick: evt => {
-                            this.setState({signMap})
+                            this.setState({board: new Board(signMap)})
                         }
                     }, '•')
                 ),
@@ -268,6 +269,10 @@ class App extends Component {
 
             h('div', {},
                 h(Goban, {
+                    innerProps: {
+                        onContextMenu: evt => evt.preventDefault()
+                    },
+
                     vertexSize,
                     animate: true,
                     busy: this.state.isBusy,
@@ -276,7 +281,7 @@ class App extends Component {
                     coordX: alternateCoordinates ? i => chineseCoord[i] : undefined,
                     coordY: alternateCoordinates ? i => i + 1 : undefined,
 
-                    signMap: this.state.signMap,
+                    signMap: this.state.board.signMap,
                     showCoordinates,
                     fuzzyStonePlacement,
                     animateStonePlacement,
@@ -300,11 +305,11 @@ class App extends Component {
                         [9, 7], [9, 8], [10, 7], [10, 8]
                     ] : [],
 
-                    onVertexClick: (evt, [x, y]) => {
-                        let signMap = JSON.parse(JSON.stringify(this.state.signMap))
-                        signMap[y][x] = Math.sign(Math.random() - .5) || 1
+                    onVertexMouseUp: (evt, [x, y]) => {
+                        let sign = evt.button === 0 ? 1 : -1
+                        let newBoard = this.state.board.makeMove(sign, [x, y])
 
-                        this.setState({signMap})
+                        this.setState({board: newBoard})
                     }
                 }),
 
