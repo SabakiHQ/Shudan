@@ -20,6 +20,7 @@ class BoundedGoban extends Component {
             showCoordinates,
             maxWidth,
             maxHeight,
+            maxVertexSize,
             rangeX,
             rangeY,
             signMap,
@@ -31,6 +32,7 @@ class BoundedGoban extends Component {
             || showCoordinates !== prevProps.showCoordinates
             || maxWidth !== prevProps.maxWidth
             || maxHeight !== prevProps.maxHeight
+            || maxVertexSize !== prevProps.maxVertexSize
             || JSON.stringify(rangeX) !== JSON.stringify(prevProps.rangeX)
             || JSON.stringify(rangeY) !== JSON.stringify(prevProps.rangeY)
             || signMap.length !== prevProps.signMap.length
@@ -51,7 +53,7 @@ class BoundedGoban extends Component {
     }
 
     render() {
-        let {innerProps = {}, style = {}} = this.props
+        let {innerProps = {}, style = {}, maxVertexSize = Infinity} = this.props
         let {ref: innerRef = () => {}} = innerProps
 
         return h(Goban, Object.assign({}, this.props, {
@@ -63,7 +65,7 @@ class BoundedGoban extends Component {
                 visibility: this.state.visibility
             }, style),
 
-            vertexSize: this.state.vertexSize
+            vertexSize: Math.min(this.state.vertexSize, maxVertexSize)
         }))
     }
 }

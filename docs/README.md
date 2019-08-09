@@ -315,6 +315,10 @@ Supports all props of `Goban`, but instead of `vertexSize`, you have to specify 
 
   The maximum height in pixels of the Goban.
 
+- `maxVertexSize` `<number>` - Default: `Infinity`
+
+  The maximum `vertexSize`.
+
 #### Event Props
 
 - `onResized` `<Function>`
