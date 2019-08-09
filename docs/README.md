@@ -227,9 +227,9 @@ All props are optional. The following props are supported:
   - `'loader'`
   - `'label'`
 
-- `paintMap` `<Map<integer>>`
+- `paintMap` `<Map<number>>`
 
-  A [`map`](#board-representation) consisting of `-1` (white), `0` (none), or `1` (black) that will paint the corresponding vertices accordingly.
+  A [`map`](#board-representation) consisting of numbers between `-1` and `1` inclusive that will paint the corresponding vertices accordingly. `-1` will paint the vertex black, `0` will not paint the vertex, while `1` will paint the vertex white.
 
 - `ghostStoneMap` `<Map<null | Object>>`
 

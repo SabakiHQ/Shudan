@@ -46,7 +46,7 @@ class Vertex extends Component {
                     {
                         [`shudan-shift_${shift}`]: !!shift,
                         [`shudan-heat_${!!heat && heat.strength}`]: !!heat,
-                        [`shudan-paint_${paint}`]: !!paint,
+                        [`shudan-paint_${paint > 0 ? 1 : -1}`]: !!paint,
                         'shudan-dimmed': dimmed,
                         'shudan-selected': selected,
                         'shudan-animate': animate
@@ -85,7 +85,15 @@ class Vertex extends Component {
                 !!sign && markerMarkup()
             ),
 
-            !!paint && h('div', {key: 'paint', className: 'shudan-paint', style: absoluteStyle(3)}),
+            !!paint && h('div', {
+                key: 'paint',
+                className: 'shudan-paint',
+                style: {
+                    ...absoluteStyle(3),
+                    opacity: Math.abs(paint || 0) * .5
+                }
+            }),
+
             !!selected && h('div', {key: 'selection', className: 'shudan-selection', style: absoluteStyle(4)}),
 
             h('div', {key: 'heat', className: 'shudan-heat', style: absoluteStyle(5)}),

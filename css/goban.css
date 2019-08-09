@@ -321,11 +321,7 @@
 
 /* Paint map */
 
-.shudan-vertex.shudan-paint_1 .shudan-paint,
-.shudan-vertex.shudan-paint_-1 .shudan-paint {
-        opacity: .3;
-    }
-    .shudan-vertex.shudan-paint_1 .shudan-paint {
+.shudan-vertex.shudan-paint_1 .shudan-paint {
         background: var(--shudan-black-background-color);
     }
     .shudan-vertex.shudan-paint_-1 .shudan-paint {
