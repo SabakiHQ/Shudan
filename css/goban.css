@@ -33,21 +33,30 @@
     height: 100%;
 }
 
-/* Busy screen */
+/* Board gradient */
 
-.shudan-goban.shudan-busy::after {
+.shudan-goban::after {
     content: '';
     position: absolute;
     top: calc(-1 * var(--shudan-board-border-width));
     left: calc(-1 * var(--shudan-board-border-width));
     bottom: calc(-1 * var(--shudan-board-border-width));
     right: calc(-1 * var(--shudan-board-border-width));
+    background: linear-gradient(to bottom, rgba(234, 220, 192, .1), transparent),
+        linear-gradient(to bottom, transparent, rgba(23, 10, 2, .05));
+    pointer-events: none;
+    z-index: 3;
+}
+
+/* Busy screen */
+
+.shudan-goban.shudan-busy::after {
     animation: 2s linear -.5s shudan-busy infinite;
     background-color: rgba(23, 10, 2, .1);
     background-image: linear-gradient(to right, transparent 30%, rgba(255, 255, 255, .2) 50%, transparent 70%);
     background-size: 19em 100%;
     background-repeat: no-repeat;
-    z-index: 3;
+    pointer-events: all;
 }
 
 @keyframes shudan-busy {
