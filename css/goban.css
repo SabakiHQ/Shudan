@@ -82,6 +82,9 @@
         width: calc(100% - .08em);
         height: calc(100% - .08em);
     }
+    .shudan-vertex.shudan-sign_0 .shudan-stone {
+        pointer-events: none;
+    }
     .shudan-vertex .shudan-shadow {
         border-radius: 50%;
     }
