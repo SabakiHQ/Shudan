@@ -19,9 +19,24 @@ class Vertex extends Component {
         }
     }
 
+    shouldComponentUpdate(nextProps) {
+        return this.props.shift !== nextProps.shift
+            || this.props.random !== nextProps.random
+            || this.props.sign !== nextProps.sign
+            || this.props.selected !== nextProps.selected
+            || this.props.heat !== nextProps.heat
+            || this.props.paint !== nextProps.paint
+            || this.props.dimmed !== nextProps.dimmed
+            || this.props.marker !== nextProps.marker
+            || this.props.ghostStone !== nextProps.ghostStone
+            || this.props.animate !== nextProps.animate
+    }
+
     render() {
-        let {position, shift, random, sign, selected, heat,
-            paint, dimmed, marker, ghostStone, animate} = this.props
+        let {
+            position, shift, random, sign, selected, heat,
+            paint, dimmed, marker, ghostStone, animate
+        } = this.props
 
         let markerMarkup = z => !!marker && h('div', {
             key: 'marker',
