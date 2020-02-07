@@ -25,18 +25,18 @@
   },
   "homepage": "https://github.com/SabakiHQ/Shudan",
   "peerDependencies": {
-    "preact": "^8.4.2"
+    "preact": "^8.4.2 || 10.x"
   },
   "dependencies": {
     "classnames": "^2.2.6"
   },
   "devDependencies": {
-    "@sabaki/go-board": "^1.0.0",
-    "preact": "^8.5.1",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "webpack": "^4.39.1",
-    "webpack-cli": "^3.3.6"
+    "@sabaki/go-board": "^1.4.1",
+    "preact": "^10.3.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
   },
   "scripts": {
     "build-demo": "webpack --entry ./demo/main.js -o ./demo/bundle.js --progress --mode production",
