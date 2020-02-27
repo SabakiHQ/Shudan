@@ -32,16 +32,26 @@
   },
   "devDependencies": {
     "@sabaki/go-board": "^1.4.1",
+    "onchange": "^6.1.0",
     "preact": "^10.3.1",
+    "prettier": "1.19.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10"
   },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "bracketSpacing": false,
+    "proseWrap": "always"
+  },
   "scripts": {
     "build-demo": "webpack --entry ./demo/main.js -o ./demo/bundle.js --progress --mode production",
     "watch-demo": "webpack --entry ./demo/main.js -o ./demo/bundle.js --progress --mode development --watch",
     "build-demo-react": "webpack --entry ./demo-react/main.js --resolve-alias preact=react -o ./demo-react/bundle.js --progress --mode production",
-    "watch-demo-react": "webpack --entry ./demo-react/main.js --resolve-alias preact=react -o ./demo-react/bundle.js --progress --mode development --watch"
+    "watch-demo-react": "webpack --entry ./demo-react/main.js --resolve-alias preact=react -o ./demo-react/bundle.js --progress --mode development --watch",
+    "format": "prettier \"**/*.{js,html,md}\" --write",
+    "format-watch": "onchange \"**/*.{js,html,md}\" -- prettier --write {{changed}}"
   }
 }
