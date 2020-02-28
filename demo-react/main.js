@@ -400,6 +400,7 @@ class App extends Component {
 
           selectedVertices: showSelection
             ? [
+                [8, 7],
                 [9, 7],
                 [9, 8],
                 [10, 7],
@@ -419,11 +420,9 @@ class App extends Component {
           h(
             'style',
             {},
-            `
-                    .shudan-coordx span {
-                        font-size: .45em;
-                    }
-                `
+            `.shudan-coordx span {
+              font-size: .45em;
+            }`
           )
       )
     )

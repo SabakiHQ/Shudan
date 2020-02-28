@@ -40,13 +40,17 @@ class Vertex extends Component {
       shift,
       random,
       sign,
-      selected,
       heat,
       paint,
       dimmed,
       marker,
       ghostStone,
-      animate
+      animate,
+      selected,
+      selectedLeft,
+      selectedRight,
+      selectedTop,
+      selectedBottom
     } = this.props
 
     let markerMarkup = z =>
@@ -79,6 +83,10 @@ class Vertex extends Component {
               [`shudan-paint_${paint > 0 ? 1 : -1}`]: !!paint,
               'shudan-dimmed': dimmed,
               'shudan-selected': selected,
+              'shudan-selectedleft': selectedLeft,
+              'shudan-selectedright': selectedRight,
+              'shudan-selectedtop': selectedTop,
+              'shudan-selectedbottom': selectedBottom,
               'shudan-animate': animate
             },
 

@@ -421,15 +421,35 @@
 /* Selection */
 
 .shudan-vertex .shudan-selection {
-  left: -.05em;
-  right: -.05em;
-  top: -.05em;
-  bottom: -.05em;
-  width: auto;
-  height: auto;
-  border: .1em solid #0082F0;
-  border-radius: .2em;
-  background: rgba(0, 130, 240, .2);
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: auto;
+    height: auto;
+    border: .1em solid #0082F0;
+    border-radius: .2em;
+    background: rgba(0, 130, 240, .2);
+  }
+  .shudan-vertex.shudan-selectedleft .shudan-selection {
+    border-left: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .shudan-vertex.shudan-selectedright .shudan-selection {
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .shudan-vertex.shudan-selectedtop .shudan-selection {
+    border-top: none;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  .shudan-vertex.shudan-selectedbottom .shudan-selection {
+    border-bottom: none;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 /* Lines & arrows */
