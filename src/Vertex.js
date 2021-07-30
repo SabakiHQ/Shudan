@@ -30,7 +30,8 @@ class Vertex extends Component {
       this.props.dimmed !== nextProps.dimmed ||
       this.props.marker !== nextProps.marker ||
       this.props.ghostStone !== nextProps.ghostStone ||
-      this.props.animate !== nextProps.animate
+      this.props.animate !== nextProps.animate ||
+      this.props.vertexSize !== nextProps.vertexSize
     )
   }
 
@@ -50,7 +51,16 @@ class Vertex extends Component {
       selectedLeft,
       selectedRight,
       selectedTop,
-      selectedBottom
+      selectedBottom,
+      allyLeft,
+      allyRight,
+      allyTop,
+      allyBottom,
+      allyTopLeft,
+      allyTopRight,
+      allyBottomLeft,
+      allyBottomRight,
+      vertexSize
     } = this.props
 
     let markerMarkup = z =>
@@ -61,6 +71,26 @@ class Vertex extends Component {
         title: marker.label,
         style: absoluteStyle(z)
       })
+
+    function invertedRadiusStyleTop() {
+        let borderRadius = [0, 0, 0, 0]
+        if (allyLeft && allyBottomLeft && !allyBottom)
+            borderRadius[0] = vertexSize / 4
+        if (allyRight && allyBottomRight && !allyBottom)
+            borderRadius[1] = vertexSize / 4;
+
+        return borderRadius.join('px ') + 'px'
+    }
+
+    function invertedRadiusStyleBottom() {
+        let borderRadius = [0, 0, 0, 0]
+        if (allyRight && allyTopRight && !allyTop)
+            borderRadius[2] = vertexSize / 4;
+        if (allyLeft && allyTopLeft && !allyTop)
+            borderRadius[3] = vertexSize / 4;
+
+        return borderRadius.join('px ') + 'px'
+    }
 
     return h(
       'div',
@@ -144,15 +174,56 @@ class Vertex extends Component {
         !!sign && markerMarkup()
       ),
 
-      !!paint &&
+    !!paint &&
+    h('div', {},
         h('div', {
-          key: 'paint',
-          className: 'shudan-paint',
-          style: {
-            ...absoluteStyle(3),
-            opacity: Math.abs(paint || 0) * 0.5
-          }
+            key: 'paint',
+            className: 'shudan-paint',
+            style: {
+                position: 'relative',
+                ...absoluteStyle(3),
+                opacity: Math.abs(paint || 0) * 0.5,
+                borderRadius: `${(allyLeft || allyTop) ? 0 : 25}% ${(allyRight || allyTop) ? 0 : 25}%` +
+                    ` ${(allyRight || allyBottom) ? 0 : 25}% ${(allyLeft || allyBottom) ? 0 : 25}%`,
+            }
         }),
+        // wrapper div for inverted upper corners
+        h('div', {
+            style: {
+                position: 'relative',
+                top: vertexSize,
+                height: vertexSize,
+                width: vertexSize,
+                overflow: 'hidden',
+            }
+            },
+            h('div', {
+                style: {
+                    borderRadius: invertedRadiusStyleTop(),
+                    boxShadow: `0 -${vertexSize / 4}px 0 100px ` +
+                        (paint > 0 ? 'var(--shudan-black-background-color)' : 'var(--shudan-white-background-color)'),
+                    opacity: Math.abs(paint || 0) * 0.5,
+                }
+            })),
+        // wrapper div for inverted lower corners
+        h('div', {
+            style: {
+                position: 'relative',
+                top: -2 * vertexSize,
+                height: vertexSize,
+                width: vertexSize,
+                overflow: 'hidden',
+            }
+            },
+            h('div', {
+                style: {
+                    borderRadius: invertedRadiusStyleBottom(),
+                    boxShadow: `0 -${vertexSize / 4}px 0 100px ` +
+                        (paint > 0 ? 'var(--shudan-black-background-color)' : 'var(--shudan-white-background-color)'),
+                    opacity: Math.abs(paint || 0) * 0.5,
+                }
+            }))
+        ),
 
       !!selected &&
         h('div', {

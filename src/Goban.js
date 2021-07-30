@@ -170,6 +170,15 @@ class Goban extends Component {
                       ghostStoneMap && ghostStoneMap[y] && ghostStoneMap[y][x],
                     dimmed: dimmedVertices.some(equalsVertex),
                     animate: animatedVertices.some(equalsVertex),
+                    vertexSize: vertexSize,
+                    allyLeft: !!(paintMap && paintMap[y] && paintMap[y][x - 1] && isEqualSign(paintMap[y][x - 1], paintMap[y][x])),
+                    allyRight: !!(paintMap && paintMap[y] && paintMap[y][x + 1] && isEqualSign(paintMap[y][x + 1], paintMap[y][x])),
+                    allyTop: !!(paintMap && paintMap[y - 1] && paintMap[y - 1][x] && isEqualSign(paintMap[y - 1][x], paintMap[y][x])),
+                    allyBottom: !!(paintMap && paintMap[y + 1] && paintMap[y + 1][x] && isEqualSign(paintMap[y + 1][x], paintMap[y][x])),
+                    allyTopLeft: !!(paintMap && paintMap[y - 1] && paintMap[y - 1][x - 1] && isEqualSign(paintMap[y - 1][x - 1], paintMap[y][x])),
+                    allyTopRight: !!(paintMap && paintMap[y - 1] && paintMap[y - 1][x + 1] && isEqualSign(paintMap[y - 1][x + 1], paintMap[y][x])),
+                    allyBottomLeft: !!(paintMap && paintMap[y + 1] && paintMap[y + 1][x - 1] && isEqualSign(paintMap[y + 1][x - 1], paintMap[y][x])),
+                    allyBottomRight: !!(paintMap && paintMap[y + 1] && paintMap[y + 1][x + 1] && isEqualSign(paintMap[y + 1][x + 1], paintMap[y][x])),
 
                     selected,
                     selectedLeft:
@@ -243,6 +252,10 @@ class Goban extends Component {
         h(CoordX, {xs, style: {gridRow: '3', gridColumn: '2'}, coordX})
     )
   }
+}
+
+function isEqualSign(x, y) {
+  return (x > 0 && y > 0) || (x < 0 && y < 0)
 }
 
 Goban.getDerivedStateFromProps = function(props, state) {
