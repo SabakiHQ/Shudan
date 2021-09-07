@@ -1,4 +1,4 @@
-import type { Component, JSX } from "preact";
+import type { ComponentClass, JSX } from "preact";
 
 export type Vertex = [x: number, y: number];
 
@@ -76,4 +76,6 @@ export interface GobanProps {
   onVertexPointerLeave?: (evt: PointerEvent, vertex: Vertex) => void;
 }
 
-export default class Goban extends Component<GobanProps> {}
+declare const Goban: ComponentClass<GobanProps>;
+
+export default Goban;

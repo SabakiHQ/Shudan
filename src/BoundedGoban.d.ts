@@ -1,4 +1,4 @@
-import type { Component } from "preact";
+import type { ComponentClass } from "preact";
 import type { GobanProps } from "./Goban";
 
 export interface BoundedGobanProps extends GobanProps {
@@ -9,4 +9,6 @@ export interface BoundedGobanProps extends GobanProps {
   onResized: () => void;
 }
 
-export default class BoundedGoban extends Component<BoundedGobanProps> {}
+declare const BoundedGoban: ComponentClass<BoundedGobanProps>;
+
+export default BoundedGoban;
