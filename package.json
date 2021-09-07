@@ -3,6 +3,7 @@
   "version": "1.5.4",
   "description": "A highly customizable, low-level Preact Goban component.",
   "main": "./src/main.js",
+  "types": "./src/main.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SabakiHQ/Shudan.git"
