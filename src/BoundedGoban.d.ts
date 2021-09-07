@@ -6,7 +6,7 @@ export type BoundedGobanProps = Omit<GobanProps, "vertexSize"> & {
   maxHeight: number;
   maxVertexSize?: number;
 
-  onResized: () => void;
+  onResized?: () => void;
 };
 
 declare const BoundedGoban: ComponentClass<BoundedGobanProps>;
