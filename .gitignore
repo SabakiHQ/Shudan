@@ -1,2 +1,5 @@
 node_modules/
-bundle.js
+demo/bundle.js
+demo/*.LICENSE.txt
+demo-react/bundle.js
+demo-react/*.LICENSE.txt

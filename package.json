@@ -37,17 +37,17 @@
     "prettier": "^2.3.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.12"
+    "webpack": "^5.52.0",
+    "webpack-cli": "^4.8.0"
   },
   "prettier": {
     "proseWrap": "always"
   },
   "scripts": {
-    "build-demo": "webpack --entry ./demo/main.js -o ./demo/bundle.js --progress --mode production",
-    "watch-demo": "webpack --entry ./demo/main.js -o ./demo/bundle.js --progress --mode development --watch",
-    "build-demo-react": "webpack --entry ./demo-react/main.js --resolve-alias preact=react -o ./demo-react/bundle.js --progress --mode production",
-    "watch-demo-react": "webpack --entry ./demo-react/main.js --resolve-alias preact=react -o ./demo-react/bundle.js --progress --mode development --watch",
+    "build-demo": "webpack --entry ./demo/main.js -o ./demo --output-filename bundle.js --progress --mode production",
+    "watch-demo": "webpack --entry ./demo/main.js -o ./demo --output-filename bundle.js --progress --mode development --watch",
+    "build-demo-react": "webpack --entry ./demo-react/main.js --resolve-alias preact=react -o ./demo-react --output-filename bundle.js --progress --mode production",
+    "watch-demo-react": "webpack --entry ./demo-react/main.js --resolve-alias preact=react -o ./demo-react --output-filename bundle.js --progress --mode development --watch",
     "format": "prettier \"**/*.{js,html,md}\" --write",
     "format-watch": "onchange \"**/*.{js,html,md}\" -- prettier --write {{changed}}"
   }
