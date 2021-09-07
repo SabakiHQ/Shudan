@@ -5,7 +5,12 @@ exports.vertexEvents = [
   'MouseUp',
   'MouseMove',
   'MouseEnter',
-  'MouseLeave'
+  'MouseLeave',
+  'PointerDown',
+  'PointerUp',
+  'PointerMove',
+  'PointerEnter',
+  'PointerLeave'
 ]
 
 exports.range = n =>

@@ -325,6 +325,11 @@ All props are optional. The following props are supported:
 - `onVertexMouseMove` `<Function>`
 - `onVertexMouseEnter` `<Function>`
 - `onVertexMouseLeave` `<Function>`
+- `onVertexPointerUp` `<Function>`
+- `onVertexPointerDown` `<Function>`
+- `onVertexPointerMove` `<Function>`
+- `onVertexPointerEnter` `<Function>`
+- `onVertexPointerLeave` `<Function>`
 
 These functions will be called when the corresponding event is emitted on a
 vertex. It will be called with two arguments:
