@@ -102,7 +102,7 @@ class Goban extends Component {
         }),
 
       h(
-        "div",
+        "svg",
         {
           className: "shudan-content",
           style: {
@@ -124,21 +124,8 @@ class Goban extends Component {
         }),
 
         h(
-          "div",
-          {
-            className: "shudan-vertices",
-            style: {
-              display: "grid",
-              gridTemplateColumns: `repeat(${xs.length}, 1em)`,
-              gridTemplateRows: `repeat(${ys.length}, 1em)`,
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              zIndex: 1,
-            },
-          },
+          "g",
+          { className: "shudan-vertices" },
 
           ys.map((y) =>
             xs.map((x) => {
@@ -194,36 +181,16 @@ class Goban extends Component {
         ),
 
         h(
-          "div",
+          "g",
           {
             className: "shudan-lines",
-            style: {
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              overflow: "hidden",
-              pointerEvents: "none",
-              zIndex: 2,
-            },
+            transform: `translate(-${rangeX[0] * vertexSize} -${
+              rangeY[0] * vertexSize
+            })`,
           },
 
-          h(
-            "div",
-            {
-              style: {
-                position: "absolute",
-                top: `-${rangeY[0]}em`,
-                left: `-${rangeX[0]}em`,
-                width: `${width}em`,
-                height: `${height}em`,
-              },
-            },
-
-            lines.map(({ v1, v2, type }, i) =>
-              h(Line, { key: i, v1, v2, type, vertexSize })
-            )
+          lines.map(({ v1, v2, type }, i) =>
+            h(Line, { key: i, v1, v2, type, vertexSize })
           )
         )
       ),
