@@ -145,54 +145,50 @@ class Goban extends Component {
               let equalsVertex = (v) => helper.vertexEquals(v, [x, y]);
               let selected = selectedVertices.some(equalsVertex);
 
-              return h(
-                Vertex,
+              return h(Vertex, {
+                key: [x, y].join("-"),
+                position: [x, y],
 
-                {
-                  key: [x, y].join("-"),
-                  position: [x, y],
+                shift: fuzzyStonePlacement
+                  ? shiftMap && shiftMap[y] && shiftMap[y][x]
+                  : 0,
+                random: randomMap && randomMap[y] && randomMap[y][x],
+                sign: signMap && signMap[y] && signMap[y][x],
 
-                  shift: fuzzyStonePlacement
-                    ? shiftMap && shiftMap[y] && shiftMap[y][x]
-                    : 0,
-                  random: randomMap && randomMap[y] && randomMap[y][x],
-                  sign: signMap && signMap[y] && signMap[y][x],
+                heat: heatMap && heatMap[y] && heatMap[y][x],
+                paint: paintMap && paintMap[y] && paintMap[y][x],
+                marker: markerMap && markerMap[y] && markerMap[y][x],
+                ghostStone:
+                  ghostStoneMap && ghostStoneMap[y] && ghostStoneMap[y][x],
+                dimmed: dimmedVertices.some(equalsVertex),
+                animate: animatedVertices.some(equalsVertex),
 
-                  heat: heatMap && heatMap[y] && heatMap[y][x],
-                  paint: paintMap && paintMap[y] && paintMap[y][x],
-                  marker: markerMap && markerMap[y] && markerMap[y][x],
-                  ghostStone:
-                    ghostStoneMap && ghostStoneMap[y] && ghostStoneMap[y][x],
-                  dimmed: dimmedVertices.some(equalsVertex),
-                  animate: animatedVertices.some(equalsVertex),
+                selected,
+                selectedLeft:
+                  selected &&
+                  selectedVertices.some((v) =>
+                    helper.vertexEquals(v, [x - 1, y])
+                  ),
+                selectedRight:
+                  selected &&
+                  selectedVertices.some((v) =>
+                    helper.vertexEquals(v, [x + 1, y])
+                  ),
+                selectedTop:
+                  selected &&
+                  selectedVertices.some((v) =>
+                    helper.vertexEquals(v, [x, y - 1])
+                  ),
+                selectedBottom:
+                  selected &&
+                  selectedVertices.some((v) =>
+                    helper.vertexEquals(v, [x, y + 1])
+                  ),
 
-                  selected,
-                  selectedLeft:
-                    selected &&
-                    selectedVertices.some((v) =>
-                      helper.vertexEquals(v, [x - 1, y])
-                    ),
-                  selectedRight:
-                    selected &&
-                    selectedVertices.some((v) =>
-                      helper.vertexEquals(v, [x + 1, y])
-                    ),
-                  selectedTop:
-                    selected &&
-                    selectedVertices.some((v) =>
-                      helper.vertexEquals(v, [x, y - 1])
-                    ),
-                  selectedBottom:
-                    selected &&
-                    selectedVertices.some((v) =>
-                      helper.vertexEquals(v, [x, y + 1])
-                    ),
-
-                  ...helper.vertexEvents.map((e) => ({
-                    [`on${e}`]: this.props[`onVertex${e}`],
-                  })),
-                }
-              );
+                ...helper.vertexEvents.map((e) => ({
+                  [`on${e}`]: this.props[`onVertex${e}`],
+                })),
+              });
             })
           )
         ),
