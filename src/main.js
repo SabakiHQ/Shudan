@@ -1,4 +1,4 @@
-const Goban = require('./Goban')
-const BoundedGoban = require('./BoundedGoban')
+const Goban = require("./Goban");
+const BoundedGoban = require("./BoundedGoban");
 
-module.exports = {Goban, BoundedGoban}
+module.exports = { Goban, BoundedGoban };

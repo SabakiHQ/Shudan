@@ -21,12 +21,12 @@ $ npm install @sabaki/shudan
 To use this module, require it as follows:
 
 ```js
-const {h} = require('preact')
-const {Goban} = require('@sabaki/shudan')
+const { h } = require("preact");
+const { Goban } = require("@sabaki/shudan");
 
-const CustomComponent = props => (
+const CustomComponent = (props) => (
   <Goban vertexSize={24} signMap={props.signMap} />
-)
+);
 ```
 
 Don't forget to include the `css/goban.css` file in your HTML:
@@ -48,10 +48,10 @@ module.exports = {
   // ...
   resolve: {
     alias: {
-      preact: 'react'
-    }
-  }
-}
+      preact: "react",
+    },
+  },
+};
 ```
 
 ### Board Representation
@@ -93,17 +93,17 @@ certain classes to customize the appearance:
 ```css
 .shudan-goban-image {
   /* Board texture */
-  background-image: url('./board.png');
+  background-image: url("./board.png");
 }
 
 .shudan-stone-image.shudan-sign_1 {
   /* Black stone */
-  background-image: url('./black_stone.png');
+  background-image: url("./black_stone.png");
 }
 
 .shudan-stone-image.shudan-sign_-1 {
   /* White stone */
-  background-image: url('./white_stone.png');
+  background-image: url("./white_stone.png");
 }
 ```
 
@@ -132,19 +132,19 @@ pattern to each stone:
 
 ```css
 .shudan-stone-image.shudan-sign_-1 {
-  background-image: url('white_stone_1.png');
+  background-image: url("white_stone_1.png");
 }
 .shudan-stone-image.shudan-sign_-1.shudan-random_1 {
-  background-image: url('white_stone_2.png');
+  background-image: url("white_stone_2.png");
 }
 .shudan-stone-image.shudan-sign_-1.shudan-random_2 {
-  background-image: url('white_stone_3.png');
+  background-image: url("white_stone_3.png");
 }
 .shudan-stone-image.shudan-sign_-1.shudan-random_3 {
-  background-image: url('white_stone_4.png');
+  background-image: url("white_stone_4.png");
 }
 .shudan-stone-image.shudan-sign_-1.shudan-random_4 {
-  background-image: url('white_stone_5.png');
+  background-image: url("white_stone_5.png");
 }
 ```
 

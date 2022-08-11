@@ -1,18 +1,18 @@
-const {createElement: h, Component} = require('preact')
-const Goban = require('./Goban')
+const { createElement: h, Component } = require("preact");
+const Goban = require("./Goban");
 
 class BoundedGoban extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       vertexSize: 1,
-      visibility: 'hidden'
-    }
+      visibility: "hidden",
+    };
   }
 
   componentDidMount() {
-    this.componentDidUpdate()
+    this.componentDidUpdate();
   }
 
   componentDidUpdate(prevProps) {
@@ -24,11 +24,11 @@ class BoundedGoban extends Component {
       rangeX,
       rangeY,
       signMap,
-      onResized = () => {}
-    } = this.props
+      onResized = () => {},
+    } = this.props;
 
     if (
-      this.state.visibility !== 'visible' ||
+      this.state.visibility !== "visible" ||
       showCoordinates !== prevProps.showCoordinates ||
       maxWidth !== prevProps.maxWidth ||
       maxHeight !== prevProps.maxHeight ||
@@ -38,42 +38,42 @@ class BoundedGoban extends Component {
       signMap.length !== prevProps.signMap.length ||
       (signMap[0] || []).length !== (prevProps.signMap[0] || []).length
     ) {
-      let {offsetWidth, offsetHeight} = this.element
-      let scale = Math.min(maxWidth / offsetWidth, maxHeight / offsetHeight)
-      let vertexSize = Math.max(Math.floor(this.state.vertexSize * scale), 1)
+      let { offsetWidth, offsetHeight } = this.element;
+      let scale = Math.min(maxWidth / offsetWidth, maxHeight / offsetHeight);
+      let vertexSize = Math.max(Math.floor(this.state.vertexSize * scale), 1);
 
       if (this.state.vertexSize !== vertexSize) {
-        this.setState({vertexSize}, onResized)
+        this.setState({ vertexSize }, onResized);
       }
 
-      if (this.state.visibility !== 'visible') {
-        this.setState({visibility: 'visible'})
+      if (this.state.visibility !== "visible") {
+        this.setState({ visibility: "visible" });
       }
     }
   }
 
   render() {
-    let {innerProps = {}, style = {}, maxVertexSize = Infinity} = this.props
-    let {ref: innerRef = () => {}} = innerProps
+    let { innerProps = {}, style = {}, maxVertexSize = Infinity } = this.props;
+    let { ref: innerRef = () => {} } = innerProps;
 
     return h(
       Goban,
       Object.assign({}, this.props, {
         innerProps: Object.assign({}, innerProps, {
-          ref: el => (innerRef(el), (this.element = el))
+          ref: (el) => (innerRef(el), (this.element = el)),
         }),
 
         style: Object.assign(
           {
-            visibility: this.state.visibility
+            visibility: this.state.visibility,
           },
           style
         ),
 
-        vertexSize: Math.min(this.state.vertexSize, maxVertexSize)
+        vertexSize: Math.min(this.state.vertexSize, maxVertexSize),
       })
-    )
+    );
   }
 }
 
-module.exports = BoundedGoban
+module.exports = BoundedGoban;

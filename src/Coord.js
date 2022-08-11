@@ -1,63 +1,63 @@
-const {createElement: h, Component} = require('preact')
-const {alpha} = require('./helper')
+const { createElement: h, Component } = require("preact");
+const { alpha } = require("./helper");
 
 class CoordX extends Component {
   render() {
     let {
       style,
       xs,
-      coordX = i => alpha[i] || alpha[alpha.length - 1]
-    } = this.props
+      coordX = (i) => alpha[i] || alpha[alpha.length - 1],
+    } = this.props;
 
     return h(
-      'div',
+      "div",
       {
-        className: 'shudan-coordx',
+        className: "shudan-coordx",
         style: Object.assign(
           {
-            display: 'flex',
-            textAlign: 'center'
+            display: "flex",
+            textAlign: "center",
           },
           style
-        )
+        ),
       },
 
-      xs.map(i =>
+      xs.map((i) =>
         h(
-          'div',
-          {key: i, style: {width: '1em'}},
-          h('span', {style: {display: 'block'}}, coordX(i))
+          "div",
+          { key: i, style: { width: "1em" } },
+          h("span", { style: { display: "block" } }, coordX(i))
         )
       )
-    )
+    );
   }
 }
 
 class CoordY extends Component {
   render() {
-    let {style, height, ys, coordY = i => height - i} = this.props
+    let { style, height, ys, coordY = (i) => height - i } = this.props;
 
     return h(
-      'div',
+      "div",
       {
-        className: 'shudan-coordy',
+        className: "shudan-coordy",
         style: Object.assign(
           {
-            textAlign: 'center'
+            textAlign: "center",
           },
           style
-        )
+        ),
       },
 
-      ys.map(i =>
+      ys.map((i) =>
         h(
-          'div',
-          {key: i, style: {height: '1em'}},
-          h('span', {style: {display: 'block'}}, coordY(i))
+          "div",
+          { key: i, style: { height: "1em" } },
+          h("span", { style: { display: "block" } }, coordY(i))
         )
       )
-    )
+    );
   }
 }
 
-module.exports = {CoordX, CoordY}
+module.exports = { CoordX, CoordY };

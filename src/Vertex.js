@@ -1,21 +1,21 @@
-const {createElement: h, Component} = require('preact')
-const classnames = require('classnames')
-const {vertexEvents} = require('./helper')
+const { createElement: h, Component } = require("preact");
+const classnames = require("classnames");
+const { vertexEvents } = require("./helper");
 
-const absoluteStyle = zIndex => ({
-  position: 'absolute',
-  zIndex
-})
+const absoluteStyle = (zIndex) => ({
+  position: "absolute",
+  zIndex,
+});
 
 class Vertex extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     for (let e of vertexEvents) {
-      this[`handle${e}`] = evt => {
-        let handler = this.props[`on${e}`] || (() => {})
-        handler(evt, this.props.position)
-      }
+      this[`handle${e}`] = (evt) => {
+        let handler = this.props[`on${e}`] || (() => {});
+        handler(evt, this.props.position);
+      };
     }
   }
 
@@ -31,7 +31,7 @@ class Vertex extends Component {
       this.props.marker !== nextProps.marker ||
       this.props.ghostStone !== nextProps.ghostStone ||
       this.props.animate !== nextProps.animate
-    )
+    );
   }
 
   render() {
@@ -50,30 +50,30 @@ class Vertex extends Component {
       selectedLeft,
       selectedRight,
       selectedTop,
-      selectedBottom
-    } = this.props
+      selectedBottom,
+    } = this.props;
 
-    let markerMarkup = z =>
+    let markerMarkup = (z) =>
       !!marker &&
-      h('div', {
-        key: 'marker',
-        className: 'shudan-marker',
+      h("div", {
+        key: "marker",
+        className: "shudan-marker",
         title: marker.label,
-        style: absoluteStyle(z)
-      })
+        style: absoluteStyle(z),
+      });
 
     return h(
-      'div',
+      "div",
       Object.assign(
         {
-          'data-x': position[0],
-          'data-y': position[1],
+          "data-x": position[0],
+          "data-y": position[1],
 
           style: {
-            position: 'relative'
+            position: "relative",
           },
           className: classnames(
-            'shudan-vertex',
+            "shudan-vertex",
             `shudan-random_${random}`,
             `shudan-sign_${sign}`,
 
@@ -81,62 +81,62 @@ class Vertex extends Component {
               [`shudan-shift_${shift}`]: !!shift,
               [`shudan-heat_${!!heat && heat.strength}`]: !!heat,
               [`shudan-paint_${paint > 0 ? 1 : -1}`]: !!paint,
-              'shudan-dimmed': dimmed,
-              'shudan-selected': selected,
-              'shudan-selectedleft': selectedLeft,
-              'shudan-selectedright': selectedRight,
-              'shudan-selectedtop': selectedTop,
-              'shudan-selectedbottom': selectedBottom,
-              'shudan-animate': animate
+              "shudan-dimmed": dimmed,
+              "shudan-selected": selected,
+              "shudan-selectedleft": selectedLeft,
+              "shudan-selectedright": selectedRight,
+              "shudan-selectedtop": selectedTop,
+              "shudan-selectedbottom": selectedBottom,
+              "shudan-animate": animate,
             },
 
             marker && marker.type && `shudan-marker_${marker.type}`,
             marker &&
-              marker.type === 'label' &&
+              marker.type === "label" &&
               marker.label &&
-              (marker.label.includes('\n') || marker.label.length >= 3) &&
+              (marker.label.includes("\n") || marker.label.length >= 3) &&
               `shudan-smalllabel`,
 
             ghostStone && `shudan-ghost_${ghostStone.sign}`,
             ghostStone && ghostStone.type && `shudan-ghost_${ghostStone.type}`,
             ghostStone && ghostStone.faint && `shudan-ghost_faint`
-          )
+          ),
         },
-        ...vertexEvents.map(eventName => ({
-          [`on${eventName}`]: this[`handle${eventName}`]
+        ...vertexEvents.map((eventName) => ({
+          [`on${eventName}`]: this[`handle${eventName}`],
         }))
       ),
 
       !sign && markerMarkup(0),
       !sign &&
         !!ghostStone &&
-        h('div', {
-          key: 'ghost',
-          className: 'shudan-ghost',
-          style: absoluteStyle(1)
+        h("div", {
+          key: "ghost",
+          className: "shudan-ghost",
+          style: absoluteStyle(1),
         }),
 
       h(
-        'div',
-        {key: 'stone', className: 'shudan-stone', style: absoluteStyle(2)},
+        "div",
+        { key: "stone", className: "shudan-stone", style: absoluteStyle(2) },
         !!sign &&
-          h('div', {
-            key: 'shadow',
-            className: 'shudan-shadow',
-            style: absoluteStyle()
+          h("div", {
+            key: "shadow",
+            className: "shudan-shadow",
+            style: absoluteStyle(),
           }),
         !!sign &&
           h(
-            'div',
+            "div",
             {
-              key: 'inner',
+              key: "inner",
               className: classnames(
-                'shudan-inner',
-                'shudan-stone-image',
+                "shudan-inner",
+                "shudan-stone-image",
                 `shudan-random_${random}`,
                 `shudan-sign_${sign}`
               ),
-              style: absoluteStyle()
+              style: absoluteStyle(),
             },
             sign
           ),
@@ -145,39 +145,39 @@ class Vertex extends Component {
       ),
 
       !!paint &&
-        h('div', {
-          key: 'paint',
-          className: 'shudan-paint',
+        h("div", {
+          key: "paint",
+          className: "shudan-paint",
           style: {
             ...absoluteStyle(3),
-            opacity: Math.abs(paint || 0) * 0.5
-          }
+            opacity: Math.abs(paint || 0) * 0.5,
+          },
         }),
 
       !!selected &&
-        h('div', {
-          key: 'selection',
-          className: 'shudan-selection',
-          style: absoluteStyle(4)
+        h("div", {
+          key: "selection",
+          className: "shudan-selection",
+          style: absoluteStyle(4),
         }),
 
-      h('div', {
-        key: 'heat',
-        className: 'shudan-heat',
-        style: absoluteStyle(5)
+      h("div", {
+        key: "heat",
+        className: "shudan-heat",
+        style: absoluteStyle(5),
       }),
       !!heat &&
         h(
-          'div',
+          "div",
           {
-            key: 'heatlabel',
-            className: 'shudan-heatlabel',
-            style: absoluteStyle(6)
+            key: "heatlabel",
+            className: "shudan-heatlabel",
+            style: absoluteStyle(6),
           },
           heat.text && heat.text.toString()
         )
-    )
+    );
   }
 }
 
-module.exports = Vertex
+module.exports = Vertex;
