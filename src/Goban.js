@@ -7,6 +7,8 @@ const Grid = require("./Grid");
 const Vertex = require("./Vertex");
 const Line = require("./Line");
 
+let inspect = (x) => (console.log(x), x);
+
 class Goban extends Component {
   constructor(props) {
     super(props);
@@ -196,16 +198,31 @@ class Goban extends Component {
         ),
 
         h(
-          "g",
+          "svg",
           {
             className: "shudan-lines",
-            transform: `translate(-${rangeX[0] * vertexSize} -${
-              rangeY[0] * vertexSize
-            })`,
+            style: {
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              pointerEvents: "none",
+              zIndex: 2,
+            },
           },
 
-          lines.map(({ v1, v2, type }, i) =>
-            h(Line, { key: i, v1, v2, type, vertexSize })
+          h(
+            "g",
+            {
+              transform: `translate(-${rangeX[0] * vertexSize} -${
+                rangeY[0] * vertexSize
+              })`,
+            },
+
+            lines.map(({ v1, v2, type }, i) =>
+              h(Line, { key: i, v1, v2, type, vertexSize })
+            )
           )
         )
       ),
