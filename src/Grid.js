@@ -22,8 +22,18 @@ class Grid extends Component {
       xs.length > 0 &&
       ys.length > 0 &&
       h(
-        "g",
-        { className: "shudan-grid" },
+        "svg",
+        {
+          className: "shudan-grid",
+          style: {
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            zIndex: 0,
+          },
+        },
 
         // Draw grid lines
 
