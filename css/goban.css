@@ -2,7 +2,7 @@
     --shudan-board-border-width: .25em;
     --shudan-board-border-color: #CA933A;
 
-    --shudan-board-background-color: #EBB55B;
+    --shudan-board-background-color: #F1B458;
     --shudan-board-foreground-color: #5E2E0C;
 
     --shudan-black-background-color: #222;
@@ -103,10 +103,10 @@
     background-size: 100% 100%;
   }
   .shudan-stone-image.shudan-sign_1 {
-    background-image: url('./stone_1.png');
+    background-image: url('./stone_1.svg');
   }
   .shudan-stone-image.shudan-sign_-1 {
-    background-image: url('./stone_-1.png');
+    background-image: url('./stone_-1.svg');
 }
 
 /* Fuzzy stone placement */
