@@ -102,7 +102,7 @@ class Goban extends Component {
         }),
 
       h(
-        "svg",
+        "div",
         {
           className: "shudan-content",
           style: {
@@ -124,8 +124,21 @@ class Goban extends Component {
         }),
 
         h(
-          "g",
-          { className: "shudan-vertices" },
+          "div",
+          {
+            className: "shudan-vertices",
+            style: {
+              display: "grid",
+              gridTemplateColumns: `repeat(${xs.length}, 1em)`,
+              gridTemplateRows: `repeat(${ys.length}, 1em)`,
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: 1,
+            },
+          },
 
           ys.map((y) =>
             xs.map((x) => {
