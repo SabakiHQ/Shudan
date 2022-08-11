@@ -37,7 +37,7 @@ class Goban extends Component {
             animatedVertices: [],
             clearAnimatedVerticesHandler: null,
           });
-        }, this.props.animationDuration || 200),
+        }, this.props.animationDuration ?? 200),
       });
     }
   }
@@ -79,7 +79,7 @@ class Goban extends Component {
             "shudan-coordinates": showCoordinates,
           }) +
           " " +
-          (this.props.class || this.props.className || ""),
+          (this.props.class ?? this.props.className ?? ""),
 
         style: {
           display: "inline-grid",
@@ -87,7 +87,7 @@ class Goban extends Component {
           gridTemplateColumns: showCoordinates ? "1em 1fr 1em" : "1fr",
           fontSize: vertexSize,
           lineHeight: "1em",
-          ...(this.props.style || {}),
+          ...(this.props.style ?? {}),
         },
       },
 
@@ -136,17 +136,14 @@ class Goban extends Component {
                 key: [x, y].join("-"),
                 position: [x, y],
 
-                shift: fuzzyStonePlacement
-                  ? shiftMap && shiftMap[y] && shiftMap[y][x]
-                  : 0,
-                random: randomMap && randomMap[y] && randomMap[y][x],
-                sign: signMap && signMap[y] && signMap[y][x],
+                shift: fuzzyStonePlacement ? shiftMap?.[y]?.[x] : 0,
+                random: randomMap?.[y]?.[x],
+                sign: signMap?.[y]?.[x],
 
-                heat: heatMap && heatMap[y] && heatMap[y][x],
-                paint: paintMap && paintMap[y] && paintMap[y][x],
-                marker: markerMap && markerMap[y] && markerMap[y][x],
-                ghostStone:
-                  ghostStoneMap && ghostStoneMap[y] && ghostStoneMap[y][x],
+                heat: heatMap?.[y]?.[x],
+                paint: paintMap?.[y]?.[x],
+                marker: markerMap?.[y]?.[x],
+                ghostStone: ghostStoneMap?.[y]?.[x],
                 dimmed: dimmedVertices.some(equalsVertex),
                 animate: animatedVertices.some(equalsVertex),
 
