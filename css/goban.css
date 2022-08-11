@@ -456,25 +456,7 @@
 
 .shudan-line,
 .shudan-arrow {
-  height: .11em;
-  background: var(--shudan-board-foreground-color);
-}
-
-.shudan-arrow::before,
-.shudan-arrow::after {
-    content: '';
-    position: absolute;
-    height: .11em;
-    width: .5em;
-    left: auto;
-    right: 0;
-    top: -.12em;
-    background: var(--shudan-board-foreground-color);
-    transform: rotate(30deg);
-    pointer-events: none;
-  }
-  .shudan-arrow::after {
-    top: auto;
-    bottom: -.12em;
-    transform: rotate(-30deg);
+  fill: none;
+  stroke: var(--shudan-board-foreground-color);
+  stroke-width: .11em;
 }

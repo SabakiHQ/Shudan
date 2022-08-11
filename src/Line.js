@@ -23,17 +23,21 @@ class Line extends Component {
 
     let angle = (Math.atan2(dy, dx) * 180) / Math.PI;
     let length = Math.sqrt(dx * dx + dy * dy);
+    let right = left + length;
 
-    return h("div", {
+    return h("path", {
       className: `shudan-${type}`,
-      style: {
-        position: "absolute",
-        left,
-        top,
-        margin: 0,
-        width: length,
-        transform: `translateX(${-length / 2}px) rotate(${angle}deg)`,
-      },
+      d: `M ${left} ${top} h ${length} ${
+        type === "arrow"
+          ? (() => {
+              let [x1, y1] = [right - vertexSize / 2, top - vertexSize / 4];
+              let [x2, y2] = [right - vertexSize / 2, top + vertexSize / 4];
+
+              return `L ${x1} ${y1} M ${right} ${top} L ${x2} ${y2}`;
+            })()
+          : ""
+      }`,
+      transform: `rotate(${angle} ${left} ${top}) translate(${-length / 2} 0)`,
     });
   }
 }
