@@ -132,47 +132,52 @@ class Goban extends Component {
               let equalsVertex = (v) => helper.vertexEquals(v, [x, y]);
               let selected = selectedVertices.some(equalsVertex);
 
-              return h(Vertex, {
-                key: [x, y].join("-"),
-                position: [x, y],
+              return h(
+                Vertex,
+                Object.assign(
+                  {
+                    key: [x, y].join("-"),
+                    position: [x, y],
 
-                shift: fuzzyStonePlacement ? shiftMap?.[y]?.[x] : 0,
-                random: randomMap?.[y]?.[x],
-                sign: signMap?.[y]?.[x],
+                    shift: fuzzyStonePlacement ? shiftMap?.[y]?.[x] : 0,
+                    random: randomMap?.[y]?.[x],
+                    sign: signMap?.[y]?.[x],
 
-                heat: heatMap?.[y]?.[x],
-                paint: paintMap?.[y]?.[x],
-                marker: markerMap?.[y]?.[x],
-                ghostStone: ghostStoneMap?.[y]?.[x],
-                dimmed: dimmedVertices.some(equalsVertex),
-                animate: animatedVertices.some(equalsVertex),
+                    heat: heatMap?.[y]?.[x],
+                    paint: paintMap?.[y]?.[x],
+                    marker: markerMap?.[y]?.[x],
+                    ghostStone: ghostStoneMap?.[y]?.[x],
+                    dimmed: dimmedVertices.some(equalsVertex),
+                    animate: animatedVertices.some(equalsVertex),
 
-                selected,
-                selectedLeft:
-                  selected &&
-                  selectedVertices.some((v) =>
-                    helper.vertexEquals(v, [x - 1, y])
-                  ),
-                selectedRight:
-                  selected &&
-                  selectedVertices.some((v) =>
-                    helper.vertexEquals(v, [x + 1, y])
-                  ),
-                selectedTop:
-                  selected &&
-                  selectedVertices.some((v) =>
-                    helper.vertexEquals(v, [x, y - 1])
-                  ),
-                selectedBottom:
-                  selected &&
-                  selectedVertices.some((v) =>
-                    helper.vertexEquals(v, [x, y + 1])
-                  ),
+                    selected,
+                    selectedLeft:
+                      selected &&
+                      selectedVertices.some((v) =>
+                        helper.vertexEquals(v, [x - 1, y])
+                      ),
+                    selectedRight:
+                      selected &&
+                      selectedVertices.some((v) =>
+                        helper.vertexEquals(v, [x + 1, y])
+                      ),
+                    selectedTop:
+                      selected &&
+                      selectedVertices.some((v) =>
+                        helper.vertexEquals(v, [x, y - 1])
+                      ),
+                    selectedBottom:
+                      selected &&
+                      selectedVertices.some((v) =>
+                        helper.vertexEquals(v, [x, y + 1])
+                      ),
+                  },
 
-                ...helper.vertexEvents.map((e) => ({
-                  [`on${e}`]: this.props[`onVertex${e}`],
-                })),
-              });
+                  ...helper.vertexEvents.map((e) => ({
+                    [`on${e}`]: this.props[`onVertex${e}`],
+                  }))
+                )
+              );
             })
           )
         ),
