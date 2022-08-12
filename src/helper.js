@@ -13,6 +13,9 @@ exports.vertexEvents = [
   "PointerLeave",
 ];
 
+exports.avg = (xs) =>
+  xs.length === 0 ? 0 : xs.reduce((sum, x) => sum + x, 0) / xs.length;
+
 exports.range = (n) =>
   Array(n)
     .fill(0)

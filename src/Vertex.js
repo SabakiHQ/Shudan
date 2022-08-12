@@ -1,6 +1,6 @@
 const { createElement: h, Component } = require("preact");
 const classnames = require("classnames");
-const { vertexEvents } = require("./helper");
+const { avg, vertexEvents } = require("./helper");
 
 const absoluteStyle = (zIndex) => ({
   position: "absolute",
@@ -92,6 +92,14 @@ class Vertex extends Component {
       sign,
       heat,
       paint,
+      paintLeft,
+      paintRight,
+      paintTop,
+      paintBottom,
+      paintTopLeft,
+      paintTopRight,
+      paintBottomLeft,
+      paintBottomRight,
       dimmed,
       marker,
       ghostStone,
@@ -130,8 +138,18 @@ class Vertex extends Component {
             {
               [`shudan-shift_${shift}`]: !!shift,
               [`shudan-heat_${!!heat && heat.strength}`]: !!heat,
-              [`shudan-paint_${paint > 0 ? 1 : -1}`]: !!paint,
               "shudan-dimmed": dimmed,
+
+              [`shudan-paint_${paint > 0 ? 1 : -1}`]: !!paint,
+              "shudan-paintedleft":
+                !!paint && Math.sign(paintLeft) === Math.sign(paint),
+              "shudan-paintedright":
+                !!paint && Math.sign(paintRight) === Math.sign(paint),
+              "shudan-paintedtop":
+                !!paint && Math.sign(paintTop) === Math.sign(paint),
+              "shudan-paintedbottom":
+                !!paint && Math.sign(paintBottom) === Math.sign(paint),
+
               "shudan-selected": selected,
               "shudan-selectedleft": selectedLeft,
               "shudan-selectedright": selectedRight,
@@ -196,15 +214,58 @@ class Vertex extends Component {
         !!sign && markerMarkup()
       ),
 
-      !!paint &&
-        h("div", {
-          key: "paint",
-          className: "shudan-paint",
-          style: {
-            ...absoluteStyle(3),
-            opacity: Math.abs(paint || 0) * 0.5,
+      (!!paint || !!paintLeft || !!paintRight || !!paintTop || !!paintBottom) &&
+        h(
+          "div",
+          {
+            key: "paint",
+            className: "shudan-paint",
+            style: absoluteStyle(3),
           },
-        }),
+
+          h("div", {
+            className: "shudan-inner",
+            style: {
+              ...absoluteStyle(),
+              opacity: avg(
+                (!!paint
+                  ? [paint]
+                  : [paintLeft, paintRight, paintTop, paintBottom].map(
+                      (x) => !isNaN(x)
+                    )
+                ).map((x) => Math.abs(x ?? 0) * 0.5)
+              ),
+              boxShadow: [
+                Math.sign(paintLeft) === Math.sign(paintTop) &&
+                Math.sign(paintTop) === Math.sign(paintTopLeft)
+                  ? [Math.sign(paintTop), "-.5em -.5em"]
+                  : null,
+                Math.sign(paintRight) === Math.sign(paintTop) &&
+                Math.sign(paintTop) === Math.sign(paintTopRight)
+                  ? [Math.sign(paintTop), ".5em -.5em"]
+                  : null,
+                Math.sign(paintLeft) === Math.sign(paintBottom) &&
+                Math.sign(paintBottom) === Math.sign(paintBottomLeft)
+                  ? [Math.sign(paintBottom), "-.5em .5em"]
+                  : null,
+                Math.sign(paintRight) === Math.sign(paintBottom) &&
+                Math.sign(paintBottom) === Math.sign(paintBottomRight)
+                  ? [Math.sign(paintBottom), ".5em .5em"]
+                  : null,
+              ]
+                .filter((x) => !!x && x[0] !== 0)
+                .map(
+                  ([sign, translation]) =>
+                    `${translation} 0 0 var(${
+                      sign > 0
+                        ? "--shudan-black-background-color"
+                        : "--shudan-white-background-color"
+                    })`
+                )
+                .join(","),
+            },
+          })
+        ),
 
       !!selected &&
         h("div", {

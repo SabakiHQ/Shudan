@@ -157,11 +157,20 @@ class Goban extends Component {
                     sign: signMap?.[y]?.[x],
 
                     heat: heatMap?.[y]?.[x],
-                    paint: paintMap?.[y]?.[x],
                     marker: markerMap?.[y]?.[x],
                     ghostStone: ghostStoneMap?.[y]?.[x],
                     dimmed: dimmedVertices.some(equalsVertex),
                     animate: animatedVertices.some(equalsVertex),
+
+                    paint: paintMap?.[y]?.[x],
+                    paintLeft: paintMap?.[y]?.[x - 1],
+                    paintRight: paintMap?.[y]?.[x + 1],
+                    paintTop: paintMap?.[y - 1]?.[x],
+                    paintBottom: paintMap?.[y + 1]?.[x],
+                    paintTopLeft: paintMap?.[y - 1]?.[x - 1],
+                    paintTopRight: paintMap?.[y - 1]?.[x + 1],
+                    paintBottomLeft: paintMap?.[y + 1]?.[x - 1],
+                    paintBottomRight: paintMap?.[y + 1]?.[x + 1],
 
                     selected,
                     selectedLeft:
