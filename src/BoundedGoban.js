@@ -56,23 +56,21 @@ class BoundedGoban extends Component {
     let { innerProps = {}, style = {}, maxVertexSize = Infinity } = this.props;
     let { ref: innerRef = () => {} } = innerProps;
 
-    return h(
-      Goban,
-      Object.assign({}, this.props, {
-        innerProps: Object.assign({}, innerProps, {
-          ref: (el) => (innerRef(el), (this.element = el)),
-        }),
+    return h(Goban, {
+      ...this.props,
 
-        style: Object.assign(
-          {
-            visibility: this.state.visibility,
-          },
-          style
-        ),
+      innerProps: {
+        ...innerProps,
+        ref: (el) => (innerRef(el), (this.element = el)),
+      },
 
-        vertexSize: Math.min(this.state.vertexSize, maxVertexSize),
-      })
-    );
+      style: {
+        visibility: this.state.visibility,
+        ...style,
+      },
+
+      vertexSize: Math.min(this.state.vertexSize, maxVertexSize),
+    });
   }
 }
 
