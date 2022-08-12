@@ -231,7 +231,7 @@ class Vertex extends Component {
                 (!!paint
                   ? [paint]
                   : [paintLeft, paintRight, paintTop, paintBottom].map(
-                      (x) => !isNaN(x)
+                      (x) => x !== 0 && !isNaN(x)
                     )
                 ).map((x) => Math.abs(x ?? 0) * 0.5)
               ),
