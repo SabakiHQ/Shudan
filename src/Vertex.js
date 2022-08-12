@@ -1,6 +1,6 @@
 const { createElement: h, Component } = require("preact");
 const classnames = require("classnames");
-const { avg, vertexEvents } = require("./helper");
+const { avg, vertexEvents, signEquals } = require("./helper");
 
 const absoluteStyle = (zIndex) => ({
   position: "absolute",
@@ -236,20 +236,16 @@ class Vertex extends Component {
                 ).map((x) => Math.abs(x ?? 0) * 0.5)
               ),
               boxShadow: [
-                Math.sign(paintLeft) === Math.sign(paintTop) &&
-                Math.sign(paintTop) === Math.sign(paintTopLeft)
+                signEquals(paintLeft, paintTop, paintTopLeft)
                   ? [Math.sign(paintTop), "-.5em -.5em"]
                   : null,
-                Math.sign(paintRight) === Math.sign(paintTop) &&
-                Math.sign(paintTop) === Math.sign(paintTopRight)
+                signEquals(paintRight, paintTop, paintTopRight)
                   ? [Math.sign(paintTop), ".5em -.5em"]
                   : null,
-                Math.sign(paintLeft) === Math.sign(paintBottom) &&
-                Math.sign(paintBottom) === Math.sign(paintBottomLeft)
+                signEquals(paintLeft, paintBottom, paintBottomLeft)
                   ? [Math.sign(paintBottom), "-.5em .5em"]
                   : null,
-                Math.sign(paintRight) === Math.sign(paintBottom) &&
-                Math.sign(paintBottom) === Math.sign(paintBottomRight)
+                signEquals(paintRight, paintBottom, paintBottomRight)
                   ? [Math.sign(paintBottom), ".5em .5em"]
                   : null,
               ]
