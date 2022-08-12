@@ -7,6 +7,71 @@ const absoluteStyle = (zIndex) => ({
   zIndex,
 });
 
+function Marker(props) {
+  let { sign, marker, zIndex: z } = props;
+
+  return !marker
+    ? null
+    : marker.type === "label"
+    ? h(
+        "div",
+        {
+          className: "shudan-marker",
+          style: absoluteStyle(z),
+        },
+        marker.label
+      )
+    : h(
+        "svg",
+        {
+          className: "shudan-marker",
+          viewBox: "0 0 1 1",
+          style: absoluteStyle(z),
+        },
+
+        marker.type === "circle" ||
+          marker.type === "loader" ||
+          marker.type === "point"
+          ? h("circle", {
+              cx: 0.5,
+              cy: 0.5,
+              r: marker.type === "point" ? 0.18 : 0.25,
+              "vector-effect": "non-scaling-stroke",
+            })
+          : marker.type === "square"
+          ? h("rect", {
+              x: 0.25,
+              y: 0.25,
+              width: 0.5,
+              height: 0.5,
+              "vector-effect": "non-scaling-stroke",
+            })
+          : marker.type === "cross"
+          ? [
+              sign === 0 &&
+                h("rect", {
+                  x: 0.25,
+                  y: 0.25,
+                  width: 0.5,
+                  height: 0.5,
+                  stroke: "none",
+                }),
+              h("path", {
+                d: "M 0 0 L .5 .5 M .5 0 L 0 .5",
+                transform: "translate(.25 .25)",
+                "vector-effect": "non-scaling-stroke",
+              }),
+            ]
+          : marker.type === "triangle"
+          ? h("path", {
+              d: "M 0 .5 L .6 .5 L .3 0 z",
+              transform: "translate(.2 .2)",
+              "vector-effect": "non-scaling-stroke",
+            })
+          : null
+      );
+}
+
 class Vertex extends Component {
   constructor(props) {
     super(props);
@@ -17,21 +82,6 @@ class Vertex extends Component {
         handler(evt, this.props.position);
       };
     }
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return (
-      this.props.shift !== nextProps.shift ||
-      this.props.random !== nextProps.random ||
-      this.props.sign !== nextProps.sign ||
-      this.props.selected !== nextProps.selected ||
-      this.props.heat !== nextProps.heat ||
-      this.props.paint !== nextProps.paint ||
-      this.props.dimmed !== nextProps.dimmed ||
-      this.props.marker !== nextProps.marker ||
-      this.props.ghostStone !== nextProps.ghostStone ||
-      this.props.animate !== nextProps.animate
-    );
   }
 
   render() {
@@ -53,70 +103,13 @@ class Vertex extends Component {
       selectedBottom,
     } = this.props;
 
-    let markerMarkup = (z) => {
-      return !marker
-        ? null
-        : marker.type === "label"
-        ? h(
-            "div",
-            {
-              key: "marker",
-              className: "shudan-marker",
-              style: absoluteStyle(z),
-            },
-            marker.label
-          )
-        : h(
-            "svg",
-            {
-              key: "marker",
-              className: "shudan-marker",
-              viewBox: "0 0 1 1",
-              style: absoluteStyle(z),
-            },
-
-            marker.type === "circle" ||
-              marker.type === "loader" ||
-              marker.type === "point"
-              ? h("circle", {
-                  cx: 0.5,
-                  cy: 0.5,
-                  r: marker.type === "point" ? 0.18 : 0.25,
-                  "vector-effect": "non-scaling-stroke",
-                })
-              : marker.type === "square"
-              ? h("rect", {
-                  x: 0.25,
-                  y: 0.25,
-                  width: 0.5,
-                  height: 0.5,
-                  "vector-effect": "non-scaling-stroke",
-                })
-              : marker.type === "cross"
-              ? [
-                  sign === 0 &&
-                    h("rect", {
-                      x: 0.25,
-                      y: 0.25,
-                      width: 0.5,
-                      height: 0.5,
-                      stroke: "none",
-                    }),
-                  h("path", {
-                    d: "M 0 0 L .5 .5 M .5 0 L 0 .5",
-                    transform: "translate(.25 .25)",
-                    "vector-effect": "non-scaling-stroke",
-                  }),
-                ]
-              : marker.type === "triangle"
-              ? h("path", {
-                  d: "M 0 .5 L .6 .5 L .3 0 z",
-                  transform: "translate(.2 .2)",
-                  "vector-effect": "non-scaling-stroke",
-                })
-              : null
-          );
-    };
+    let markerMarkup = (zIndex) =>
+      h(Marker, {
+        key: "marker",
+        sign,
+        marker,
+        zIndex,
+      });
 
     return h(
       "div",
