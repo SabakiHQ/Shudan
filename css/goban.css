@@ -194,8 +194,12 @@
 
 .shudan-vertex.shudan-marker_label .shudan-marker {
     display: inline-block;
-    max-height: 1.67em;
+    width: auto;
+    height: auto;
+    left: 50%;
+    top: 50%;
     max-width: 1.67em;
+    max-height: 1.67em;
     overflow: hidden;
     background: var(--shudan-board-background-color);
     color: var(--shudan-board-foreground-color);
@@ -204,6 +208,7 @@
     text-align: center;
     text-overflow: ellipsis;
     white-space: pre;
+    transform: translate(-50%, -50%);
   }
   .shudan-vertex.shudan-marker_label.shudan-sign_1 .shudan-marker {
     background: transparent;
