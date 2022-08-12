@@ -53,14 +53,70 @@ class Vertex extends Component {
       selectedBottom,
     } = this.props;
 
-    let markerMarkup = (z) =>
-      !!marker &&
-      h("div", {
-        key: "marker",
-        className: "shudan-marker",
-        title: marker.label,
-        style: absoluteStyle(z),
-      });
+    let markerMarkup = (z) => {
+      return !marker
+        ? null
+        : marker.type === "label"
+        ? h(
+            "div",
+            {
+              key: "marker",
+              className: "shudan-marker",
+              style: absoluteStyle(z),
+            },
+            marker.label
+          )
+        : h(
+            "svg",
+            {
+              key: "marker",
+              className: "shudan-marker",
+              viewBox: "0 0 1 1",
+              style: absoluteStyle(z),
+            },
+
+            marker.type === "circle" ||
+              marker.type === "loader" ||
+              marker.type === "point"
+              ? h("circle", {
+                  cx: 0.5,
+                  cy: 0.5,
+                  r: marker.type === "point" ? 0.18 : 0.25,
+                  "vector-effect": "non-scaling-stroke",
+                })
+              : marker.type === "square"
+              ? h("rect", {
+                  x: 0.25,
+                  y: 0.25,
+                  width: 0.5,
+                  height: 0.5,
+                  "vector-effect": "non-scaling-stroke",
+                })
+              : marker.type === "cross"
+              ? [
+                  sign === 0 &&
+                    h("rect", {
+                      x: 0.25,
+                      y: 0.25,
+                      width: 0.5,
+                      height: 0.5,
+                      stroke: "none",
+                    }),
+                  h("path", {
+                    d: "M 0 0 L .5 .5 M .5 0 L 0 .5",
+                    transform: "translate(.25 .25)",
+                    "vector-effect": "non-scaling-stroke",
+                  }),
+                ]
+              : marker.type === "triangle"
+              ? h("path", {
+                  d: "M 0 .5 L .6 .5 L .3 0 z",
+                  transform: "translate(.2 .2)",
+                  "vector-effect": "non-scaling-stroke",
+                })
+              : null
+          );
+    };
 
     return h(
       "div",
@@ -69,6 +125,7 @@ class Vertex extends Component {
           "data-x": position[0],
           "data-y": position[1],
 
+          title: marker?.label,
           style: {
             position: "relative",
           },
@@ -119,12 +176,14 @@ class Vertex extends Component {
       h(
         "div",
         { key: "stone", className: "shudan-stone", style: absoluteStyle(2) },
+
         !!sign &&
           h("div", {
             key: "shadow",
             className: "shudan-shadow",
             style: absoluteStyle(),
           }),
+
         !!sign &&
           h(
             "div",
