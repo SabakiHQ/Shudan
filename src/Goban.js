@@ -7,8 +7,6 @@ const Grid = require("./Grid");
 const Vertex = require("./Vertex");
 const Line = require("./Line");
 
-let inspect = (x) => (console.log(x), x);
-
 class Goban extends Component {
   constructor(props) {
     super(props);

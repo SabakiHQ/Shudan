@@ -16,7 +16,6 @@ class Grid extends Component {
   render() {
     let { vertexSize, width, height, xs, ys, hoshis } = this.props;
     let halfVertexSize = vertexSize / 2;
-    let fl = Math.floor;
 
     return (
       xs.length > 0 &&
@@ -44,12 +43,12 @@ class Grid extends Component {
             key: `h${i}`,
 
             className: "shudan-gridline shudan-horizontal",
-            x: fl(x),
-            y: fl((2 * i + 1) * halfVertexSize),
+            x: x,
+            y: (2 * i + 1) * halfVertexSize,
             width:
               xs[xs.length - 1] === width - 1
-                ? fl((2 * xs.length - 1) * halfVertexSize - x)
-                : fl(xs.length * vertexSize - x),
+                ? (2 * xs.length - 1) * halfVertexSize - x
+                : xs.length * vertexSize - x,
             height: 1,
           });
         }),
@@ -61,13 +60,13 @@ class Grid extends Component {
             key: `v${i}`,
 
             className: "shudan-gridline shudan-vertical",
-            x: fl((2 * i + 1) * halfVertexSize),
-            y: fl(y),
+            x: (2 * i + 1) * halfVertexSize,
+            y: y,
             width: 1,
             height:
               ys[ys.length - 1] === height - 1
-                ? fl((2 * ys.length - 1) * halfVertexSize - y)
-                : fl(ys.length * vertexSize - y),
+                ? (2 * ys.length - 1) * halfVertexSize - y
+                : ys.length * vertexSize - y,
           });
         }),
 
@@ -82,8 +81,8 @@ class Grid extends Component {
             key: [x, y].join("-"),
 
             className: "shudan-hoshi",
-            cx: fl((2 * i + 1) * halfVertexSize) + 0.5,
-            cy: fl((2 * j + 1) * halfVertexSize) + 0.5,
+            cx: (2 * i + 1) * halfVertexSize + 0.5,
+            cy: (2 * j + 1) * halfVertexSize + 0.5,
             r: ".1em",
           });
         })
