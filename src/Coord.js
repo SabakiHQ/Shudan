@@ -1,57 +1,49 @@
-import { createElement as h, Component } from "preact";
+import { createElement as h } from "preact";
 import { alpha } from "./helper.js";
 
-export class CoordX extends Component {
-  render() {
-    let {
-      style,
-      xs,
-      coordX = (i) => alpha[i] || alpha[alpha.length - 1],
-    } = this.props;
-
-    return h(
-      "div",
-      {
-        className: "shudan-coordx",
-        style: {
-          display: "flex",
-          textAlign: "center",
-          ...style,
-        },
+export function CoordX({
+  style,
+  xs,
+  coordX = (i) => alpha[i] || alpha[alpha.length - 1],
+}) {
+  return h(
+    "div",
+    {
+      className: "shudan-coordx",
+      style: {
+        display: "flex",
+        textAlign: "center",
+        ...style,
       },
+    },
 
-      xs.map((i) =>
-        h(
-          "div",
-          { key: i, style: { width: "1em" } },
-          h("span", { style: { display: "block" } }, coordX(i))
-        )
+    xs.map((i) =>
+      h(
+        "div",
+        { key: i, style: { width: "1em" } },
+        h("span", { style: { display: "block" } }, coordX(i))
       )
-    );
-  }
+    )
+  );
 }
 
-export class CoordY extends Component {
-  render() {
-    let { style, height, ys, coordY = (i) => height - i } = this.props;
-
-    return h(
-      "div",
-      {
-        className: "shudan-coordy",
-        style: {
-          textAlign: "center",
-          ...style,
-        },
+export function CoordY({ style, height, ys, coordY = (i) => height - i }) {
+  return h(
+    "div",
+    {
+      className: "shudan-coordy",
+      style: {
+        textAlign: "center",
+        ...style,
       },
+    },
 
-      ys.map((i) =>
-        h(
-          "div",
-          { key: i, style: { height: "1em" } },
-          h("span", { style: { display: "block" } }, coordY(i))
-        )
+    ys.map((i) =>
+      h(
+        "div",
+        { key: i, style: { height: "1em" } },
+        h("span", { style: { display: "block" } }, coordY(i))
       )
-    );
-  }
+    )
+  );
 }

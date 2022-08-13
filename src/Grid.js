@@ -1,23 +1,12 @@
-import { createElement as h, Component } from "preact";
+import { createElement as h } from "preact";
+import { useMemo } from "preact/hooks";
 
-export default class Grid extends Component {
-  shouldComponentUpdate(nextProps) {
-    return (
-      nextProps.vertexSize !== this.props.vertexSize ||
-      nextProps.width !== this.props.width ||
-      nextProps.height !== this.props.height ||
-      nextProps.xs.length !== this.props.xs.length ||
-      nextProps.ys.length !== this.props.ys.length ||
-      nextProps.xs[0] !== this.props.xs[0] ||
-      nextProps.ys[0] !== this.props.ys[0]
-    );
-  }
+export default function Grid(props) {
+  let { vertexSize, width, height, xs, ys, hoshis } = props;
+  let halfVertexSize = vertexSize / 2;
 
-  render() {
-    let { vertexSize, width, height, xs, ys, hoshis } = this.props;
-    let halfVertexSize = vertexSize / 2;
-
-    return (
+  return useMemo(
+    () =>
       xs.length > 0 &&
       ys.length > 0 &&
       h(
@@ -86,7 +75,7 @@ export default class Grid extends Component {
             r: ".1em",
           });
         })
-      )
-    );
-  }
+      ),
+    [vertexSize, width, height, xs.length, ys.length, xs[0], ys[0]]
+  );
 }
