@@ -13,13 +13,11 @@ class CoordX extends Component {
       "div",
       {
         className: "shudan-coordx",
-        style: Object.assign(
-          {
-            display: "flex",
-            textAlign: "center",
-          },
-          style
-        ),
+        style: {
+          display: "flex",
+          textAlign: "center",
+          ...style,
+        },
       },
 
       xs.map((i) =>
@@ -41,12 +39,10 @@ class CoordY extends Component {
       "div",
       {
         className: "shudan-coordy",
-        style: Object.assign(
-          {
-            textAlign: "center",
-          },
-          style
-        ),
+        style: {
+          textAlign: "center",
+          ...style,
+        },
       },
 
       ys.map((i) =>
