@@ -1,7 +1,7 @@
-const { createElement: h, Component } = require("preact");
-const { alpha } = require("./helper");
+import { createElement as h, Component } from "preact";
+import { alpha } from "./helper.js";
 
-class CoordX extends Component {
+export class CoordX extends Component {
   render() {
     let {
       style,
@@ -31,7 +31,7 @@ class CoordX extends Component {
   }
 }
 
-class CoordY extends Component {
+export class CoordY extends Component {
   render() {
     let { style, height, ys, coordY = (i) => height - i } = this.props;
 
@@ -55,5 +55,3 @@ class CoordY extends Component {
     );
   }
 }
-
-module.exports = { CoordX, CoordY };

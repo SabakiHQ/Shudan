@@ -1,7 +1,7 @@
-const { createElement: h, Component } = require("preact");
-const Goban = require("./Goban");
+import { createElement as h, Component } from "preact";
+import Goban from "./Goban.js";
 
-class BoundedGoban extends Component {
+export default class BoundedGoban extends Component {
   constructor(props) {
     super(props);
 
@@ -73,5 +73,3 @@ class BoundedGoban extends Component {
     });
   }
 }
-
-module.exports = BoundedGoban;

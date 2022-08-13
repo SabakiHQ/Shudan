@@ -1,7 +1,7 @@
-const { createElement: h, Component } = require("preact");
-const { vertexEquals } = require("./helper");
+import { createElement as h, Component } from "preact";
+import { vertexEquals } from "./helper.js";
 
-class Line extends Component {
+export default class Line extends Component {
   shouldComponentUpdate(nextProps) {
     let { v1, v2, type, vertexSize } = this.props;
 
@@ -41,5 +41,3 @@ class Line extends Component {
     });
   }
 }
-
-module.exports = Line;

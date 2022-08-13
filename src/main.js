@@ -1,4 +1,4 @@
-const Goban = require("./Goban");
-const BoundedGoban = require("./BoundedGoban");
+import Goban from "./Goban.js";
+import BoundedGoban from "./BoundedGoban.js";
 
-module.exports = { Goban, BoundedGoban };
+export { Goban, BoundedGoban };

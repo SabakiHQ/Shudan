@@ -1,13 +1,22 @@
-const { createElement: h, Component } = require("preact");
-const classnames = require("classnames");
+import { createElement as h, Component } from "preact";
+import classnames from "classnames";
 
-const helper = require("./helper");
-const { CoordX, CoordY } = require("./Coord");
-const Grid = require("./Grid");
-const Vertex = require("./Vertex");
-const Line = require("./Line");
+import {
+  random,
+  readjustShifts,
+  neighborhood,
+  vertexEquals,
+  vertexEvents,
+  diffSignMap,
+  range,
+  getHoshis,
+} from "./helper.js";
+import { CoordX, CoordY } from "./Coord.js";
+import Grid from "./Grid.js";
+import Vertex from "./Vertex.js";
+import Line from "./Line.js";
 
-class Goban extends Component {
+export default class Goban extends Component {
   constructor(props) {
     super(props);
 
@@ -23,8 +32,8 @@ class Goban extends Component {
       // Handle stone animation
 
       for (let [x, y] of this.state.animatedVertices) {
-        this.state.shiftMap[y][x] = helper.random(7) + 1;
-        helper.readjustShifts(this.state.shiftMap, [x, y]);
+        this.state.shiftMap[y][x] = random(7) + 1;
+        readjustShifts(this.state.shiftMap, [x, y]);
       }
 
       this.setState({ shiftMap: this.state.shiftMap });
@@ -65,7 +74,7 @@ class Goban extends Component {
     } = this.props;
 
     let animatedVertices = [].concat(
-      ...this.state.animatedVertices.map(helper.neighborhood)
+      ...this.state.animatedVertices.map(neighborhood)
     );
 
     return h(
@@ -142,7 +151,7 @@ class Goban extends Component {
 
           ys.map((y) =>
             xs.map((x) => {
-              let equalsVertex = (v) => helper.vertexEquals(v, [x, y]);
+              let equalsVertex = (v) => vertexEquals(v, [x, y]);
               let selected = selectedVertices.some(equalsVertex);
 
               return h(
@@ -175,27 +184,19 @@ class Goban extends Component {
                     selected,
                     selectedLeft:
                       selected &&
-                      selectedVertices.some((v) =>
-                        helper.vertexEquals(v, [x - 1, y])
-                      ),
+                      selectedVertices.some((v) => vertexEquals(v, [x - 1, y])),
                     selectedRight:
                       selected &&
-                      selectedVertices.some((v) =>
-                        helper.vertexEquals(v, [x + 1, y])
-                      ),
+                      selectedVertices.some((v) => vertexEquals(v, [x + 1, y])),
                     selectedTop:
                       selected &&
-                      selectedVertices.some((v) =>
-                        helper.vertexEquals(v, [x, y - 1])
-                      ),
+                      selectedVertices.some((v) => vertexEquals(v, [x, y - 1])),
                     selectedBottom:
                       selected &&
-                      selectedVertices.some((v) =>
-                        helper.vertexEquals(v, [x, y + 1])
-                      ),
+                      selectedVertices.some((v) => vertexEquals(v, [x, y + 1])),
                   },
 
-                  ...helper.vertexEvents.map((e) => ({
+                  ...vertexEvents.map((e) => ({
                     [`on${e}`]: this.props[`onVertex${e}`],
                   }))
                 )
@@ -261,7 +262,7 @@ Goban.getDerivedStateFromProps = function (props, state) {
       props.fuzzyStonePlacement &&
       state.clearAnimatedVerticesHandler == null
     ) {
-      animatedVertices = helper.diffSignMap(state.signMap, signMap);
+      animatedVertices = diffSignMap(state.signMap, signMap);
     }
 
     let result = {
@@ -270,16 +271,16 @@ Goban.getDerivedStateFromProps = function (props, state) {
     };
 
     if (
-      !helper.vertexEquals(state.rangeX, rangeX) ||
-      !helper.vertexEquals(state.rangeY, rangeY)
+      !vertexEquals(state.rangeX, rangeX) ||
+      !vertexEquals(state.rangeY, rangeY)
     ) {
       // Range changed
 
       Object.assign(result, {
         rangeX,
         rangeY,
-        xs: helper.range(width).slice(rangeX[0], rangeX[1] + 1),
-        ys: helper.range(height).slice(rangeY[0], rangeY[1] + 1),
+        xs: range(width).slice(rangeX[0], rangeX[1] + 1),
+        ys: range(height).slice(rangeY[0], rangeY[1] + 1),
       });
     }
 
@@ -296,14 +297,10 @@ Goban.getDerivedStateFromProps = function (props, state) {
     rangeY,
     animatedVertices: [],
     clearAnimatedVerticesHandler: null,
-    xs: helper.range(width).slice(rangeX[0], rangeX[1] + 1),
-    ys: helper.range(height).slice(rangeY[0], rangeY[1] + 1),
-    hoshis: helper.getHoshis(width, height),
-    shiftMap: helper.readjustShifts(
-      signMap.map((row) => row.map((_) => helper.random(8)))
-    ),
-    randomMap: signMap.map((row) => row.map((_) => helper.random(4))),
+    xs: range(width).slice(rangeX[0], rangeX[1] + 1),
+    ys: range(height).slice(rangeY[0], rangeY[1] + 1),
+    hoshis: getHoshis(width, height),
+    shiftMap: readjustShifts(signMap.map((row) => row.map((_) => random(8)))),
+    randomMap: signMap.map((row) => row.map((_) => random(4))),
   };
 };
-
-module.exports = Goban;

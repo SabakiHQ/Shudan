@@ -1,73 +1,16 @@
-const { createElement: h } = require("preact");
-const { useCallback } = require("preact/hooks");
-const classnames = require("classnames");
-const { avg, vertexEvents, signEquals } = require("./helper");
+import { createElement as h } from "preact";
+import { useCallback } from "preact/hooks";
+import classnames from "classnames";
+
+import { avg, vertexEvents, signEquals } from "./helper.js";
+import Marker from "./Marker.js";
 
 const absoluteStyle = (zIndex) => ({
   position: "absolute",
   zIndex,
 });
 
-function Marker({ sign, type, label, zIndex }) {
-  return type === "label"
-    ? h(
-        "div",
-        {
-          className: "shudan-marker",
-          style: absoluteStyle(zIndex),
-        },
-        label
-      )
-    : h(
-        "svg",
-        {
-          className: "shudan-marker",
-          viewBox: "0 0 1 1",
-          style: absoluteStyle(zIndex),
-        },
-
-        type === "circle" || type === "loader" || type === "point"
-          ? h("circle", {
-              cx: 0.5,
-              cy: 0.5,
-              r: type === "point" ? 0.18 : 0.25,
-              "vector-effect": "non-scaling-stroke",
-            })
-          : type === "square"
-          ? h("rect", {
-              x: 0.25,
-              y: 0.25,
-              width: 0.5,
-              height: 0.5,
-              "vector-effect": "non-scaling-stroke",
-            })
-          : type === "cross"
-          ? [
-              sign === 0 &&
-                h("rect", {
-                  x: 0.25,
-                  y: 0.25,
-                  width: 0.5,
-                  height: 0.5,
-                  stroke: "none",
-                }),
-              h("path", {
-                d: "M 0 0 L .5 .5 M .5 0 L 0 .5",
-                transform: "translate(.25 .25)",
-                "vector-effect": "non-scaling-stroke",
-              }),
-            ]
-          : type === "triangle"
-          ? h("path", {
-              d: "M 0 .5 L .6 .5 L .3 0 z",
-              transform: "translate(.2 .2)",
-              "vector-effect": "non-scaling-stroke",
-            })
-          : null
-      );
-}
-
-function Vertex(props) {
+export default function Vertex(props) {
   let {
     position,
     shift,
@@ -283,5 +226,3 @@ function Vertex(props) {
       )
   );
 }
-
-module.exports = Vertex;

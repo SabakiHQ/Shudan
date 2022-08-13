@@ -1,6 +1,6 @@
-const { createElement: h, Component } = require("preact");
+import { createElement as h, Component } from "preact";
 
-class Grid extends Component {
+export default class Grid extends Component {
   shouldComponentUpdate(nextProps) {
     return (
       nextProps.vertexSize !== this.props.vertexSize ||
@@ -90,5 +90,3 @@ class Grid extends Component {
     );
   }
 }
-
-module.exports = Grid;
