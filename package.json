@@ -2,6 +2,7 @@
   "name": "@sabaki/shudan",
   "version": "1.7.1",
   "description": "A highly customizable, low-level Preact Goban component.",
+  "type": "module",
   "main": "./src/main.js",
   "types": "./src/main.d.ts",
   "repository": {
