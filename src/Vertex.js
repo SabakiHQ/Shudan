@@ -73,40 +73,33 @@ export default function Vertex(props) {
           "shudan-vertex",
           `shudan-random_${random}`,
           `shudan-sign_${sign}`,
-
           {
             [`shudan-shift_${shift}`]: !!shift,
             [`shudan-heat_${!!heat && heat.strength}`]: !!heat,
             "shudan-dimmed": dimmed,
+            "shudan-animate": animate,
 
             [`shudan-paint_${paint > 0 ? 1 : -1}`]: !!paint,
-            "shudan-paintedleft":
-              !!paint && Math.sign(paintLeft) === Math.sign(paint),
-            "shudan-paintedright":
-              !!paint && Math.sign(paintRight) === Math.sign(paint),
-            "shudan-paintedtop":
-              !!paint && Math.sign(paintTop) === Math.sign(paint),
-            "shudan-paintedbottom":
-              !!paint && Math.sign(paintBottom) === Math.sign(paint),
+            "shudan-paintedleft": !!paint && signEquals(paintLeft, paint),
+            "shudan-paintedright": !!paint && signEquals(paintRight, paint),
+            "shudan-paintedtop": !!paint && signEquals(paintTop, paint),
+            "shudan-paintedbottom": !!paint && signEquals(paintBottom, paint),
 
             "shudan-selected": selected,
             "shudan-selectedleft": selectedLeft,
             "shudan-selectedright": selectedRight,
             "shudan-selectedtop": selectedTop,
             "shudan-selectedbottom": selectedBottom,
-            "shudan-animate": animate,
-          },
 
-          marker && marker.type && `shudan-marker_${marker.type}`,
-          marker &&
-            marker.type === "label" &&
-            marker.label &&
-            (marker.label.includes("\n") || marker.label.length >= 3) &&
-            `shudan-smalllabel`,
+            [`shudan-marker_${marker?.type}`]: !!marker?.type,
+            "shudan-smalllabel":
+              marker?.type === "label" &&
+              (marker.label?.includes("\n") || marker.label.length >= 3),
 
-          ghostStone && `shudan-ghost_${ghostStone.sign}`,
-          ghostStone && ghostStone.type && `shudan-ghost_${ghostStone.type}`,
-          ghostStone && ghostStone.faint && `shudan-ghost_faint`
+            [`shudan-ghost_${ghostStone?.sign}`]: !!ghostStone,
+            [`shudan-ghost_${ghostStone?.type}`]: !!ghostStone?.type,
+            "shudan-ghost_faint": !!ghostStone?.faint,
+          }
         ),
       },
       ...vertexEvents.map((eventName) => ({
@@ -128,13 +121,6 @@ export default function Vertex(props) {
       { key: "stone", className: "shudan-stone", style: absoluteStyle(2) },
 
       !!sign &&
-        h("div", {
-          key: "shadow",
-          className: "shudan-shadow",
-          style: absoluteStyle(),
-        }),
-
-      !!sign &&
         h(
           "div",
           {
@@ -154,53 +140,45 @@ export default function Vertex(props) {
     ),
 
     (!!paint || !!paintLeft || !!paintRight || !!paintTop || !!paintBottom) &&
-      h(
-        "div",
-        {
-          key: "paint",
-          className: "shudan-paint",
-          style: absoluteStyle(3),
+      h("div", {
+        key: "paint",
+        className: "shudan-paint",
+        style: {
+          ...absoluteStyle(3),
+          "--shudan-paint-opacity": avg(
+            (!!paint
+              ? [paint]
+              : [paintLeft, paintRight, paintTop, paintBottom].map(
+                  (x) => x !== 0 && !isNaN(x)
+                )
+            ).map((x) => Math.abs(x ?? 0) * 0.5)
+          ),
+          "--shudan-paint-box-shadow": [
+            signEquals(paintLeft, paintTop, paintTopLeft)
+              ? [Math.sign(paintTop), "-.5em -.5em"]
+              : null,
+            signEquals(paintRight, paintTop, paintTopRight)
+              ? [Math.sign(paintTop), ".5em -.5em"]
+              : null,
+            signEquals(paintLeft, paintBottom, paintBottomLeft)
+              ? [Math.sign(paintBottom), "-.5em .5em"]
+              : null,
+            signEquals(paintRight, paintBottom, paintBottomRight)
+              ? [Math.sign(paintBottom), ".5em .5em"]
+              : null,
+          ]
+            .filter((x) => !!x && x[0] !== 0)
+            .map(
+              ([sign, translation]) =>
+                `${translation} 0 0 var(${
+                  sign > 0
+                    ? "--shudan-black-background-color"
+                    : "--shudan-white-background-color"
+                })`
+            )
+            .join(","),
         },
-
-        h("div", {
-          className: "shudan-inner",
-          style: {
-            ...absoluteStyle(),
-            opacity: avg(
-              (!!paint
-                ? [paint]
-                : [paintLeft, paintRight, paintTop, paintBottom].map(
-                    (x) => x !== 0 && !isNaN(x)
-                  )
-              ).map((x) => Math.abs(x ?? 0) * 0.5)
-            ),
-            boxShadow: [
-              signEquals(paintLeft, paintTop, paintTopLeft)
-                ? [Math.sign(paintTop), "-.5em -.5em"]
-                : null,
-              signEquals(paintRight, paintTop, paintTopRight)
-                ? [Math.sign(paintTop), ".5em -.5em"]
-                : null,
-              signEquals(paintLeft, paintBottom, paintBottomLeft)
-                ? [Math.sign(paintBottom), "-.5em .5em"]
-                : null,
-              signEquals(paintRight, paintBottom, paintBottomRight)
-                ? [Math.sign(paintBottom), ".5em .5em"]
-                : null,
-            ]
-              .filter((x) => !!x && x[0] !== 0)
-              .map(
-                ([sign, translation]) =>
-                  `${translation} 0 0 var(${
-                    sign > 0
-                      ? "--shudan-black-background-color"
-                      : "--shudan-white-background-color"
-                  })`
-              )
-              .join(","),
-          },
-        })
-      ),
+      }),
 
     !!selected &&
       h("div", {
@@ -214,7 +192,7 @@ export default function Vertex(props) {
       className: "shudan-heat",
       style: absoluteStyle(5),
     }),
-    !!heat &&
+    heat?.text != null &&
       h(
         "div",
         {

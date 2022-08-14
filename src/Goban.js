@@ -82,14 +82,15 @@ export default class Goban extends Component {
       {
         ...innerProps,
         id: this.props.id,
-        className:
-          classnames("shudan-goban", "shudan-goban-image", {
+        className: classnames(
+          "shudan-goban",
+          "shudan-goban-image",
+          {
             "shudan-busy": busy,
             "shudan-coordinates": showCoordinates,
-          }) +
-          " " +
-          (this.props.class ?? this.props.className ?? ""),
-
+          },
+          this.props.class ?? this.props.className
+        ),
         style: {
           display: "inline-grid",
           gridTemplateRows: showCoordinates ? "1em 1fr 1em" : "1fr",

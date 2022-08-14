@@ -85,18 +85,23 @@
   .shudan-vertex.shudan-sign_0 .shudan-stone {
     pointer-events: none;
   }
-  .shudan-vertex .shudan-shadow {
+  .shudan-vertex:not(.shudan-sign_0) .shudan-stone::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
     border-radius: 50%;
+    background: rgba(23, 10, 2, .4);
+    box-shadow: 0 .1em .2em rgba(23, 10, 2, .4);
   }
   .shudan-vertex .shudan-inner {
     text-indent: -9999rem;
   }
   .shudan-vertex:not(.shudan-sign_0).shudan-dimmed .shudan-stone {
     opacity: .6;
-  }
-  .shudan-vertex:not(.shudan-sign_0) .shudan-shadow {
-    background: rgba(23, 10, 2, .4);
-    box-shadow: 0 .1em .2em rgba(23, 10, 2, .4);
   }
   .shudan-stone-image {
     background-repeat: no-repeat;
@@ -277,32 +282,41 @@
 .shudan-vertex .shudan-paint {
     overflow: hidden;
   }
-  .shudan-vertex .shudan-paint .shudan-inner {
+  .shudan-vertex .shudan-paint::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    opacity: var(--shudan-paint-opacity);
+    box-shadow: var(--shudan-paint-box-shadow);
     background: transparent;
     border-radius: .2em;
   }
-  .shudan-vertex.shudan-paint_1 .shudan-paint .shudan-inner {
+  .shudan-vertex.shudan-paint_1 .shudan-paint::before {
     background: var(--shudan-black-background-color);
   }
-  .shudan-vertex.shudan-paint_-1 .shudan-paint .shudan-inner {
+  .shudan-vertex.shudan-paint_-1 .shudan-paint::before {
     background: var(--shudan-white-background-color);
   }
-  .shudan-vertex.shudan-paintedleft .shudan-paint .shudan-inner {
+  .shudan-vertex.shudan-paintedleft .shudan-paint::before {
     border-left: none;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
-  .shudan-vertex.shudan-paintedright .shudan-paint .shudan-inner {
+  .shudan-vertex.shudan-paintedright .shudan-paint::before {
     border-right: none;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
-  .shudan-vertex.shudan-paintedtop .shudan-paint .shudan-inner {
+  .shudan-vertex.shudan-paintedtop .shudan-paint::before {
     border-top: none;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
-  .shudan-vertex.shudan-paintedbottom .shudan-paint .shudan-inner {
+  .shudan-vertex.shudan-paintedbottom .shudan-paint::before {
     border-bottom: none;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;

@@ -1,6 +1,6 @@
-const { h, render, Component } = require("preact");
-const Board = require("@sabaki/go-board");
-const { Goban } = require("..");
+import { h, render, Component } from "preact";
+import Board from "@sabaki/go-board";
+import { Goban } from "../src/main.js";
 
 const chineseCoord = [
   "一",
