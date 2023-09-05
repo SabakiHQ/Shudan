@@ -41,7 +41,7 @@ installed.
 ### Using with React
 
 Shudan is fully compatible with React. In your webpack configuration,
-additionally alias `preact` to `react`:
+additionally alias `preact` and `preact/hooks` to `react`:
 
 ```js
 module.exports = {
@@ -49,6 +49,7 @@ module.exports = {
   resolve: {
     alias: {
       preact: "react",
+      "preact/hooks": "react",
     },
   },
 };
