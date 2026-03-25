@@ -18,7 +18,7 @@ export const GobanContext = {
   width: createContext<number>(19),
   height: createContext<number>(19),
   vertexSize: createContext<string | number>("1.5em"),
-  readonly: createContext<boolean>(false),
+  interactive: createContext<boolean>(false),
   coords: createContext<boolean>(false),
   coordX: createContext<(x: number) => string>(),
   coordY: createContext<(y: number) => string>(),
@@ -28,7 +28,7 @@ export class Goban extends Component("goban", {
   width: prop(GobanContext.width, { attribute: Number }),
   height: prop(GobanContext.height, { attribute: Number }),
   vertexSize: prop(GobanContext.vertexSize, { attribute: String }),
-  readonly: prop(GobanContext.readonly, { attribute: () => true }),
+  interactive: prop(GobanContext.interactive, { attribute: () => true }),
   coords: prop(GobanContext.coords, { attribute: () => true }),
   coordX: prop(GobanContext.coordX),
   coordY: prop(GobanContext.coordY),
@@ -49,7 +49,7 @@ export class Goban extends Component("goban", {
     useEffect(() => {
       // Make component focusable
 
-      if (!this.props.readonly() && !this.hasAttribute("tabindex")) {
+      if (this.props.interactive() && !this.hasAttribute("tabindex")) {
         this.tabIndex = 0;
       }
     });
@@ -109,7 +109,7 @@ export class Goban extends Component("goban", {
             color: var(--shudan-board-foreground-color);
             transition: border-color 0.2s;
           }
-          :host(:not([readonly]):focus) .layout {
+          :host([interactive]:focus) .layout {
             border-color: var(--shudan-board-border-color);
           }
           :host(:not([coords])) .layout {
