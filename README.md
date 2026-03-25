@@ -1,2 +1,3 @@
-# preact-goban
-WIP: A preact Goban component
+# Shudan Goban
+
+A highly customizable, low-level Goban web component.

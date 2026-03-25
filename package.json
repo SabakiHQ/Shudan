@@ -1,0 +1,39 @@
+{
+  "name": "@sabaki/shudan",
+  "version": "2.0.0",
+  "description": "A highly customizable, low-level Goban web component.",
+  "type": "module",
+  "main": "./src/main.js",
+  "types": "./src/main.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SabakiHQ/Shudan.git"
+  },
+  "keywords": [
+    "go",
+    "weiqi",
+    "baduk",
+    "goban",
+    "boardgame",
+    "ui",
+    "component",
+    "preact",
+    "react"
+  ],
+  "author": "Yichuan Shen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SabakiHQ/Shudan/issues"
+  },
+  "homepage": "https://github.com/SabakiHQ/Shudan",
+  "scripts": {
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "sinho": "^0.3.2"
+  },
+  "devDependencies": {
+    "serve": "^14.2.6",
+    "typescript": "^6.0.2"
+  }
+}
