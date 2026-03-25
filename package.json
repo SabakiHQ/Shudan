@@ -27,13 +27,16 @@
   },
   "homepage": "https://github.com/SabakiHQ/Shudan",
   "scripts": {
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "serve-demo": "rspack dev --watch",
+    "build-demo": "rspack build"
   },
   "dependencies": {
     "sinho": "^0.3.2"
   },
   "devDependencies": {
-    "serve": "^14.2.6",
+    "@rspack/cli": "^1.7.10",
+    "@rspack/core": "^1.7.10",
     "typescript": "^6.0.2"
   }
 }

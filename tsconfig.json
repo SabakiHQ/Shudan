@@ -7,6 +7,7 @@
     "jsxImportSource": "sinho",
     "noEmit": true,
     "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true
   }
 }
