@@ -5,9 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Shudan Demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="../dist/main.js" type="module"></script>
+    <script src="./main.js" type="module"></script>
+    <style>
+      shudan-goban {
+        --shudan-board-background: url("./board.png") center;
+      }
+    </style>
   </head>
   <body>
-    <shudan-goban></shudan-goban>
+    <shudan-goban coords></shudan-goban>
   </body>
 </html>
