@@ -1,65 +1,97 @@
 import {
   Component,
+  createContext,
   css,
   defineComponents,
   If,
   prop,
   Style,
+  useContext,
   useEffect,
 } from "sinho";
 import { COMPONENT_PREFIX } from "./constants.ts";
 import { Coord } from "./coord.tsx";
+import { unit } from "./utils.ts";
+import { GridLayer } from "./layers/grid.tsx";
+
+export const GobanContext = {
+  width: createContext<number>(19),
+  height: createContext<number>(19),
+  vertexSize: createContext<string | number>("1.5em"),
+  readonly: createContext<boolean>(false),
+  coords: createContext<boolean>(false),
+  coordX: createContext<(x: number) => string>(),
+  coordY: createContext<(y: number) => string>(),
+};
 
 export class Goban extends Component("goban", {
-  width: prop<number>(19, { attribute: Number }),
-  height: prop<number>(19, { attribute: Number }),
-  vertexSize: prop<string | number>("1.2em", { attribute: String }),
-  coords: prop<boolean>(false, { attribute: () => true }),
-  coordX: prop<(x: number) => string>(),
-  coordY: prop<(y: number) => string>(),
+  width: prop(GobanContext.width, { attribute: Number }),
+  height: prop(GobanContext.height, { attribute: Number }),
+  vertexSize: prop(GobanContext.vertexSize, { attribute: String }),
+  readonly: prop(GobanContext.readonly, { attribute: () => true }),
+  coords: prop(GobanContext.coords, { attribute: () => true }),
+  coordX: prop(GobanContext.coordX),
+  coordY: prop(GobanContext.coordY),
 }) {
   render() {
+    const width = useContext(GobanContext.width);
+    const height = useContext(GobanContext.height);
+    const vertexSize = useContext(GobanContext.vertexSize);
+    const coords = useContext(GobanContext.coords);
     const coordX = () =>
-      this.props.coordX() ?? ((x: number) => "ABCDEFGHJKLMNOPQRST"[x]);
+      this.props.coordX() ??
+      ((x: number) => "ABCDEFGHJKLMNOPQRSTUVWXYZ"[x % 25]);
     const coordY = () =>
       this.props.coordY() ??
-      (this.props.height(), // Track height
-      (y: number) => (this.props.height() - y).toString());
+      (height(), // Track height
+      (y: number) => (height() - y).toString());
 
     useEffect(() => {
       // Make component focusable
 
-      if (!this.hasAttribute("tabindex")) {
+      if (!this.props.readonly() && !this.hasAttribute("tabindex")) {
         this.tabIndex = 0;
       }
-    }, []);
+    });
 
     return (
       <>
         <div class="layout">
-          <If condition={this.props.coords}>
-            <Coord size={this.props.width} label={coordX} position="top" />
-            <Coord size={this.props.width} label={coordX} position="bottom" />
-            <Coord size={this.props.height} label={coordY} position="left" />
-            <Coord size={this.props.height} label={coordY} position="right" />
+          <If condition={coords}>
+            <Coord size={width} label={coordX} position="top" />
+            <Coord size={width} label={coordX} position="bottom" />
+            <Coord size={height} label={coordY} position="left" />
+            <Coord size={height} label={coordY} position="right" />
           </If>
+
+          <div class="viewport">
+            <GridLayer />
+
+            <slot />
+          </div>
         </div>
+
+        <Style>{css`
+          :host {
+            --shudan-vertex-size: ${vertexSize};
+            --shudan-width: ${width};
+            --shudan-height: ${height};
+          }
+        `}</Style>
 
         <Style>{css`
           :host {
             --shudan-board-border-width: 0.15em;
             --shudan-board-border-color: #ca933a;
-            --shudan-board-background-image: none;
+            --shudan-board-background: var(--shudan-board-background-color);
             --shudan-board-background-color: #f1b458;
-            --shudan-board-foreground-color: #131110;
+            --shudan-board-foreground-color: #5e2e0c;
             --shudan-black-image: none;
             --shudan-black-background-color: #222;
             --shudan-black-foreground-color: #eee;
             --shudan-white-image: none;
             --shudan-white-background-color: #eee;
             --shudan-white-foreground-color: #222;
-
-            --shudan-vertex-size: ${this.props.vertexSize};
 
             display: inline-block;
           }
@@ -71,12 +103,36 @@ export class Goban extends Component("goban", {
               ". top ."
               "left center right"
               ". bottom .";
-            background: var(--shudan-board-background-image)
-              var(--shudan-board-background-color);
+            border: ${unit(0.2)} solid transparent;
+            border-radius: ${unit(0.4)};
+            background: var(--shudan-board-background);
             color: var(--shudan-board-foreground-color);
+            transition: border-color 0.2s;
           }
-          :host:not([coords]) {
-            padding: 0.25em;
+          :host(:not([readonly]):focus) .layout {
+            border-color: var(--shudan-board-border-color);
+          }
+          :host(:not([coords])) .layout {
+            padding: ${unit(0.2)};
+          }
+
+          .viewport {
+            grid-area: center;
+            position: relative;
+            width: ${unit("var(--shudan-width)")};
+            height: ${unit("var(--shudan-height)")};
+            overflow: hidden;
+          }
+
+          .viewport > *,
+          .viewport > ::slotted(*) {
+            display: grid;
+            place-items: stretch;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
           }
         `}</Style>
       </>
