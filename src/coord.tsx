@@ -21,39 +21,35 @@ export const Coord: FunctionalComponent<{
   const labels = useMemo(() =>
     [...Array(MaybeSignal.get(props.size))].map((_, i) => props.label()(i)),
   );
+  const grid = () =>
+    `repeat(${MaybeSignal.get(props.size)}, var(--shudan-vertex-size))`;
 
   return (
-    <>
-      <div
-        class="coord"
-        style={{
-          flexDirection: direction,
-          gridArea: props.position,
-        }}
-      >
-        <For each={labels}>
-          {(label) => (
-            <>
-              <span>{label}</span>
-              {""}
-            </>
-          )}
-        </For>
-      </div>
-
-      <Style>{css`
-        .coord {
-          display: flex;
-          align-items: stretch;
-        }
-
-        .coord > span {
-          display: grid;
-          place-items: center;
-          width: var(--shudan-vertex-size);
-          height: var(--shudan-vertex-size);
-        }
-      `}</Style>
-    </>
+    <div
+      class="coord"
+      style={{
+        display: "grid",
+        grid: () =>
+          direction() === "row" ? `auto / ${grid()}` : `${grid()} / auto`,
+        placeItems: "stretch",
+        flexDirection: direction,
+        gridArea: props.position,
+      }}
+    >
+      <For each={labels}>
+        {(label) => (
+          <>
+            <span
+              style={{
+                display: "grid",
+                placeItems: "center",
+              }}
+            >
+              {label}
+            </span>{" "}
+          </>
+        )}
+      </For>
+    </div>
   );
 };

@@ -8,12 +8,11 @@ import {
   Style,
   useContext,
   useEffect,
+  useMemo,
 } from "sinho";
 import { COMPONENT_PREFIX } from "./constants.ts";
 import { Coord } from "./coord.tsx";
 import { unit } from "./utils.ts";
-import { GridLayer } from "./layers/grid.tsx";
-import { StonesLayer } from "./layers/stones.tsx";
 
 const defaultSignMap = Array(19).fill(Array(19).fill(0));
 
@@ -23,8 +22,8 @@ export const GobanContext = {
   coords: createContext<boolean>(false),
   coordX: createContext<(x: number) => string>(),
   coordY: createContext<(y: number) => string>(),
-  rangeX: createContext<[number, number]>(),
-  rangeY: createContext<[number, number]>(),
+  rangeX: createContext<[number, number]>([0, Infinity]),
+  rangeY: createContext<[number, number]>([0, Infinity]),
   signMap: createContext<number[][]>(defaultSignMap),
 };
 
@@ -34,15 +33,9 @@ export class Goban extends Component("goban", {
   coords: prop(GobanContext.coords, { attribute: () => true }),
   coordX: prop(GobanContext.coordX),
   coordY: prop(GobanContext.coordY),
-  rangeX: prop(GobanContext.rangeX, {
-    attribute: (x) => x.split("..").map(Number) as [number, number],
-  }),
-  rangeY: prop(GobanContext.rangeY, {
-    attribute: (x) => x.split("..").map(Number) as [number, number],
-  }),
-  signMap: prop(GobanContext.signMap, {
-    attribute: (x) => x.split(";").map((row) => row.split(",").map(Number)),
-  }),
+  rangeX: prop(GobanContext.rangeX, { attribute: JSON.parse }),
+  rangeY: prop(GobanContext.rangeY, { attribute: JSON.parse }),
+  signMap: prop(GobanContext.signMap, { attribute: JSON.parse }),
 }) {
   get width(): number {
     return (this.props.signMap() ?? defaultSignMap)[0]?.length ?? 0;
@@ -55,7 +48,14 @@ export class Goban extends Component("goban", {
   render() {
     const width = () => this.width;
     const height = () => this.height;
-    const vertexSize = useContext(GobanContext.vertexSize);
+
+    const _vertexSize = useContext(GobanContext.vertexSize);
+    const vertexSize = useMemo(() =>
+      /^\d+$/.test(_vertexSize().toString())
+        ? _vertexSize() + "px"
+        : _vertexSize().toString(),
+    );
+
     const coords = useContext(GobanContext.coords);
     const coordX = () =>
       this.props.coordX() ??
@@ -84,9 +84,6 @@ export class Goban extends Component("goban", {
           </If>
 
           <div class="viewport">
-            <GridLayer />
-            <StonesLayer />
-
             <slot />
           </div>
         </div>
@@ -121,15 +118,13 @@ export class Goban extends Component("goban", {
               ". bottom .";
             border: ${unit(0.2)} solid transparent;
             border-radius: ${unit(0.4)};
+            padding: ${unit(0.2)};
             background: var(--shudan-board-background);
             color: var(--shudan-board-foreground-color);
             transition: border-color 0.2s;
           }
           :host([interactive]:focus) .layout {
             border-color: var(--shudan-board-border-color);
-          }
-          :host(:not([coords])) .layout {
-            padding: ${unit(0.2)};
           }
 
           .viewport {

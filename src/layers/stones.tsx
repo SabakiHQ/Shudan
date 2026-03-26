@@ -6,6 +6,7 @@ import {
   For,
   If,
   MaybeSignal,
+  prop,
   Style,
   useContext,
   useMemo,
@@ -16,12 +17,15 @@ import { COMPONENT_PREFIX } from "../constants.ts";
 import { findGoban, unit } from "../utils.ts";
 import { Vertex } from "../vertex.ts";
 
-const BlackStone: FunctionalComponent<{
+interface StoneProps {
   width?: MaybeSignal<number>;
   height?: MaybeSignal<number>;
   x?: MaybeSignal<number>;
   y?: MaybeSignal<number>;
-}> = (props) => (
+  opacity?: MaybeSignal<number>;
+}
+
+const BlackStone: FunctionalComponent<StoneProps> = (props) => (
   <svg {...props} viewBox="0 0 43 43">
     <defs>
       <linearGradient id="b">
@@ -51,26 +55,20 @@ const BlackStone: FunctionalComponent<{
         gradientUnits="userSpaceOnUse"
       />
     </defs>
-    <g>
-      <circle
-        cx="21.5"
-        cy="21.5"
-        r="20.5"
-        fill="url(#c)"
-        stroke="#121112"
-        stroke-width="1"
-      />
-      <circle cx="21.5" cy="21.5" r="18.5" fill="url(#d)" />
-    </g>
+
+    <circle
+      cx="21.5"
+      cy="21.5"
+      r="20.5"
+      fill="url(#c)"
+      stroke="#352c35"
+      stroke-width="1"
+    />
+    <circle cx="21.5" cy="21.5" r="18.5" fill="url(#d)" />
   </svg>
 );
 
-const WhiteStone: FunctionalComponent<{
-  width?: MaybeSignal<number>;
-  height?: MaybeSignal<number>;
-  x?: MaybeSignal<number>;
-  y?: MaybeSignal<number>;
-}> = (props) => (
+const WhiteStone: FunctionalComponent<StoneProps> = (props) => (
   <svg {...props} viewBox="0 0 43 43">
     <defs>
       <linearGradient id="f">
@@ -100,21 +98,22 @@ const WhiteStone: FunctionalComponent<{
         gradientUnits="userSpaceOnUse"
       />
     </defs>
-    <g>
-      <circle
-        cx="21.5"
-        cy="21.5"
-        r="20.5"
-        fill="url(#g)"
-        stroke="#c3c3c3"
-        stroke-width="1"
-      />
-      <circle cx="21.5" cy="21.5" r="18.5" fill="url(#h)" />
-    </g>
+
+    <circle
+      cx="21.5"
+      cy="21.5"
+      r="20.5"
+      fill="url(#g)"
+      stroke="#c3c3c3"
+      stroke-width="1"
+    />
+    <circle cx="21.5" cy="21.5" r="18.5" fill="url(#h)" />
   </svg>
 );
 
-export class StonesLayer extends Component("stones-layer", {}) {
+export class StonesLayer extends Component("stones-layer", {
+  dimmedVertices: prop<Vertex[]>([], { attribute: JSON.parse }),
+}) {
   render() {
     const goban = findGoban(this)!;
     const width = () => goban.width;
@@ -122,7 +121,9 @@ export class StonesLayer extends Component("stones-layer", {}) {
     const signMap = useContext(GobanContext.signMap);
     const stones = useMemo(() =>
       signMap().flatMap((row, y) =>
-        row.map((sign, x) => ({ sign, x, y })).filter(({ sign }) => sign !== 0),
+        row
+          .map((sign, x) => ({ sign, x, y, vertex: Vertex(x, y) }))
+          .filter(({ sign }) => sign !== 0),
       ),
     );
 
@@ -137,7 +138,7 @@ export class StonesLayer extends Component("stones-layer", {}) {
           </defs>
 
           {/* Render shadows */}
-          <For each={stones} key={(item) => Vertex(item.x, item.y)}>
+          <For each={stones} key={(stone) => stone.vertex}>
             {(stone) => (
               <circle
                 r={0.9 / 2}
@@ -145,20 +146,28 @@ export class StonesLayer extends Component("stones-layer", {}) {
                 cy={() => stone().y + 0.5}
                 fill="rgba(23, 10, 2, .4)"
                 filter="url(#shadow)"
+                opacity={() =>
+                  this.props.dimmedVertices().includes(stone().vertex) ? 0.4 : 1
+                }
               />
             )}
           </For>
 
           {/* Render stones */}
-          <For each={stones} key={(item) => Vertex(item.x, item.y)}>
+          <For each={stones} key={(stone) => stone.vertex}>
             {(stone) => (
               <>
-                <If condition={() => stone().sign === 1}>
+                <If condition={() => stone().sign > 0}>
                   <BlackStone
                     width={0.9}
                     height={0.9}
                     x={() => stone().x + 0.05}
                     y={() => stone().y + 0.05}
+                    opacity={() =>
+                      this.props.dimmedVertices().includes(stone().vertex)
+                        ? 0.6
+                        : 1
+                    }
                   />
                 </If>
                 <Else>
@@ -167,6 +176,11 @@ export class StonesLayer extends Component("stones-layer", {}) {
                     height={0.9}
                     x={() => stone().x + 0.05}
                     y={() => stone().y + 0.05}
+                    opacity={() =>
+                      this.props.dimmedVertices().includes(stone().vertex)
+                        ? 0.6
+                        : 1
+                    }
                   />
                 </Else>
               </>
