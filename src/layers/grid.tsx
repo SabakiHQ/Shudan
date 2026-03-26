@@ -1,14 +1,13 @@
 import { css, defineComponents, For, Style, useContext, useMemo } from "sinho";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { Layer } from "../layer.tsx";
-import { GobanContext } from "../goban.tsx";
 import { getHoshis } from "../utils.ts";
 import { parseVertex } from "../vertex.ts";
 
 export class GridLayer extends Layer {
   render() {
-    const width = useContext(GobanContext.width);
-    const height = useContext(GobanContext.height);
+    const width = () => this.goban.width;
+    const height = () => this.goban.height;
     const xs = useMemo(() => [...Array(width())].map((_, i) => i));
     const ys = useMemo(() => [...Array(height())].map((_, i) => i));
     const hoshis = useMemo(() =>
@@ -21,7 +20,7 @@ export class GridLayer extends Layer {
           <For each={ys}>
             {(y) => (
               <line
-                stroke-width={0.05}
+                stroke-width={0.04}
                 x1="0.5"
                 y1={() => y() + 0.5}
                 x2={() => width() - 0.5}

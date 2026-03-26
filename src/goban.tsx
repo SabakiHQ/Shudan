@@ -14,28 +14,46 @@ import { Coord } from "./coord.tsx";
 import { unit } from "./utils.ts";
 import { GridLayer } from "./layers/grid.tsx";
 
+const defaultSignMap = Array(19).fill(Array(19).fill(0));
+
 export const GobanContext = {
-  width: createContext<number>(19),
-  height: createContext<number>(19),
-  vertexSize: createContext<string | number>("1.5em"),
+  vertexSize: createContext<string | number>("1.7em"),
   interactive: createContext<boolean>(false),
   coords: createContext<boolean>(false),
   coordX: createContext<(x: number) => string>(),
   coordY: createContext<(y: number) => string>(),
+  rangeX: createContext<[number, number]>(),
+  rangeY: createContext<[number, number]>(),
+  signMap: createContext<number[][]>(defaultSignMap),
 };
 
 export class Goban extends Component("goban", {
-  width: prop(GobanContext.width, { attribute: Number }),
-  height: prop(GobanContext.height, { attribute: Number }),
   vertexSize: prop(GobanContext.vertexSize, { attribute: String }),
   interactive: prop(GobanContext.interactive, { attribute: () => true }),
   coords: prop(GobanContext.coords, { attribute: () => true }),
   coordX: prop(GobanContext.coordX),
   coordY: prop(GobanContext.coordY),
+  rangeX: prop(GobanContext.rangeX, {
+    attribute: (x) => x.split("..").map(Number) as [number, number],
+  }),
+  rangeY: prop(GobanContext.rangeY, {
+    attribute: (x) => x.split("..").map(Number) as [number, number],
+  }),
+  signMap: prop(GobanContext.signMap, {
+    attribute: (x) => x.split(";").map((row) => row.split(",").map(Number)),
+  }),
 }) {
+  get width(): number {
+    return (this.props.signMap() ?? defaultSignMap)[0]?.length ?? 0;
+  }
+
+  get height(): number {
+    return (this.props.signMap() ?? defaultSignMap).length;
+  }
+
   render() {
-    const width = useContext(GobanContext.width);
-    const height = useContext(GobanContext.height);
+    const width = () => this.width;
+    const height = () => this.height;
     const vertexSize = useContext(GobanContext.vertexSize);
     const coords = useContext(GobanContext.coords);
     const coordX = () =>
@@ -82,7 +100,7 @@ export class Goban extends Component("goban", {
         <Style>{css`
           :host {
             --shudan-board-border-width: 0.15em;
-            --shudan-board-border-color: #ca933a;
+            --shudan-board-border-color: #a8731e;
             --shudan-board-background: var(--shudan-board-background-color);
             --shudan-board-background-color: #f1b458;
             --shudan-board-foreground-color: #5e2e0c;
