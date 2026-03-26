@@ -1,3 +1,4 @@
+import type { Goban } from "./goban.tsx";
 import { Vertex } from "./vertex.ts";
 
 export function unit(value: number | string): string {
@@ -26,4 +27,12 @@ export function getHoshis(width: number, height: number): Vertex[] {
     result.push(Vertex(nearX, middleY), Vertex(farX, middleY));
 
   return result;
+}
+
+export function findGoban(element: HTMLElement): Goban | null {
+  return (
+    element.closest("shudan-goban") ??
+    ((element.getRootNode() as ShadowRoot).host as Goban) ??
+    null
+  );
 }

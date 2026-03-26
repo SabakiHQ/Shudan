@@ -1,3 +1,3 @@
 export { Goban, GobanContext } from "./goban.tsx";
-export { Layer } from "./layer.tsx";
+export { findGoban } from "./utils.ts";
 export { Vertex } from "./vertex.ts";

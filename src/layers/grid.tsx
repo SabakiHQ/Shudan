@@ -1,13 +1,13 @@
-import { css, defineComponents, For, Style, useContext, useMemo } from "sinho";
+import { Component, css, defineComponents, For, Style, useMemo } from "sinho";
 import { COMPONENT_PREFIX } from "../constants.ts";
-import { Layer } from "../layer.tsx";
-import { getHoshis } from "../utils.ts";
+import { getHoshis, findGoban } from "../utils.ts";
 import { parseVertex } from "../vertex.ts";
 
-export class GridLayer extends Layer {
+export class GridLayer extends Component("grid-layer", {}) {
   render() {
-    const width = () => this.goban.width;
-    const height = () => this.goban.height;
+    const goban = findGoban(this)!;
+    const width = () => goban.width;
+    const height = () => goban.height;
     const xs = useMemo(() => [...Array(width())].map((_, i) => i));
     const ys = useMemo(() => [...Array(height())].map((_, i) => i));
     const hoshis = useMemo(() =>
@@ -64,4 +64,4 @@ export class GridLayer extends Layer {
   }
 }
 
-defineComponents(COMPONENT_PREFIX + "grid-", GridLayer);
+defineComponents(COMPONENT_PREFIX, GridLayer);
