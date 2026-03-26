@@ -1,13 +1,14 @@
-import { Component, defineComponents, For, prop, useMemo } from "sinho";
+import { defineComponents, For, prop, useMemo } from "sinho";
 import { COMPONENT_PREFIX } from "../constants.ts";
-import { getHoshis, findGoban } from "../utils.ts";
+import { getHoshis } from "../utils.ts";
 import { parseVertex, Vertex } from "../vertex.ts";
+import { Layer } from "./layer.tsx";
+import type { Goban } from "../goban.tsx";
 
-export class GridLayer extends Component("grid-layer", {
+export class GridLayer extends Layer("grid-layer", {
   hoshis: prop<Vertex[]>(undefined, { attribute: JSON.parse }),
 }) {
-  render() {
-    const goban = findGoban(this)!;
+  renderSvg(goban: Goban) {
     const width = () => goban.width;
     const height = () => goban.height;
     const xs = useMemo(() => [...Array(width())].map((_, i) => i));
@@ -19,7 +20,7 @@ export class GridLayer extends Component("grid-layer", {
     );
 
     return (
-      <svg viewBox={() => `0 0 ${width()} ${height()}`}>
+      <>
         <For each={ys}>
           {(y) => (
             <line
@@ -59,7 +60,7 @@ export class GridLayer extends Component("grid-layer", {
             />
           )}
         </For>
-      </svg>
+      </>
     );
   }
 }
