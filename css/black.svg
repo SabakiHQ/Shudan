@@ -12,7 +12,7 @@
     <linearGradient id="d" x1="0" x2="0" y1="2.38" y2="19.27" xlink:href="#b" gradientUnits="userSpaceOnUse"/>
   </defs>
   <g>
-    <circle cx="21.5" cy="21.5" r="20.5" fill="url(#c)" stroke="#000" stroke-width="1"/>
+    <circle cx="21.5" cy="21.5" r="20.5" fill="url(#c)" stroke="#121112" stroke-width="1"/>
     <circle cx="21.5" cy="21.5" r="18.5" fill="url(#d)" />
   </g>
 </svg>

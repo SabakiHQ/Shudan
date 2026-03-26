@@ -13,6 +13,7 @@ import { COMPONENT_PREFIX } from "./constants.ts";
 import { Coord } from "./coord.tsx";
 import { unit } from "./utils.ts";
 import { GridLayer } from "./layers/grid.tsx";
+import { StonesLayer } from "./layers/stones.tsx";
 
 const defaultSignMap = Array(19).fill(Array(19).fill(0));
 
@@ -84,6 +85,7 @@ export class Goban extends Component("goban", {
 
           <div class="viewport">
             <GridLayer />
+            <StonesLayer />
 
             <slot />
           </div>
@@ -104,11 +106,7 @@ export class Goban extends Component("goban", {
             --shudan-board-background: var(--shudan-board-background-color);
             --shudan-board-background-color: #f1b458;
             --shudan-board-foreground-color: #5e2e0c;
-            --shudan-black-image: none;
-            --shudan-black-background-color: #222;
             --shudan-black-foreground-color: #eee;
-            --shudan-white-image: none;
-            --shudan-white-background-color: #eee;
             --shudan-white-foreground-color: #222;
 
             display: inline-block;
@@ -139,7 +137,6 @@ export class Goban extends Component("goban", {
             position: relative;
             width: ${unit("var(--shudan-width)")};
             height: ${unit("var(--shudan-height)")};
-            overflow: hidden;
           }
 
           .viewport > *,
