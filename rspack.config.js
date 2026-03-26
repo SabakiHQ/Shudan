@@ -23,6 +23,9 @@ export default defineConfig({
               },
             },
           },
+          env: {
+            targets: "> 0.25%, not dead",
+          },
         },
         type: "javascript/auto",
       },
