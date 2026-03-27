@@ -117,8 +117,12 @@ export function getStonesMap(layer: StonesLayer) {
 export class StonesLayer extends Layer(
   "stones-layer",
   {
-    dimmedStones: prop<Vertex[]>([], { attribute: JSON.parse }),
-    stoneMap: prop(GobanContext.stoneMap, { attribute: JSON.parse }),
+    stoneMap: prop<number[][] | undefined>(GobanContext.stoneMap, {
+      attribute: JSON.parse,
+    }),
+    dimmedStones: prop<Vertex[]>(GobanContext.dimmedStones, {
+      attribute: JSON.parse,
+    }),
   },
   { visibleOverflow: true },
 ) {
@@ -127,10 +131,10 @@ export class StonesLayer extends Layer(
     const height = useContext(GobanContext.height);
     const rangeX = useContext(GobanContext.rangeX);
     const rangeY = useContext(GobanContext.rangeY);
-    const stoneMap = useContext(GobanContext.stoneMap);
+    const dimmedStones = useContext(GobanContext.dimmedStones);
 
     const stones = useMemo(() =>
-      stoneMap()
+      (this.props.stoneMap() ?? [])
         .flatMap((row, y) =>
           row.map((sign, x) => ({ sign, x, y, vertex: Vertex(x, y) })),
         )
@@ -154,8 +158,8 @@ export class StonesLayer extends Layer(
             id="shadow"
             x={unitSvg(-1)}
             y={unitSvg(-1)}
-            width={unitSvg(30)}
-            height={unitSvg(30)}
+            width={unitSvg(3)}
+            height={unitSvg(3)}
           >
             <feOffset in="SourceGraphic" dx="0" dy={unitSvg(0.1)} />
             <feGaussianBlur stdDeviation={unitSvg(0.1)} />
@@ -173,7 +177,7 @@ export class StonesLayer extends Layer(
                 fill="rgba(23, 10, 2, .4)"
                 filter="url(#shadow)"
                 opacity={() =>
-                  this.props.dimmedStones().includes(stone().vertex) ? 0.4 : 1
+                  dimmedStones().includes(stone().vertex) ? 0.4 : 1
                 }
               />
             )}
@@ -196,9 +200,7 @@ export class StonesLayer extends Layer(
                   x={() => unitSvg(stone().x + 0.05)}
                   y={() => unitSvg(stone().y + 0.05)}
                   opacity={() =>
-                    this.props.dimmedStones().includes(stone().vertex)
-                      ? 0.6
-                      : 1
+                    dimmedStones().includes(stone().vertex) ? 0.6 : 1
                   }
                 />
               </>
