@@ -1,11 +1,9 @@
 import {
   defineComponents,
-  event,
   For,
   MaybeSignal,
   prop,
   useContext,
-  useEffect,
   useMemo,
   type FunctionalComponent,
 } from "sinho";
@@ -120,8 +118,7 @@ export class StonesLayer extends Layer(
   "stones-layer",
   {
     dimmedVertices: prop<Vertex[]>([], { attribute: JSON.parse }),
-    stoneMap: prop<number[][]>([], { attribute: JSON.parse }),
-    onStonesChange: event<number[][]>(),
+    stoneMap: prop(GobanContext.stoneMap, { attribute: JSON.parse }),
   },
   { visibleOverflow: true },
 ) {
@@ -130,10 +127,10 @@ export class StonesLayer extends Layer(
     const height = useContext(GobanContext.height);
     const rangeX = useContext(GobanContext.rangeX);
     const rangeY = useContext(GobanContext.rangeY);
+    const stoneMap = useContext(GobanContext.stoneMap);
 
     const stones = useMemo(() =>
-      this.props
-        .stoneMap()
+      stoneMap()
         .flatMap((row, y) =>
           row.map((sign, x) => ({ sign, x, y, vertex: Vertex(x, y) })),
         )
@@ -146,16 +143,6 @@ export class StonesLayer extends Layer(
             y <= Math.min(rangeY()[1], height() - 1),
         ),
     );
-
-    useEffect(() => {
-      stoneMapInfo.set(this, this.props.stoneMap());
-      this.events.onStonesChange({
-        bubbles: true,
-        detail: this.props.stoneMap(),
-      });
-
-      return () => stoneMapInfo.delete(this);
-    });
 
     return (
       <>

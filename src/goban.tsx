@@ -14,7 +14,6 @@ import {
 import { COMPONENT_PREFIX } from "./constants.ts";
 import { Coord } from "./coord.tsx";
 import { unit } from "./utils.ts";
-import type { Vertex } from "./vertex.ts";
 
 export const GobanContext = {
   width: createContext<number>(19),
@@ -26,6 +25,7 @@ export const GobanContext = {
   coordY: createContext<(y: number) => string>(),
   rangeX: createContext<[number, number]>([0, Infinity]),
   rangeY: createContext<[number, number]>([0, Infinity]),
+  stoneMap: createContext<number[][]>([]),
 };
 
 export class Goban extends Component("goban", {
@@ -38,7 +38,6 @@ export class Goban extends Component("goban", {
   coordY: prop(GobanContext.coordY),
   rangeX: prop(GobanContext.rangeX, { attribute: JSON.parse }),
   rangeY: prop(GobanContext.rangeY, { attribute: JSON.parse }),
-  onStonesChange: event(),
 }) {
   render() {
     const width = useContext(GobanContext.width);
