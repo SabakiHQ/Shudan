@@ -79,6 +79,7 @@ export class MarkerLayer extends Layer(
               r={unitSvg(0.25)}
               fill="none"
               stroke="var(--color)"
+              stroke-width={unitSvg(0.08)}
             />
           </svg>
 
@@ -89,6 +90,7 @@ export class MarkerLayer extends Layer(
               r={unitSvg(0.18)}
               fill="var(--color)"
               stroke="none"
+              stroke-width={unitSvg(0.08)}
             />
           </svg>
 
@@ -100,6 +102,7 @@ export class MarkerLayer extends Layer(
               height={unitSvg(0.5)}
               fill="none"
               stroke="var(--color)"
+              stroke-width={unitSvg(0.08)}
             />
           </svg>
 
@@ -109,6 +112,7 @@ export class MarkerLayer extends Layer(
               transform={`translate(${unitSvg(0.2)} ${unitSvg(0.2)})`}
               fill="none"
               stroke="var(--color)"
+              stroke-width={unitSvg(0.08)}
             />
           </svg>
 
@@ -118,28 +122,27 @@ export class MarkerLayer extends Layer(
                 M ${unitSvg(0.5)} 0 L 0 ${unitSvg(0.5)}`}
               transform={`translate(${unitSvg(0.25)} ${unitSvg(0.25)})`}
               stroke="var(--color)"
+              stroke-width={unitSvg(0.08)}
             />
           </svg>
         </defs>
 
         <For each={markers}>
           {(marker) => {
-            const stone = () =>
-              stoneMap() == null
-                ? null
-                : (stoneMap()![marker().y]?.[marker().x] ?? 0);
+            const stone = () => stoneMap()?.[marker().y]?.[marker().x] ?? 0;
 
             return (
               <use
                 style={{
                   "--color": () =>
-                    this.props.color() != null || stone() == null
-                      ? ""
-                      : stone()! > 0
+                    this.props.color() ??
+                    (stoneMap() == null || stone() == 0
+                      ? "var(--shudan-board-foreground-color)"
+                      : stone() > 0
                         ? "var(--shudan-black-foreground-color)"
-                        : stone()! < 0
+                        : stone() < 0
                           ? "var(--shudan-white-foreground-color)"
-                          : "var(--shudan-board-foreground-color)",
+                          : "var(--shudan-board-foreground-color)"),
                 }}
                 href={() => `#${marker().type}`}
                 x={() => unitSvg(marker().x)}
@@ -151,18 +154,6 @@ export class MarkerLayer extends Layer(
             );
           }}
         </For>
-
-        <Style>{css`
-          :host {
-            ${() =>
-              this.props.color() != null
-                ? `--color: ${this.props.color()};`
-                : stoneMap() == null
-                  ? `--color: var(--shudan-board-foreground-color);`
-                  : ""}
-            stroke-width: ${unitSvg(0.08)};
-          }
-        `}</Style>
       </>
     );
   }
