@@ -29,6 +29,12 @@ export function Layer<const M extends Metadata>(
     render() {
       const width = useContext(GobanContext.width);
       const height = useContext(GobanContext.height);
+      const rangeX = useContext(GobanContext.rangeX);
+      const rangeY = useContext(GobanContext.rangeY);
+
+      const left = () => -Math.max(rangeX()[0], 0);
+      const top = () => -Math.max(rangeY()[0], 0);
+
       const content = this.renderSvg();
 
       return (
@@ -40,10 +46,10 @@ export function Layer<const M extends Metadata>(
           <Style>{css`
             svg {
               position: absolute;
-              left: ${unit(-1)};
-              top: ${unit(-1)};
-              width: ${unit("(var(--shudan-width) + 2)")};
-              height: ${unit("(var(--shudan-height) + 2)")};
+              left: ${() => unit(left() - 1)};
+              top: ${() => unit(top() - 1)};
+              width: ${() => unit(width() + 2)};
+              height: ${() => unit(height() + 2)};
             }
           `}</Style>
         </>

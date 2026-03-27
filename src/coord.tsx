@@ -1,28 +1,23 @@
-import {
-  css,
-  For,
-  MaybeSignal,
-  Style,
-  useMemo,
-  type FunctionalComponent,
-  type SignalLike,
-} from "sinho";
+import { For, MaybeSignal, useMemo, type FunctionalComponent } from "sinho";
 
 export const Coord: FunctionalComponent<{
   size: MaybeSignal<number>;
-  label: SignalLike<(i: number) => string>;
+  range: MaybeSignal<[number, number]>;
+  label: (i: number) => string;
   position: MaybeSignal<"top" | "bottom" | "left" | "right">;
 }> = (props) => {
+  const size = MaybeSignal.upgrade(props.size);
+  const range = MaybeSignal.upgrade(props.range);
+  const position = MaybeSignal.upgrade(props.position);
+
   const direction = () =>
-    MaybeSignal.get(props.position) === "top" ||
-    MaybeSignal.get(props.position) === "bottom"
-      ? "row"
-      : "column";
+    position() === "top" || position() === "bottom" ? "row" : "column";
   const labels = useMemo(() =>
-    [...Array(MaybeSignal.get(props.size))].map((_, i) => props.label()(i)),
+    [...Array(size())]
+      .map((_, i) => props.label(i))
+      .slice(range()[0], range()[1] + 1),
   );
-  const grid = () =>
-    `repeat(${MaybeSignal.get(props.size)}, var(--shudan-vertex-size))`;
+  const grid = () => `repeat(${labels().length}, var(--shudan-vertex-size))`;
 
   return (
     <div
@@ -32,8 +27,8 @@ export const Coord: FunctionalComponent<{
         grid: () =>
           direction() === "row" ? `auto / ${grid()}` : `${grid()} / auto`,
         placeItems: "stretch",
-        flexDirection: direction,
         gridArea: props.position,
+        position: "relative",
       }}
     >
       <For each={labels}>

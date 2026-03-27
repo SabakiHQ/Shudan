@@ -11,12 +11,25 @@ export class GridLayer extends Layer("grid-layer", {
   renderSvg() {
     const width = useContext(GobanContext.width);
     const height = useContext(GobanContext.height);
-    const xs = useMemo(() => [...Array(width())].map((_, i) => i));
-    const ys = useMemo(() => [...Array(height())].map((_, i) => i));
+    const rangeX = useContext(GobanContext.rangeX);
+    const rangeY = useContext(GobanContext.rangeY);
+
+    const xs = useMemo(() =>
+      [...Array(width())].map((_, i) => i).slice(rangeX()[0], rangeX()[1] + 1),
+    );
+    const ys = useMemo(() =>
+      [...Array(height())].map((_, i) => i).slice(rangeY()[0], rangeY()[1] + 1),
+    );
     const hoshis = useMemo(() =>
-      (this.props.hoshis() ?? getHoshis(width(), height())).map((v) =>
-        parseVertex(v),
-      ),
+      (this.props.hoshis() ?? getHoshis(width(), height()))
+        .map((v) => parseVertex(v))
+        .filter(
+          ([x, y]) =>
+            Math.max(rangeX()[0], 0) <= x &&
+            x <= Math.min(rangeX()[1], width() - 1) &&
+            Math.max(rangeY()[0], 0) <= y &&
+            y <= Math.min(rangeY()[1], height() - 1),
+        ),
     );
 
     return (
@@ -27,9 +40,11 @@ export class GridLayer extends Layer("grid-layer", {
               stroke-width={0.04}
               stroke-linecap="square"
               stroke="var(--shudan-board-foreground-color)"
-              x1="0.5"
+              x1={() => (xs()[0] === 0 ? 0.5 : xs()[0])}
               y1={() => y() + 0.5}
-              x2={() => width() - 0.5}
+              x2={() =>
+                xs().at(-1)! === width() - 1 ? width() - 0.5 : xs().at(-1)! + 1
+              }
               y2={() => y() + 0.5}
             />
           )}
@@ -42,9 +57,13 @@ export class GridLayer extends Layer("grid-layer", {
               stroke-linecap="square"
               stroke="var(--shudan-board-foreground-color)"
               x1={() => x() + 0.5}
-              y1="0.5"
+              y1={() => (ys()[0] === 0 ? 0.5 : ys()[0])}
               x2={() => x() + 0.5}
-              y2={() => height() - 0.5}
+              y2={() =>
+                ys().at(-1)! === height() - 1
+                  ? height() - 0.5
+                  : ys().at(-1)! + 1
+              }
             />
           )}
         </For>

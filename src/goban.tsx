@@ -14,6 +14,7 @@ import {
 import { COMPONENT_PREFIX } from "./constants.ts";
 import { Coord } from "./coord.tsx";
 import { unit } from "./utils.ts";
+import type { Vertex } from "./vertex.ts";
 
 export const GobanContext = {
   width: createContext<number>(19),
@@ -50,13 +51,17 @@ export class Goban extends Component("goban", {
     );
 
     const coords = useContext(GobanContext.coords);
-    const coordX = () =>
-      this.props.coordX() ??
-      ((x: number) => "ABCDEFGHJKLMNOPQRSTUVWXYZ"[x % 25]);
-    const coordY = () =>
-      this.props.coordY() ??
-      (height(), // Track height
-      (y: number) => (height() - y).toString());
+    const coordX = (x: number) =>
+      this.props.coordX()?.(x) ?? "ABCDEFGHJKLMNOPQRSTUVWXYZ"[x % 25];
+    const coordY = (y: number) =>
+      this.props.coordY()?.(y) ?? (height() - y).toString();
+
+    const rangeX = useContext(GobanContext.rangeX);
+    const rangeY = useContext(GobanContext.rangeY);
+    const viewportWidth = () =>
+      Math.min(rangeX()[1] - rangeX()[0] + 1, width());
+    const viewportHeight = () =>
+      Math.min(rangeY()[1] - rangeY()[0] + 1, height());
 
     useEffect(() => {
       // Make component focusable
@@ -69,16 +74,31 @@ export class Goban extends Component("goban", {
     return (
       <>
         <div class="layout">
-          <If condition={coords}>
-            <Coord size={width} label={coordX} position="top" />
-            <Coord size={width} label={coordX} position="bottom" />
-            <Coord size={height} label={coordY} position="left" />
-            <Coord size={height} label={coordY} position="right" />
-          </If>
-
           <div class="viewport">
             <slot />
           </div>
+
+          <If condition={coords}>
+            <Coord size={width} range={rangeX} label={coordX} position="top" />
+            <Coord
+              size={width}
+              range={rangeX}
+              label={coordX}
+              position="bottom"
+            />
+            <Coord
+              size={height}
+              range={rangeY}
+              label={coordY}
+              position="left"
+            />
+            <Coord
+              size={height}
+              range={rangeY}
+              label={coordY}
+              position="right"
+            />
+          </If>
         </div>
 
         <Style>{css`
@@ -86,6 +106,8 @@ export class Goban extends Component("goban", {
             --shudan-vertex-size: ${vertexSize};
             --shudan-width: ${width};
             --shudan-height: ${height};
+            --shudan-viewport-width: ${viewportWidth};
+            --shudan-viewport-height: ${viewportHeight};
           }
         `}</Style>
 
@@ -110,6 +132,7 @@ export class Goban extends Component("goban", {
               ". top ."
               "left center right"
               ". bottom .";
+            gap: ${unit(0.1)};
             border: ${unit(0.2)} solid transparent;
             border-radius: ${unit(0.4)};
             padding: ${unit(0.2)};
@@ -124,8 +147,8 @@ export class Goban extends Component("goban", {
           .viewport {
             grid-area: center;
             position: relative;
-            width: ${unit("var(--shudan-width)")};
-            height: ${unit("var(--shudan-height)")};
+            width: ${unit("var(--shudan-viewport-width)")};
+            height: ${unit("var(--shudan-viewport-height)")};
           }
 
           .viewport > *,

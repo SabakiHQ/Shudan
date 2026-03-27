@@ -6,6 +6,7 @@ import {
   If,
   MaybeSignal,
   prop,
+  useContext,
   useEffect,
   useMemo,
   type FunctionalComponent,
@@ -13,6 +14,7 @@ import {
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { Vertex } from "../vertex.ts";
 import { Layer } from "./layer.tsx";
+import { GobanContext } from "../goban.tsx";
 
 interface StoneProps {
   width?: MaybeSignal<number>;
@@ -120,13 +122,24 @@ export class StonesLayer extends Layer("stones-layer", {
   onStonesChange: event<number[][]>(),
 }) {
   renderSvg() {
+    const width = useContext(GobanContext.width);
+    const height = useContext(GobanContext.height);
+    const rangeX = useContext(GobanContext.rangeX);
+    const rangeY = useContext(GobanContext.rangeY);
+
     const stones = useMemo(() =>
       this.props
         .stoneMap()
         .flatMap((row, y) =>
-          row
-            .map((sign, x) => ({ sign, x, y, vertex: Vertex(x, y) }))
-            .filter(({ sign }) => sign !== 0),
+          row.map((sign, x) => ({ sign, x, y, vertex: Vertex(x, y) })),
+        )
+        .filter(
+          ({ x, y, sign }) =>
+            sign !== 0 &&
+            Math.max(rangeX()[0], 0) <= x &&
+            x <= Math.min(rangeX()[1], width() - 1) &&
+            Math.max(rangeY()[0], 0) <= y &&
+            y <= Math.min(rangeY()[1], height() - 1),
         ),
     );
 
@@ -143,7 +156,7 @@ export class StonesLayer extends Layer("stones-layer", {
     return (
       <>
         <defs>
-          <filter id="shadow" width="2" height="2">
+          <filter id="shadow" x="-1" y="-1" width="3" height="3">
             <feOffset in="SourceGraphic" dx="0" dy="0.1" />
             <feGaussianBlur stdDeviation=".1" />
           </filter>
