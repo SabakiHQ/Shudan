@@ -13,6 +13,7 @@ import { COMPONENT_PREFIX } from "../constants.ts";
 import { Vertex } from "../vertex.ts";
 import { Layer } from "./layer.tsx";
 import { GobanContext } from "../goban.tsx";
+import { unitSvg } from "../utils.ts";
 
 interface StoneProps {
   id?: string;
@@ -158,9 +159,15 @@ export class StonesLayer extends Layer("stones-layer", {
           <BlackStone id="shudan-black-stone" />
           <WhiteStone id="shudan-white-stone" />
 
-          <filter id="shadow" x="-10" y="-10" width="30" height="30">
-            <feOffset in="SourceGraphic" dx="0" dy="1" />
-            <feGaussianBlur stdDeviation="1" />
+          <filter
+            id="shadow"
+            x={unitSvg(-1)}
+            y={unitSvg(-1)}
+            width={unitSvg(30)}
+            height={unitSvg(30)}
+          >
+            <feOffset in="SourceGraphic" dx="0" dy={unitSvg(0.1)} />
+            <feGaussianBlur stdDeviation={unitSvg(0.1)} />
           </filter>
         </defs>
 
@@ -169,9 +176,9 @@ export class StonesLayer extends Layer("stones-layer", {
           <For each={stones} key={(stone) => stone.vertex}>
             {(stone) => (
               <circle
-                r={9 / 2}
-                cx={() => stone().x * 10 + 5}
-                cy={() => stone().y * 10 + 5}
+                r={unitSvg(0.9 / 2)}
+                cx={() => unitSvg(stone().x + 0.5)}
+                cy={() => unitSvg(stone().y + 0.5)}
                 fill="rgba(23, 10, 2, .4)"
                 filter="url(#shadow)"
                 opacity={() =>
@@ -193,10 +200,10 @@ export class StonesLayer extends Layer("stones-layer", {
                       ? "#shudan-black-stone"
                       : "#shudan-white-stone"
                   }
-                  width={9}
-                  height={9}
-                  x={() => stone().x * 10 + 0.5}
-                  y={() => stone().y * 10 + 0.5}
+                  width={unitSvg(0.9)}
+                  height={unitSvg(0.9)}
+                  x={() => unitSvg(stone().x + 0.05)}
+                  y={() => unitSvg(stone().y + 0.05)}
                   opacity={() =>
                     this.props.dimmedVertices().includes(stone().vertex)
                       ? 0.6

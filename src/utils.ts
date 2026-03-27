@@ -1,8 +1,11 @@
-import type { Goban } from "./goban.tsx";
 import { Vertex } from "./vertex.ts";
 
 export function unit(value: number | string): string {
   return `calc(${value} * var(--shudan-vertex-size))`;
+}
+
+export function unitSvg(value: number): number {
+  return value * 16;
 }
 
 export function getHoshis(width: number, height: number): Vertex[] {

@@ -7,7 +7,7 @@ import {
   type Metadata,
   type Template,
 } from "sinho";
-import { unit } from "../utils.ts";
+import { unit, unitSvg } from "../utils.ts";
 import { type Goban, GobanContext } from "../goban.tsx";
 
 declare abstract class _LayerComponent {
@@ -50,7 +50,8 @@ export function Layer<const M extends Metadata>(
         <>
           <svg
             viewBox={() =>
-              `-10 -10 ${(width() + 2) * 10} ${(height() + 2) * 10}`
+              `${unitSvg(-1)} ${unitSvg(-1)} ` +
+              `${unitSvg(width() + 2)} ${unitSvg(height() + 2)}`
             }
           >
             {content}
