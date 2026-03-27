@@ -14,9 +14,9 @@ import { COMPONENT_PREFIX } from "./constants.ts";
 import { Coord } from "./coord.tsx";
 import { unit } from "./utils.ts";
 
-const defaultSignMap = Array(19).fill(Array(19).fill(0));
-
 export const GobanContext = {
+  width: createContext<number>(19),
+  height: createContext<number>(19),
   vertexSize: createContext<string | number>("1.7em"),
   interactive: createContext<boolean>(false),
   coords: createContext<boolean>(false),
@@ -24,10 +24,11 @@ export const GobanContext = {
   coordY: createContext<(y: number) => string>(),
   rangeX: createContext<[number, number]>([0, Infinity]),
   rangeY: createContext<[number, number]>([0, Infinity]),
-  signMap: createContext<number[][]>(defaultSignMap),
 };
 
 export class Goban extends Component("goban", {
+  width: prop(GobanContext.width, { attribute: Number }),
+  height: prop(GobanContext.height, { attribute: Number }),
   vertexSize: prop(GobanContext.vertexSize, { attribute: String }),
   interactive: prop(GobanContext.interactive, { attribute: () => true }),
   coords: prop(GobanContext.coords, { attribute: () => true }),
@@ -35,20 +36,10 @@ export class Goban extends Component("goban", {
   coordY: prop(GobanContext.coordY),
   rangeX: prop(GobanContext.rangeX, { attribute: JSON.parse }),
   rangeY: prop(GobanContext.rangeY, { attribute: JSON.parse }),
-  signMap: prop(GobanContext.signMap, { attribute: JSON.parse }),
 }) {
-  get width(): number {
-    return (this.props.signMap() ?? defaultSignMap)[0]?.length ?? 0;
-  }
-
-  get height(): number {
-    return (this.props.signMap() ?? defaultSignMap).length;
-  }
-
   render() {
-    const width = () => this.width;
-    const height = () => this.height;
-
+    const width = useContext(GobanContext.width);
+    const height = useContext(GobanContext.height);
     const _vertexSize = useContext(GobanContext.vertexSize);
     const vertexSize = useMemo(() =>
       /^\d+$/.test(_vertexSize().toString())
@@ -107,6 +98,7 @@ export class Goban extends Component("goban", {
             --shudan-white-foreground-color: #222;
 
             display: inline-block;
+            overflow: hidden;
           }
 
           .layout {

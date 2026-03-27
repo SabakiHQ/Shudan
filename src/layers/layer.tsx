@@ -2,15 +2,16 @@ import {
   Component,
   css,
   Style,
+  useContext,
   type ComponentConstructor,
   type Metadata,
   type Template,
 } from "sinho";
-import { findGoban, unit } from "../utils.ts";
-import type { Goban } from "../goban.tsx";
+import { unit } from "../utils.ts";
+import { GobanContext } from "../goban.tsx";
 
 declare abstract class _LayerComponent {
-  abstract renderSvg(goban: Goban): Template;
+  abstract renderSvg(): Template;
   render(): Template;
 }
 
@@ -23,13 +24,12 @@ export function Layer<const M extends Metadata>(
     tagName,
     metadata,
   ) as ComponentConstructor<{}>) {
-    abstract renderSvg(goban: Goban): Template;
+    abstract renderSvg(): Template;
 
     render() {
-      const goban = findGoban(this)!;
-      const width = () => goban.width;
-      const height = () => goban.height;
-      const content = this.renderSvg(goban);
+      const width = useContext(GobanContext.width);
+      const height = useContext(GobanContext.height);
+      const content = this.renderSvg();
 
       return (
         <>

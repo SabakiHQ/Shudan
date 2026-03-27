@@ -1,20 +1,14 @@
 import {
-  Component,
-  css,
   defineComponents,
   Else,
   For,
   If,
   MaybeSignal,
   prop,
-  Style,
-  useContext,
   useMemo,
   type FunctionalComponent,
 } from "sinho";
-import { Goban, GobanContext } from "../goban.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
-import { findGoban, unit } from "../utils.ts";
 import { Vertex } from "../vertex.ts";
 import { Layer } from "./layer.tsx";
 
@@ -114,15 +108,17 @@ const WhiteStone: FunctionalComponent<StoneProps> = (props) => (
 
 export class StonesLayer extends Layer("stones-layer", {
   dimmedVertices: prop<Vertex[]>([], { attribute: JSON.parse }),
+  signMap: prop<number[][]>([], { attribute: JSON.parse }),
 }) {
   renderSvg() {
-    const signMap = useContext(GobanContext.signMap);
     const stones = useMemo(() =>
-      signMap().flatMap((row, y) =>
-        row
-          .map((sign, x) => ({ sign, x, y, vertex: Vertex(x, y) }))
-          .filter(({ sign }) => sign !== 0),
-      ),
+      this.props
+        .signMap()
+        .flatMap((row, y) =>
+          row
+            .map((sign, x) => ({ sign, x, y, vertex: Vertex(x, y) }))
+            .filter(({ sign }) => sign !== 0),
+        ),
     );
 
     return (

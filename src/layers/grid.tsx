@@ -1,16 +1,16 @@
-import { defineComponents, For, prop, useMemo } from "sinho";
+import { defineComponents, For, prop, useContext, useMemo } from "sinho";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { getHoshis } from "../utils.ts";
 import { parseVertex, Vertex } from "../vertex.ts";
 import { Layer } from "./layer.tsx";
-import type { Goban } from "../goban.tsx";
+import { GobanContext } from "../goban.tsx";
 
 export class GridLayer extends Layer("grid-layer", {
   hoshis: prop<Vertex[]>(undefined, { attribute: JSON.parse }),
 }) {
-  renderSvg(goban: Goban) {
-    const width = () => goban.width;
-    const height = () => goban.height;
+  renderSvg() {
+    const width = useContext(GobanContext.width);
+    const height = useContext(GobanContext.height);
     const xs = useMemo(() => [...Array(width())].map((_, i) => i));
     const ys = useMemo(() => [...Array(height())].map((_, i) => i));
     const hoshis = useMemo(() =>
