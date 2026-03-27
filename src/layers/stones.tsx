@@ -1,10 +1,12 @@
 import {
   defineComponents,
   Else,
+  event,
   For,
   If,
   MaybeSignal,
   prop,
+  useEffect,
   useMemo,
   type FunctionalComponent,
 } from "sinho";
@@ -106,20 +108,37 @@ const WhiteStone: FunctionalComponent<StoneProps> = (props) => (
   </svg>
 );
 
+const stoneMapInfo = new WeakMap<StonesLayer, number[][]>();
+
+export function getStonesMap(layer: StonesLayer) {
+  return stoneMapInfo.get(layer) ?? [];
+}
+
 export class StonesLayer extends Layer("stones-layer", {
   dimmedVertices: prop<Vertex[]>([], { attribute: JSON.parse }),
-  signMap: prop<number[][]>([], { attribute: JSON.parse }),
+  stoneMap: prop<number[][]>([], { attribute: JSON.parse }),
+  onStonesChange: event<number[][]>(),
 }) {
   renderSvg() {
     const stones = useMemo(() =>
       this.props
-        .signMap()
+        .stoneMap()
         .flatMap((row, y) =>
           row
             .map((sign, x) => ({ sign, x, y, vertex: Vertex(x, y) }))
             .filter(({ sign }) => sign !== 0),
         ),
     );
+
+    useEffect(() => {
+      stoneMapInfo.set(this, this.props.stoneMap());
+      this.events.onStonesChange({
+        bubbles: true,
+        detail: this.props.stoneMap(),
+      });
+
+      return () => stoneMapInfo.delete(this);
+    });
 
     return (
       <>

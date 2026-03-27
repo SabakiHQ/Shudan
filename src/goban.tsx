@@ -3,6 +3,7 @@ import {
   createContext,
   css,
   defineComponents,
+  event,
   If,
   prop,
   Style,
@@ -36,6 +37,7 @@ export class Goban extends Component("goban", {
   coordY: prop(GobanContext.coordY),
   rangeX: prop(GobanContext.rangeX, { attribute: JSON.parse }),
   rangeY: prop(GobanContext.rangeY, { attribute: JSON.parse }),
+  onStonesChange: event(),
 }) {
   render() {
     const width = useContext(GobanContext.width);
