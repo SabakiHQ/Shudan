@@ -8,7 +8,7 @@ import {
   type Template,
 } from "sinho";
 import { unit, unitSvg } from "../utils.ts";
-import { type Goban, GobanContext } from "../goban.tsx";
+import { Goban, GobanContext } from "../goban.tsx";
 
 declare abstract class _LayerComponent {
   readonly goban: Goban;
@@ -31,16 +31,24 @@ export function Layer<const M extends Metadata>(
     metadata,
   ) as ComponentConstructor<{}>) {
     get goban(): Goban {
-      return (
-        this.closest("shudan-goban") ??
-        ((this.getRootNode() as ShadowRoot).host as Goban) ??
-        null
-      );
+      const host = (this.getRootNode() as ShadowRoot).host;
+      const result =
+        this.closest<Goban>("shudan-goban") ??
+        (host instanceof Goban ? host : null) ??
+        undefined;
+
+      return result!;
     }
 
     abstract renderSvg(): Template;
 
     render() {
+      if (this.goban == null) {
+        throw new Error(
+          "Layer elements need to be children of <shudan-goban>.",
+        );
+      }
+
       const width = useContext(GobanContext.width);
       const height = useContext(GobanContext.height);
       const rangeX = useContext(GobanContext.rangeX);
@@ -62,6 +70,8 @@ export function Layer<const M extends Metadata>(
           >
             {content}
           </svg>
+
+          <slot />
 
           <Style>{css`
             :host {
