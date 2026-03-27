@@ -117,7 +117,7 @@ export function getStonesMap(layer: StonesLayer) {
 export class StonesLayer extends Layer(
   "stones-layer",
   {
-    dimmedVertices: prop<Vertex[]>([], { attribute: JSON.parse }),
+    dimmedStones: prop<Vertex[]>([], { attribute: JSON.parse }),
     stoneMap: prop(GobanContext.stoneMap, { attribute: JSON.parse }),
   },
   { visibleOverflow: true },
@@ -173,7 +173,7 @@ export class StonesLayer extends Layer(
                 fill="rgba(23, 10, 2, .4)"
                 filter="url(#shadow)"
                 opacity={() =>
-                  this.props.dimmedVertices().includes(stone().vertex) ? 0.4 : 1
+                  this.props.dimmedStones().includes(stone().vertex) ? 0.4 : 1
                 }
               />
             )}
@@ -196,7 +196,7 @@ export class StonesLayer extends Layer(
                   x={() => unitSvg(stone().x + 0.05)}
                   y={() => unitSvg(stone().y + 0.05)}
                   opacity={() =>
-                    this.props.dimmedVertices().includes(stone().vertex)
+                    this.props.dimmedStones().includes(stone().vertex)
                       ? 0.6
                       : 1
                   }
