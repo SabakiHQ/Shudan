@@ -108,14 +108,8 @@ const WhiteStone: FunctionalComponent<StoneProps> = (props) => (
   </svg>
 );
 
-const stoneMapInfo = new WeakMap<StonesLayer, number[][]>();
-
-export function getStonesMap(layer: StonesLayer) {
-  return stoneMapInfo.get(layer) ?? [];
-}
-
-export class StonesLayer extends Layer(
-  "stones-layer",
+export class StoneLayer extends Layer(
+  "stone-layer",
   {
     stoneMap: prop<number[][] | undefined>(GobanContext.stoneMap, {
       attribute: JSON.parse,
@@ -212,4 +206,4 @@ export class StonesLayer extends Layer(
   }
 }
 
-defineComponents(COMPONENT_PREFIX, StonesLayer);
+defineComponents(COMPONENT_PREFIX, StoneLayer);
