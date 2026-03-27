@@ -16,9 +16,14 @@ declare abstract class _LayerComponent {
   render(): Template;
 }
 
+export interface LayerOptions {
+  visibleOverflow?: boolean;
+}
+
 export function Layer<const M extends Metadata>(
   tagName: string,
   metadata: M,
+  opts: LayerOptions = {},
 ): Omit<ComponentConstructor<M>, never> &
   (new () => Component<M> & _LayerComponent) {
   abstract class LayerComponent extends (Component(
@@ -45,25 +50,30 @@ export function Layer<const M extends Metadata>(
       const top = () => -Math.max(rangeY()[0], 0);
 
       const content = this.renderSvg();
+      const padding = opts.visibleOverflow ? 2 : 0;
 
       return (
         <>
           <svg
             viewBox={() =>
-              `${unitSvg(-1)} ${unitSvg(-1)} ` +
-              `${unitSvg(width() + 2)} ${unitSvg(height() + 2)}`
+              `${unitSvg(-padding)} ${unitSvg(-padding)} ` +
+              `${unitSvg(width() + 2 * padding)} ${unitSvg(height() + 2 * padding)}`
             }
           >
             {content}
           </svg>
 
           <Style>{css`
+            :host {
+              overflow: ${opts.visibleOverflow ? "visible" : "hidden"};
+            }
+
             svg {
               position: absolute;
-              left: ${() => unit(left() - 1)};
-              top: ${() => unit(top() - 1)};
-              width: ${() => unit(width() + 2)};
-              height: ${() => unit(height() + 2)};
+              left: ${() => unit(left() - padding)};
+              top: ${() => unit(top() - padding)};
+              width: ${() => unit(width() + 2 * padding)};
+              height: ${() => unit(height() + 2 * padding)};
             }
           `}</Style>
         </>

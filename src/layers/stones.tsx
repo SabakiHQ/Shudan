@@ -116,11 +116,15 @@ export function getStonesMap(layer: StonesLayer) {
   return stoneMapInfo.get(layer) ?? [];
 }
 
-export class StonesLayer extends Layer("stones-layer", {
-  dimmedVertices: prop<Vertex[]>([], { attribute: JSON.parse }),
-  stoneMap: prop<number[][]>([], { attribute: JSON.parse }),
-  onStonesChange: event<number[][]>(),
-}) {
+export class StonesLayer extends Layer(
+  "stones-layer",
+  {
+    dimmedVertices: prop<Vertex[]>([], { attribute: JSON.parse }),
+    stoneMap: prop<number[][]>([], { attribute: JSON.parse }),
+    onStonesChange: event<number[][]>(),
+  },
+  { visibleOverflow: true },
+) {
   renderSvg() {
     const width = useContext(GobanContext.width);
     const height = useContext(GobanContext.height);
