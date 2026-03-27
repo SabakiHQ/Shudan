@@ -28,11 +28,3 @@ export function getHoshis(width: number, height: number): Vertex[] {
 
   return result;
 }
-
-export function findGoban(element: HTMLElement): Goban | null {
-  return (
-    element.closest("shudan-goban") ??
-    ((element.getRootNode() as ShadowRoot).host as Goban) ??
-    null
-  );
-}
