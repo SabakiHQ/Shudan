@@ -37,15 +37,17 @@ export class GridLayer extends Layer("grid-layer", {
         <For each={ys}>
           {(y) => (
             <line
-              stroke-width={0.04}
+              stroke-width={0.4}
               stroke-linecap="square"
               stroke="var(--shudan-board-foreground-color)"
-              x1={() => (xs()[0] === 0 ? 0.5 : xs()[0])}
-              y1={() => y() + 0.5}
+              x1={() => (xs()[0] === 0 ? 5 : xs()[0] * 10)}
+              y1={() => y() * 10 + 5}
               x2={() =>
-                xs().at(-1)! === width() - 1 ? width() - 0.5 : xs().at(-1)! + 1
+                xs().at(-1)! === width() - 1
+                  ? width() * 10 - 5
+                  : xs().at(-1)! * 10 + 5
               }
-              y2={() => y() + 0.5}
+              y2={() => y() * 10 + 5}
             />
           )}
         </For>
@@ -53,16 +55,16 @@ export class GridLayer extends Layer("grid-layer", {
         <For each={xs}>
           {(x) => (
             <line
-              stroke-width={0.04}
+              stroke-width={0.4}
               stroke-linecap="square"
               stroke="var(--shudan-board-foreground-color)"
-              x1={() => x() + 0.5}
-              y1={() => (ys()[0] === 0 ? 0.5 : ys()[0])}
-              x2={() => x() + 0.5}
+              x1={() => x() * 10 + 5}
+              y1={() => (ys()[0] === 0 ? 5 : ys()[0] * 10 + 5)}
+              x2={() => x() * 10 + 5}
               y2={() =>
                 ys().at(-1)! === height() - 1
-                  ? height() - 0.5
-                  : ys().at(-1)! + 1
+                  ? height() * 10 - 5
+                  : ys().at(-1)! * 10 + 5
               }
             />
           )}
@@ -71,9 +73,9 @@ export class GridLayer extends Layer("grid-layer", {
         <For each={hoshis}>
           {(hoshi) => (
             <circle
-              cx={() => hoshi()[0] + 0.5}
-              cy={() => hoshi()[1] + 0.5}
-              r="0.12"
+              cx={() => hoshi()[0] * 10 + 5}
+              cy={() => hoshi()[1] * 10 + 5}
+              r="1.2"
               stroke-width="0"
               fill="var(--shudan-board-foreground-color)"
             />

@@ -1,9 +1,7 @@
 import {
   defineComponents,
-  Else,
   event,
   For,
-  If,
   MaybeSignal,
   prop,
   useContext,
@@ -17,11 +15,12 @@ import { Layer } from "./layer.tsx";
 import { GobanContext } from "../goban.tsx";
 
 interface StoneProps {
-  width?: MaybeSignal<number>;
-  height?: MaybeSignal<number>;
-  x?: MaybeSignal<number>;
-  y?: MaybeSignal<number>;
-  opacity?: MaybeSignal<number>;
+  id?: string;
+  width?: MaybeSignal<number | string>;
+  height?: MaybeSignal<number | string>;
+  x?: MaybeSignal<number | string>;
+  y?: MaybeSignal<number | string>;
+  opacity?: MaybeSignal<number | string>;
 }
 
 const BlackStone: FunctionalComponent<StoneProps> = (props) => (
@@ -156,61 +155,58 @@ export class StonesLayer extends Layer("stones-layer", {
     return (
       <>
         <defs>
-          <filter id="shadow" x="-1" y="-1" width="3" height="3">
-            <feOffset in="SourceGraphic" dx="0" dy="0.1" />
-            <feGaussianBlur stdDeviation=".1" />
+          <BlackStone id="shudan-black-stone" />
+          <WhiteStone id="shudan-white-stone" />
+
+          <filter id="shadow" x="-10" y="-10" width="30" height="30">
+            <feOffset in="SourceGraphic" dx="0" dy="1" />
+            <feGaussianBlur stdDeviation="1" />
           </filter>
         </defs>
 
         {/* Render shadows */}
-        <For each={stones} key={(stone) => stone.vertex}>
-          {(stone) => (
-            <circle
-              r={0.9 / 2}
-              cx={() => stone().x + 0.5}
-              cy={() => stone().y + 0.5}
-              fill="rgba(23, 10, 2, .4)"
-              filter="url(#shadow)"
-              opacity={() =>
-                this.props.dimmedVertices().includes(stone().vertex) ? 0.4 : 1
-              }
-            />
-          )}
-        </For>
+        <g>
+          <For each={stones} key={(stone) => stone.vertex}>
+            {(stone) => (
+              <circle
+                r={9 / 2}
+                cx={() => stone().x * 10 + 5}
+                cy={() => stone().y * 10 + 5}
+                fill="rgba(23, 10, 2, .4)"
+                filter="url(#shadow)"
+                opacity={() =>
+                  this.props.dimmedVertices().includes(stone().vertex) ? 0.4 : 1
+                }
+              />
+            )}
+          </For>
+        </g>
 
         {/* Render stones */}
-        <For each={stones} key={(stone) => stone.vertex}>
-          {(stone) => (
-            <>
-              <If condition={() => stone().sign > 0}>
-                <BlackStone
-                  width={0.9}
-                  height={0.9}
-                  x={() => stone().x + 0.05}
-                  y={() => stone().y + 0.05}
+        <g>
+          <For each={stones} key={(stone) => stone.vertex}>
+            {(stone) => (
+              <>
+                <use
+                  href={() =>
+                    stone().sign > 0
+                      ? "#shudan-black-stone"
+                      : "#shudan-white-stone"
+                  }
+                  width={9}
+                  height={9}
+                  x={() => stone().x * 10 + 0.5}
+                  y={() => stone().y * 10 + 0.5}
                   opacity={() =>
                     this.props.dimmedVertices().includes(stone().vertex)
                       ? 0.6
                       : 1
                   }
                 />
-              </If>
-              <Else>
-                <WhiteStone
-                  width={0.9}
-                  height={0.9}
-                  x={() => stone().x + 0.05}
-                  y={() => stone().y + 0.05}
-                  opacity={() =>
-                    this.props.dimmedVertices().includes(stone().vertex)
-                      ? 0.6
-                      : 1
-                  }
-                />
-              </Else>
-            </>
-          )}
-        </For>
+              </>
+            )}
+          </For>
+        </g>
       </>
     );
   }

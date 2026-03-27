@@ -8,9 +8,10 @@ import {
   type Template,
 } from "sinho";
 import { unit } from "../utils.ts";
-import { GobanContext } from "../goban.tsx";
+import { type Goban, GobanContext } from "../goban.tsx";
 
 declare abstract class _LayerComponent {
+  readonly goban: Goban;
   abstract renderSvg(): Template;
   render(): Template;
 }
@@ -24,6 +25,14 @@ export function Layer<const M extends Metadata>(
     tagName,
     metadata,
   ) as ComponentConstructor<{}>) {
+    get goban(): Goban {
+      return (
+        this.closest("shudan-goban") ??
+        ((this.getRootNode() as ShadowRoot).host as Goban) ??
+        null
+      );
+    }
+
     abstract renderSvg(): Template;
 
     render() {
@@ -39,7 +48,11 @@ export function Layer<const M extends Metadata>(
 
       return (
         <>
-          <svg viewBox={() => `-1 -1 ${width() + 2} ${height() + 2}`}>
+          <svg
+            viewBox={() =>
+              `-10 -10 ${(width() + 2) * 10} ${(height() + 2) * 10}`
+            }
+          >
             {content}
           </svg>
 
