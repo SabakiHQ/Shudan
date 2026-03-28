@@ -1,9 +1,6 @@
 import {
   defineComponents,
-  Else,
   For,
-  If,
-  MaybeSignal,
   prop,
   useContext,
   useMemo,
@@ -16,12 +13,10 @@ import { Layer } from "./layer.tsx";
 import { GobanContext } from "../goban.tsx";
 import { unitSvg } from "../utils.ts";
 
-type StoneProps = JSX.IntrinsicElements["svg"] & {
-  random: MaybeSignal<number>;
-};
-
-const BlackStone: FunctionalComponent<StoneProps> = ({ random, ...props }) => (
-  <svg {...props} viewBox="0 0 43 43">
+const BlackStone: FunctionalComponent<JSX.IntrinsicElements["symbol"]> = (
+  props,
+) => (
+  <symbol {...props} viewBox="0 0 43 43">
     <defs>
       <linearGradient
         id="b-ambient"
@@ -76,6 +71,7 @@ const BlackStone: FunctionalComponent<StoneProps> = ({ random, ...props }) => (
         ry="12"
         fill="url(#b-specular)"
         transform="rotate(-40 20 9)"
+        opacity=".6"
       />
       <ellipse
         cx="41"
@@ -87,11 +83,13 @@ const BlackStone: FunctionalComponent<StoneProps> = ({ random, ...props }) => (
         opacity=".4"
       />
     </g>
-  </svg>
+  </symbol>
 );
 
-const WhiteStone: FunctionalComponent<StoneProps> = ({ random, ...props }) => (
-  <svg {...props} viewBox="0 0 43 43">
+const WhiteStone: FunctionalComponent<JSX.IntrinsicElements["symbol"]> = (
+  props,
+) => (
+  <symbol {...props} viewBox="0 0 43 43">
     <defs>
       <linearGradient
         id="w-ambient"
@@ -174,11 +172,14 @@ const WhiteStone: FunctionalComponent<StoneProps> = ({ random, ...props }) => (
 
     <g mask="url(#w-fade)" filter="url(#w-wavy)">
       <circle
+        style={{
+          transform: "rotate(calc(var(--random, 0) * 360deg))",
+          transformOrigin: "21.5px 21.5px",
+        }}
         cx="21.5"
         cy="21.5"
         r="20"
         fill="url(#w-stripe)"
-        transform={() => `rotate(${MaybeSignal.get(random) * 360} 21.5 21.5)`}
       />
     </g>
 
@@ -192,7 +193,7 @@ const WhiteStone: FunctionalComponent<StoneProps> = ({ random, ...props }) => (
         transform="rotate(-40 21 10)"
       />
     </g>
-  </svg>
+  </symbol>
 );
 
 export class StoneLayer extends Layer(
@@ -236,6 +237,9 @@ export class StoneLayer extends Layer(
     return (
       <>
         <defs>
+          <BlackStone id="black-stone" />
+          <WhiteStone id="white-stone" />
+
           <filter
             id="shadow"
             x={unitSvg(-1)}
@@ -249,15 +253,13 @@ export class StoneLayer extends Layer(
         </defs>
 
         {/* Render shadows */}
-        <g>
+        <g fill="rgba(23, 10, 2, .4)" filter="url(#shadow)">
           <For each={stones} key={(stone) => stone.vertex}>
             {(stone) => (
               <circle
                 r={unitSvg(0.9 / 2)}
                 cx={() => unitSvg(stone().x + 0.5)}
                 cy={() => unitSvg(stone().y + 0.5)}
-                fill="rgba(23, 10, 2, .4)"
-                filter="url(#shadow)"
                 opacity={() =>
                   dimmedStones().includes(stone().vertex) ? 0.4 : 1
                 }
@@ -268,23 +270,24 @@ export class StoneLayer extends Layer(
 
         {/* Render stones */}
         <g>
-          <For each={stones} key={(stone) => stone.vertex + "," + stone.sign}>
-            {(stone) => {
-              const Stone = stone().sign > 0 ? BlackStone : WhiteStone;
-
-              return (
-                <Stone
-                  width={unitSvg(0.9)}
-                  height={unitSvg(0.9)}
-                  x={() => unitSvg(stone().x + 0.05)}
-                  y={() => unitSvg(stone().y + 0.05)}
-                  opacity={() =>
-                    dimmedStones().includes(stone().vertex) ? 0.6 : 1
-                  }
-                  random={() => randomMap()[stone().y]?.[stone().x]}
-                />
-              );
-            }}
+          <For each={stones} key={(stone) => stone.vertex}>
+            {(stone) => (
+              <use
+                href={() =>
+                  stone().sign > 0 ? "#black-stone" : "#white-stone"
+                }
+                style={{
+                  "--random": () => randomMap()[stone().y]?.[stone().x],
+                }}
+                width={unitSvg(0.9)}
+                height={unitSvg(0.9)}
+                x={() => unitSvg(stone().x + 0.05)}
+                y={() => unitSvg(stone().y + 0.05)}
+                opacity={() =>
+                  dimmedStones().includes(stone().vertex) ? 0.6 : 1
+                }
+              />
+            )}
           </For>
         </g>
       </>
