@@ -48,12 +48,12 @@ export class LabelLayer extends Layer({
                     top: "50%",
                     maxWidth: unitSvg(1),
                     maxHeight: unitSvg(1),
-                    backgroundColor: () =>
-                      stoneMap() != null && stone() === 0
-                        ? "var(--shudan-board-background-color)"
-                        : undefined,
                     overflow: "hidden",
                     transform: "translate(-50%, -50%)",
+                    background: () =>
+                      stoneMap() != null && stone() === 0
+                        ? "var(--shudan-board-background)"
+                        : undefined,
                     color,
                     fontSize: () =>
                       label().label.length >= 3 || label().label.includes("\n")
@@ -65,6 +65,7 @@ export class LabelLayer extends Layer({
                     whiteSpace: "pre",
                     textOverflow: "ellipsis",
                   }}
+                  title={() => label().label}
                 >
                   {() => label().label}
                 </div>

@@ -1,11 +1,14 @@
 import {
   defineComponents,
+  Else,
   For,
+  If,
   MaybeSignal,
   prop,
   useContext,
   useMemo,
   type FunctionalComponent,
+  type JSX,
 } from "sinho";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { Vertex } from "../vertex.ts";
@@ -13,98 +16,182 @@ import { Layer } from "./layer.tsx";
 import { GobanContext } from "../goban.tsx";
 import { unitSvg } from "../utils.ts";
 
-interface StoneProps {
-  id?: string;
-  width?: MaybeSignal<number | string>;
-  height?: MaybeSignal<number | string>;
-  x?: MaybeSignal<number | string>;
-  y?: MaybeSignal<number | string>;
-  opacity?: MaybeSignal<number | string>;
-}
+type StoneProps = JSX.IntrinsicElements["svg"] & {
+  random: MaybeSignal<number>;
+};
 
-const BlackStone: FunctionalComponent<StoneProps> = (props) => (
+const BlackStone: FunctionalComponent<StoneProps> = ({ random, ...props }) => (
   <svg {...props} viewBox="0 0 43 43">
     <defs>
-      <linearGradient id="b">
-        <stop offset="0" stop-color="#636363" stop-opacity=".4" />
-        <stop offset="1" stop-color="#636363" stop-opacity="0" />
-      </linearGradient>
-      <linearGradient id="a">
-        <stop offset="0" stop-color="#0b0b0b" />
-        <stop offset="1" stop-color="#443432" />
-      </linearGradient>
       <linearGradient
-        id="c"
-        x1="0"
-        x2="0"
-        y1="43"
-        y2="0"
-        href="#a"
-        gradientUnits="userSpaceOnUse"
-      />
-      <linearGradient
-        id="d"
+        id="b-ambient"
         x1="0"
         x2="0"
         y1="2.38"
         y2="19.27"
-        href="#b"
         gradientUnits="userSpaceOnUse"
-      />
-    </defs>
-
-    <circle
-      cx="21.5"
-      cy="21.5"
-      r="20.5"
-      fill="url(#c)"
-      stroke="#352c35"
-      stroke-width="1"
-    />
-    <circle cx="21.5" cy="21.5" r="18.5" fill="url(#d)" />
-  </svg>
-);
-
-const WhiteStone: FunctionalComponent<StoneProps> = (props) => (
-  <svg {...props} viewBox="0 0 43 43">
-    <defs>
-      <linearGradient id="f">
-        <stop offset="0" stop-color="#eee" stop-opacity=".8" />
-        <stop offset="1" stop-color="#eee" stop-opacity="0" />
-      </linearGradient>
-      <linearGradient id="e">
-        <stop offset="0" stop-color="#C9D1FF" />
-        <stop offset="1" stop-color="#fff" />
+      >
+        <stop offset="0" stop-color="#636363" stop-opacity=".4" />
+        <stop offset="1" stop-color="#636363" stop-opacity="0" />
       </linearGradient>
       <linearGradient
-        id="g"
+        id="b-base"
         x1="0"
         x2="0"
         y1="43"
         y2="0"
-        href="#e"
         gradientUnits="userSpaceOnUse"
-      />
-      <linearGradient
-        id="h"
-        x1="0"
-        x2="0"
-        y1="40.65"
-        y2="30.65"
-        href="#f"
-        gradientUnits="userSpaceOnUse"
-      />
+      >
+        <stop offset="0" stop-color="#0b0b0b" />
+        <stop offset="1" stop-color="#463330" />
+      </linearGradient>
+
+      <radialGradient id="b-specular" cx="32%" cy="28%" r="18%">
+        <stop offset="0" stop-color="#f5d1ca" stop-opacity="0.9" />
+        <stop offset="0.15" stop-color="#f5d1ca" stop-opacity="0.6" />
+        <stop offset="0.35" stop-color="#f5d1ca" stop-opacity="0.25" />
+        <stop offset="1" stop-color="#f5d1ca" stop-opacity="0" />
+      </radialGradient>
+
+      <mask id="b-stone-mask">
+        <circle cx="21.5" cy="21.5" r="18.5" fill="white" />
+      </mask>
     </defs>
 
     <circle
       cx="21.5"
       cy="21.5"
       r="20.5"
-      fill="url(#g)"
+      fill="url(#b-base)"
+      stroke="#352c35"
+      stroke-width="1"
+    />
+    <circle cx="21.5" cy="21.5" r="18.5" fill="url(#b-ambient)" />
+
+    <g mask="url(#b-stone-mask)">
+      <ellipse
+        cx="20"
+        cy="9"
+        rx="24"
+        ry="12"
+        fill="url(#b-specular)"
+        transform="rotate(-40 20 9)"
+      />
+      <ellipse
+        cx="41"
+        cy="31"
+        rx="24"
+        ry="12"
+        fill="url(#b-specular)"
+        transform="rotate(-40 41 31)"
+        opacity=".4"
+      />
+    </g>
+  </svg>
+);
+
+const WhiteStone: FunctionalComponent<StoneProps> = ({ random, ...props }) => (
+  <svg {...props} viewBox="0 0 43 43">
+    <defs>
+      <linearGradient
+        id="w-ambient"
+        x1="0"
+        x2="0"
+        y1="40.65"
+        y2="30.65"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop offset="0" stop-color="#f6f7ff" stop-opacity=".6" />
+        <stop offset="1" stop-color="#f6f7ff" stop-opacity="0" />
+      </linearGradient>
+      <linearGradient
+        id="w-base"
+        x1="0"
+        x2="0"
+        y1="43"
+        y2="0"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop offset="0" stop-color="#d6d8ed" />
+        <stop offset="1" stop-color="#f6f7ff" />
+      </linearGradient>
+
+      <pattern
+        id="w-stripe"
+        patternUnits="userSpaceOnUse"
+        width="5"
+        height="43"
+      >
+        <rect x="0" width="2" height="43" fill="#c0bab6" opacity=".4" />
+      </pattern>
+
+      <filter id="w-wavy">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.08 0.02"
+          numOctaves="2"
+          seed="3"
+          result="noise"
+        />
+        <feDisplacementMap
+          in="SourceGraphic"
+          in2="noise"
+          scale="4"
+          xChannelSelector="R"
+          yChannelSelector="G"
+        />
+      </filter>
+
+      <mask id="w-fade">
+        <radialGradient id="w-fade-gradient">
+          <stop offset="40%" stop-color="white" stop-opacity="1" />
+          <stop offset="90%" stop-color="white" stop-opacity="0" />
+        </radialGradient>
+        <rect width="43" height="43" fill="url(#w-fade-gradient)" />
+      </mask>
+
+      <radialGradient id="w-specular" cx="32%" cy="28%" r="18%">
+        <stop offset="0" stop-color="white" stop-opacity="0.9" />
+        <stop offset="0.15" stop-color="white" stop-opacity="0.6" />
+        <stop offset="0.35" stop-color="white" stop-opacity="0.25" />
+        <stop offset="1" stop-color="white" stop-opacity="0" />
+      </radialGradient>
+
+      <mask id="w-stone-mask">
+        <circle cx="21.5" cy="21.5" r="18.5" fill="white" />
+      </mask>
+    </defs>
+
+    <circle
+      cx="21.5"
+      cy="21.5"
+      r="20.5"
+      fill="url(#w-base)"
       stroke="#c3c3c3"
       stroke-width="1"
     />
-    <circle cx="21.5" cy="21.5" r="18.5" fill="url(#h)" />
+    <circle cx="21.5" cy="21.5" r="18.5" fill="url(#w-ambient)" />
+
+    <g mask="url(#w-fade)" filter="url(#w-wavy)">
+      <circle
+        cx="21.5"
+        cy="21.5"
+        r="20"
+        fill="url(#w-stripe)"
+        transform={() => `rotate(${MaybeSignal.get(random) * 360} 21.5 21.5)`}
+      />
+    </g>
+
+    <g mask="url(#w-stone-mask)">
+      <ellipse
+        cx="21"
+        cy="10"
+        rx="26"
+        ry="14"
+        fill="url(#w-specular)"
+        transform="rotate(-40 21 10)"
+      />
+    </g>
   </svg>
 );
 
@@ -140,13 +227,15 @@ export class StoneLayer extends Layer(
             y <= Math.min(rangeY()[1], height() - 1),
         ),
     );
+    const randomMap = useMemo(() =>
+      [...Array(height())].map((_) =>
+        [...Array(width())].map((_) => Math.random()),
+      ),
+    );
 
     return (
       <>
         <defs>
-          <BlackStone id="shudan-black-stone" />
-          <WhiteStone id="shudan-white-stone" />
-
           <filter
             id="shadow"
             x={unitSvg(-1)}
@@ -179,15 +268,12 @@ export class StoneLayer extends Layer(
 
         {/* Render stones */}
         <g>
-          <For each={stones} key={(stone) => stone.vertex}>
-            {(stone) => (
-              <>
-                <use
-                  href={() =>
-                    stone().sign > 0
-                      ? "#shudan-black-stone"
-                      : "#shudan-white-stone"
-                  }
+          <For each={stones} key={(stone) => stone.vertex + "," + stone.sign}>
+            {(stone) => {
+              const Stone = stone().sign > 0 ? BlackStone : WhiteStone;
+
+              return (
+                <Stone
                   width={unitSvg(0.9)}
                   height={unitSvg(0.9)}
                   x={() => unitSvg(stone().x + 0.05)}
@@ -195,9 +281,10 @@ export class StoneLayer extends Layer(
                   opacity={() =>
                     dimmedStones().includes(stone().vertex) ? 0.6 : 1
                   }
+                  random={() => randomMap()[stone().y]?.[stone().x]}
                 />
-              </>
-            )}
+              );
+            }}
           </For>
         </g>
       </>

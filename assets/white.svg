@@ -1,40 +1,97 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="43" height="43">
   <defs>
-    <linearGradient id="b">
-      <stop offset="0" stop-color="#eee" stop-opacity=".8" />
-      <stop offset="1" stop-color="#eee" stop-opacity="0" />
-    </linearGradient>
-    <linearGradient id="a">
-      <stop offset="0" stop-color="#C9D1FF" />
-      <stop offset="1" stop-color="#fff" />
-    </linearGradient>
     <linearGradient
-      id="c"
-      x1="0"
-      x2="0"
-      y1="43"
-      y2="0"
-      href="#a"
-      gradientUnits="userSpaceOnUse"
-    />
-    <linearGradient
-      id="d"
+      id="w-ambient"
       x1="0"
       x2="0"
       y1="40.65"
       y2="30.65"
-      href="#b"
       gradientUnits="userSpaceOnUse"
-    />
+    >
+      <stop offset="0" stop-color="#f6f7ff" stop-opacity=".6" />
+      <stop offset="1" stop-color="#f6f7ff" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient
+      id="w-base"
+      x1="0"
+      x2="0"
+      y1="43"
+      y2="0"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop offset="0" stop-color="#d6d8ed" />
+      <stop offset="1" stop-color="#f6f7ff" />
+    </linearGradient>
+
+    <pattern id="w-stripe" patternUnits="userSpaceOnUse" width="4" height="43">
+        <rect x="0" width="2" height="43" fill="#bab6c0" opacity=".5" />
+    </pattern>
+
+    <filter id="w-wavy">
+      <feTurbulence
+        type="fractalNoise"
+        baseFrequency="0.08 0.02"
+        numOctaves="2"
+        seed="3"
+        result="noise"
+      />
+      <feDisplacementMap
+        in="SourceGraphic"
+        in2="noise"
+        scale="4"
+        xChannelSelector="R"
+        yChannelSelector="G"
+      />
+    </filter>
+
+    <mask id="w-fade">
+      <radialGradient id="w-fade-gradient">
+        <stop offset="40%" stop-color="white" stop-opacity="1" />
+        <stop offset="90%" stop-color="white" stop-opacity="0" />
+      </radialGradient>
+      <rect width="43" height="43" fill="url(#w-fade-gradient)" />
+    </mask>
+
+    <radialGradient id="w-specular" cx="32%" cy="28%" r="18%">
+      <stop offset="0" stop-color="white" stop-opacity="0.9" />
+      <stop offset="0.15" stop-color="white" stop-opacity="0.6" />
+      <stop offset="0.35" stop-color="white" stop-opacity="0.25" />
+      <stop offset="1" stop-color="white" stop-opacity="0" />
+    </radialGradient>
+
+    <mask id="w-stone-mask">
+      <circle cx="21.5" cy="21.5" r="18.5" fill="white" />
+    </mask>
   </defs>
 
   <circle
     cx="21.5"
     cy="21.5"
     r="20.5"
-    fill="url(#c)"
+    fill="url(#w-base)"
     stroke="#c3c3c3"
     stroke-width="1"
   />
-  <circle cx="21.5" cy="21.5" r="18.5" fill="url(#d)" />
+  <circle cx="21.5" cy="21.5" r="18.5" fill="url(#w-ambient)" />
+
+  <g mask="url(#w-fade)" filter="url(#w-wavy)">
+    <circle
+      cx="21.5"
+      cy="21.5"
+      r="20"
+      fill="url(#w-stripe)"
+      transform="rotate(-18 21.5 21.5)"
+    />
+  </g>
+
+  <g mask="url(#w-stone-mask)">
+    <ellipse
+      cx="21"
+      cy="10"
+      rx="24"
+      ry="12"
+      fill="url(#w-specular)"
+      transform="rotate(-40 21 10)"
+    />
+  </g>
 </svg>

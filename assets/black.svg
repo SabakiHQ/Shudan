@@ -1,40 +1,67 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="43" height="43">
   <defs>
-    <linearGradient id="b">
-      <stop offset="0" stop-color="#636363" stop-opacity=".4" />
-      <stop offset="1" stop-color="#636363" stop-opacity="0" />
-    </linearGradient>
-    <linearGradient id="a">
-      <stop offset="0" stop-color="#0b0b0b" />
-      <stop offset="1" stop-color="#443432" />
-    </linearGradient>
     <linearGradient
-      id="c"
-      x1="0"
-      x2="0"
-      y1="43"
-      y2="0"
-      href="#a"
-      gradientUnits="userSpaceOnUse"
-    />
-    <linearGradient
-      id="d"
+      id="b-ambient"
       x1="0"
       x2="0"
       y1="2.38"
       y2="19.27"
-      href="#b"
       gradientUnits="userSpaceOnUse"
-    />
+    >
+      <stop offset="0" stop-color="#636363" stop-opacity=".4" />
+      <stop offset="1" stop-color="#636363" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient
+      id="b-base"
+      x1="0"
+      x2="0"
+      y1="43"
+      y2="0"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop offset="0" stop-color="#0b0b0b" />
+      <stop offset="1" stop-color="#463330" />
+    </linearGradient>
+
+    <radialGradient id="b-specular" cx="32%" cy="28%" r="18%">
+      <stop offset="0" stop-color="#f5d1ca" stop-opacity="0.9" />
+      <stop offset="0.15" stop-color="#f5d1ca" stop-opacity="0.6" />
+      <stop offset="0.35" stop-color="#f5d1ca" stop-opacity="0.25" />
+      <stop offset="1" stop-color="#f5d1ca" stop-opacity="0" />
+    </radialGradient>
+
+    <mask id="b-stone-mask">
+      <circle cx="21.5" cy="21.5" r="18.5" fill="white" />
+    </mask>
   </defs>
 
   <circle
     cx="21.5"
     cy="21.5"
     r="20.5"
-    fill="url(#c)"
+    fill="url(#b-base)"
     stroke="#352c35"
     stroke-width="1"
   />
-  <circle cx="21.5" cy="21.5" r="18.5" fill="url(#d)" />
+  <circle cx="21.5" cy="21.5" r="18.5" fill="url(#b-ambient)" />
+
+  <g mask="url(#b-stone-mask)">
+    <ellipse
+      cx="20"
+      cy="9"
+      rx="24"
+      ry="12"
+      fill="url(#b-specular)"
+      transform="rotate(-40 20 9)"
+    />
+    <ellipse
+      cx="41"
+      cy="31"
+      rx="24"
+      ry="12"
+      fill="url(#b-specular)"
+      transform="rotate(-40 41 31)"
+      opacity=".4"
+    />
+  </g>
 </svg>
