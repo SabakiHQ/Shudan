@@ -74,6 +74,8 @@ export class Goban extends Component({
 
       if (this.props.interactive() && !this.hasAttribute("tabindex")) {
         this.tabIndex = 0;
+      } else if (!this.props.interactive()) {
+        this.removeAttribute("tabindex");
       }
     });
 
@@ -162,7 +164,7 @@ export class Goban extends Component({
             color: var(--shudan-board-foreground-color);
             transition: border-color 0.2s;
           }
-          :host([interactive]:focus) .layout {
+          :host(:focus) .layout {
             border-color: var(--shudan-board-border-color);
           }
 
