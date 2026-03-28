@@ -109,7 +109,6 @@ const WhiteStone: FunctionalComponent<StoneProps> = (props) => (
 );
 
 export class StoneLayer extends Layer(
-  "stone-layer",
   {
     stoneMap: prop<number[][] | undefined>(GobanContext.stoneMap, {
       attribute: JSON.parse,

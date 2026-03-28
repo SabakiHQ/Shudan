@@ -32,7 +32,7 @@
     "build-demo": "rspack build"
   },
   "dependencies": {
-    "sinho": "^0.3.2"
+    "sinho": "^0.3.3"
   },
   "devDependencies": {
     "@rspack/cli": "^1.7.10",

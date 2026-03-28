@@ -31,7 +31,7 @@ export const GobanContext = {
   dimmedStones: createContext<Vertex[]>([]),
 };
 
-export class Goban extends Component("goban", {
+export class Goban extends Component({
   width: prop(GobanContext.width, { attribute: Number }),
   height: prop(GobanContext.height, { attribute: Number }),
   vertexSize: prop(GobanContext.vertexSize, { attribute: String }),

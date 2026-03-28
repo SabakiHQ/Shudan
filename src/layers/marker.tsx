@@ -16,14 +16,10 @@ import { GobanContext } from "../goban.tsx";
 
 export type Marker = "point" | "circle" | "cross" | "triangle" | "square";
 
-export class MarkerLayer extends Layer(
-  "marker-layer",
-  {
+export class MarkerLayer extends Layer({
     color: prop<string>(undefined, { attribute: String }),
     markers: prop<Record<Vertex, Marker>>({}, { attribute: JSON.parse }),
-  },
-  { visibleOverflow: false },
-) {
+}) {
   renderSvg(): Template {
     const vertexViewBox = `0 0 ${unitSvg(1)} ${unitSvg(1)}`;
 

@@ -5,7 +5,7 @@ import { parseVertex, Vertex } from "../vertex.ts";
 import { Layer } from "./layer.tsx";
 import { GobanContext } from "../goban.tsx";
 
-export class GridLayer extends Layer("grid-layer", {
+export class GridLayer extends Layer({
   hoshis: prop<Vertex[]>(undefined, { attribute: JSON.parse }),
 }) {
   renderSvg() {

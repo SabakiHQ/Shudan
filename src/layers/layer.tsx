@@ -21,13 +21,11 @@ export interface LayerOptions {
 }
 
 export function Layer<const M extends Metadata>(
-  tagName: string,
   metadata: M,
   opts: LayerOptions = {},
 ): Omit<ComponentConstructor<M>, never> &
   (new () => Component<M> & _LayerComponent) {
   abstract class LayerComponent extends (Component(
-    tagName,
     metadata,
   ) as ComponentConstructor<{}>) {
     get goban(): Goban {
