@@ -107,6 +107,8 @@ export class Goban extends Component({
           </If>
         </div>
 
+        <div class="gradient" />
+
         <Style>{css`
           :host {
             --shudan-vertex-size: ${vertexSize};
@@ -127,8 +129,21 @@ export class Goban extends Component({
             --shudan-black-foreground-color: #eee;
             --shudan-white-foreground-color: #222;
 
+            position: relative;
             display: inline-block;
             overflow: hidden;
+          }
+
+          .gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background:
+              linear-gradient(to bottom, rgba(234, 220, 192, 0.1), transparent),
+              linear-gradient(to bottom, transparent, rgba(23, 10, 2, 0.05));
+            pointer-events: none;
           }
 
           .layout {
