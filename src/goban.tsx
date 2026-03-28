@@ -13,7 +13,7 @@ import {
 } from "sinho";
 import { COMPONENT_PREFIX } from "./constants.ts";
 import { Coord } from "./coord.tsx";
-import { unit } from "./utils.ts";
+import { unit, unitSvg } from "./utils.ts";
 import { Vertex } from "./vertex.ts";
 
 export const GobanContext = {
@@ -159,8 +159,6 @@ export class Goban extends Component({
 
           .viewport > *,
           .viewport > ::slotted(*) {
-            display: grid;
-            place-items: stretch;
             position: absolute;
             top: 0;
             left: 0;

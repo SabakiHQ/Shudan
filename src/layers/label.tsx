@@ -21,41 +21,6 @@ export class LabelLayer extends Layer({
 
     return (
       <>
-        <defs>
-          <filter
-            id="outline"
-            x={unitSvg(-1)}
-            y={unitSvg(-1)}
-            width={unitSvg(3)}
-            height={unitSvg(3)}
-          >
-            <feDropShadow
-              dx="0"
-              dy={unitSvg(0.05)}
-              stdDeviation={0}
-              flood-color="var(--shudan-board-background-color)"
-            />
-            <feDropShadow
-              dx="0"
-              dy={unitSvg(-0.05)}
-              stdDeviation={0}
-              flood-color="var(--shudan-board-background-color)"
-            />
-            <feDropShadow
-              dx={unitSvg(0.05)}
-              dy="0"
-              stdDeviation={0}
-              flood-color="var(--shudan-board-background-color)"
-            />
-            <feDropShadow
-              dx={unitSvg(-0.05)}
-              dy="0"
-              stdDeviation={0}
-              flood-color="var(--shudan-board-background-color)"
-            />
-          </filter>
-        </defs>
-
         <For each={labels} key={(label) => label.vertex}>
           {(label) => {
             const stone = () => stoneMap()?.[label().y]?.[label().x] ?? 0;
@@ -70,22 +35,40 @@ export class LabelLayer extends Layer({
                     : "var(--shudan-board-foreground-color)");
 
             return (
-              <text
-                style={{ fontSize: unitSvg(0.6), whiteSpace: "wrap" }}
-                fill={color}
-                x={() => unitSvg(label().x + 0.5)}
-                y={() => unitSvg(label().y + 0.5)}
-                text-anchor="middle"
-                alignment-baseline="central"
-                textLength={unitSvg(1)}
-                filter={() =>
-                  stoneMap() != null && stone() === 0
-                    ? "url(#outline)"
-                    : undefined
-                }
+              <foreignObject
+                x={() => unitSvg(label().x)}
+                y={() => unitSvg(label().y)}
+                width={unitSvg(1)}
+                height={unitSvg(1)}
               >
-                {() => label().label}
-              </text>
+                <div
+                  style={{
+                    position: "absolute",
+                    left: "50%",
+                    top: "50%",
+                    maxWidth: unitSvg(1),
+                    maxHeight: unitSvg(1),
+                    backgroundColor: () =>
+                      stoneMap() != null && stone() === 0
+                        ? "var(--shudan-board-background-color)"
+                        : undefined,
+                    overflow: "hidden",
+                    transform: "translate(-50%, -50%)",
+                    color,
+                    fontSize: () =>
+                      label().label.length >= 3 || label().label.includes("\n")
+                        ? unitSvg(0.3)
+                        : unitSvg(0.6),
+                    lineHeight: () =>
+                      label().label.includes("\n") ? `${unitSvg(0.33)}px` : 1,
+                    textAlign: "center",
+                    whiteSpace: "pre",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {() => label().label}
+                </div>
+              </foreignObject>
             );
           }}
         </For>

@@ -83,6 +83,14 @@ export function Layer<const M extends Metadata>(
               width: ${() => unit(width() + 2 * padding)};
               height: ${() => unit(height() + 2 * padding)};
             }
+
+            ::slotted(*) {
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+            }
           `}</Style>
         </>
       );
