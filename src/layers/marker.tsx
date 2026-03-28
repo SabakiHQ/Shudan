@@ -136,13 +136,12 @@ export class MarkerLayer extends Layer({
 
             return (
               <use
-                style={{ "--color": color }}
                 href={() => `#${marker().type}`}
+                style={{ "--color": color }}
                 x={() => unitSvg(marker().x)}
                 y={() => unitSvg(marker().y)}
                 width={unitSvg(1)}
                 height={unitSvg(1)}
-                textLength={unitSvg(1)}
                 filter={() =>
                   stoneMap() != null && stone() === 0
                     ? "url(#outline)"

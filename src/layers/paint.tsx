@@ -1,4 +1,4 @@
-import { defineComponents, For, If, prop, useEffect, useMemo } from "sinho";
+import { defineComponents, For, If, prop, useMemo, type JSX } from "sinho";
 import { Layer } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { Vertex } from "../vertex.ts";
@@ -119,52 +119,27 @@ export class PaintLayer extends Layer({
                 [Vertex(x - 1, y), Vertex(x, y + 1)].every((v) =>
                   verticesSet().has(v),
                 );
+              const commonProps: JSX.IntrinsicElements["rect"] = {
+                width: unitSvg(0.5),
+                height: unitSvg(0.5),
+                fill: this.props.color,
+                transform: () => `translate(${unitSvg(x)} ${unitSvg(y)})`,
+                mask: "url(#inverted)",
+              };
 
               return (
                 <>
                   <If condition={topLeft}>
-                    <rect
-                      x="0"
-                      y="0"
-                      width={unitSvg(0.5)}
-                      height={unitSvg(0.5)}
-                      fill={this.props.color}
-                      transform={() => `translate(${unitSvg(x)} ${unitSvg(y)})`}
-                      mask="url(#inverted)"
-                    />
+                    <rect x="0" y="0" {...commonProps} />
                   </If>
                   <If condition={topRight}>
-                    <rect
-                      x={unitSvg(0.5)}
-                      y="0"
-                      width={unitSvg(0.5)}
-                      height={unitSvg(0.5)}
-                      fill={this.props.color}
-                      transform={() => `translate(${unitSvg(x)} ${unitSvg(y)})`}
-                      mask="url(#inverted)"
-                    />
+                    <rect x={unitSvg(0.5)} y="0" {...commonProps} />
                   </If>
                   <If condition={bottomRight}>
-                    <rect
-                      x={unitSvg(0.5)}
-                      y={unitSvg(0.5)}
-                      width={unitSvg(0.5)}
-                      height={unitSvg(0.5)}
-                      fill={this.props.color}
-                      transform={() => `translate(${unitSvg(x)} ${unitSvg(y)})`}
-                      mask="url(#inverted)"
-                    />
+                    <rect x={unitSvg(0.5)} y={unitSvg(0.5)} {...commonProps} />
                   </If>
                   <If condition={bottomLeft}>
-                    <rect
-                      x="0"
-                      y={unitSvg(0.5)}
-                      width={unitSvg(0.5)}
-                      height={unitSvg(0.5)}
-                      fill={this.props.color}
-                      transform={() => `translate(${unitSvg(x)} ${unitSvg(y)})`}
-                      mask="url(#inverted)"
-                    />
+                    <rect x="0" y={unitSvg(0.5)} {...commonProps} />
                   </If>
                 </>
               );

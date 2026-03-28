@@ -143,6 +143,7 @@ export class Goban extends Component({
             background:
               linear-gradient(to bottom, rgba(234, 220, 192, 0.1), transparent),
               linear-gradient(to bottom, transparent, rgba(23, 10, 2, 0.05));
+            border-radius: ${unit(0.4)};
             pointer-events: none;
           }
 
