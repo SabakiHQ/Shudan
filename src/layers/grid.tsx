@@ -1,7 +1,7 @@
 import { defineComponents, For, prop, useContext, useMemo } from "sinho";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { getHoshis, unitSvg } from "../utils.ts";
-import { parseVertex, Vertex } from "../vertex.ts";
+import { Vertex } from "../vertex.ts";
 import { Layer } from "./layer.tsx";
 import { GobanContext } from "../goban.tsx";
 
@@ -16,7 +16,7 @@ export class GridLayer extends Layer({
     const ys = useMemo(() => [...Array(height())].map((_, i) => i));
     const hoshis = useMemo(() =>
       (this.props.hoshis() ?? getHoshis(width(), height())).map((v) =>
-        parseVertex(v),
+        Vertex.parse(v),
       ),
     );
 

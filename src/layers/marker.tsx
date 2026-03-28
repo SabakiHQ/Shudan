@@ -1,24 +1,22 @@
 import {
-  css,
   defineComponents,
   For,
   prop,
-  Style,
   useContext,
   useMemo,
   type Template,
 } from "sinho";
 import { Layer } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
-import { parseVertex, Vertex } from "../vertex.ts";
+import { Vertex } from "../vertex.ts";
 import { unitSvg } from "../utils.ts";
 import { GobanContext } from "../goban.tsx";
 
 export type Marker = "point" | "circle" | "cross" | "triangle" | "square";
 
 export class MarkerLayer extends Layer({
-    color: prop<string>(undefined, { attribute: String }),
-    markers: prop<Record<Vertex, Marker>>({}, { attribute: JSON.parse }),
+  color: prop<string>(undefined, { attribute: String }),
+  markers: prop<Record<Vertex, Marker>>({}, { attribute: JSON.parse }),
 }) {
   renderSvg(): Template {
     const vertexViewBox = `0 0 ${unitSvg(1)} ${unitSvg(1)}`;
@@ -27,7 +25,7 @@ export class MarkerLayer extends Layer({
 
     const markers = useMemo(() =>
       Object.entries(this.props.markers()).map(([vertex, type]) => {
-        const [x, y] = parseVertex(vertex as Vertex);
+        const [x, y] = Vertex.parse(vertex as Vertex);
         return { x, y, vertex, type };
       }),
     );
@@ -123,29 +121,33 @@ export class MarkerLayer extends Layer({
           </svg>
         </defs>
 
-        <For each={markers}>
+        <For each={markers} key={(marker) => marker.vertex}>
           {(marker) => {
             const stone = () => stoneMap()?.[marker().y]?.[marker().x] ?? 0;
+            const color = () =>
+              this.props.color() ??
+              (stoneMap() == null || stone() == 0
+                ? "var(--shudan-board-foreground-color)"
+                : stone() > 0
+                  ? "var(--shudan-black-foreground-color)"
+                  : stone() < 0
+                    ? "var(--shudan-white-foreground-color)"
+                    : "var(--shudan-board-foreground-color)");
 
             return (
               <use
-                style={{
-                  "--color": () =>
-                    this.props.color() ??
-                    (stoneMap() == null || stone() == 0
-                      ? "var(--shudan-board-foreground-color)"
-                      : stone() > 0
-                        ? "var(--shudan-black-foreground-color)"
-                        : stone() < 0
-                          ? "var(--shudan-white-foreground-color)"
-                          : "var(--shudan-board-foreground-color)"),
-                }}
+                style={{ "--color": color }}
                 href={() => `#${marker().type}`}
                 x={() => unitSvg(marker().x)}
                 y={() => unitSvg(marker().y)}
                 width={unitSvg(1)}
                 height={unitSvg(1)}
-                filter={() => (stone() === 0 ? "url(#outline)" : undefined)}
+                textLength={unitSvg(1)}
+                filter={() =>
+                  stoneMap() != null && stone() === 0
+                    ? "url(#outline)"
+                    : undefined
+                }
               />
             );
           }}
