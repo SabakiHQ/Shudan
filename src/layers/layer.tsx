@@ -74,6 +74,7 @@ export function Layer<const M extends Metadata>(
           <Style>{css`
             :host {
               overflow: ${opts.visibleOverflow ? "visible" : "hidden"};
+              pointer-events: none;
             }
 
             svg {

@@ -64,6 +64,7 @@ export class LabelLayer extends Layer({
                     textAlign: "center",
                     whiteSpace: "pre",
                     textOverflow: "ellipsis",
+                    pointerEvents: "auto"
                   }}
                   title={() => label().label}
                 >
