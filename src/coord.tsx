@@ -1,5 +1,4 @@
 import { For, MaybeSignal, useMemo, type FunctionalComponent } from "sinho";
-import { unit } from "./utils.ts";
 
 export const Coord: FunctionalComponent<{
   size: MaybeSignal<number>;
@@ -18,11 +17,11 @@ export const Coord: FunctionalComponent<{
       .map((_, i) => props.label(i))
       .slice(range()[0], range()[1] + 1),
   );
-  const grid = () => `repeat(${labels().length}, ${unit(1)})`;
+  const grid = () => `repeat(${labels().length}, 1fr)`;
 
   return (
     <div
-      class="coord"
+      part={() => (direction() === "row" ? "coord-x" : "coord-y")}
       style={{
         display: "grid",
         grid: () =>

@@ -88,12 +88,6 @@ export class Goban extends Component({
           <If condition={coords}>
             <Coord size={width} range={rangeX} label={coordX} position="top" />
             <Coord
-              size={width}
-              range={rangeX}
-              label={coordX}
-              position="bottom"
-            />
-            <Coord
               size={height}
               range={rangeY}
               label={coordY}
@@ -104,6 +98,12 @@ export class Goban extends Component({
               range={rangeY}
               label={coordY}
               position="right"
+            />
+            <Coord
+              size={width}
+              range={rangeX}
+              label={coordX}
+              position="bottom"
             />
           </If>
         </div>

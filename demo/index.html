@@ -17,6 +17,10 @@
       shudan-goban {
         --shudan-board-background: url("./board.jpg") center #f1b458;
       }
+
+      shudan-goban.smallcoord::part(coord-x) {
+        font-size: 0.7em;
+      }
     </style>
   </head>
   <body>
@@ -37,6 +41,12 @@
         </li>
         <li>
           <label>
+            <input type="checkbox" class="alt-coordinates" /> Alternate
+            coordinates
+          </label>
+        </li>
+        <li>
+          <label>
             <input type="checkbox" class="grid" checked /> Show grid
           </label>
         </li>
@@ -52,8 +62,7 @@
         </li>
         <li>
           <label>
-            <input type="checkbox" class="markers" checked /> Show markers and
-            labels
+            <input type="checkbox" class="markers" /> Show markers and labels
           </label>
         </li>
         <li>
@@ -72,6 +81,27 @@
     <script type="module">
       const goban = document.querySelector("shudan-goban");
       const stoneMap = goban.querySelector("shudan-goban .stones").stoneMap;
+      const chineseCoord = [
+        "一",
+        "二",
+        "三",
+        "四",
+        "五",
+        "六",
+        "七",
+        "八",
+        "九",
+        "十",
+        "十一",
+        "十二",
+        "十三",
+        "十四",
+        "十五",
+        "十六",
+        "十七",
+        "十八",
+        "十九",
+      ];
       const deadStones = [
         "2,13",
         "2,14",
@@ -96,6 +126,16 @@
         .querySelector("input.coordinates")
         .addEventListener("change", (event) => {
           goban.coords = event.target.checked;
+        });
+
+      document
+        .querySelector("input.alt-coordinates")
+        .addEventListener("change", (event) => {
+          goban.coordX = event.target.checked
+            ? (i) => chineseCoord[i]
+            : undefined;
+          goban.coordY = event.target.checked ? (i) => i + 1 : undefined;
+          goban.classList.toggle("smallcoord", event.target.checked);
         });
 
       document
@@ -182,6 +222,7 @@
         >
           <shudan-marker-layer
             class="markers"
+            style="display: none"
             markers='{
               "3,1": "circle",
               "4,1": "circle",
@@ -202,6 +243,7 @@
           ></shudan-marker-layer>
           <shudan-label-layer
             class="markers"
+            style="display: none"
             labels='{
               "18,18": "a",
               "18,17": "b",
