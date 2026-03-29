@@ -113,17 +113,18 @@ export class Goban extends Component({
 
         <Style>{css`
           :host {
-            --shudan-vertex-size: ${vertexSize};
-            --shudan-width: ${width};
-            --shudan-height: ${height};
-            --shudan-viewport-width: ${viewportWidth};
-            --shudan-viewport-height: ${viewportHeight};
+            --_shudan-vertex-size: ${vertexSize};
+            --_shudan-width: ${width};
+            --_shudan-height: ${height};
+            --_shudan-viewport-width: ${viewportWidth};
+            --_shudan-viewport-height: ${viewportHeight};
           }
         `}</Style>
 
         <Style>{css`
           :host {
-            --shudan-board-border-width: 0.15em;
+            --shudan-board-border-radius: ${unit(0.3)};
+            --shudan-board-border-width: ${unit(0.2)};
             --shudan-board-border-color: #a8731e;
             --shudan-board-background: var(--shudan-board-background-color);
             --shudan-board-background-color: #f1b458;
@@ -145,7 +146,7 @@ export class Goban extends Component({
             background:
               linear-gradient(to bottom, rgba(234, 220, 192, 0.1), transparent),
               linear-gradient(to bottom, transparent, rgba(23, 10, 2, 0.05));
-            border-radius: ${unit(0.4)};
+            border-radius: var(--shudan-board-border-radius);
             pointer-events: none;
           }
 
@@ -157,8 +158,8 @@ export class Goban extends Component({
               "left center right"
               ". bottom .";
             gap: ${unit(0.1)};
-            border: ${unit(0.2)} solid transparent;
-            border-radius: ${unit(0.4)};
+            border: var(--shudan-board-border-width) solid transparent;
+            border-radius: var(--shudan-board-border-radius);
             padding: ${unit(0.2)};
             background: var(--shudan-board-background);
             color: var(--shudan-board-foreground-color);
@@ -171,8 +172,8 @@ export class Goban extends Component({
           .viewport {
             grid-area: center;
             position: relative;
-            width: ${unit("var(--shudan-viewport-width)")};
-            height: ${unit("var(--shudan-viewport-height)")};
+            width: ${unit("var(--_shudan-viewport-width)")};
+            height: ${unit("var(--_shudan-viewport-height)")};
           }
 
           .viewport > *,

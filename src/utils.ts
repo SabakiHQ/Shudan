@@ -1,7 +1,7 @@
 import { Vertex } from "./vertex.ts";
 
 export function unit(value: number | string): string {
-  return `calc(${value} * var(--shudan-vertex-size))`;
+  return `calc(${value} * var(--_shudan-vertex-size))`;
 }
 
 export function unitSvg(value: number): number {
