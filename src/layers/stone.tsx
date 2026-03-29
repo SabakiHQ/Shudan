@@ -58,7 +58,7 @@ const BlackStone: FunctionalComponent<JSX.IntrinsicElements["symbol"]> = (
       cy="21.5"
       r="20.5"
       fill="url(#b-base)"
-      stroke="#352c35"
+      stroke="#35302c"
       stroke-width="1"
     />
     <circle cx="21.5" cy="21.5" r="18.5" fill="url(#b-ambient)" />

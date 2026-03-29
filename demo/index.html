@@ -37,6 +37,11 @@
         </li>
         <li>
           <label>
+            <input type="checkbox" class="grid" checked /> Show grid
+          </label>
+        </li>
+        <li>
+          <label>
             <input type="checkbox" class="stones" checked /> Show stones
           </label>
         </li>
@@ -94,6 +99,14 @@
         });
 
       document
+        .querySelector("input.grid")
+        .addEventListener("change", (event) => {
+          const gridLayer = goban.querySelector("shudan-goban .grid");
+
+          gridLayer.style.display = event.target.checked ? "block" : "none";
+        });
+
+      document
         .querySelector("input.stones")
         .addEventListener("change", (event) => {
           const stoneLayer = goban.querySelector("shudan-goban .stones");
@@ -140,7 +153,7 @@
 
     <div>
       <shudan-goban coords>
-        <shudan-grid-layer></shudan-grid-layer>
+        <shudan-grid-layer class="grid"></shudan-grid-layer>
 
         <shudan-stone-layer
           class="stones"
