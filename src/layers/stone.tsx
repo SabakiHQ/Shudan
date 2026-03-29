@@ -3,7 +3,9 @@ import {
   For,
   prop,
   useContext,
+  useEffect,
   useMemo,
+  useSignal,
   type FunctionalComponent,
   type JSX,
 } from "sinho";
@@ -173,7 +175,7 @@ const WhiteStone: FunctionalComponent<JSX.IntrinsicElements["symbol"]> = (
     <g mask="url(#w-fade)" filter="url(#w-wavy)">
       <circle
         style={{
-          transform: "rotate(calc(var(--random, 0) * 360deg))",
+          transform: "rotate(calc(var(--shudan-random, 0) * 360deg))",
           transformOrigin: "21.5px 21.5px",
         }}
         cx="21.5"
@@ -231,11 +233,64 @@ export class StoneLayer extends Layer(
       ),
     );
 
+    const [useCustomBlackStone, setUseCustomBlackStone] =
+      useSignal<boolean>(false);
+    const [useCustomWhiteStone, setUseCustomWhiteStone] =
+      useSignal<boolean>(false);
+
+    useEffect(() => {
+      // Handle custom stone slot changes and clone the assigned stone elements
+      // into the shadow DOM so they can be used for rendering
+
+      const handleSlotChange = (evt: Event) => {
+        const slot = evt.target as HTMLSlotElement;
+        const defsElement = this.shadowRoot!.querySelector("defs")!;
+        const stoneElement = slot.assignedElements()[0];
+        const setUseCustomStone =
+          slot.name === "black-stone"
+            ? setUseCustomBlackStone
+            : setUseCustomWhiteStone;
+
+        defsElement
+          .querySelectorAll("#custom-" + slot.name)
+          .forEach((el) => el.remove());
+
+        if (stoneElement != null) {
+          const clonedStone = stoneElement.cloneNode(true) as Element;
+          clonedStone.id = "custom-" + slot.name;
+
+          defsElement.appendChild(clonedStone);
+          setUseCustomStone(true);
+        } else {
+          setUseCustomStone(false);
+        }
+      };
+
+      const stoneSlots = this.shadowRoot!.querySelectorAll(
+        "slot[name='black-stone'], slot[name='white-stone']",
+      );
+
+      stoneSlots.forEach((slot) =>
+        slot.addEventListener("slotchange", handleSlotChange),
+      );
+
+      return () => {
+        stoneSlots.forEach((slot) =>
+          slot.removeEventListener("slotchange", handleSlotChange),
+        );
+      };
+    });
+
     return (
       <>
         <defs>
           <BlackStone id="black-stone" />
           <WhiteStone id="white-stone" />
+
+          <foreignObject>
+            <slot name="black-stone" />
+            <slot name="white-stone" />
+          </foreignObject>
 
           <filter
             id="shadow"
@@ -271,10 +326,16 @@ export class StoneLayer extends Layer(
             {(stone) => (
               <use
                 href={() =>
-                  stone().sign > 0 ? "#black-stone" : "#white-stone"
+                  stone().sign > 0
+                    ? useCustomBlackStone()
+                      ? "#custom-black-stone"
+                      : "#black-stone"
+                    : useCustomWhiteStone()
+                      ? "#custom-white-stone"
+                      : "#white-stone"
                 }
                 style={{
-                  "--random": () => randomMap()[stone().y]?.[stone().x],
+                  "--shudan-random": () => randomMap()[stone().y]?.[stone().x],
                 }}
                 width={unitSvg(0.9)}
                 height={unitSvg(0.9)}
