@@ -201,9 +201,7 @@ export class StoneLayer extends Layer(
     stoneMap: prop<number[][] | undefined>(GobanContext.stoneMap, {
       attribute: JSON.parse,
     }),
-    dimmedStones: prop<Vertex[]>(GobanContext.dimmedStones, {
-      attribute: JSON.parse,
-    }),
+    dimmedStones: prop<Vertex[]>([], { attribute: JSON.parse }),
   },
   { visibleOverflow: true },
 ) {
@@ -212,7 +210,6 @@ export class StoneLayer extends Layer(
     const height = useContext(GobanContext.height);
     const rangeX = useContext(GobanContext.rangeX);
     const rangeY = useContext(GobanContext.rangeY);
-    const dimmedStones = useContext(GobanContext.dimmedStones);
 
     const stones = useMemo(() =>
       (this.props.stoneMap() ?? [])
@@ -261,7 +258,7 @@ export class StoneLayer extends Layer(
                 cx={() => unitSvg(stone().x + 0.5)}
                 cy={() => unitSvg(stone().y + 0.5)}
                 opacity={() =>
-                  dimmedStones().includes(stone().vertex) ? 0.4 : 1
+                  this.props.dimmedStones().includes(stone().vertex) ? 0.4 : 1
                 }
               />
             )}
@@ -284,7 +281,7 @@ export class StoneLayer extends Layer(
                 x={() => unitSvg(stone().x + 0.05)}
                 y={() => unitSvg(stone().y + 0.05)}
                 opacity={() =>
-                  dimmedStones().includes(stone().vertex) ? 0.6 : 1
+                  this.props.dimmedStones().includes(stone().vertex) ? 0.6 : 1
                 }
               />
             )}

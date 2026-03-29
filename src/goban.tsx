@@ -28,7 +28,6 @@ export const GobanContext = {
   rangeY: createContext<[number, number]>([0, Infinity]),
 
   stoneMap: createContext<number[][]>(),
-  dimmedStones: createContext<Vertex[]>([]),
 };
 
 export class Goban extends Component({

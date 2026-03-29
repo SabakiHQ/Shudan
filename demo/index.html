@@ -106,9 +106,7 @@
         .addEventListener("change", (event) => {
           const stoneLayer = goban.querySelector("shudan-goban .stones");
 
-          stoneLayer.dimmedStones = event.target.checked
-            ? deadStones
-            : undefined;
+          stoneLayer.dimmedStones = event.target.checked ? deadStones : [];
         });
 
       document
