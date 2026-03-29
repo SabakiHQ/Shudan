@@ -162,7 +162,6 @@ export class Goban extends Component({
             padding: ${unit(0.2)};
             background: var(--shudan-board-background);
             color: var(--shudan-board-foreground-color);
-            transition: border-color 0.2s;
           }
           :host(:focus) .layout {
             border-color: var(--shudan-board-border-color);
