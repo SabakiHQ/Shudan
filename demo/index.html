@@ -47,6 +47,11 @@
         </li>
         <li>
           <label>
+            <input type="checkbox" class="partial" /> Lower right corner only
+          </label>
+        </li>
+        <li>
+          <label>
             <input type="checkbox" class="grid" checked /> Show grid
           </label>
         </li>
@@ -72,7 +77,7 @@
         </li>
         <li>
           <label>
-            <input type="checkbox" class="partial" /> Lower right corner only
+            <input type="checkbox" class="heat" /> Show heat layer
           </label>
         </li>
       </ul>
@@ -139,6 +144,13 @@
         });
 
       document
+        .querySelector("input.partial")
+        .addEventListener("change", (event) => {
+          goban.rangeX = event.target.checked ? [8, 18] : undefined;
+          goban.rangeY = event.target.checked ? [12, 18] : undefined;
+        });
+
+      document
         .querySelector("input.grid")
         .addEventListener("change", (event) => {
           const gridLayer = goban.querySelector("shudan-goban .grid");
@@ -184,10 +196,13 @@
         });
 
       document
-        .querySelector("input.partial")
+        .querySelector("input.heat")
         .addEventListener("change", (event) => {
-          goban.rangeX = event.target.checked ? [8, 18] : undefined;
-          goban.rangeY = event.target.checked ? [12, 18] : undefined;
+          const heatLayers = goban.querySelectorAll("shudan-goban .heat");
+
+          heatLayers.forEach((layer) => {
+            layer.style.opacity = event.target.checked ? 1 : 0;
+          });
         });
     </script>
 
@@ -248,7 +263,7 @@
               "18,18": "a",
               "18,17": "b",
               "18,16": "c",
-              "18,15": "Long label\nwith linebreak"
+              "18,15": "Long\nlabel with linebreak"
             }'
           ></shudan-label-layer>
         </shudan-stone-layer>
@@ -265,6 +280,31 @@
           color="rgba(255, 255, 255, .4)"
           painted-vertices='["0,0","1,0","2,0","3,0","4,0","5,0","10,0","11,0","12,0","13,0","14,0","15,0","16,0","0,1","1,1","2,1","3,1","4,1","10,1","11,1","12,1","13,1","14,1","15,1","0,2","1,2","2,2","3,2","4,2","11,2","12,2","14,2","0,3","1,3","2,3","3,3","4,3","5,3","0,4","1,4","2,4","3,4","4,4","5,4","6,4","0,5","1,5","2,5","3,5","4,5","5,5","6,5","12,5","13,5","0,6","1,6","2,6","3,6","4,6","13,6","14,6","15,6","0,7","1,7","2,7","7,7","8,7","12,7","13,7","14,7","15,7","16,7","17,7","0,8","1,8","2,8","3,8","8,8","10,8","11,8","12,8","13,8","14,8","0,9","1,9","2,9","5,9","6,9","7,9","8,9","12,9","13,9","14,9","15,9","17,9","18,9","0,10","1,10","2,10","3,10","7,10","8,10","9,10","11,10","12,10","13,10","14,10","17,10","18,10","0,11","2,11","4,11","5,11","6,11","7,11","8,11","9,11","11,11","12,11","13,11","14,11","16,11","17,11","18,11","4,12","8,12","12,12","13,12","14,12","16,12","17,12","18,12","8,13","12,13","13,13","14,13","17,13","18,13","8,14","9,14","12,14","13,14","14,14","16,14","17,14","18,14","9,15","10,15","12,15","13,15","15,15","16,15","17,15","18,15","8,16","9,16","10,16","11,16","16,16","17,16","18,16","4,17","7,17","8,17","9,17","10,17","17,17","4,18","5,18","6,18","7,18","8,18","9,18","10,18","11,18"]'
         ></shudan-paint-layer>
+
+        <shudan-heat-layer
+          class="heat"
+          style="opacity: 0; transition: opacity 0.5s"
+          values='{
+            "13,4": 0.7,
+            "14,4": 0.9,
+            "14,5": 0.3,
+            "13,12": 0.2,
+            "1,15": 0.1,
+            "1,16": 0.2,
+            "1,17": 0.3,
+            "2,16": 0.4
+          }'
+        ></shudan-heat-layer>
+        <shudan-label-layer
+          class="heat"
+          style="opacity: 0; transition: opacity 0.5s"
+          color="white"
+          labels='{
+            "14,4": "90%\n13.5k",
+            "1,16": "23%\n111",
+            "2,16": "41%\n2315"
+          }'
+        ></shudan-label-layer>
       </shudan-goban>
     </div>
   </body>

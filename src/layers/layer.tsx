@@ -32,7 +32,7 @@ export function Layer<const M extends Metadata>(
       const host = (this.getRootNode() as ShadowRoot).host;
       const result =
         this.closest<Goban>("shudan-goban") ??
-        (host instanceof Goban ? host : null) ??
+        host.closest<Goban>("shudan-goban") ??
         undefined;
 
       return result!;

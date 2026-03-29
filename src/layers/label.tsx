@@ -57,10 +57,10 @@ export class LabelLayer extends Layer({
                     color,
                     fontSize: () =>
                       label().label.length >= 3 || label().label.includes("\n")
-                        ? unitSvg(0.3)
+                        ? unitSvg(0.35)
                         : unitSvg(0.6),
                     lineHeight: () =>
-                      label().label.includes("\n") ? `${unitSvg(0.33)}px` : 1,
+                      label().label.includes("\n") ? `${unitSvg(0.4)}px` : 1,
                     textAlign: "center",
                     whiteSpace: "pre",
                     textOverflow: "ellipsis",

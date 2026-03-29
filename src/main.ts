@@ -7,3 +7,4 @@ export { StoneLayer } from "./layers/stone.tsx";
 export { MarkerLayer, type Marker } from "./layers/marker.tsx";
 export { LabelLayer } from "./layers/label.tsx";
 export { PaintLayer } from "./layers/paint.tsx";
+export { HeatLayer } from "./layers/heat.tsx";
