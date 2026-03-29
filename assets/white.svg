@@ -23,8 +23,8 @@
       <stop offset="1" stop-color="#f6f7ff" />
     </linearGradient>
 
-    <pattern id="w-stripe" patternUnits="userSpaceOnUse" width="4" height="43">
-        <rect x="0" width="2" height="43" fill="#bab6c0" opacity=".5" />
+    <pattern id="w-stripe" patternUnits="userSpaceOnUse" width="5" height="43">
+      <rect x="0" width="2" height="43" fill="#c0bab6" opacity=".4" />
     </pattern>
 
     <filter id="w-wavy">
@@ -88,8 +88,8 @@
     <ellipse
       cx="21"
       cy="10"
-      rx="24"
-      ry="12"
+      rx="26"
+      ry="14"
       fill="url(#w-specular)"
       transform="rotate(-40 21 10)"
     />

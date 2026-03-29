@@ -53,6 +53,7 @@
       ry="12"
       fill="url(#b-specular)"
       transform="rotate(-40 20 9)"
+      opacity=".6"
     />
     <ellipse
       cx="41"
