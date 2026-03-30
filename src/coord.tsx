@@ -30,6 +30,7 @@ export const Coord: FunctionalComponent<{
         placeItems: "stretch",
         gridArea: props.position,
         position: "relative",
+        fontSize: unit(1 / 1.7),
       }}
     >
       <For each={labels}>
