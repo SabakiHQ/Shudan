@@ -3,7 +3,6 @@ import {
   createContext,
   css,
   defineComponents,
-  event,
   If,
   prop,
   Style,
@@ -13,8 +12,7 @@ import {
 } from "sinho";
 import { COMPONENT_PREFIX } from "./constants.ts";
 import { Coord } from "./coord.tsx";
-import { unit, unitSvg } from "./utils.ts";
-import { Vertex } from "./vertex.ts";
+import { unit } from "./utils.ts";
 
 export const GobanContext = {
   width: createContext<number>(19),
