@@ -80,6 +80,10 @@
             <input type="checkbox" class="heat" /> Show heat layer
           </label>
         </li>
+        <li>
+          Zoom: <button type="button" class="zoomin">In</button>
+          <button type="button" class="zoomout">Out</button>
+        </li>
       </ul>
     </div>
 
@@ -204,10 +208,22 @@
             layer.style.opacity = event.target.checked ? 1 : 0;
           });
         });
+
+      document
+        .querySelector("button.zoomin")
+        .addEventListener("click", (event) => {
+          goban.vertexSize = +goban.vertexSize + 4;
+        });
+
+      document
+        .querySelector("button.zoomout")
+        .addEventListener("click", (event) => {
+          goban.vertexSize = Math.max(+goban.vertexSize - 4, 4);
+        });
     </script>
 
     <div>
-      <shudan-goban coords>
+      <shudan-goban coords vertex-size="28">
         <shudan-grid-layer class="grid"></shudan-grid-layer>
 
         <shudan-stone-layer
