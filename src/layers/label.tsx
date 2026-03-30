@@ -58,13 +58,13 @@ export class LabelLayer extends Layer({
                     fontSize: () =>
                       label().label.length >= 3 || label().label.includes("\n")
                         ? unitSvg(0.35)
-                        : unitSvg(0.6),
+                        : unitSvg(1 / 1.7),
                     lineHeight: () =>
-                      label().label.includes("\n") ? `${unitSvg(0.4)}px` : 1,
+                      label().label.includes("\n") ? `${unitSvg(0.4)}px` : undefined,
                     textAlign: "center",
                     whiteSpace: "pre",
                     textOverflow: "ellipsis",
-                    pointerEvents: "auto"
+                    pointerEvents: "auto",
                   }}
                   title={() => label().label}
                 >

@@ -20,7 +20,7 @@ const BlackStone: FunctionalComponent<JSX.IntrinsicElements["symbol"]> = (
   <symbol {...props} viewBox="0 0 43 43">
     <defs>
       <linearGradient
-        id="b-ambient"
+        id="shudan-b-ambient"
         x1="0"
         x2="0"
         y1="2.38"
@@ -31,7 +31,7 @@ const BlackStone: FunctionalComponent<JSX.IntrinsicElements["symbol"]> = (
         <stop offset="1" stop-color="#636363" stop-opacity="0" />
       </linearGradient>
       <linearGradient
-        id="b-base"
+        id="shudan-b-base"
         x1="0"
         x2="0"
         y1="43"
@@ -42,14 +42,14 @@ const BlackStone: FunctionalComponent<JSX.IntrinsicElements["symbol"]> = (
         <stop offset="1" stop-color="#463330" />
       </linearGradient>
 
-      <radialGradient id="b-specular" cx="32%" cy="28%" r="18%">
+      <radialGradient id="shudan-b-specular" cx="32%" cy="28%" r="18%">
         <stop offset="0" stop-color="#f5d1ca" stop-opacity="0.9" />
         <stop offset="0.15" stop-color="#f5d1ca" stop-opacity="0.6" />
         <stop offset="0.35" stop-color="#f5d1ca" stop-opacity="0.25" />
         <stop offset="1" stop-color="#f5d1ca" stop-opacity="0" />
       </radialGradient>
 
-      <mask id="b-stone-mask">
+      <mask id="shudan-b-stone-mask">
         <circle cx="21.5" cy="21.5" r="18.5" fill="white" />
       </mask>
     </defs>
@@ -58,19 +58,19 @@ const BlackStone: FunctionalComponent<JSX.IntrinsicElements["symbol"]> = (
       cx="21.5"
       cy="21.5"
       r="20.5"
-      fill="url(#b-base)"
+      fill="url(#shudan-b-base)"
       stroke="#35302c"
       stroke-width="1"
     />
-    <circle cx="21.5" cy="21.5" r="18.5" fill="url(#b-ambient)" />
+    <circle cx="21.5" cy="21.5" r="18.5" fill="url(#shudan-b-ambient)" />
 
-    <g mask="url(#b-stone-mask)">
+    <g mask="url(#shudan-b-stone-mask)">
       <ellipse
         cx="20"
         cy="9"
         rx="24"
         ry="12"
-        fill="url(#b-specular)"
+        fill="url(#shudan-b-specular)"
         transform="rotate(-40 20 9)"
         opacity=".6"
       />
@@ -79,7 +79,7 @@ const BlackStone: FunctionalComponent<JSX.IntrinsicElements["symbol"]> = (
         cy="31"
         rx="24"
         ry="12"
-        fill="url(#b-specular)"
+        fill="url(#shudan-b-specular)"
         transform="rotate(-40 41 31)"
         opacity=".4"
       />
@@ -93,7 +93,7 @@ const WhiteStone: FunctionalComponent<JSX.IntrinsicElements["symbol"]> = (
   <symbol {...props} viewBox="0 0 43 43">
     <defs>
       <linearGradient
-        id="w-ambient"
+        id="shudan-w-ambient"
         x1="0"
         x2="0"
         y1="40.65"
@@ -105,7 +105,7 @@ const WhiteStone: FunctionalComponent<JSX.IntrinsicElements["symbol"]> = (
       </linearGradient>
 
       <linearGradient
-        id="w-base"
+        id="shudan-w-base"
         x1="0"
         x2="0"
         y1="43"
@@ -116,7 +116,7 @@ const WhiteStone: FunctionalComponent<JSX.IntrinsicElements["symbol"]> = (
         <stop offset="1" stop-color="#f6f7ff" />
       </linearGradient>
 
-      <filter id="w-wavy">
+      <filter id="shudan-w-wavy">
         <feTurbulence
           type="fractalNoise"
           baseFrequency="0.08 0.02"
@@ -135,28 +135,34 @@ const WhiteStone: FunctionalComponent<JSX.IntrinsicElements["symbol"]> = (
         <feGaussianBlur in="displacement" stdDeviation=".5" />
       </filter>
 
-      <radialGradient id="w-specular" cx="32%" cy="28%" r="18%">
+      <radialGradient id="shudan-w-specular" cx="32%" cy="28%" r="18%">
         <stop offset="0" stop-color="#fff" />
         <stop offset=".15" stop-color="#fff" stop-opacity=".6" />
         <stop offset=".35" stop-color="#fff" stop-opacity=".25" />
         <stop offset="1" stop-color="#fff" stop-opacity="0" />
       </radialGradient>
 
-      <mask id="w-stone-mask">
+      <mask id="shudan-w-stone-mask">
         <circle cx="21.5" cy="21.5" r="18.5" fill="#fff" />
       </mask>
     </defs>
 
-    <circle cx="21.5" cy="21.5" r="20.5" fill="url(#w-base)" stroke="#c3c3c3" />
-    <circle cx="21.5" cy="21.5" r="18.5" fill="url(#w-ambient)" />
+    <circle
+      cx="21.5"
+      cy="21.5"
+      r="20.5"
+      fill="url(#shudan-w-base)"
+      stroke="#c3c3c3"
+    />
+    <circle cx="21.5" cy="21.5" r="18.5" fill="url(#shudan-w-ambient)" />
 
     <g
       style={{
         transformOrigin: "21.5px 21.5px",
         transform: "rotate(calc(var(--shudan-random) * 360deg))",
       }}
-      mask="url(#w-stone-mask)"
-      filter="url(#w-wavy)"
+      mask="url(#shudan-w-stone-mask)"
+      filter="url(#shudan-w-wavy)"
       stroke="#c0bab6"
       stroke-width="2"
       fill="none"
@@ -172,7 +178,7 @@ const WhiteStone: FunctionalComponent<JSX.IntrinsicElements["symbol"]> = (
       <path d="M13.052 1.988s-3.576 2.675-.907 4.323c3.863 2.386 14.317 3.192 18.64.25 4-2.723-.722-4.455-.722-4.455" />
     </g>
 
-    <g mask="url(#w-stone-mask)" fill="url(#w-specular)">
+    <g mask="url(#shudan-w-stone-mask)" fill="url(#shudan-w-specular)">
       <ellipse cx="20" cy="9" rx="24" ry="12" transform="rotate(-40 20 9)" />
       <ellipse
         cx="41"
@@ -235,8 +241,8 @@ export class StoneLayer extends Layer(
 
         const customStoneId =
           stoneHref === this.props.blackStoneHref
-            ? "custom-black-stone"
-            : "custom-white-stone";
+            ? "shudan-custom-black-stone"
+            : "shudan-custom-white-stone";
         const defsElement = this.shadowRoot!.querySelector("defs")!;
         const stoneElement = document.querySelector(stoneHref()!);
 
@@ -254,11 +260,11 @@ export class StoneLayer extends Layer(
     return (
       <>
         <defs>
-          <BlackStone id="black-stone" />
-          <WhiteStone id="white-stone" />
+          <BlackStone id="shudan-black-stone" />
+          <WhiteStone id="shudan-white-stone" />
 
           <filter
-            id="shadow"
+            id="shudan-shadow"
             x={unitSvg(-1)}
             y={unitSvg(-1)}
             width={unitSvg(3)}
@@ -270,7 +276,7 @@ export class StoneLayer extends Layer(
         </defs>
 
         {/* Render shadows */}
-        <g fill="rgba(23, 10, 2, .4)" filter="url(#shadow)">
+        <g fill="rgba(23, 10, 2, .4)" filter="url(#shudan-shadow)">
           <For each={stones} key={(stone) => stone.vertex}>
             {(stone) => (
               <circle
@@ -293,11 +299,11 @@ export class StoneLayer extends Layer(
                 href={() =>
                   stone().sign > 0
                     ? this.props.blackStoneHref() != null
-                      ? "#custom-black-stone"
-                      : "#black-stone"
+                      ? "#shudan-custom-black-stone"
+                      : "#shudan-black-stone"
                     : this.props.whiteStoneHref() != null
-                      ? "#custom-white-stone"
-                      : "#white-stone"
+                      ? "#shudan-custom-white-stone"
+                      : "#shudan-white-stone"
                 }
                 style={{
                   "--shudan-random": () => randomMap()[stone().y]?.[stone().x],

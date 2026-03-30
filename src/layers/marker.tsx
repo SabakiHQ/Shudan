@@ -66,7 +66,7 @@ export class MarkerLayer extends Layer({
             />
           </filter>
 
-          <svg id="circle" viewBox={vertexViewBox}>
+          <symbol id="circle" viewBox={vertexViewBox}>
             <circle
               cx={unitSvg(0.5)}
               cy={unitSvg(0.5)}
@@ -75,9 +75,9 @@ export class MarkerLayer extends Layer({
               stroke="var(--color)"
               stroke-width={unitSvg(0.08)}
             />
-          </svg>
+          </symbol>
 
-          <svg id="point" viewBox={vertexViewBox}>
+          <symbol id="point" viewBox={vertexViewBox}>
             <circle
               cx={unitSvg(0.5)}
               cy={unitSvg(0.5)}
@@ -86,9 +86,9 @@ export class MarkerLayer extends Layer({
               stroke="none"
               stroke-width={unitSvg(0.08)}
             />
-          </svg>
+          </symbol>
 
-          <svg id="square" viewBox={vertexViewBox}>
+          <symbol id="square" viewBox={vertexViewBox}>
             <rect
               x={unitSvg(0.25)}
               y={unitSvg(0.25)}
@@ -98,9 +98,9 @@ export class MarkerLayer extends Layer({
               stroke="var(--color)"
               stroke-width={unitSvg(0.08)}
             />
-          </svg>
+          </symbol>
 
-          <svg id="triangle" viewBox={vertexViewBox}>
+          <symbol id="triangle" viewBox={vertexViewBox}>
             <path
               d={`M 0 ${unitSvg(0.5)} L ${unitSvg(0.6)} ${unitSvg(0.5)} L ${unitSvg(0.3)} 0 z`}
               transform={`translate(${unitSvg(0.2)} ${unitSvg(0.2)})`}
@@ -108,9 +108,9 @@ export class MarkerLayer extends Layer({
               stroke="var(--color)"
               stroke-width={unitSvg(0.08)}
             />
-          </svg>
+          </symbol>
 
-          <svg id="cross" viewBox={vertexViewBox}>
+          <symbol id="cross" viewBox={vertexViewBox}>
             <path
               d={`M 0 0 L ${unitSvg(0.5)} ${unitSvg(0.5)}
                 M ${unitSvg(0.5)} 0 L 0 ${unitSvg(0.5)}`}
@@ -118,7 +118,7 @@ export class MarkerLayer extends Layer({
               stroke="var(--color)"
               stroke-width={unitSvg(0.08)}
             />
-          </svg>
+          </symbol>
         </defs>
 
         <For each={markers} key={(marker) => marker.vertex}>
