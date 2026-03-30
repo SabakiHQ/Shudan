@@ -12,12 +12,13 @@ import { Goban, GobanContext } from "../goban.tsx";
 
 declare abstract class _LayerComponent {
   readonly goban: Goban;
-  abstract renderSvg(): Template;
+  abstract renderContent(): Template;
   render(): Template;
 }
 
 export interface LayerOptions {
   visibleOverflow?: boolean;
+  renderHTML?: boolean;
 }
 
 export function Layer<const M extends Metadata>(
@@ -38,7 +39,7 @@ export function Layer<const M extends Metadata>(
       return result!;
     }
 
-    abstract renderSvg(): Template;
+    abstract renderContent(): Template;
 
     render() {
       if (this.goban == null) {
@@ -55,29 +56,35 @@ export function Layer<const M extends Metadata>(
       const left = () => -Math.max(rangeX()[0], 0);
       const top = () => -Math.max(rangeY()[0], 0);
 
-      const content = this.renderSvg();
+      const content = this.renderContent();
       const padding = opts.visibleOverflow ? 2 : 0;
 
       return (
         <>
-          <svg
-            viewBox={() =>
-              `${unitSvg(-padding)} ${unitSvg(-padding)} ` +
-              `${unitSvg(width() + 2 * padding)} ${unitSvg(height() + 2 * padding)}`
-            }
-          >
-            {content}
-          </svg>
+          {opts.renderHTML ? (
+            <div class="shudan-layer-content">{content}</div>
+          ) : (
+            <svg
+              class="shudan-layer-content"
+              viewBox={() =>
+                `${unitSvg(-padding)} ${unitSvg(-padding)} ` +
+                `${unitSvg(width() + 2 * padding)} ${unitSvg(height() + 2 * padding)}`
+              }
+            >
+              {content}
+            </svg>
+          )}
 
           <slot />
 
           <Style>{css`
             :host {
+              position: relative;
               overflow: ${opts.visibleOverflow ? "visible" : "hidden"};
               pointer-events: none;
             }
 
-            svg {
+            .shudan-layer-content {
               position: absolute;
               left: ${() => unit(left() - padding)};
               top: ${() => unit(top() - padding)};

@@ -197,7 +197,7 @@ export class StoneLayer extends Layer(
   },
   { visibleOverflow: true },
 ) {
-  renderSvg() {
+  renderContent() {
     const width = useContext(GobanContext.width);
     const height = useContext(GobanContext.height);
     const rangeX = useContext(GobanContext.rangeX);

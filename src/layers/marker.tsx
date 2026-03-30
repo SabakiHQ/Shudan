@@ -18,7 +18,7 @@ export class MarkerLayer extends Layer({
   color: prop<string>(undefined, { attribute: String }),
   markers: prop<Record<Vertex, Marker>>({}, { attribute: JSON.parse }),
 }) {
-  renderSvg(): Template {
+  renderContent(): Template {
     const vertexViewBox = `0 0 ${unitSvg(1)} ${unitSvg(1)}`;
 
     const stoneMap = useContext(GobanContext.stoneMap);

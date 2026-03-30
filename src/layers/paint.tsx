@@ -10,7 +10,7 @@ export class PaintLayer extends Layer({
   paintedVertices: prop<Vertex[]>([], { attribute: JSON.parse }),
   color: prop<string>("rgba(0, 0, 0, .5)", { attribute: String }),
 }) {
-  renderSvg() {
+  renderContent() {
     const verticesSet = useMemo(() => new Set(this.props.paintedVertices()));
     const bridgeVertices = useMemo(
       () =>

@@ -9,7 +9,7 @@ export class LabelLayer extends Layer({
   color: prop<string>(undefined, { attribute: String }),
   labels: prop<Record<Vertex, string>>({}, { attribute: JSON.parse }),
 }) {
-  renderSvg() {
+  renderContent() {
     const stoneMap = useContext(GobanContext.stoneMap);
 
     const labels = useMemo(() =>

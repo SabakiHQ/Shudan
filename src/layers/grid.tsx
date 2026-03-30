@@ -8,7 +8,7 @@ import { GobanContext } from "../goban.tsx";
 export class GridLayer extends Layer({
   hoshis: prop<Vertex[]>(undefined, { attribute: JSON.parse }),
 }) {
-  renderSvg() {
+  renderContent() {
     const width = useContext(GobanContext.width);
     const height = useContext(GobanContext.height);
 
