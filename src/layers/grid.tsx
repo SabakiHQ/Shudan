@@ -17,6 +17,14 @@ export class GridLayer extends Layer({
    * The positions of the hoshi markers.
    */
   hoshis: prop<Vertex[]>(undefined, { attribute: JSON.parse }),
+  /**
+   * The stroke width of the grid lines.
+   */
+  strokeWidth: prop<number>(0.04, { attribute: Number }),
+  /**
+   * The stroke width of the border lines.
+   */
+  borderStrokeWidth: prop<number>(0.04, { attribute: Number }),
 }) {
   renderContent() {
     const width = useContext(GobanContext.width);
@@ -31,13 +39,17 @@ export class GridLayer extends Layer({
     );
 
     return (
-      <>
+      <g stroke-linecap="square" stroke={this.props.color}>
         <For each={ys}>
-          {(y) => (
+          {(y, i) => (
             <line
-              stroke-width={unitSvg(0.04)}
-              stroke-linecap="square"
-              stroke={this.props.color}
+              stroke-width={() =>
+                unitSvg(
+                  i() === 0 || i() === ys().length - 1
+                    ? this.props.borderStrokeWidth()
+                    : this.props.strokeWidth(),
+                )
+              }
               x1={() => unitSvg(0.5)}
               y1={() => unitSvg(y() + 0.5)}
               x2={() => unitSvg(width() - 0.5)}
@@ -47,11 +59,15 @@ export class GridLayer extends Layer({
         </For>
 
         <For each={xs}>
-          {(x) => (
+          {(x, i) => (
             <line
-              stroke-width={unitSvg(0.04)}
-              stroke-linecap="square"
-              stroke={this.props.color}
+              stroke-width={() =>
+                unitSvg(
+                  i() === 0 || i() === ys().length - 1
+                    ? this.props.borderStrokeWidth()
+                    : this.props.strokeWidth(),
+                )
+              }
               x1={() => unitSvg(x() + 0.5)}
               y1={() => unitSvg(ys()[0] === 0 ? 0.5 : ys()[0])}
               x2={() => unitSvg(x() + 0.5)}
@@ -75,7 +91,7 @@ export class GridLayer extends Layer({
             />
           )}
         </For>
-      </>
+      </g>
     );
   }
 }
