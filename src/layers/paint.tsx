@@ -31,8 +31,12 @@ class BorderDetector {
     }
   }
 
-  finalize(): Vertex[][] {
-    const result: Vertex[][] = [];
+  finalize(): {
+    areas: Vertex[][];
+    holes: Vertex[][];
+  } {
+    const areas: Vertex[][] = [];
+    const holes: Vertex[][] = [];
 
     while (this.data.size > 0) {
       const v1 = this.data.keys().next().value!;
@@ -48,16 +52,31 @@ class BorderDetector {
         const v2 = this.data.get(anchor)!.values().next().value;
 
         if (v2 != null) this.data.get(anchor)!.delete(v2);
-        if (v2 == null || component.includes(v2) || !this.data.has(v2)) break;
+        if (v2 == null || !this.data.has(v2)) break;
 
         component.push(v2);
         anchor = v2;
       }
 
-      result.push(component);
+      if (component.at(-1)! === v1) component.pop();
+
+      // Determine orientation of component
+
+      const orientation = component
+        .map((v) => Vertex.parse(v))
+        .reduce((sum, [x2, y2], i, arr) => {
+          const [x1, y1] = arr.at(i - 1)!;
+          return sum + (x2 - x1) * (y2 + y1);
+        }, 0);
+
+      if (orientation < 0) areas.push(component);
+      else holes.push(component);
     }
 
-    return result;
+    return {
+      areas: areas.sort(),
+      holes: holes.sort(),
+    };
   }
 }
 
@@ -71,7 +90,15 @@ export class PaintLayer extends Layer(
      * A list of vertices that should be painted.
      */
     paintedVertices: prop<Vertex[]>([], { attribute: JSON.parse }),
+    /**
+     * The color of the stroke around the painted areas. If set to `"none"`,
+     * no stroke is drawn.
+     */
     stroke: prop<string>("none", { attribute: String }),
+    /**
+     * The stroke width around the painted areas as a fraction of the
+     * vertex size.
+     */
     strokeWidth: prop<number>(0.08, { attribute: Number }),
   },
   { visibleOverflow: true },
@@ -85,75 +112,94 @@ export class PaintLayer extends Layer(
         result.add(vertex);
       }
 
-      return result.finalize().sort();
+      return result.finalize();
     });
+
+    const drawPath = (vertices: Vertex[]) =>
+      "M " +
+      vertices
+        .map((v, i) => {
+          const [xp, yp] = Vertex.parse(vertices.at(i - 1)!);
+          const [x1, y1] = Vertex.parse(v);
+          const directionP = Vertex(x1 - xp, y1 - yp);
+          const [x2, y2] = Vertex.parse(vertices[(i + 1) % vertices.length]);
+          const direction = Vertex(x2 - x1, y2 - y1);
+          const rotatedDirection = Vertex(y2 - y1, x1 - x2);
+          const [xn, yn] = Vertex.parse(vertices[(i + 2) % vertices.length]);
+          const directionN = Vertex(xn - x2, yn - y2);
+
+          const vectorSvg = (vertex: number[]) =>
+            vertex.map((x) => unitSvg(x)).join(" ");
+
+          return (
+            (directionP === direction
+              ? vectorSvg([x1, y1])
+              : vectorSvg([
+                  x1 - (x1 - xp) * borderRadius,
+                  y1 - (y1 - yp) * borderRadius,
+                ]) +
+                " A " +
+                vectorSvg([
+                  borderRadius,
+                  borderRadius,
+                  0,
+                  0,
+                  directionP === rotatedDirection ? 1 / unitSvg() : 0,
+                  x1 + (x2 - x1) * borderRadius,
+                  y1 + (y2 - y1) * borderRadius,
+                ])) +
+            " L " +
+            (direction === directionN
+              ? vectorSvg([x2, y2])
+              : vectorSvg([
+                  x2 - (x2 - x1) * borderRadius,
+                  y2 - (y2 - y1) * borderRadius,
+                ]))
+          );
+        })
+        .join(" ") +
+      " Z";
 
     return (
       <>
-        <defs></defs>
+        <defs>
+          <mask id="holes">
+            <rect
+              x={unitSvg(-2)}
+              y={unitSvg(-2)}
+              width="100%"
+              height="100%"
+              fill="white"
+            />
+
+            <g
+              fill="black"
+              stroke={() => (this.props.stroke() === "none" ? "none" : "white")}
+              stroke-width={() => unitSvg(this.props.strokeWidth())}
+            >
+              <For each={() => paths().holes} key={(vertices) => vertices[0]}>
+                {(vertices) => <path d={() => drawPath(vertices())} />}
+              </For>
+            </g>
+          </mask>
+        </defs>
 
         <g
+          mask="url(#holes)"
           fill={this.props.color}
           stroke={this.props.stroke}
           stroke-width={() => unitSvg(this.props.strokeWidth())}
         >
-          <For each={paths} key={(path) => path[0]}>
-            {(path) => (
-              <path
-                d={() =>
-                  "M " +
-                  path()
-                    .map((v, i) => {
-                      const [xp, yp] = Vertex.parse(path().at(i - 1)!);
-                      const [x1, y1] = Vertex.parse(v);
-                      const directionP = Vertex(x1 - xp, y1 - yp);
-                      const [x2, y2] = Vertex.parse(
-                        path()[(i + 1) % path().length],
-                      );
-                      const direction = Vertex(x2 - x1, y2 - y1);
-                      const rotatedDirection = Vertex(y2 - y1, x1 - x2);
-                      const [xn, yn] = Vertex.parse(
-                        path()[(i + 2) % path().length],
-                      );
-                      const directionN = Vertex(xn - x2, yn - y2);
-
-                      const vectorSvg = (vertex: number[]) =>
-                        vertex.map((x) => unitSvg(x)).join(" ");
-
-                      return (
-                        (directionP === direction
-                          ? vectorSvg([x1, y1])
-                          : vectorSvg([
-                              x1 - (x1 - xp) * borderRadius,
-                              y1 - (y1 - yp) * borderRadius,
-                            ]) +
-                            " A " +
-                            vectorSvg([
-                              borderRadius,
-                              borderRadius,
-                              0,
-                              0,
-                              directionP === rotatedDirection
-                                ? 1 / unitSvg()
-                                : 0,
-                              x1 + (x2 - x1) * borderRadius,
-                              y1 + (y2 - y1) * borderRadius,
-                            ])) +
-                        " L " +
-                        (direction === directionN
-                          ? vectorSvg([x2, y2])
-                          : vectorSvg([
-                              x2 - (x2 - x1) * borderRadius,
-                              y2 - (y2 - y1) * borderRadius,
-                            ]))
-                      );
-                    })
-                    .join(" ") +
-                  " Z"
-                }
-              />
-            )}
-          </For>
+          {[() => paths().areas, () => paths().holes].map((paths, i) => (
+            <For each={paths} key={(vertices) => vertices[0]}>
+              {(vertices) => (
+                <path
+                  d={() => drawPath(vertices())}
+                  fill={i === 0 ? this.props.color : "none"}
+                />
+              )}
+            </For>
+          ))}
         </g>
       </>
     );
