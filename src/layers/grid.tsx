@@ -18,11 +18,11 @@ export class GridLayer extends Layer({
    */
   hoshis: prop<Vertex[]>(undefined, { attribute: JSON.parse }),
   /**
-   * The stroke width of the grid lines.
+   * The stroke width of the grid lines as a fraction of the vertex size.
    */
   strokeWidth: prop<number>(0.04, { attribute: Number }),
   /**
-   * The stroke width of the border lines.
+   * The stroke width of the border lines as a fraction of the vertex size.
    */
   borderStrokeWidth: prop<number>(0.04, { attribute: Number }),
 }) {
