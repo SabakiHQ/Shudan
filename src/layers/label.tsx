@@ -26,7 +26,7 @@ export class LabelLayer extends Layer({
   labels: prop<Record<Vertex, Label>>({}, { attribute: JSON.parse }),
 }) {
   renderContent() {
-    const stoneMap = useContext(GobanContext.stoneMap);
+    const stoneMap = useContext(GobanContext.stones);
 
     const labels = useMemo(() =>
       Object.entries(this.props.labels()).map(([vertex, label]) => {
@@ -41,7 +41,7 @@ export class LabelLayer extends Layer({
       <>
         <For each={labels} key={(label) => label.vertex}>
           {(label) => {
-            const stone = () => stoneMap()?.[label().y]?.[label().x] ?? 0;
+            const stone = () => stoneMap()?.[label().vertex] ?? 0;
             const color = () =>
               label().color ??
               this.props.color() ??

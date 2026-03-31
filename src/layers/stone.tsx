@@ -195,11 +195,10 @@ const WhiteStone: FunctionalComponent<JSX.IntrinsicElements["symbol"]> = (
 export class StoneLayer extends Layer(
   {
     /**
-     * An array of arrays of numbers representing the stone arrangement. `-1`
-     * denotes a white stone, `1` denotes a black stone, and `0` denotes an
-     * empty vertex.
+     * A mapping from vertices to `-1` representing a white stone, or `1`
+     * representing a black stone.
      */
-    stoneMap: prop<number[][] | undefined>(GobanContext.stoneMap, {
+    stones: prop<Record<Vertex, number> | undefined>(GobanContext.stones, {
       attribute: JSON.parse,
     }),
     /**
@@ -227,10 +226,11 @@ export class StoneLayer extends Layer(
     const rangeY = useContext(GobanContext.rangeY);
 
     const stones = useMemo(() =>
-      (this.props.stoneMap() ?? [])
-        .flatMap((row, y) =>
-          row.map((sign, x) => ({ sign, x, y, vertex: Vertex(x, y) })),
-        )
+      Object.entries(this.props.stones() ?? {})
+        .map(([vertex, sign]) => {
+          const [x, y] = Vertex.parse(vertex as Vertex);
+          return { sign, x, y, vertex: vertex as Vertex };
+        })
         .filter(
           ({ x, y, sign }) =>
             sign !== 0 &&
@@ -240,6 +240,7 @@ export class StoneLayer extends Layer(
             y <= Math.min(rangeY()[1], height() - 1),
         ),
     );
+
     const randomMap = useMemo(() =>
       [...Array(height())].map((_) =>
         [...Array(width())].map((_) => Math.random()),

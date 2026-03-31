@@ -25,7 +25,7 @@ export const GobanContext = {
   rangeX: createContext<[number, number]>([0, Infinity]),
   rangeY: createContext<[number, number]>([0, Infinity]),
 
-  stoneMap: createContext<number[][]>(),
+  stones: createContext<Record<string, number>>(),
 };
 
 export class Goban extends Component({

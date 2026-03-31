@@ -22,14 +22,14 @@ export class MarkerLayer extends Layer({
    */
   color: prop<string>(undefined, { attribute: String }),
   /**
-   * A mapping from vertices to marker types.
+   * A mapping from vertices to markers.
    */
   markers: prop<Record<Vertex, Marker>>({}, { attribute: JSON.parse }),
 }) {
   renderContent() {
     const vertexViewBox = `0 0 ${unitSvg()} ${unitSvg()}`;
 
-    const stoneMap = useContext(GobanContext.stoneMap);
+    const stoneMap = useContext(GobanContext.stones);
 
     const markers = useMemo(() =>
       Object.entries(this.props.markers()).map(([vertex, marker]) => {
@@ -133,7 +133,7 @@ export class MarkerLayer extends Layer({
 
         <For each={markers} key={(marker) => marker.vertex}>
           {(marker) => {
-            const stone = () => stoneMap()?.[marker().y]?.[marker().x] ?? 0;
+            const stone = () => stoneMap()?.[marker().vertex] ?? 0;
             const color = () =>
               marker().color ??
               this.props.color() ??
