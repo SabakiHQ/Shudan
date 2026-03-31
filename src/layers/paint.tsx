@@ -1,155 +1,158 @@
-import { defineComponents, For, If, prop, useMemo, type JSX } from "sinho";
+import { defineComponents, For, prop, useMemo } from "sinho";
 import { Layer } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { Vertex } from "../vertex.ts";
 import { unitSvg } from "../utils.ts";
 
-const borderRadius = unitSvg(0.2);
+const borderRadius = 0.2;
 
-export class PaintLayer extends Layer({
-  /**
-   * The color of the painted vertices.
-   */
-  color: prop<string>("rgba(0, 0, 0, .5)", { attribute: String }),
-  /**
-   * A list of vertices that should be painted.
-   */
-  paintedVertices: prop<Vertex[]>([], { attribute: JSON.parse }),
-}) {
+class BorderDetector {
+  data: Map<Vertex, Set<Vertex>> = new Map();
+
+  add(vertex: Vertex): void {
+    const [x, y] = Vertex.parse(vertex);
+    const edges: [Vertex, Vertex][] = [
+      [vertex, Vertex(x + 1, y)],
+      [Vertex(x + 1, y), Vertex(x + 1, y + 1)],
+      [Vertex(x + 1, y + 1), Vertex(x, y + 1)],
+      [Vertex(x, y + 1), vertex],
+    ];
+
+    // Add edges, but delete duplicate edges to detect border
+
+    for (const [v1, v2] of edges) {
+      if (this.data.get(v2)?.has(v1)) {
+        this.data.get(v2)!.delete(v1);
+      } else if (!this.data.has(v1)) {
+        this.data.set(v1, new Set([v2]));
+      } else {
+        this.data.get(v1)!.add(v2);
+      }
+    }
+  }
+
+  finalize(): Vertex[][] {
+    const result: Vertex[][] = [];
+
+    while (this.data.size > 0) {
+      const v1 = this.data.keys().next().value!;
+      if (this.data.get(v1)!.size === 0) {
+        this.data.delete(v1);
+        continue;
+      }
+
+      const component: Vertex[] = [v1];
+
+      let anchor = v1;
+      while (true) {
+        const v2 = this.data.get(anchor)!.values().next().value;
+
+        if (v2 != null) this.data.get(anchor)!.delete(v2);
+        if (v2 == null || component.includes(v2) || !this.data.has(v2)) break;
+
+        component.push(v2);
+        anchor = v2;
+      }
+
+      result.push(component);
+    }
+
+    return result;
+  }
+}
+
+export class PaintLayer extends Layer(
+  {
+    /**
+     * The color of the painted vertices.
+     */
+    color: prop<string>("rgba(0, 0, 0, .5)", { attribute: String }),
+    /**
+     * A list of vertices that should be painted.
+     */
+    paintedVertices: prop<Vertex[]>([], { attribute: JSON.parse }),
+    stroke: prop<string>("none", { attribute: String }),
+    strokeWidth: prop<number>(0.08, { attribute: Number }),
+  },
+  { visibleOverflow: true },
+) {
   renderContent() {
     const verticesSet = useMemo(() => new Set(this.props.paintedVertices()));
-    const bridgeVertices = useMemo(
-      () =>
-        new Set(
-          this.props.paintedVertices().flatMap((vertex) => {
-            const [x, y] = Vertex.parse(vertex);
+    const paths = useMemo(() => {
+      const result = new BorderDetector();
 
-            return [
-              verticesSet().has(Vertex(x - 1, y)) &&
-              verticesSet().has(Vertex(x, y - 1))
-                ? Vertex(x - 1, y - 1)
-                : null,
-              verticesSet().has(Vertex(x - 1, y)) &&
-              verticesSet().has(Vertex(x, y + 1))
-                ? Vertex(x - 1, y + 1)
-                : null,
-              verticesSet().has(Vertex(x + 1, y)) &&
-              verticesSet().has(Vertex(x, y - 1))
-                ? Vertex(x + 1, y - 1)
-                : null,
-              verticesSet().has(Vertex(x + 1, y)) &&
-              verticesSet().has(Vertex(x, y + 1))
-                ? Vertex(x + 1, y + 1)
-                : null,
-            ].filter((v): v is Vertex => v != null && !verticesSet().has(v));
-          }),
-        ),
-    );
+      for (const vertex of verticesSet()) {
+        result.add(vertex);
+      }
+
+      return result.finalize().sort();
+    });
 
     return (
       <>
-        <defs>
-          <mask id="mask">
-            <rect
-              width={unitSvg()}
-              height={unitSvg()}
-              fill="white"
-              stroke="none"
-            />
-          </mask>
-          <mask id="inverted">
-            <rect
-              width={unitSvg()}
-              height={unitSvg()}
-              fill="white"
-              stroke="none"
-            />
-            <rect
-              rx={borderRadius}
-              ry={borderRadius}
-              width={unitSvg()}
-              height={unitSvg()}
-              fill="black"
-              stroke="none"
-            />
-          </mask>
-        </defs>
+        <defs></defs>
 
-        <g>
-          <For each={this.props.paintedVertices} key={(vertex) => vertex}>
-            {(vertex) => {
-              const [x, y] = Vertex.parse(vertex());
-              const left = () =>
-                verticesSet().has(Vertex(x - 1, y)) ? -unitSvg() : 0;
-              const top = () =>
-                verticesSet().has(Vertex(x, y - 1)) ? -unitSvg() : 0;
-              const right = () =>
-                verticesSet().has(Vertex(x + 1, y)) ? unitSvg(2) : unitSvg();
-              const bottom = () =>
-                verticesSet().has(Vertex(x, y + 1)) ? unitSvg(2) : unitSvg();
+        <g
+          fill={this.props.color}
+          stroke={this.props.stroke}
+          stroke-width={() => unitSvg(this.props.strokeWidth())}
+        >
+          <For each={paths} key={(path) => path[0]}>
+            {(path) => (
+              <path
+                d={() =>
+                  "M " +
+                  path()
+                    .map((v, i) => {
+                      const [xp, yp] = Vertex.parse(path().at(i - 1)!);
+                      const [x1, y1] = Vertex.parse(v);
+                      const directionP = Vertex(x1 - xp, y1 - yp);
+                      const [x2, y2] = Vertex.parse(
+                        path()[(i + 1) % path().length],
+                      );
+                      const direction = Vertex(x2 - x1, y2 - y1);
+                      const rotatedDirection = Vertex(y2 - y1, x1 - x2);
+                      const [xn, yn] = Vertex.parse(
+                        path()[(i + 2) % path().length],
+                      );
+                      const directionN = Vertex(xn - x2, yn - y2);
 
-              return (
-                <rect
-                  rx={borderRadius}
-                  ry={borderRadius}
-                  x={left}
-                  y={top}
-                  width={() => right() - left()}
-                  height={() => bottom() - top()}
-                  fill={this.props.color}
-                  transform={() => `translate(${unitSvg(x)} ${unitSvg(y)})`}
-                  mask="url(#mask)"
-                />
-              );
-            }}
-          </For>
-        </g>
+                      const vectorSvg = (vertex: number[]) =>
+                        vertex.map((x) => unitSvg(x)).join(" ");
 
-        <g>
-          <For each={() => [...bridgeVertices()]} key={(vertex) => vertex}>
-            {(vertex) => {
-              const [x, y] = Vertex.parse(vertex());
-              const topLeft = () =>
-                [Vertex(x - 1, y), Vertex(x, y - 1)].every((v) =>
-                  verticesSet().has(v),
-                );
-              const topRight = () =>
-                [Vertex(x + 1, y), Vertex(x, y - 1)].every((v) =>
-                  verticesSet().has(v),
-                );
-              const bottomRight = () =>
-                [Vertex(x + 1, y), Vertex(x, y + 1)].every((v) =>
-                  verticesSet().has(v),
-                );
-              const bottomLeft = () =>
-                [Vertex(x - 1, y), Vertex(x, y + 1)].every((v) =>
-                  verticesSet().has(v),
-                );
-              const commonProps: JSX.IntrinsicElements["rect"] = {
-                width: unitSvg(0.5),
-                height: unitSvg(0.5),
-                fill: this.props.color,
-                transform: () => `translate(${unitSvg(x)} ${unitSvg(y)})`,
-                mask: "url(#inverted)",
-              };
-
-              return (
-                <>
-                  <If condition={topLeft}>
-                    <rect x="0" y="0" {...commonProps} />
-                  </If>
-                  <If condition={topRight}>
-                    <rect x={unitSvg(0.5)} y="0" {...commonProps} />
-                  </If>
-                  <If condition={bottomRight}>
-                    <rect x={unitSvg(0.5)} y={unitSvg(0.5)} {...commonProps} />
-                  </If>
-                  <If condition={bottomLeft}>
-                    <rect x="0" y={unitSvg(0.5)} {...commonProps} />
-                  </If>
-                </>
-              );
-            }}
+                      return (
+                        (directionP === direction
+                          ? vectorSvg([x1, y1])
+                          : vectorSvg([
+                              x1 - (x1 - xp) * borderRadius,
+                              y1 - (y1 - yp) * borderRadius,
+                            ]) +
+                            " A " +
+                            vectorSvg([
+                              borderRadius,
+                              borderRadius,
+                              0,
+                              0,
+                              directionP === rotatedDirection
+                                ? 1 / unitSvg()
+                                : 0,
+                              x1 + (x2 - x1) * borderRadius,
+                              y1 + (y2 - y1) * borderRadius,
+                            ])) +
+                        " L " +
+                        (direction === directionN
+                          ? vectorSvg([x2, y2])
+                          : vectorSvg([
+                              x2 - (x2 - x1) * borderRadius,
+                              y2 - (y2 - y1) * borderRadius,
+                            ]))
+                      );
+                    })
+                    .join(" ") +
+                  " Z"
+                }
+              />
+            )}
           </For>
         </g>
       </>
