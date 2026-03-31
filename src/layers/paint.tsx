@@ -7,8 +7,14 @@ import { unitSvg } from "../utils.ts";
 const borderRadius = unitSvg(0.2);
 
 export class PaintLayer extends Layer({
-  paintedVertices: prop<Vertex[]>([], { attribute: JSON.parse }),
+  /**
+   * The color of the painted vertices.
+   */
   color: prop<string>("rgba(0, 0, 0, .5)", { attribute: String }),
+  /**
+   * A list of vertices that should be painted.
+   */
+  paintedVertices: prop<Vertex[]>([], { attribute: JSON.parse }),
 }) {
   renderContent() {
     const verticesSet = useMemo(() => new Set(this.props.paintedVertices()));

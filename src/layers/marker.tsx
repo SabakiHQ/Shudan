@@ -15,7 +15,15 @@ import { GobanContext } from "../goban.tsx";
 export type Marker = "point" | "circle" | "cross" | "triangle" | "square";
 
 export class MarkerLayer extends Layer({
+  /**
+   * The color of the markers. If set to `undefined`, it uses the default colors
+   * according to the `stoneMap` of an underlying stone layer if available, or
+   * the board foreground color.
+   */
   color: prop<string>(undefined, { attribute: String }),
+  /**
+   * A mapping from vertices to marker types.
+   */
   markers: prop<Record<Vertex, Marker>>({}, { attribute: JSON.parse }),
 }) {
   renderContent(): Template {

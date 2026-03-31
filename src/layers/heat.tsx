@@ -6,6 +6,10 @@ import { Vertex } from "../main.ts";
 
 export class HeatLayer extends Layer(
   {
+    /**
+     * The palette of the heatmap. Each color corresponds to a range of values,
+     * sorted from low to high.
+     */
     colors: prop<string[]>(
       [
         "rgba(240, 35, 17, .6)",
@@ -15,6 +19,9 @@ export class HeatLayer extends Layer(
       ],
       { attribute: JSON.parse },
     ),
+    /**
+     * The values for each vertex in the heatmap.
+     */
     values: prop<Record<Vertex, number>>({}, { attribute: JSON.parse }),
   },
   { renderHTML: true },

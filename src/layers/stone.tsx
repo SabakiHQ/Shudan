@@ -194,11 +194,28 @@ const WhiteStone: FunctionalComponent<JSX.IntrinsicElements["symbol"]> = (
 
 export class StoneLayer extends Layer(
   {
+    /**
+     * An array of arrays of numbers representing the stone arrangement. `-1`
+     * denotes a white stone, `1` denotes a black stone, and `0` denotes an
+     * empty vertex.
+     */
     stoneMap: prop<number[][] | undefined>(GobanContext.stoneMap, {
       attribute: JSON.parse,
     }),
+    /**
+     * A list of stones that should be marked as dimmed. Has no effect on
+     * empty vertices.
+     */
     dimmedStones: prop<Vertex[]>([], { attribute: JSON.parse }),
+    /**
+     * An id referencing an SVG object that should be used to represent a
+     * black stone.
+     */
     blackStoneHref: prop<string>(undefined, { attribute: String }),
+    /**
+     * An id referencing an SVG object that should be used to represent a
+     * black stone.
+     */
     whiteStoneHref: prop<string>(undefined, { attribute: String }),
   },
   { visibleOverflow: true },

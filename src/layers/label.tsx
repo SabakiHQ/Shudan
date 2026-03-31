@@ -6,7 +6,15 @@ import { unitSvg } from "../utils.ts";
 import { COMPONENT_PREFIX } from "../constants.ts";
 
 export class LabelLayer extends Layer({
+  /**
+   * The text color of the labels. If set to `undefined`, it uses the default
+   * colors according to the `stoneMap` of an underlying stone layer if
+   * available, or the board foreground color.
+   */
   color: prop<string>(undefined, { attribute: String }),
+  /**
+   * A map of vertices and their labels.
+   */
   labels: prop<Record<Vertex, string>>({}, { attribute: JSON.parse }),
 }) {
   renderContent() {

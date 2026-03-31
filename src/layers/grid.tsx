@@ -6,6 +6,16 @@ import { Layer } from "./layer.tsx";
 import { GobanContext } from "../goban.tsx";
 
 export class GridLayer extends Layer({
+  /**
+   * The color of the grid lines and hoshi markers. Defaults to the board
+   * foreground color.
+   */
+  color: prop<string>("var(--shudan-board-foreground-color)", {
+    attribute: String,
+  }),
+  /**
+   * The positions of the hoshi markers.
+   */
   hoshis: prop<Vertex[]>(undefined, { attribute: JSON.parse }),
 }) {
   renderContent() {
@@ -27,7 +37,7 @@ export class GridLayer extends Layer({
             <line
               stroke-width={unitSvg(0.04)}
               stroke-linecap="square"
-              stroke="var(--shudan-board-foreground-color)"
+              stroke={this.props.color}
               x1={() => unitSvg(0.5)}
               y1={() => unitSvg(y() + 0.5)}
               x2={() => unitSvg(width() - 0.5)}
@@ -41,7 +51,7 @@ export class GridLayer extends Layer({
             <line
               stroke-width={unitSvg(0.04)}
               stroke-linecap="square"
-              stroke="var(--shudan-board-foreground-color)"
+              stroke={this.props.color}
               x1={() => unitSvg(x() + 0.5)}
               y1={() => unitSvg(ys()[0] === 0 ? 0.5 : ys()[0])}
               x2={() => unitSvg(x() + 0.5)}
@@ -61,7 +71,7 @@ export class GridLayer extends Layer({
               cy={() => unitSvg(hoshi()[1] + 0.5)}
               r={unitSvg(0.12)}
               stroke-width="0"
-              fill="var(--shudan-board-foreground-color)"
+              fill={this.props.color}
             />
           )}
         </For>
