@@ -18,7 +18,7 @@ export const Coord: FunctionalComponent<{
       .map((_, i) => props.label(i))
       .slice(range()[0], range()[1] + 1),
   );
-  const grid = () => `repeat(${labels().length}, ${unit(1)})`;
+  const grid = () => `repeat(${labels().length}, ${unit()})`;
 
   return (
     <div

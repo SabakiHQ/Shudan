@@ -51,24 +51,24 @@ export class PaintLayer extends Layer({
         <defs>
           <mask id="mask">
             <rect
-              width={unitSvg(1)}
-              height={unitSvg(1)}
+              width={unitSvg()}
+              height={unitSvg()}
               fill="white"
               stroke="none"
             />
           </mask>
           <mask id="inverted">
             <rect
-              width={unitSvg(1)}
-              height={unitSvg(1)}
+              width={unitSvg()}
+              height={unitSvg()}
               fill="white"
               stroke="none"
             />
             <rect
               rx={borderRadius}
               ry={borderRadius}
-              width={unitSvg(1)}
-              height={unitSvg(1)}
+              width={unitSvg()}
+              height={unitSvg()}
               fill="black"
               stroke="none"
             />
@@ -80,13 +80,13 @@ export class PaintLayer extends Layer({
             {(vertex) => {
               const [x, y] = Vertex.parse(vertex());
               const left = () =>
-                verticesSet().has(Vertex(x - 1, y)) ? unitSvg(-1) : 0;
+                verticesSet().has(Vertex(x - 1, y)) ? -unitSvg() : 0;
               const top = () =>
-                verticesSet().has(Vertex(x, y - 1)) ? unitSvg(-1) : 0;
+                verticesSet().has(Vertex(x, y - 1)) ? -unitSvg() : 0;
               const right = () =>
-                verticesSet().has(Vertex(x + 1, y)) ? unitSvg(2) : unitSvg(1);
+                verticesSet().has(Vertex(x + 1, y)) ? unitSvg(2) : unitSvg();
               const bottom = () =>
-                verticesSet().has(Vertex(x, y + 1)) ? unitSvg(2) : unitSvg(1);
+                verticesSet().has(Vertex(x, y + 1)) ? unitSvg(2) : unitSvg();
 
               return (
                 <rect

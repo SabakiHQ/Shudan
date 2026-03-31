@@ -27,7 +27,7 @@ export class MarkerLayer extends Layer({
   markers: prop<Record<Vertex, Marker>>({}, { attribute: JSON.parse }),
 }) {
   renderContent(): Template {
-    const vertexViewBox = `0 0 ${unitSvg(1)} ${unitSvg(1)}`;
+    const vertexViewBox = `0 0 ${unitSvg()} ${unitSvg()}`;
 
     const stoneMap = useContext(GobanContext.stoneMap);
 
@@ -43,8 +43,8 @@ export class MarkerLayer extends Layer({
         <defs>
           <filter
             id="outline"
-            x={unitSvg(-1)}
-            y={unitSvg(-1)}
+            x={-unitSvg()}
+            y={-unitSvg()}
             width={unitSvg(3)}
             height={unitSvg(3)}
           >
@@ -148,8 +148,8 @@ export class MarkerLayer extends Layer({
                 style={{ "--color": color }}
                 x={() => unitSvg(marker().x)}
                 y={() => unitSvg(marker().y)}
-                width={unitSvg(1)}
-                height={unitSvg(1)}
+                width={unitSvg()}
+                height={unitSvg()}
                 filter={() =>
                   stoneMap() != null && stone() === 0
                     ? "url(#outline)"

@@ -282,8 +282,8 @@ export class StoneLayer extends Layer(
 
           <filter
             id="shudan-shadow"
-            x={unitSvg(-1)}
-            y={unitSvg(-1)}
+            x={-unitSvg()}
+            y={-unitSvg()}
             width={unitSvg(3)}
             height={unitSvg(3)}
           >

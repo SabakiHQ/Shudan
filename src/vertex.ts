@@ -1,4 +1,4 @@
-const vertexSym = Symbol("vertex");
+declare const vertexSym: unique symbol;
 
 export type Vertex = string & { [vertexSym]: true };
 

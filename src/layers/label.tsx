@@ -46,16 +46,16 @@ export class LabelLayer extends Layer({
               <foreignObject
                 x={() => unitSvg(label().x)}
                 y={() => unitSvg(label().y)}
-                width={unitSvg(1)}
-                height={unitSvg(1)}
+                width={unitSvg()}
+                height={unitSvg()}
               >
                 <div
                   style={{
                     position: "absolute",
                     left: "50%",
                     top: "50%",
-                    maxWidth: unitSvg(1),
-                    maxHeight: unitSvg(1),
+                    maxWidth: unitSvg(),
+                    maxHeight: unitSvg(),
                     overflow: "hidden",
                     transform: "translate(-50%, -50%)",
                     background: () =>
