@@ -5,6 +5,14 @@ import { Vertex } from "../vertex.ts";
 import { unitSvg } from "../utils.ts";
 import { COMPONENT_PREFIX } from "../constants.ts";
 
+export type Label =
+  | string
+  | {
+      text?: string;
+      color?: string;
+      tooltip?: string;
+    };
+
 export class LabelLayer extends Layer({
   /**
    * The text color of the labels. If set to `undefined`, it uses the default
@@ -15,7 +23,7 @@ export class LabelLayer extends Layer({
   /**
    * A map of vertices and their labels.
    */
-  labels: prop<Record<Vertex, string>>({}, { attribute: JSON.parse }),
+  labels: prop<Record<Vertex, Label>>({}, { attribute: JSON.parse }),
 }) {
   renderContent() {
     const stoneMap = useContext(GobanContext.stoneMap);
@@ -23,7 +31,9 @@ export class LabelLayer extends Layer({
     const labels = useMemo(() =>
       Object.entries(this.props.labels()).map(([vertex, label]) => {
         const [x, y] = Vertex.parse(vertex as Vertex);
-        return { x, y, vertex, label };
+        const _label = typeof label === "string" ? { text: label } : label;
+
+        return { x, y, vertex, ..._label };
       }),
     );
 
@@ -33,6 +43,7 @@ export class LabelLayer extends Layer({
           {(label) => {
             const stone = () => stoneMap()?.[label().y]?.[label().x] ?? 0;
             const color = () =>
+              label().color ??
               this.props.color() ??
               (stoneMap() == null || stone() === 0
                 ? "var(--shudan-board-foreground-color)"
@@ -64,19 +75,22 @@ export class LabelLayer extends Layer({
                         : undefined,
                     color,
                     fontSize: () =>
-                      label().label.length >= 3 || label().label.includes("\n")
+                      (label().text?.length ?? 0) >= 3 ||
+                      label().text?.includes("\n")
                         ? unitSvg(0.35)
                         : unitSvg(1 / 1.7),
                     lineHeight: () =>
-                      label().label.includes("\n") ? `${unitSvg(0.4)}px` : undefined,
+                      label().text?.includes("\n")
+                        ? `${unitSvg(0.4)}px`
+                        : undefined,
                     textAlign: "center",
                     whiteSpace: "pre",
                     textOverflow: "ellipsis",
                     pointerEvents: "auto",
                   }}
-                  title={() => label().label}
+                  title={() => label().tooltip ?? label().text}
                 >
-                  {() => label().label}
+                  {() => label().text}
                 </div>
               </foreignObject>
             );

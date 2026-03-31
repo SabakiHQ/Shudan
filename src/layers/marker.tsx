@@ -1,18 +1,18 @@
-import {
-  defineComponents,
-  For,
-  prop,
-  useContext,
-  useMemo,
-  type Template,
-} from "sinho";
+import { defineComponents, For, prop, useContext, useMemo } from "sinho";
 import { Layer } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { Vertex } from "../vertex.ts";
 import { unitSvg } from "../utils.ts";
 import { GobanContext } from "../goban.tsx";
 
-export type Marker = "point" | "circle" | "cross" | "triangle" | "square";
+export type MarkerType = "point" | "circle" | "cross" | "triangle" | "square";
+
+export type Marker =
+  | MarkerType
+  | {
+      type?: MarkerType;
+      color?: string;
+    };
 
 export class MarkerLayer extends Layer({
   /**
@@ -26,15 +26,17 @@ export class MarkerLayer extends Layer({
    */
   markers: prop<Record<Vertex, Marker>>({}, { attribute: JSON.parse }),
 }) {
-  renderContent(): Template {
+  renderContent() {
     const vertexViewBox = `0 0 ${unitSvg()} ${unitSvg()}`;
 
     const stoneMap = useContext(GobanContext.stoneMap);
 
     const markers = useMemo(() =>
-      Object.entries(this.props.markers()).map(([vertex, type]) => {
+      Object.entries(this.props.markers()).map(([vertex, marker]) => {
         const [x, y] = Vertex.parse(vertex as Vertex);
-        return { x, y, vertex, type };
+        const _marker = typeof marker === "string" ? { type: marker } : marker;
+
+        return { x, y, vertex, ..._marker };
       }),
     );
 
@@ -133,6 +135,7 @@ export class MarkerLayer extends Layer({
           {(marker) => {
             const stone = () => stoneMap()?.[marker().y]?.[marker().x] ?? 0;
             const color = () =>
+              marker().color ??
               this.props.color() ??
               (stoneMap() == null || stone() == 0
                 ? "var(--shudan-board-foreground-color)"
@@ -144,7 +147,7 @@ export class MarkerLayer extends Layer({
 
             return (
               <use
-                href={() => `#${marker().type}`}
+                href={() => `#${marker().type ?? "cross"}`}
                 style={{ "--color": color }}
                 x={() => unitSvg(marker().x)}
                 y={() => unitSvg(marker().y)}
