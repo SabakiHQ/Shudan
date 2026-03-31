@@ -22,7 +22,6 @@ export const Coord: FunctionalComponent<{
 
   return (
     <div
-      part={() => (direction() === "row" ? "coord-x" : "coord-y")}
       style={{
         display: "grid",
         grid: () =>
@@ -37,6 +36,7 @@ export const Coord: FunctionalComponent<{
         {(label) => (
           <>
             <span
+              part={() => (direction() === "row" ? "coord-x" : "coord-y")}
               style={{
                 display: "grid",
                 placeItems: "center",
