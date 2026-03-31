@@ -89,7 +89,7 @@
 
     <script type="module">
       const goban = document.querySelector("shudan-goban");
-      const stoneMap = goban.querySelector("shudan-goban .stones").stoneMap;
+      const stones = goban.querySelector("shudan-goban .stones").stones;
       const chineseCoord = [
         "一",
         "二",
@@ -167,7 +167,7 @@
         .addEventListener("change", (event) => {
           const stoneLayer = goban.querySelector("shudan-goban .stones");
 
-          stoneLayer.stoneMap = event.target.checked ? stoneMap : {};
+          stoneLayer.stones = event.target.checked ? stones : {};
         });
 
       document
