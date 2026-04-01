@@ -29,8 +29,7 @@ export class MarkerLayer extends Layer({
   renderContent() {
     const vertexViewBox = `0 0 ${unitSvg()} ${unitSvg()}`;
 
-    const stoneMap = useContext(GobanContext.stones);
-
+    const stones = useContext(GobanContext.stones);
     const markers = useMemo(() =>
       Object.entries(this.props.markers()).map(([vertex, marker]) => {
         const [x, y] = Vertex.parse(vertex as Vertex);
@@ -133,11 +132,11 @@ export class MarkerLayer extends Layer({
 
         <For each={markers} key={(marker) => marker.vertex}>
           {(marker) => {
-            const stone = () => stoneMap()?.[marker().vertex] ?? 0;
+            const stone = () => stones()?.[marker().vertex] ?? 0;
             const color = () =>
               marker().color ??
               this.props.color() ??
-              (stoneMap() == null || stone() == 0
+              (stones() == null || stone() == 0
                 ? "var(--shudan-board-foreground-color)"
                 : stone() > 0
                   ? "var(--shudan-black-foreground-color)"
@@ -154,7 +153,7 @@ export class MarkerLayer extends Layer({
                 width={unitSvg()}
                 height={unitSvg()}
                 filter={() =>
-                  stoneMap() != null && stone() === 0
+                  stones() != null && stone() === 0
                     ? "url(#outline)"
                     : undefined
                 }

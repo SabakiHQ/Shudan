@@ -26,7 +26,7 @@ export class LabelLayer extends Layer({
   labels: prop<Record<Vertex, Label>>({}, { attribute: JSON.parse }),
 }) {
   renderContent() {
-    const stoneMap = useContext(GobanContext.stones);
+    const stones = useContext(GobanContext.stones);
 
     const labels = useMemo(() =>
       Object.entries(this.props.labels()).map(([vertex, label]) => {
@@ -41,11 +41,11 @@ export class LabelLayer extends Layer({
       <>
         <For each={labels} key={(label) => label.vertex}>
           {(label) => {
-            const stone = () => stoneMap()?.[label().vertex] ?? 0;
+            const stone = () => stones()?.[label().vertex] ?? 0;
             const color = () =>
               label().color ??
               this.props.color() ??
-              (stoneMap() == null || stone() === 0
+              (stones() == null || stone() === 0
                 ? "var(--shudan-board-foreground-color)"
                 : stone() > 0
                   ? "var(--shudan-black-foreground-color)"
@@ -70,7 +70,7 @@ export class LabelLayer extends Layer({
                     overflow: "hidden",
                     transform: "translate(-50%, -50%)",
                     background: () =>
-                      stoneMap() != null && stone() === 0
+                      stones() != null && stone() === 0
                         ? "var(--shudan-board-background)"
                         : undefined,
                     color,
