@@ -33,8 +33,7 @@ export function Layer<const M extends Metadata>(
       const host = (this.getRootNode() as ShadowRoot).host;
       const result =
         this.closest<Goban>("shudan-goban") ??
-        host.closest<Goban>("shudan-goban") ??
-        undefined;
+        host.closest<Goban>("shudan-goban");
 
       return result!;
     }
@@ -44,7 +43,7 @@ export function Layer<const M extends Metadata>(
     render() {
       if (this.goban == null) {
         throw new Error(
-          "Layer elements need to be children of <shudan-goban>.",
+          "Layer elements need to be descendants of <shudan-goban>.",
         );
       }
 

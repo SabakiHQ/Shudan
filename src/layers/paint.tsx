@@ -1,8 +1,9 @@
-import { defineComponents, For, prop, useMemo } from "sinho";
+import { defineComponents, For, prop, useContext, useMemo } from "sinho";
 import { Layer } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { Vertex } from "../vertex.ts";
 import { unitSvg } from "../utils.ts";
+import { GobanContext } from "../goban.tsx";
 
 const borderRadius = 0.2;
 
@@ -104,6 +105,11 @@ export class PaintLayer extends Layer(
   { visibleOverflow: true },
 ) {
   renderContent() {
+    const width = useContext(GobanContext.width);
+    const height = useContext(GobanContext.height);
+    const rangeX = useContext(GobanContext.rangeX);
+    const rangeY = useContext(GobanContext.rangeY);
+
     const verticesSet = useMemo(() => new Set(this.props.paintedVertices()));
     const paths = useMemo(() => {
       const result = new BorderDetector();
@@ -114,6 +120,8 @@ export class PaintLayer extends Layer(
 
       return result.finalize();
     });
+    const padding = () =>
+      this.props.stroke() === "none" ? 0 : this.props.strokeWidth() / 2;
 
     const drawPath = (vertices: Vertex[]) =>
       "M " +
@@ -165,10 +173,20 @@ export class PaintLayer extends Layer(
         <defs>
           <mask id="holes">
             <rect
-              x={unitSvg(-2)}
-              y={unitSvg(-2)}
-              width="100%"
-              height="100%"
+              x={() => unitSvg(Math.max(rangeX()[0], 0) - padding())}
+              y={() => unitSvg(Math.max(rangeY()[0], 0) - padding())}
+              width={() =>
+                unitSvg(
+                  Math.min(rangeX()[1] - rangeX()[0] + 1, width()) +
+                    2 * padding(),
+                )
+              }
+              height={() =>
+                unitSvg(
+                  Math.min(rangeY()[1] - rangeY()[0] + 1, height()) +
+                    2 * padding(),
+                )
+              }
               fill="white"
             />
 
