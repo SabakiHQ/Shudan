@@ -4,6 +4,7 @@ export { unit, unitSvg } from "./utils.ts";
 export { Layer, type LayerOptions } from "./layers/layer.tsx";
 export { GridLayer } from "./layers/grid.tsx";
 export { StoneLayer } from "./layers/stone.tsx";
+export { GhostStoneLayer } from "./layers/ghost-stone.tsx";
 export { MarkerLayer, type Marker, type MarkerType } from "./layers/marker.tsx";
 export { LabelLayer, type Label } from "./layers/label.tsx";
 export { PaintLayer } from "./layers/paint.tsx";

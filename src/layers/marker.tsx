@@ -93,7 +93,6 @@ export class MarkerLayer extends Layer({
               r={unitSvg(0.18)}
               fill="var(--color)"
               stroke="none"
-              stroke-width={unitSvg(0.08)}
             />
           </symbol>
 
