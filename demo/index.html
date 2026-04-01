@@ -81,6 +81,11 @@
           </label>
         </li>
         <li>
+          <label>
+            <input type="checkbox" class="selection" /> Show selection
+          </label>
+        </li>
+        <li>
           Zoom: <button type="button" class="zoomin">In</button>
           <button type="button" class="zoomout">Out</button>
         </li>
@@ -210,6 +215,16 @@
         });
 
       document
+        .querySelector("input.selection")
+        .addEventListener("change", (event) => {
+          const selectionLayers = goban.querySelectorAll("shudan-goban .selection");
+
+          selectionLayers.forEach((layer) => {
+            layer.style.opacity = event.target.checked ? 1 : 0;
+          });
+        });
+
+      document
         .querySelector("button.zoomin")
         .addEventListener("click", (event) => {
           goban.vertexSize = +goban.vertexSize + 4;
@@ -300,6 +315,14 @@
             "2,16": "41%\n2315"
           }'
         ></shudan-label-layer>
+
+        <shudan-paint-layer
+          class="selection"
+          style="opacity: 0; transition: opacity 0.5s"
+          painted-vertices='["8,7","9,7","10,7","8,8","10,8","8,9","9,9","10,9"]'
+          color="rgba(0, 130, 240, .2)"
+          stroke="#0082F0"
+        ></shudan-paint-layer>
       </shudan-goban>
     </div>
   </body>

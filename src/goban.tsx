@@ -121,7 +121,7 @@ export class Goban extends Component({
         <Style>{css`
           :host {
             --shudan-board-border-radius: ${unit(0.3)};
-            --shudan-board-border-width: ${unit(0.2)};
+            --shudan-board-border-width: ${unit(0.15)};
             --shudan-board-border-color: #a8731e;
             --shudan-board-background: var(--shudan-board-background-color);
             --shudan-board-background-color: #f1b458;
