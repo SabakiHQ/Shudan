@@ -5,7 +5,7 @@ export function unit(value: number | string = 1): string {
 }
 
 export function unitSvg(value: number = 1): number {
-  return value * 20;
+  return value * 60;
 }
 
 export function getHoshis(width: number, height: number): Vertex[] {

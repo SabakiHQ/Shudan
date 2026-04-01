@@ -1,6 +1,6 @@
 declare const vertexSym: unique symbol;
 
-export type Vertex = string & { [vertexSym]: true };
+export type Vertex = `${number},${number}` & { [vertexSym]: true };
 
 export function Vertex(vertex: string): Vertex;
 export function Vertex(x: number, y: number): Vertex;

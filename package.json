@@ -3,8 +3,7 @@
   "version": "2.0.0",
   "description": "A highly customizable, low-level Goban web component.",
   "type": "module",
-  "main": "./src/main.js",
-  "types": "./src/main.d.ts",
+  "main": "./src/main.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SabakiHQ/Shudan.git"
