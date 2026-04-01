@@ -110,18 +110,18 @@ export class PaintLayer extends Layer(
     const rangeX = useContext(GobanContext.rangeX);
     const rangeY = useContext(GobanContext.rangeY);
 
-    const verticesSet = useMemo(() => new Set(this.props.paintedVertices()));
-    const paths = useMemo(() => {
+    const padding = () =>
+      this.props.stroke() === "none" ? 0 : this.props.strokeWidth() / 2;
+    const borders = useMemo(() => {
       const result = new BorderDetector();
+      const paintedVertices = new Set(this.props.paintedVertices());
 
-      for (const vertex of verticesSet()) {
+      for (const vertex of paintedVertices) {
         result.add(vertex);
       }
 
       return result.finalize();
     });
-    const padding = () =>
-      this.props.stroke() === "none" ? 0 : this.props.strokeWidth() / 2;
 
     const drawPath = (vertices: Vertex[]) =>
       "M " +
@@ -195,7 +195,7 @@ export class PaintLayer extends Layer(
               stroke={() => (this.props.stroke() === "none" ? "none" : "white")}
               stroke-width={() => unitSvg(this.props.strokeWidth())}
             >
-              <For each={() => paths().holes} key={(vertices) => vertices[0]}>
+              <For each={() => borders().holes} key={(vertices) => vertices[0]}>
                 {(vertices) => <path d={() => drawPath(vertices())} />}
               </For>
             </g>
@@ -208,7 +208,7 @@ export class PaintLayer extends Layer(
           stroke={this.props.stroke}
           stroke-width={() => unitSvg(this.props.strokeWidth())}
         >
-          {[() => paths().areas, () => paths().holes].map((paths, i) => (
+          {[() => borders().areas, () => borders().holes].map((paths, i) => (
             <For each={paths} key={(vertices) => vertices[0]}>
               {(vertices) => (
                 <path
