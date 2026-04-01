@@ -72,6 +72,11 @@
         </li>
         <li>
           <label>
+            <input type="checkbox" class="ghost-stones" /> Show ghost stones
+          </label>
+        </li>
+        <li>
+          <label>
             <input type="checkbox" class="territory" /> Show territory
           </label>
         </li>
@@ -162,33 +167,43 @@
       document
         .querySelector("input.grid")
         .addEventListener("change", (event) => {
-          const gridLayer = goban.querySelector("shudan-goban .grid");
+          const layer = goban.querySelector("shudan-goban .grid");
 
-          gridLayer.style.display = event.target.checked ? "block" : "none";
+          layer.style.display = event.target.checked ? "block" : "none";
         });
 
       document
         .querySelector("input.stones")
         .addEventListener("change", (event) => {
-          const stoneLayer = goban.querySelector("shudan-goban .stones");
+          const layer = goban.querySelector("shudan-goban .stones");
 
-          stoneLayer.stones = event.target.checked ? stones : {};
+          layer.stones = event.target.checked ? stones : {};
         });
 
       document
         .querySelector("input.dead")
         .addEventListener("change", (event) => {
-          const stoneLayer = goban.querySelector("shudan-goban .stones");
+          const layer = goban.querySelector("shudan-goban .stones");
 
-          stoneLayer.dimmedStones = event.target.checked ? deadStones : [];
+          layer.dimmedStones = event.target.checked ? deadStones : [];
         });
 
       document
         .querySelector("input.markers")
         .addEventListener("change", (event) => {
-          const markerLayers = goban.querySelectorAll("shudan-goban .markers");
+          const layers = goban.querySelectorAll("shudan-goban .markers");
 
-          markerLayers.forEach((layer) => {
+          layers.forEach((layer) => {
+            layer.style.display = event.target.checked ? "block" : "none";
+          });
+        });
+
+      document
+        .querySelector("input.ghost-stones")
+        .addEventListener("change", (event) => {
+          const layers = goban.querySelectorAll("shudan-goban .ghost-stones");
+
+          layers.forEach((layer) => {
             layer.style.display = event.target.checked ? "block" : "none";
           });
         });
@@ -281,10 +296,21 @@
         </shudan-stone-layer>
 
         <shudan-ghost-stone-layer
-          class="ghost-stone"
+          class="ghost-stones"
+          style="display: none"
           stones='{
-            "0,0": "rgba(0, 0, 0, .5)",
-            "0,1": "rgba(255, 255, 255, .5)"
+            "0,0": "rgba(0, 0, 0, .6)",
+            "0,1": "rgba(255, 255, 255, .6)",
+            "0,2": "rgba(240, 35, 17, .6)",
+            "0,3": "rgba(146, 39, 143, .6)",
+            "0,4": "rgba(72, 134, 213, .6)",
+            "0,5": "rgba(79, 157, 5, .6)",
+            "1,0": "rgba(0, 0, 0, .3)",
+            "1,1": "rgba(255, 255, 255, .3)",
+            "1,2": "rgba(240, 35, 17, .3)",
+            "1,3": "rgba(146, 39, 143, .3)",
+            "1,4": "rgba(72, 134, 213, .3)",
+            "1,5": "rgba(79, 157, 5, .3)"
           }'
         ></shudan-ghost-stone-layer>
 
