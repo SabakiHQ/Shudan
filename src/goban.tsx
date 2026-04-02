@@ -13,6 +13,7 @@ import {
 import { COMPONENT_PREFIX } from "./constants.ts";
 import { Coord } from "./coord.tsx";
 import { unit } from "./utils.ts";
+import { Vertex } from "./vertex.ts";
 
 export const GobanContext = {
   width: createContext<number>(19),
@@ -24,6 +25,7 @@ export const GobanContext = {
   coordY: createContext<(y: number) => string>(),
   rangeX: createContext<[number, number]>([0, Infinity]),
   rangeY: createContext<[number, number]>([0, Infinity]),
+  focusedVertex: createContext<Vertex>(),
 
   stones: createContext<Record<string, number>>(),
 };
@@ -42,6 +44,7 @@ export class Goban extends Component({
   rangeY: prop<[number, number]>(GobanContext.rangeY, {
     attribute: JSON.parse,
   }),
+  focusedVertex: prop(GobanContext.focusedVertex, { attribute: Vertex }),
 }) {
   render() {
     const width = useContext(GobanContext.width);
@@ -66,19 +69,12 @@ export class Goban extends Component({
     const viewportHeight = () =>
       Math.min(rangeY()[1] - rangeY()[0] + 1, height());
 
-    useEffect(() => {
-      // Make component focusable
-
-      if (this.props.interactive() && !this.hasAttribute("tabindex")) {
-        this.tabIndex = 0;
-      } else if (!this.props.interactive()) {
-        this.removeAttribute("tabindex");
-      }
-    });
-
     return (
       <>
-        <div class="layout">
+        <div
+          class="layout"
+          tabIndex={() => (this.props.interactive() ? 0 : undefined)}
+        >
           <div class="viewport">
             <slot />
           </div>
@@ -121,7 +117,6 @@ export class Goban extends Component({
         <Style>{css`
           :host {
             --shudan-board-border-radius: ${unit(0.3)};
-            --shudan-board-border-width: ${unit(0.15)};
             --shudan-board-border-color: #a8731e;
             --shudan-board-background: var(--shudan-board-background-color);
             --shudan-board-background-color: #f1b458;
@@ -131,7 +126,6 @@ export class Goban extends Component({
 
             position: relative;
             display: inline-block;
-            overflow: hidden;
           }
 
           .gradient {
@@ -155,14 +149,14 @@ export class Goban extends Component({
               "left center right"
               ". bottom .";
             gap: ${unit(0.1)};
-            border: var(--shudan-board-border-width) solid transparent;
             border-radius: var(--shudan-board-border-radius);
-            padding: ${unit(0.2)};
+            padding: ${unit(0.35)};
             background: var(--shudan-board-background);
             color: var(--shudan-board-foreground-color);
+            overflow: hidden;
           }
-          :host(:focus) .layout {
-            border-color: var(--shudan-board-border-color);
+          .layout:focus {
+            outline: 3px solid var(--shudan-board-border-color);
           }
 
           .viewport {
