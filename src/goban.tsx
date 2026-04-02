@@ -25,6 +25,7 @@ export const GobanContext = {
   coordY: createContext<(y: number) => string>(),
   rangeX: createContext<[number, number]>([0, Infinity]),
   rangeY: createContext<[number, number]>([0, Infinity]),
+  focused: createContext<boolean>(false),
   focusedVertex: createContext<Vertex>(),
 
   stones: createContext<Record<string, number>>(),
@@ -44,6 +45,7 @@ export class Goban extends Component({
   rangeY: prop<[number, number]>(GobanContext.rangeY, {
     attribute: JSON.parse,
   }),
+  _focused: prop(GobanContext.focused),
   focusedVertex: prop(GobanContext.focusedVertex, { attribute: Vertex }),
 }) {
   render() {
@@ -69,11 +71,56 @@ export class Goban extends Component({
     const viewportHeight = () =>
       Math.min(rangeY()[1] - rangeY()[0] + 1, height());
 
+    useEffect(() => {
+      this.focusedVertex = undefined;
+    }, [rangeX, rangeY, width, height, this.props.interactive]);
+
     return (
       <>
         <div
           class="layout"
           tabIndex={() => (this.props.interactive() ? 0 : undefined)}
+          onfocus={() => (this._focused = true)}
+          onblur={() => (this._focused = false)}
+          onkeydown={(evt) => {
+            if (
+              !this.interactive ||
+              !["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown"].includes(
+                evt.code,
+              )
+            ) {
+              return;
+            } else if (this.focusedVertex == null) {
+              this.focusedVertex = Vertex(
+                Math.max(0, rangeX()[0]),
+                Math.max(0, rangeY()[0]),
+              );
+              return;
+            }
+
+            const [x, y] = Vertex.parse(this.focusedVertex);
+            const newPosition =
+              evt.code === "ArrowLeft"
+                ? [x - 1, y]
+                : evt.code === "ArrowUp"
+                  ? [x, y - 1]
+                  : evt.code === "ArrowRight"
+                    ? [x + 1, y]
+                    : [x, y + 1];
+
+            this.focusedVertex = Vertex(
+              Math.max(
+                0,
+                rangeX()[0],
+                Math.min(width() - 1, rangeX()[1], newPosition[0]),
+              ),
+              Math.max(
+                0,
+                rangeY()[0],
+                Math.min(height() - 1, rangeY()[1], newPosition[1]),
+              ),
+            );
+          }}
         >
           <div class="viewport">
             <slot />
@@ -117,7 +164,6 @@ export class Goban extends Component({
         <Style>{css`
           :host {
             --shudan-board-border-radius: ${unit(0.3)};
-            --shudan-board-border-color: #a8731e;
             --shudan-board-background: var(--shudan-board-background-color);
             --shudan-board-background-color: #f1b458;
             --shudan-board-foreground-color: #5e2e0c;
@@ -156,7 +202,7 @@ export class Goban extends Component({
             overflow: hidden;
           }
           .layout:focus {
-            outline: 3px solid var(--shudan-board-border-color);
+            outline: 3px solid var(--shudan-board-foreground-color);
           }
 
           .viewport {

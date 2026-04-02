@@ -30,7 +30,7 @@
       <ul>
         <li>
           <label>
-            <input type="checkbox" class="interactive" /> Interactive
+            <input type="checkbox" class="interactive" checked /> Interactive
           </label>
         </li>
         <li>
@@ -255,7 +255,7 @@
     </script>
 
     <div>
-      <shudan-goban coords vertex-size="28">
+      <shudan-goban interactive coords vertex-size="28">
         <shudan-grid-layer class="grid"></shudan-grid-layer>
 
         <shudan-stone-layer
@@ -359,6 +359,8 @@
           color="rgba(0, 130, 240, .2)"
           stroke="#0082F0"
         ></shudan-paint-layer>
+
+        <shudan-focus-layer></shudan-focus-layer>
       </shudan-goban>
     </div>
   </body>
