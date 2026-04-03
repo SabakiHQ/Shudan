@@ -5,6 +5,9 @@ import { unitSvg } from "../utils.ts";
 import { COMPONENT_PREFIX } from "../constants.ts";
 
 export class GhostStoneLayer extends Layer({
+  /**
+   * A mapping from vertices to stone colors.
+   */
   stones: prop<Record<Vertex, string>>({}, { attribute: JSON.parse }),
 }) {
   renderContent() {
