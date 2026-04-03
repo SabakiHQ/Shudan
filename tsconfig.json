@@ -8,6 +8,7 @@
     "noEmit": true,
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "erasableSyntaxOnly": true
   }
 }

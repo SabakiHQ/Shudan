@@ -3,6 +3,7 @@ import {
   createContext,
   css,
   defineComponents,
+  event,
   If,
   prop,
   Style,
@@ -14,6 +15,7 @@ import { COMPONENT_PREFIX } from "./constants.ts";
 import { Coord } from "./coord.tsx";
 import { unit } from "./utils.ts";
 import { Vertex } from "./vertex.ts";
+import { VertexEvent } from "./events.ts";
 
 export const GobanContext = {
   width: createContext<number>(19),
@@ -47,6 +49,8 @@ export class Goban extends Component({
   }),
   _focused: prop(GobanContext.focused),
   focusedVertex: prop(GobanContext.focusedVertex, { attribute: Vertex }),
+
+  onFocusedVertexChange: event(VertexEvent),
 }) {
   render() {
     const width = useContext(GobanContext.width);
@@ -75,6 +79,12 @@ export class Goban extends Component({
       this.focusedVertex = undefined;
     }, [rangeX, rangeY, width, height, this.props.interactive]);
 
+    useEffect(() => {
+      if (this.props.focusedVertex()) {
+        this.events.onFocusedVertexChange(this.props.focusedVertex()!);
+      }
+    });
+
     return (
       <>
         <div
@@ -90,7 +100,11 @@ export class Goban extends Component({
               )
             ) {
               return;
-            } else if (this.focusedVertex == null) {
+            }
+
+            evt.preventDefault();
+
+            if (this.focusedVertex == null) {
               this.focusedVertex = Vertex(
                 Math.max(0, rangeX()[0]),
                 Math.max(0, rangeY()[0]),
@@ -202,7 +216,7 @@ export class Goban extends Component({
             overflow: hidden;
           }
           .layout:focus {
-            outline: 3px solid var(--shudan-board-foreground-color);
+            outline: 2px solid var(--shudan-board-foreground-color);
           }
 
           .viewport {

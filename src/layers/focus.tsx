@@ -1,4 +1,11 @@
-import { defineComponents, If, prop, useContext } from "sinho";
+import {
+  defineComponents,
+  If,
+  prop,
+  useContext,
+  useEffect,
+  useRef,
+} from "sinho";
 import { GobanContext } from "../goban.tsx";
 import { Layer } from "./layer.tsx";
 import { Vertex } from "../vertex.ts";
@@ -13,12 +20,25 @@ export class FocusLayer extends Layer({}, { visibleOverflow: true }) {
     const position = () =>
       focusedVertex() == null ? null : Vertex.parse(focusedVertex()!);
 
+    const focusElement = useRef<SVGCircleElement>();
+
+    useEffect(() => {
+      if (focusElement() != null) {
+        if ("scrollIntoViewIfNeeded" in focusElement()!) {
+          (focusElement() as any).scrollIntoViewIfNeeded();
+        } else {
+          focusElement()!.scrollIntoView();
+        }
+      }
+    }, [focusElement, focusedVertex]);
+
     return (
       <>
         <If condition={() => interactive() && focused() && position() != null}>
           {(() => {
             return (
               <circle
+                ref={focusElement}
                 cx={() => unitSvg(position()![0] + 0.5)}
                 cy={() => unitSvg(position()![1] + 0.5)}
                 r={unitSvg(1.02 / 2)}
