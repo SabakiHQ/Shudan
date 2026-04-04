@@ -34,6 +34,9 @@
           </label>
         </li>
         <li>
+          <label> <input type="checkbox" class="hover" /> Hover </label>
+        </li>
+        <li>
           <label>
             <input type="checkbox" class="coordinates" checked /> Show
             coordinates
@@ -135,14 +138,17 @@
         "18,13",
       ];
 
-      goban.addEventListener("vertex-pointer-move", (evt) => {
-        console.log(evt);
-      });
-
       document
         .querySelector("input.interactive")
         .addEventListener("change", (event) => {
           goban.interactive = event.target.checked;
+        });
+
+      document
+        .querySelector("input.hover")
+        .addEventListener("change", (event) => {
+          const layer = goban.querySelector("shudan-goban .focus");
+          layer.hover = event.target.checked;
         });
 
       document
@@ -364,7 +370,7 @@
           stroke="#0082F0"
         ></shudan-paint-layer>
 
-        <shudan-focus-layer></shudan-focus-layer>
+        <shudan-focus-layer class="focus"></shudan-focus-layer>
       </shudan-goban>
     </div>
   </body>

@@ -80,10 +80,32 @@ export class Goban extends Component({
       Math.min(rangeY()[1] - rangeY()[0] + 1, height());
 
     useEffect(() => {
+      // Set tabindex based on interactive prop
+
+      if (!this.props.interactive()) {
+        this.removeAttribute("tabindex");
+      } else if (!this.hasAttribute("tabindex")) {
+        this.setAttribute("tabindex", "0");
+      }
+    });
+
+    useEffect(() => {
+      // Auto focus .layout
+
+      this.addEventListener("focus", () => {
+        this.shadowRoot!.querySelector<HTMLElement>(".layout")!.focus();
+      });
+    });
+
+    useEffect(() => {
+      // Clear focused vertex
+
       this.focusedVertex = undefined;
     }, [rangeX, rangeY, width, height, this.props.interactive]);
 
     useEffect(() => {
+      // Emit focused vertex change event
+
       if (this.props.focusedVertex()) {
         this.events.onFocusedVertexChange(this.props.focusedVertex()!);
       }
@@ -102,7 +124,10 @@ export class Goban extends Component({
         (offsetY - vertexSize / 2) / vertexSize + Math.max(rangeY()[0], 0),
       ].map(Math.round);
 
-      return Vertex(x, y);
+      return Vertex(
+        Math.max(0, rangeX()[0], Math.min(width() - 1, rangeX()[1], x)),
+        Math.max(0, rangeY()[0], Math.min(height() - 1, rangeY()[1], y)),
+      );
     }
 
     return (
@@ -261,7 +286,7 @@ export class Goban extends Component({
             color: var(--shudan-board-foreground-color);
             overflow: hidden;
           }
-          .layout:focus {
+          :host(:focus) .layout {
             outline: 2px solid var(--shudan-board-foreground-color);
           }
 

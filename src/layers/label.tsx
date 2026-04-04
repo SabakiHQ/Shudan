@@ -82,7 +82,7 @@ export class LabelLayer extends Layer({
                     lineHeight: () =>
                       label().text?.includes("\n")
                         ? `${unitSvg(0.4)}px`
-                        : undefined,
+                        : `${unitSvg(1 / 1.7)}px`,
                     textAlign: "center",
                     whiteSpace: "pre",
                     textOverflow: "ellipsis",
