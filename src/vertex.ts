@@ -1,6 +1,4 @@
-declare const vertexSym: unique symbol;
-
-export type Vertex = `${number},${number}` & { [vertexSym]: true };
+export type Vertex = `${number},${number}`;
 
 export function Vertex(vertex: string): Vertex;
 export function Vertex(x: number, y: number): Vertex;
@@ -8,7 +6,7 @@ export function Vertex(x: number | string, y?: number): Vertex {
   if (typeof x === "string") {
     return Vertex.parse(x as Vertex).join(",") as Vertex;
   } else {
-    return `${x},${y}` as Vertex;
+    return `${x},${y!}`;
   }
 }
 
