@@ -135,6 +135,10 @@
         "18,13",
       ];
 
+      goban.addEventListener("vertex-pointer-move", (evt) => {
+        console.log(evt);
+      });
+
       document
         .querySelector("input.interactive")
         .addEventListener("change", (event) => {

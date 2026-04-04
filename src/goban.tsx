@@ -15,7 +15,7 @@ import { COMPONENT_PREFIX } from "./constants.ts";
 import { Coord } from "./coord.tsx";
 import { unit } from "./utils.ts";
 import { Vertex } from "./vertex.ts";
-import { VertexEvent } from "./events.ts";
+import { VertexEvent, VertexPointerEvent } from "./events.ts";
 
 export const GobanContext = {
   width: createContext<number>(19),
@@ -51,6 +51,10 @@ export class Goban extends Component({
   focusedVertex: prop(GobanContext.focusedVertex, { attribute: Vertex }),
 
   onFocusedVertexChange: event(VertexEvent),
+  onVertexClick: event(VertexPointerEvent),
+  onVertexPointerUp: event(VertexPointerEvent),
+  onVertexPointerDown: event(VertexPointerEvent),
+  onVertexPointerMove: event(VertexPointerEvent),
 }) {
   render() {
     const width = useContext(GobanContext.width);
@@ -84,6 +88,22 @@ export class Goban extends Component({
         this.events.onFocusedVertexChange(this.props.focusedVertex()!);
       }
     });
+
+    function getVertexFromEvent(evt: PointerEvent): Vertex {
+      const viewportElement = evt.currentTarget as HTMLElement;
+      const rect = viewportElement.getBoundingClientRect();
+      const [offsetX, offsetY] = [
+        evt.clientX - rect.left,
+        evt.clientY - rect.top,
+      ];
+      const vertexSize = rect.width / viewportWidth();
+      const [x, y] = [
+        (offsetX - vertexSize / 2) / vertexSize + Math.max(rangeX()[0], 0),
+        (offsetY - vertexSize / 2) / vertexSize + Math.max(rangeY()[0], 0),
+      ].map(Math.round);
+
+      return Vertex(x, y);
+    }
 
     return (
       <>
@@ -136,7 +156,33 @@ export class Goban extends Component({
             );
           }}
         >
-          <div class="viewport">
+          <div
+            class="viewport"
+            onclick={(evt) =>
+              this.events.onVertexClick({
+                originalEvent: evt,
+                vertex: getVertexFromEvent(evt),
+              })
+            }
+            onpointerup={(evt) =>
+              this.events.onVertexPointerUp({
+                originalEvent: evt,
+                vertex: getVertexFromEvent(evt),
+              })
+            }
+            onpointerdown={(evt) =>
+              this.events.onVertexPointerDown({
+                originalEvent: evt,
+                vertex: getVertexFromEvent(evt),
+              })
+            }
+            onpointermove={(evt) =>
+              this.events.onVertexPointerMove({
+                originalEvent: evt,
+                vertex: getVertexFromEvent(evt),
+              })
+            }
+          >
             <slot />
           </div>
 
