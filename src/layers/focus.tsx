@@ -13,12 +13,7 @@ import { unitSvg } from "../utils.ts";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import type { VertexPointerEvent } from "../events.ts";
 
-export class FocusLayer extends Layer(
-  {
-    hover: prop<boolean>(false, { attribute: () => true }),
-  },
-  { visibleOverflow: true },
-) {
+export class FocusLayer extends Layer({}, { visibleOverflow: true }) {
   renderContent() {
     const interactive = useContext(GobanContext.interactive);
     const focused = useContext(GobanContext.focused);
@@ -39,28 +34,6 @@ export class FocusLayer extends Layer(
         }
       }
     }, [el, focusedVertex]);
-
-    useEffect(() => {
-      if (this.props.hover()) {
-        const handlePointerMove = (evt: VertexPointerEvent) => {
-          if (!focused()) {
-            this.goban.focus();
-          }
-
-          if (this.goban.focusedVertex !== evt.vertex) {
-            this.goban.focusedVertex = evt.vertex;
-          }
-        };
-
-        this.goban.addEventListener("vertex-pointer-move", handlePointerMove);
-
-        return () =>
-          this.goban.removeEventListener(
-            "vertex-pointer-move",
-            handlePointerMove,
-          );
-      }
-    });
 
     return (
       <>

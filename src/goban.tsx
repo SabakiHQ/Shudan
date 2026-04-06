@@ -22,6 +22,7 @@ export const GobanContext = {
   height: createContext<number>(19),
   vertexSize: createContext<string | number>("1.7em"),
   interactive: createContext<boolean>(false),
+  hover: createContext<boolean>(false),
   coords: createContext<boolean>(false),
   coordX: createContext<(x: number) => string>(),
   coordY: createContext<(y: number) => string>(),
@@ -38,6 +39,7 @@ export class Goban extends Component({
   height: prop(GobanContext.height, { attribute: Number }),
   vertexSize: prop(GobanContext.vertexSize, { attribute: String }),
   interactive: prop(GobanContext.interactive, { attribute: () => true }),
+  hover: prop(GobanContext.hover, { attribute: () => true }),
   coords: prop(GobanContext.coords, { attribute: () => true }),
   coordX: prop(GobanContext.coordX),
   coordY: prop(GobanContext.coordY),
@@ -140,14 +142,23 @@ export class Goban extends Component({
           onkeydown={(evt) => {
             if (
               !this.interactive ||
-              !["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown"].includes(
-                evt.code,
-              )
+              ![
+                "ArrowLeft",
+                "ArrowUp",
+                "ArrowRight",
+                "ArrowDown",
+                "Escape",
+              ].includes(evt.code)
             ) {
               return;
             }
 
             evt.preventDefault();
+
+            if (evt.code === "Escape") {
+              this.focusedVertex = undefined;
+              return;
+            }
 
             if (this.focusedVertex == null) {
               this.focusedVertex = Vertex(
@@ -201,12 +212,22 @@ export class Goban extends Component({
                 vertex: getVertexFromEvent(evt),
               })
             }
-            onpointermove={(evt) =>
+            onpointermove={(evt) => {
+              const vertex = getVertexFromEvent(evt);
+
+              if (this.props.hover() && this.focusedVertex !== vertex) {
+                if (!this._focused) {
+                  this.focus();
+                }
+
+                this.focusedVertex = vertex;
+              }
+
               this.events.onVertexPointerMove({
                 originalEvent: evt,
-                vertex: getVertexFromEvent(evt),
-              })
-            }
+                vertex,
+              });
+            }}
           >
             <slot />
           </div>

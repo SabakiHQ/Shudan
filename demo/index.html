@@ -34,7 +34,7 @@
           </label>
         </li>
         <li>
-          <label> <input type="checkbox" class="hover" /> Hover </label>
+          <label> <input type="checkbox" class="hover" /> Hover</label>
         </li>
         <li>
           <label>
@@ -147,8 +147,7 @@
       document
         .querySelector("input.hover")
         .addEventListener("change", (event) => {
-          const layer = goban.querySelector("shudan-goban .focus");
-          layer.hover = event.target.checked;
+          goban.hover = event.target.checked;
         });
 
       document
