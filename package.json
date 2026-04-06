@@ -30,8 +30,8 @@
     "serve-demo": "rspack dev --watch",
     "build-demo": "rspack build"
   },
-  "dependencies": {
-    "sinho": "^0.3.3"
+  "peerDependencies": {
+    "sinho": "^0.3.6"
   },
   "devDependencies": {
     "@rspack/cli": "^1.7.10",
