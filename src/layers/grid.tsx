@@ -1,9 +1,33 @@
 import { defineComponents, For, prop, useContext, useMemo } from "sinho";
 import { COMPONENT_PREFIX } from "../constants.ts";
-import { getHoshis, unitSvg } from "../utils.ts";
+import { unitSvg } from "./layer.tsx";
 import { Vertex } from "../vertex.ts";
 import { Layer } from "./layer.tsx";
 import { GobanContext } from "../goban.tsx";
+
+export function getHoshis(width: number, height: number): Vertex[] {
+  if (Math.min(width, height) <= 6) return [];
+
+  let [nearX, nearY] = [width, height].map((x) => (x >= 13 ? 3 : 2));
+  let [farX, farY] = [width - nearX - 1, height - nearY - 1];
+  let [middleX, middleY] = [width, height].map((x) => (x - 1) / 2);
+
+  let result = [
+    Vertex(nearX, farY),
+    Vertex(farX, nearY),
+    Vertex(farX, farY),
+    Vertex(nearX, nearY),
+  ];
+
+  if (width % 2 !== 0 && height % 2 !== 0 && width !== 7 && height !== 7)
+    result.push(Vertex(middleX, middleY));
+  if (width % 2 !== 0 && width !== 7)
+    result.push(Vertex(middleX, nearY), Vertex(middleX, farY));
+  if (height % 2 !== 0 && height !== 7)
+    result.push(Vertex(nearX, middleY), Vertex(farX, middleY));
+
+  return result;
+}
 
 export class GridLayer extends Layer({
   /**

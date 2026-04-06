@@ -1,7 +1,6 @@
 export { Goban, GobanContext } from "./goban.tsx";
 export { Vertex } from "./vertex.ts";
-export { unit, unitSvg } from "./utils.ts";
-export { Layer, type LayerOptions } from "./layers/layer.tsx";
+export { Layer, type LayerOptions, unit, unitSvg } from "./layers/layer.tsx";
 export { GridLayer } from "./layers/grid.tsx";
 export { StoneLayer } from "./layers/stone.tsx";
 export { GhostStoneLayer } from "./layers/ghost-stone.tsx";

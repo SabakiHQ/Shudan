@@ -13,7 +13,7 @@ import {
 } from "sinho";
 import { COMPONENT_PREFIX } from "./constants.ts";
 import { Coord } from "./coord.tsx";
-import { unit } from "./utils.ts";
+import { unit } from "./layers/layer.tsx";
 import { Vertex } from "./vertex.ts";
 import { VertexEvent, VertexPointerEvent } from "./events.ts";
 

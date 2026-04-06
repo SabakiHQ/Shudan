@@ -7,8 +7,15 @@ import {
   type Metadata,
   type Template,
 } from "sinho";
-import { unit, unitSvg } from "../utils.ts";
 import { Goban, GobanContext } from "../goban.tsx";
+
+export function unit(value: number | string = 1): string {
+  return `calc(${value} * var(--_shudan-vertex-size))`;
+}
+
+export function unitSvg(value: number = 1): number {
+  return value * 60;
+}
 
 declare abstract class _LayerComponent {
   readonly goban: Goban;

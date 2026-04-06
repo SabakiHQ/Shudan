@@ -1,7 +1,7 @@
 import { defineComponents, For, prop } from "sinho";
 import { Vertex } from "../vertex.ts";
 import { Layer } from "./layer.tsx";
-import { unitSvg } from "../utils.ts";
+import { unitSvg } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
 
 export class GhostStoneLayer extends Layer({

@@ -2,7 +2,7 @@ import { defineComponents, For, prop, useContext, useMemo } from "sinho";
 import { Layer } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { Vertex } from "../vertex.ts";
-import { unitSvg } from "../utils.ts";
+import { unitSvg } from "./layer.tsx";
 import { GobanContext } from "../goban.tsx";
 
 const borderRadius = 0.2;

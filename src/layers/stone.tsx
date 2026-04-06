@@ -11,7 +11,8 @@ import { COMPONENT_PREFIX } from "../constants.ts";
 import { Vertex } from "../vertex.ts";
 import { Layer } from "./layer.tsx";
 import { GobanContext } from "../goban.tsx";
-import { unitSvg, useLightDomReference } from "../utils.ts";
+import { unitSvg } from "./layer.tsx";
+import { useLightDomReference } from "../utils.ts";
 import { BlackStone, WhiteStone } from "../assets.tsx";
 
 export class StoneLayer extends Layer(

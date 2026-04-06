@@ -9,7 +9,7 @@ import {
 import { GobanContext } from "../goban.tsx";
 import { Layer } from "./layer.tsx";
 import { Vertex } from "../vertex.ts";
-import { unitSvg } from "../utils.ts";
+import { unitSvg } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import type { VertexPointerEvent } from "../events.ts";
 
