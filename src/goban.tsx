@@ -148,6 +148,7 @@ export class Goban extends Component({
                 "ArrowRight",
                 "ArrowDown",
                 "Escape",
+                "Enter",
               ].includes(evt.code)
             ) {
               return;
@@ -155,12 +156,18 @@ export class Goban extends Component({
 
             evt.preventDefault();
 
-            if (evt.code === "Escape") {
+            if (evt.code === "Enter") {
+              if (this.focusedVertex != null) {
+                this.events.onVertexClick({
+                  originalEvent: new PointerEvent("click"),
+                  vertex: this.focusedVertex,
+                });
+              }
+              return;
+            } else if (evt.code === "Escape") {
               this.focusedVertex = undefined;
               return;
-            }
-
-            if (this.focusedVertex == null) {
+            } else if (this.focusedVertex == null) {
               this.focusedVertex = Vertex(
                 Math.max(0, rangeX()[0]),
                 Math.max(0, rangeY()[0]),
