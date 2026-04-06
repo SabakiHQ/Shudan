@@ -235,6 +235,11 @@ export class Goban extends Component({
                 vertex,
               });
             }}
+            onpointerleave={() => {
+              if (this.props.hover()) {
+                this.focusedVertex = undefined;
+              }
+            }}
           >
             <slot />
           </div>

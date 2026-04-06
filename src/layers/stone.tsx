@@ -5,12 +5,13 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
 } from "sinho";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { Vertex } from "../vertex.ts";
 import { Layer } from "./layer.tsx";
 import { GobanContext } from "../goban.tsx";
-import { unitSvg } from "../utils.ts";
+import { unitSvg, useLightDomReference } from "../utils.ts";
 import { BlackStone, WhiteStone } from "../assets.tsx";
 
 export class StoneLayer extends Layer(
@@ -68,37 +69,23 @@ export class StoneLayer extends Layer(
       ),
     );
 
-    for (const stoneHref of [
+    const defsContainer = useRef<Element>();
+
+    useLightDomReference(
       this.props.blackStoneHref,
+      "shudan-custom-black-stone",
+      defsContainer,
+    );
+
+    useLightDomReference(
       this.props.whiteStoneHref,
-    ]) {
-      useEffect(() => {
-        // Clone referenced custom stone elements into the shadow DOM so they can
-        // be used for rendering
-
-        if (stoneHref() == null) return;
-
-        const customStoneId =
-          stoneHref === this.props.blackStoneHref
-            ? "shudan-custom-black-stone"
-            : "shudan-custom-white-stone";
-        const defsElement = this.shadowRoot!.querySelector("defs")!;
-        const stoneElement = document.querySelector(stoneHref()!);
-
-        defsElement.querySelector("#" + customStoneId)?.remove();
-
-        if (stoneElement != null) {
-          const clonedStone = stoneElement.cloneNode(true) as Element;
-          clonedStone.id = customStoneId;
-
-          defsElement.appendChild(clonedStone);
-        }
-      });
-    }
+      "shudan-custom-white-stone",
+      defsContainer,
+    );
 
     return (
       <>
-        <defs>
+        <defs ref={defsContainer}>
           <BlackStone id="shudan-black-stone" />
           <WhiteStone id="shudan-white-stone" />
 
