@@ -111,7 +111,9 @@ export class StoneLayer extends Layer(
                 cx={() => unitSvg(stone().x + 0.5)}
                 cy={() => unitSvg(stone().y + 0.5)}
                 opacity={() =>
-                  this.props.dimmedStones().includes(stone().vertex) ? 0.4 : 1
+                  this.props.dimmedStones().includes(stone().vertex)
+                    ? 0.4
+                    : 0.999 // Somehow makes hover faster
                 }
               />
             )}
