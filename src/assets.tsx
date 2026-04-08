@@ -145,7 +145,7 @@ export const WhiteStone: FunctionalComponent<
     <g
       style={{
         transformOrigin: "21.5px 21.5px",
-        transform: "rotate(calc(var(--shudan-random) * 360deg))",
+        transform: "rotate(calc(var(--shudan-random, 0) * 360deg))",
       }}
       mask="url(#shudan-w-stone-mask)"
       filter="url(#shudan-w-wavy)"

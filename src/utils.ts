@@ -2,9 +2,10 @@ import { useEffect, type RefSignal, type Signal } from "sinho";
 
 export function useLightDomReference(
   lightDomHref: Signal<string | null | undefined>,
-  shadowDomId: string,
   container: RefSignal<Element | undefined>,
-) {
+): string {
+  const shadowDomId = "lightdom-" + crypto.randomUUID();
+
   useEffect(() => {
     // Clone referenced light DOM elements into the shadow DOM so they can
     // be used in shadow DOM
@@ -24,4 +25,6 @@ export function useLightDomReference(
       container()?.appendChild(clonedStone);
     }
   });
+
+  return shadowDomId;
 }

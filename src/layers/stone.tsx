@@ -72,15 +72,13 @@ export class StoneLayer extends Layer(
 
     const defsContainer = useRef<Element>();
 
-    useLightDomReference(
+    const customBlackStoneId = useLightDomReference(
       this.props.blackStoneHref,
-      "shudan-custom-black-stone",
       defsContainer,
     );
 
-    useLightDomReference(
+    const customWhiteStoneId = useLightDomReference(
       this.props.whiteStoneHref,
-      "shudan-custom-white-stone",
       defsContainer,
     );
 
@@ -110,10 +108,11 @@ export class StoneLayer extends Layer(
                 r={unitSvg(0.9 / 2)}
                 cx={() => unitSvg(stone().x + 0.5)}
                 cy={() => unitSvg(stone().y + 0.5)}
-                opacity={() =>
-                  this.props.dimmedStones().includes(stone().vertex)
-                    ? 0.4
-                    : 0.999 // Somehow makes hover faster
+                opacity={
+                  () =>
+                    this.props.dimmedStones().includes(stone().vertex)
+                      ? 0.4
+                      : 0.999 // Somehow makes hover faster
                 }
               />
             )}
@@ -128,10 +127,10 @@ export class StoneLayer extends Layer(
                 href={() =>
                   stone().sign > 0
                     ? this.props.blackStoneHref() != null
-                      ? "#shudan-custom-black-stone"
+                      ? `#${customBlackStoneId}`
                       : "#shudan-black-stone"
                     : this.props.whiteStoneHref() != null
-                      ? "#shudan-custom-white-stone"
+                      ? `#${customWhiteStoneId}`
                       : "#shudan-white-stone"
                 }
                 style={{
