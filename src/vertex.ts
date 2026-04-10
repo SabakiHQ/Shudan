@@ -58,7 +58,7 @@ export function Vertex(x: number | string, y?: number): Vertex {
  */
 Vertex.parse = function (coord: string): [number, number] {
   const match = coord.toUpperCase().match(/^([A-HJ-Z]+)(\d+)$/);
-  if (!match) throw new RangeError(`Invalid Go coordinate: "${coord}"`);
+  if (!match) return [NaN, NaN];
   const [, letters, digits] = match;
   const x = letterToX(letters);
   const y = parseInt(digits, 10) - 1;

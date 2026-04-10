@@ -1,7 +1,6 @@
 import { defineComponents, For, prop, useContext } from "sinho";
 import { Vertex } from "../vertex.ts";
-import { Layer } from "./layer.tsx";
-import { unitSvg } from "./layer.tsx";
+import { Layer, unitSvg } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { GobanContext } from "../goban.tsx";
 

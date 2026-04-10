@@ -1,11 +1,10 @@
 import { defineComponents, For, prop, useContext, useMemo } from "sinho";
 import { COMPONENT_PREFIX } from "../constants.ts";
-import { unitSvg } from "./layer.tsx";
+import { Layer, unitSvg } from "./layer.tsx";
 import { Vertex } from "../vertex.ts";
-import { Layer } from "./layer.tsx";
 import { GobanContext } from "../goban.tsx";
 
-export function getHoshis(width: number, height: number): Vertex[] {
+function getHoshis(width: number, height: number): Vertex[] {
   if (Math.min(width, height) <= 6) return [];
 
   let [nearX, nearY] = [width, height].map((x) => (x >= 13 ? 3 : 2));

@@ -9,9 +9,8 @@ import {
   useRef,
 } from "sinho";
 import { GobanContext } from "../goban.tsx";
-import { Layer } from "./layer.tsx";
+import { Layer, unitSvg } from "./layer.tsx";
 import { Vertex } from "../vertex.ts";
-import { unitSvg } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { BlackStone, WhiteStone } from "../assets.tsx";
 import { useLightDomReference } from "../utils.ts";
