@@ -33,13 +33,15 @@ export const Coord: FunctionalComponent<{
       }}
     >
       <For each={labels}>
-        {(label) => (
+        {(label, i) => (
           <>
             <span
               part={() => (direction() === "row" ? "coord-x" : "coord-y")}
               style={{
                 display: "grid",
                 placeItems: "center",
+                gridRow: () =>
+                  direction() === "column" ? labels().length - i() : undefined,
               }}
             >
               {label}

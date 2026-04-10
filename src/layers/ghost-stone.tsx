@@ -1,8 +1,9 @@
-import { defineComponents, For, prop } from "sinho";
+import { defineComponents, For, prop, useContext } from "sinho";
 import { Vertex } from "../vertex.ts";
 import { Layer } from "./layer.tsx";
 import { unitSvg } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
+import { GobanContext } from "../goban.tsx";
 
 export class GhostStoneLayer extends Layer({
   /**
@@ -11,6 +12,8 @@ export class GhostStoneLayer extends Layer({
   stones: prop<Record<Vertex, string>>({}, { attribute: JSON.parse }),
 }) {
   renderContent() {
+    const height = useContext(GobanContext.height);
+
     return (
       <>
         <For
@@ -24,7 +27,7 @@ export class GhostStoneLayer extends Layer({
             return (
               <circle
                 cx={unitSvg(x + 0.5)}
-                cy={unitSvg(y + 0.5)}
+                cy={() => unitSvg(height() - 1 - y + 0.5)}
                 r={unitSvg(0.18)}
                 fill={color}
                 stroke="none"

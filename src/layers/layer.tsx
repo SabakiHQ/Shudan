@@ -59,9 +59,6 @@ export function Layer<const M extends Metadata>(
       const rangeX = useContext(GobanContext.rangeX);
       const rangeY = useContext(GobanContext.rangeY);
 
-      const left = () => -Math.max(rangeX()[0], 0);
-      const top = () => -Math.max(rangeY()[0], 0);
-
       const content = this.renderContent();
       const padding = opts.visibleOverflow ? 2 : 0;
 
@@ -77,7 +74,29 @@ export function Layer<const M extends Metadata>(
                 `${unitSvg(width() + 2 * padding)} ${unitSvg(height() + 2 * padding)}`
               }
             >
-              {content}
+              <defs>
+                <mask id="shudan-layer-mask">
+                  <rect
+                    x={() => unitSvg(Math.max(rangeX()[0], 0))}
+                    y={() => unitSvg(Math.max(height() - 1 - rangeY()[1], 0))}
+                    width={() =>
+                      unitSvg(Math.min(rangeX()[1] - rangeX()[0] + 1, width()))
+                    }
+                    height={() =>
+                      unitSvg(Math.min(rangeY()[1] - rangeY()[0] + 1, height()))
+                    }
+                    fill="white"
+                  />
+                </mask>
+              </defs>
+
+              <g
+                mask={
+                  opts.visibleOverflow ? undefined : "url(#shudan-layer-mask)"
+                }
+              >
+                {content}
+              </g>
             </svg>
           )}
 
@@ -86,14 +105,13 @@ export function Layer<const M extends Metadata>(
           <Style>{css`
             :host {
               position: relative;
-              overflow: ${opts.visibleOverflow ? "visible" : "hidden"};
               pointer-events: none;
             }
 
             .shudan-layer-content {
               position: absolute;
-              left: ${() => unit(left() - padding)};
-              top: ${() => unit(top() - padding)};
+              left: ${() => unit(-padding)};
+              top: ${() => unit(-padding)};
               width: ${() => unit(width() + 2 * padding)};
               height: ${() => unit(height() + 2 * padding)};
             }

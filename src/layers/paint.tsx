@@ -141,10 +141,10 @@ export class PaintLayer extends Layer(
 
           return (
             (directionP === direction
-              ? vectorSvg([x1, y1])
+              ? vectorSvg([x1, height() - y1])
               : vectorSvg([
                   x1 - (x1 - xp) * borderRadius,
-                  y1 - (y1 - yp) * borderRadius,
+                  height() - y1 + (y1 - yp) * borderRadius,
                 ]) +
                 " A " +
                 vectorSvg([
@@ -152,16 +152,16 @@ export class PaintLayer extends Layer(
                   borderRadius,
                   0,
                   0,
-                  directionP === rotatedDirection ? 1 / unitSvg() : 0,
+                  directionP === rotatedDirection ? 0 : 1 / unitSvg(),
                   x1 + (x2 - x1) * borderRadius,
-                  y1 + (y2 - y1) * borderRadius,
+                  height() - y1 - (y2 - y1) * borderRadius,
                 ])) +
             " L " +
             (direction === directionN
-              ? vectorSvg([x2, y2])
+              ? vectorSvg([x2, height() - y2])
               : vectorSvg([
                   x2 - (x2 - x1) * borderRadius,
-                  y2 - (y2 - y1) * borderRadius,
+                  height() - y2 + (y2 - y1) * borderRadius,
                 ]))
           );
         })
@@ -174,7 +174,9 @@ export class PaintLayer extends Layer(
           <mask id="holes">
             <rect
               x={() => unitSvg(Math.max(rangeX()[0], 0) - padding())}
-              y={() => unitSvg(Math.max(rangeY()[0], 0) - padding())}
+              y={() =>
+                unitSvg(Math.max(height() - 1 - rangeY()[1], 0) - padding())
+              }
               width={() =>
                 unitSvg(
                   Math.min(rangeX()[1] - rangeX()[0] + 1, width()) +

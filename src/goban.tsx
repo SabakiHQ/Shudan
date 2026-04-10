@@ -14,7 +14,7 @@ import {
 import { COMPONENT_PREFIX } from "./constants.ts";
 import { Coord } from "./coord.tsx";
 import { unit } from "./layers/layer.tsx";
-import { Vertex } from "./vertex.ts";
+import { Vertex, xToLetter } from "./vertex.ts";
 import { VertexEvent, VertexPointerEvent } from "./events.ts";
 
 export const GobanContext = {
@@ -24,8 +24,8 @@ export const GobanContext = {
   interactive: createContext<boolean>(false),
   hover: createContext<boolean>(false),
   coords: createContext<boolean>(false),
-  coordX: createContext<(x: number) => string>(),
-  coordY: createContext<(y: number) => string>(),
+  coordX: createContext<(x: number) => string>((x) => xToLetter(x)),
+  coordY: createContext<(y: number) => string>((y) => (y + 1).toString()),
   rangeX: createContext<[number, number]>([0, Infinity]),
   rangeY: createContext<[number, number]>([0, Infinity]),
   focused: createContext<boolean>(false),
@@ -69,10 +69,8 @@ export class Goban extends Component({
     );
 
     const coords = useContext(GobanContext.coords);
-    const coordX = (x: number) =>
-      this.props.coordX()?.(x) ?? "ABCDEFGHJKLMNOPQRSTUVWXYZ"[x % 25];
-    const coordY = (y: number) =>
-      this.props.coordY()?.(y) ?? (height() - y).toString();
+    const coordX = useContext(GobanContext.coordX);
+    const coordY = useContext(GobanContext.coordY);
 
     const rangeX = useContext(GobanContext.rangeX);
     const rangeY = useContext(GobanContext.rangeY);
@@ -80,6 +78,9 @@ export class Goban extends Component({
       Math.min(rangeX()[1] - rangeX()[0] + 1, width());
     const viewportHeight = () =>
       Math.min(rangeY()[1] - rangeY()[0] + 1, height());
+
+    const layerLeft = () => -Math.max(rangeX()[0], 0);
+    const layerTop = () => -Math.max(height() - 1 - rangeY()[1], 0);
 
     useEffect(() => {
       // Set tabindex based on interactive prop
@@ -123,7 +124,10 @@ export class Goban extends Component({
       const vertexSize = rect.width / viewportWidth();
       const [x, y] = [
         (offsetX - vertexSize / 2) / vertexSize + Math.max(rangeX()[0], 0),
-        (offsetY - vertexSize / 2) / vertexSize + Math.max(rangeY()[0], 0),
+        height() -
+          1 -
+          (offsetY - vertexSize / 2) / vertexSize -
+          Math.max(height() - 1 - rangeY()[1], 0),
       ].map(Math.round);
 
       return Vertex(
@@ -170,7 +174,7 @@ export class Goban extends Component({
             } else if (this.focusedVertex == null) {
               this.focusedVertex = Vertex(
                 Math.max(0, rangeX()[0]),
-                Math.max(0, rangeY()[0]),
+                Math.min(height() - 1, rangeY()[1]),
               );
               return;
             }
@@ -180,10 +184,10 @@ export class Goban extends Component({
               evt.code === "ArrowLeft"
                 ? [x - 1, y]
                 : evt.code === "ArrowUp"
-                  ? [x, y - 1]
+                  ? [x, y + 1]
                   : evt.code === "ArrowRight"
                     ? [x + 1, y]
-                    : [x, y + 1];
+                    : [x, y - 1];
 
             this.focusedVertex = Vertex(
               Math.max(
@@ -245,23 +249,28 @@ export class Goban extends Component({
           </div>
 
           <If condition={coords}>
-            <Coord size={width} range={rangeX} label={coordX} position="top" />
+            <Coord
+              size={width}
+              range={rangeX}
+              label={(x) => coordX()(x)}
+              position="top"
+            />
             <Coord
               size={height}
               range={rangeY}
-              label={coordY}
+              label={(y) => coordY()(y)}
               position="left"
             />
             <Coord
               size={height}
               range={rangeY}
-              label={coordY}
+              label={(y) => coordY()(y)}
               position="right"
             />
             <Coord
               size={width}
               range={rangeX}
-              label={coordX}
+              label={(x) => coordX()(x)}
               position="bottom"
             />
           </If>
@@ -277,6 +286,13 @@ export class Goban extends Component({
             --_shudan-viewport-width: ${viewportWidth};
             --_shudan-viewport-height: ${viewportHeight};
           }
+
+          ::slotted(*) {
+            transform: translate(
+              ${() => unit(layerLeft())},
+              ${() => unit(layerTop())}
+            );
+          }
         `}</Style>
 
         <Style>{css`
@@ -285,6 +301,7 @@ export class Goban extends Component({
             --shudan-board-background: var(--shudan-board-background-color);
             --shudan-board-background-color: #f1b458;
             --shudan-board-foreground-color: #5e2e0c;
+            --shudan-board-outline-color: #ca933a;
             --shudan-black-foreground-color: #eee;
             --shudan-white-foreground-color: #222;
 
@@ -320,7 +337,7 @@ export class Goban extends Component({
             overflow: hidden;
           }
           :host(:focus) .layout {
-            outline: 2px solid var(--shudan-board-foreground-color);
+            outline: 3px solid var(--shudan-board-outline-color);
           }
 
           .viewport {
@@ -335,8 +352,8 @@ export class Goban extends Component({
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
+            width: ${unit("var(--_shudan-width)")};
+            height: ${unit("var(--_shudan-height)")};
           }
         `}</Style>
       </>

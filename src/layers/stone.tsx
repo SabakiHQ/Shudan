@@ -3,7 +3,6 @@ import {
   For,
   prop,
   useContext,
-  useEffect,
   useMemo,
   useRef,
 } from "sinho";
@@ -107,7 +106,7 @@ export class StoneLayer extends Layer(
               <circle
                 r={unitSvg(0.9 / 2)}
                 cx={() => unitSvg(stone().x + 0.5)}
-                cy={() => unitSvg(stone().y + 0.5)}
+                cy={() => unitSvg(height() - stone().y - 0.5)}
                 opacity={
                   () =>
                     this.props.dimmedStones().includes(stone().vertex)
@@ -139,7 +138,7 @@ export class StoneLayer extends Layer(
                 width={unitSvg(0.9)}
                 height={unitSvg(0.9)}
                 x={() => unitSvg(stone().x + 0.05)}
-                y={() => unitSvg(stone().y + 0.05)}
+                y={() => unitSvg(height() - 1 - stone().y + 0.05)}
                 opacity={() =>
                   this.props.dimmedStones().includes(stone().vertex) ? 0.6 : 1
                 }

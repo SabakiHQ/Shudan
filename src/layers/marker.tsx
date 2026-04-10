@@ -30,6 +30,8 @@ export class MarkerLayer extends Layer({
     const vertexViewBox = `0 0 ${unitSvg()} ${unitSvg()}`;
 
     const stones = useContext(GobanContext.stones);
+    const height = useContext(GobanContext.height);
+
     const markers = useMemo(() =>
       Object.entries(this.props.markers()).map(([vertex, marker]) => {
         const [x, y] = Vertex.parse(vertex as Vertex);
@@ -148,7 +150,7 @@ export class MarkerLayer extends Layer({
                 href={() => `#${marker().type ?? "cross"}`}
                 style={{ "--color": color }}
                 x={() => unitSvg(marker().x)}
-                y={() => unitSvg(marker().y)}
+                y={() => unitSvg(height() - 1 - marker().y)}
                 width={unitSvg()}
                 height={unitSvg()}
                 filter={() =>

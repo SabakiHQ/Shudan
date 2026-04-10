@@ -93,13 +93,9 @@ export class GridLayer extends Layer({
                 )
               }
               x1={() => unitSvg(x() + 0.5)}
-              y1={() => unitSvg(ys()[0] === 0 ? 0.5 : ys()[0])}
+              y1={() => unitSvg(0.5)}
               x2={() => unitSvg(x() + 0.5)}
-              y2={() =>
-                ys().at(-1)! === height() - 1
-                  ? unitSvg(height() - 0.5)
-                  : unitSvg(ys().at(-1)! + 1)
-              }
+              y2={() => unitSvg(height() - 0.5)}
             />
           )}
         </For>
@@ -108,7 +104,7 @@ export class GridLayer extends Layer({
           {(hoshi) => (
             <circle
               cx={() => unitSvg(hoshi()[0] + 0.5)}
-              cy={() => unitSvg(hoshi()[1] + 0.5)}
+              cy={() => unitSvg(height() - 1 - hoshi()[1] + 0.5)}
               r={unitSvg(0.12)}
               stroke-width="0"
               fill={this.props.color}

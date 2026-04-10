@@ -27,6 +27,7 @@ export class LabelLayer extends Layer({
 }) {
   renderContent() {
     const stones = useContext(GobanContext.stones);
+    const height = useContext(GobanContext.height);
 
     const labels = useMemo(() =>
       Object.entries(this.props.labels()).map(([vertex, label]) => {
@@ -56,7 +57,7 @@ export class LabelLayer extends Layer({
             return (
               <foreignObject
                 x={() => unitSvg(label().x)}
-                y={() => unitSvg(label().y)}
+                y={() => unitSvg(height() - 1 - label().y)}
                 width={unitSvg()}
                 height={unitSvg()}
               >
