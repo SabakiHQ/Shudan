@@ -7,6 +7,23 @@ import { GobanContext } from "../goban.tsx";
 
 const borderRadius = 0.2;
 
+/**
+ * Finds the border polygons of a set of painted grid cells.
+ *
+ * Each cell has four directed edges going counter-clockwise around its
+ * perimeter. When two adjacent cells share an edge, their opposing directed
+ * edges cancel each other out and are removed from the graph. After all cells
+ * are added, only the exterior boundary edges remain.
+ *
+ * `finalize()` then traces those edges into closed polygon chains. Each chain
+ * is classified using the shoelace-formula sign:
+ *   - Negative (CCW in Go coordinates) → outer area
+ *   - Positive (CW in Go coordinates)  → hole inside an area
+ *
+ * Vertices in this class are grid *corners* (integer coordinates), not cell
+ * centers, so a cell at (x, y) occupies the square from corner (x, y) to
+ * corner (x+1, y+1).
+ */
 class BorderDetector {
   data: Map<Vertex, Set<Vertex>> = new Map();
 
