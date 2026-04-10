@@ -153,6 +153,7 @@ export class Goban extends Component({
                 "ArrowDown",
                 "Escape",
                 "Enter",
+                "Space",
               ].includes(evt.code)
             ) {
               return;
@@ -160,7 +161,7 @@ export class Goban extends Component({
 
             evt.preventDefault();
 
-            if (evt.code === "Enter") {
+            if (["Enter", "Space"].includes(evt.code)) {
               if (this.focusedVertex != null) {
                 this.events.onVertexClick({
                   originalEvent: new PointerEvent("click"),
