@@ -67,7 +67,7 @@ export class FocusLayer extends Layer(
             <circle
               ref={el}
               cx={() => unitSvg(position()![0] + 0.5)}
-              cy={() => unitSvg(height() - 1 - position()![1] + 0.5)}
+              cy={() => unitSvg(height() - position()![1] - 0.5)}
               r={unitSvg(1.02 / 2)}
               fill="none"
               stroke="var(--shudan-board-foreground-color)"
@@ -86,7 +86,7 @@ export class FocusLayer extends Layer(
                     : `#${customId}`
               }
               x={() => unitSvg(position()![0] + 0.05)}
-              y={() => unitSvg(position()![1] + 0.05)}
+              y={() => unitSvg(height() - position()![1] - 0.05)}
               width={unitSvg(0.9)}
               height={unitSvg(0.9)}
             />
