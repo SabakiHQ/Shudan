@@ -1,8 +1,12 @@
+import { resolve } from "node:path";
 import { defineConfig } from "@rspack/cli";
 
 export default defineConfig({
   entry: {
     main: "./src/main.ts",
+  },
+  output: {
+    path: resolve(import.meta.dirname, "./demo"),
   },
   module: {
     rules: [
