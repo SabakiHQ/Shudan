@@ -26,8 +26,6 @@ export class MarkerLayer extends Layer({
   markers: prop<Record<Vertex, Marker>>({}, { attribute: JSON.parse }),
 }) {
   renderContent() {
-    const vertexViewBox = `0 0 ${unitSvg()} ${unitSvg()}`;
-
     const stones = useContext(GobanContext.stones);
     const height = useContext(GobanContext.height);
 
@@ -76,56 +74,55 @@ export class MarkerLayer extends Layer({
             />
           </filter>
 
-          <symbol id="circle" viewBox={vertexViewBox}>
+          <symbol id="circle" viewBox="0 0 1 1">
             <circle
-              cx={unitSvg(0.5)}
-              cy={unitSvg(0.5)}
-              r={unitSvg(0.25)}
+              cx={0.5}
+              cy={0.5}
+              r={0.25}
               fill="none"
               stroke="var(--color)"
-              stroke-width={unitSvg(0.08)}
+              stroke-width={0.08}
             />
           </symbol>
 
-          <symbol id="point" viewBox={vertexViewBox}>
+          <symbol id="point" viewBox="0 0 1 1">
             <circle
-              cx={unitSvg(0.5)}
-              cy={unitSvg(0.5)}
-              r={unitSvg(0.18)}
+              cx={0.5}
+              cy={0.5}
+              r={0.18}
               fill="var(--color)"
               stroke="none"
             />
           </symbol>
 
-          <symbol id="square" viewBox={vertexViewBox}>
+          <symbol id="square" viewBox="0 0 1 1">
             <rect
-              x={unitSvg(0.25)}
-              y={unitSvg(0.25)}
-              width={unitSvg(0.5)}
-              height={unitSvg(0.5)}
+              x={0.25}
+              y={0.25}
+              width={0.5}
+              height={0.5}
               fill="none"
               stroke="var(--color)"
-              stroke-width={unitSvg(0.08)}
+              stroke-width={0.08}
             />
           </symbol>
 
-          <symbol id="triangle" viewBox={vertexViewBox}>
+          <symbol id="triangle" viewBox="0 0 1 1">
             <path
-              d={`M 0 ${unitSvg(0.5)} L ${unitSvg(0.6)} ${unitSvg(0.5)} L ${unitSvg(0.3)} 0 z`}
-              transform={`translate(${unitSvg(0.2)} ${unitSvg(0.2)})`}
+              d="M 0 0.5 L 0.6 0.5 L 0.3 0 z"
+              transform="translate(0.2 0.2)"
               fill="none"
               stroke="var(--color)"
-              stroke-width={unitSvg(0.08)}
+              stroke-width={0.08}
             />
           </symbol>
 
-          <symbol id="cross" viewBox={vertexViewBox}>
+          <symbol id="cross" viewBox="0 0 1 1">
             <path
-              d={`M 0 0 L ${unitSvg(0.5)} ${unitSvg(0.5)}
-                M ${unitSvg(0.5)} 0 L 0 ${unitSvg(0.5)}`}
-              transform={`translate(${unitSvg(0.25)} ${unitSvg(0.25)})`}
+              d="M 0 0 L 0.5 0.5 M 0.5 0 L 0 0.5"
+              transform="translate(0.25 0.25)"
               stroke="var(--color)"
-              stroke-width={unitSvg(0.08)}
+              stroke-width={0.08}
             />
           </symbol>
         </defs>

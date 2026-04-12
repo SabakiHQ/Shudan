@@ -19,7 +19,7 @@ export class FocusLayer extends Layer(
   {
     /**
      * The type of the focus indicator. It can be either "outline", "black", "white",
-     * or a CSS selector pointing to a custom SVG element.
+     * or an id referencing a custom SVG object.
      */
     type: prop<"outline" | "black" | "white" | (string & {})>("outline", {
       attribute: String,
