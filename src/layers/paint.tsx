@@ -189,6 +189,8 @@ export class PaintLayer extends Layer(
         <defs>
           <mask id="holes">
             <rect
+              rx={unitSvg(borderRadius)}
+              ry={unitSvg(borderRadius)}
               x={() => unitSvg(Math.max(rangeX()[0], 0) - padding())}
               y={() =>
                 unitSvg(Math.max(height() - 1 - rangeY()[1], 0) - padding())
