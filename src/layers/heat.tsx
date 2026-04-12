@@ -1,4 +1,4 @@
-import { css, defineComponents, For, prop, Style } from "sinho";
+import { css, defineComponents, For, prop, Style, useMemo } from "sinho";
 import { Layer } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { PaintLayer } from "./paint.tsx";
@@ -27,6 +27,8 @@ export class HeatLayer extends Layer(
   { renderHTML: true },
 ) {
   renderContent() {
+    const max = useMemo(() => Math.max(...Object.values(this.props.values())));
+
     return (
       <>
         <For each={this.props.colors}>
@@ -38,8 +40,8 @@ export class HeatLayer extends Layer(
                 Object.entries(this.props.values())
                   .filter(
                     ([, value]) =>
-                      i() / colors().length < value &&
-                      value <= (i() + 1) / colors().length,
+                      i() / colors().length < value / max() &&
+                      value / max() <= (i() + 1) / colors().length,
                   )
                   .map(([vertex]) => vertex as Vertex)
               }

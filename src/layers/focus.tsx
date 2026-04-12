@@ -17,6 +17,10 @@ import { useLightDomReference } from "../utils.ts";
 
 export class FocusLayer extends Layer(
   {
+    /**
+     * The type of the focus indicator. It can be either "outline", "black", "white",
+     * or a CSS selector pointing to a custom SVG element.
+     */
     type: prop<"outline" | "black" | "white" | (string & {})>("outline", {
       attribute: String,
     }),
