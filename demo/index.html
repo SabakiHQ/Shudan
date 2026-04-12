@@ -94,6 +94,11 @@
           </label>
         </li>
         <li>
+          <label>
+            <input type="checkbox" class="line" /> Show arrows and lines
+          </label>
+        </li>
+        <li>
           Zoom: <button type="button" class="zoomin">In</button>
           <button type="button" class="zoomout">Out</button>
         </li>
@@ -251,6 +256,16 @@
         });
 
       document
+        .querySelector("input.line")
+        .addEventListener("change", (event) => {
+          const lineLayers = goban.querySelectorAll("shudan-goban .line");
+
+          lineLayers.forEach((layer) => {
+            layer.style.display = event.target.checked ? "block" : "none";
+          });
+        });
+
+      document
         .querySelector("button.zoomin")
         .addEventListener("click", (event) => {
           goban.vertexSize = +goban.vertexSize + 4;
@@ -370,6 +385,12 @@
         ></shudan-paint-layer>
 
         <shudan-focus-layer class="focus"></shudan-focus-layer>
+
+        <shudan-line-layer
+          class="line"
+          style="display: none"
+          lines='[["L15", "F12"], ["N4", "Q13"]]'
+        ></shudan-line-layer>
       </shudan-goban>
     </div>
   </body>

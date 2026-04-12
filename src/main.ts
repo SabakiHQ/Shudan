@@ -9,3 +9,4 @@ export { LabelLayer, type Label } from "./layers/label.tsx";
 export { PaintLayer } from "./layers/paint.tsx";
 export { HeatLayer } from "./layers/heat.tsx";
 export { FocusLayer } from "./layers/focus.tsx";
+export { LineLayer } from "./layers/line.tsx";
