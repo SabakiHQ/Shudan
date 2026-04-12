@@ -80,6 +80,11 @@
         </li>
         <li>
           <label>
+            <input type="checkbox" class="line" /> Show arrows and lines
+          </label>
+        </li>
+        <li>
+          <label>
             <input type="checkbox" class="territory" /> Show territory
           </label>
         </li>
@@ -91,11 +96,6 @@
         <li>
           <label>
             <input type="checkbox" class="selection" /> Show selection
-          </label>
-        </li>
-        <li>
-          <label>
-            <input type="checkbox" class="line" /> Show arrows and lines
           </label>
         </li>
         <li>
@@ -223,6 +223,16 @@
         });
 
       document
+        .querySelector("input.line")
+        .addEventListener("change", (event) => {
+          const lineLayers = goban.querySelectorAll("shudan-goban .line");
+
+          lineLayers.forEach((layer) => {
+            layer.style.display = event.target.checked ? "block" : "none";
+          });
+        });
+
+      document
         .querySelector("input.territory")
         .addEventListener("change", (event) => {
           const territoryLayers = goban.querySelectorAll(
@@ -252,16 +262,6 @@
 
           selectionLayers.forEach((layer) => {
             layer.style.opacity = event.target.checked ? 1 : 0;
-          });
-        });
-
-      document
-        .querySelector("input.line")
-        .addEventListener("change", (event) => {
-          const lineLayers = goban.querySelectorAll("shudan-goban .line");
-
-          lineLayers.forEach((layer) => {
-            layer.style.display = event.target.checked ? "block" : "none";
           });
         });
 
@@ -338,6 +338,18 @@
           }'
         ></shudan-ghost-stone-layer>
 
+        <shudan-line-layer
+          class="line"
+          style="display: none"
+          lines='[["L15", "F12"]]'
+        ></shudan-line-layer>
+        <shudan-line-layer
+          class="line"
+          style="display: none"
+          lines='[["H8", "N14"], ["Q13", "N4"]]'
+          head="arrow"
+        ></shudan-line-layer>
+
         <shudan-paint-layer
           style="opacity: 0; transition: opacity 0.5s"
           class="territory"
@@ -385,12 +397,6 @@
         ></shudan-paint-layer>
 
         <shudan-focus-layer class="focus"></shudan-focus-layer>
-
-        <shudan-line-layer
-          class="line"
-          style="display: none"
-          lines='[["L15", "F12"], ["N4", "Q13"]]'
-        ></shudan-line-layer>
       </shudan-goban>
     </div>
   </body>
