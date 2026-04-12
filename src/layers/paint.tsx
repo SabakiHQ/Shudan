@@ -4,8 +4,6 @@ import { COMPONENT_PREFIX } from "../constants.ts";
 import { Vertex } from "../vertex.ts";
 import { GobanContext } from "../goban.tsx";
 
-const borderRadius = 0.2;
-
 /**
  * Finds the border polygons of a set of painted grid cells.
  *
@@ -117,6 +115,10 @@ export class PaintLayer extends Layer(
      * vertex size.
      */
     strokeWidth: prop<number>(0.08, { attribute: Number }),
+    /**
+     * The border radius of the painted areas as a fraction of the vertex size.
+     */
+    borderRadius: prop<number>(0.2, { attribute: Number }),
   },
   { visibleOverflow: true },
 ) {
@@ -125,6 +127,7 @@ export class PaintLayer extends Layer(
     const height = useContext(GobanContext.height);
     const rangeX = useContext(GobanContext.rangeX);
     const rangeY = useContext(GobanContext.rangeY);
+    const borderRadius = this.props.borderRadius;
 
     const padding = () =>
       this.props.stroke() === "none" ? 0 : this.props.strokeWidth() / 2;
@@ -159,25 +162,25 @@ export class PaintLayer extends Layer(
             (directionP === direction
               ? vectorSvg([x1, height() - y1])
               : vectorSvg([
-                  x1 - (x1 - xp) * borderRadius,
-                  height() - y1 + (y1 - yp) * borderRadius,
+                  x1 - (x1 - xp) * borderRadius(),
+                  height() - y1 + (y1 - yp) * borderRadius(),
                 ]) +
                 " A " +
                 vectorSvg([
-                  borderRadius,
-                  borderRadius,
+                  borderRadius(),
+                  borderRadius(),
                   0,
                   0,
                   directionP === rotatedDirection ? 0 : 1 / unitSvg(),
-                  x1 + (x2 - x1) * borderRadius,
-                  height() - y1 - (y2 - y1) * borderRadius,
+                  x1 + (x2 - x1) * borderRadius(),
+                  height() - y1 - (y2 - y1) * borderRadius(),
                 ])) +
             " L " +
             (direction === directionN
               ? vectorSvg([x2, height() - y2])
               : vectorSvg([
-                  x2 - (x2 - x1) * borderRadius,
-                  height() - y2 + (y2 - y1) * borderRadius,
+                  x2 - (x2 - x1) * borderRadius(),
+                  height() - y2 + (y2 - y1) * borderRadius(),
                 ]))
           );
         })
@@ -189,8 +192,8 @@ export class PaintLayer extends Layer(
         <defs>
           <mask id="holes">
             <rect
-              rx={unitSvg(borderRadius)}
-              ry={unitSvg(borderRadius)}
+              rx={() => unitSvg(borderRadius())}
+              ry={() => unitSvg(borderRadius())}
               x={() => unitSvg(Math.max(rangeX()[0], 0) - padding())}
               y={() =>
                 unitSvg(Math.max(height() - 1 - rangeY()[1], 0) - padding())
