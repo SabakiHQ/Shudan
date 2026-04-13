@@ -298,7 +298,6 @@ export class Goban extends Component({
 
         <Style>{css`
           :host {
-            --shudan-board-border-radius: ${unit(0.3)};
             --shudan-board-background: var(--shudan-board-background-color);
             --shudan-board-background-color: #f1b458;
             --shudan-board-foreground-color: #5e2e0c;
@@ -308,6 +307,11 @@ export class Goban extends Component({
 
             position: relative;
             display: inline-block;
+            border-radius: ${unit(0.3)};
+            overflow: hidden;
+          }
+          :host(:focus) {
+            outline: 3px solid var(--shudan-board-outline-color);
           }
 
           .gradient {
@@ -319,7 +323,6 @@ export class Goban extends Component({
             background:
               linear-gradient(to bottom, rgba(234, 220, 192, 0.1), transparent),
               linear-gradient(to bottom, transparent, rgba(23, 10, 2, 0.05));
-            border-radius: var(--shudan-board-border-radius);
             pointer-events: none;
           }
 
@@ -331,14 +334,10 @@ export class Goban extends Component({
               "left center right"
               ". bottom .";
             gap: ${unit(0.1)};
-            border-radius: var(--shudan-board-border-radius);
             padding: ${unit(0.35)};
             background: var(--shudan-board-background);
             color: var(--shudan-board-foreground-color);
             overflow: hidden;
-          }
-          :host(:focus) .layout {
-            outline: 3px solid var(--shudan-board-outline-color);
           }
 
           .viewport {
