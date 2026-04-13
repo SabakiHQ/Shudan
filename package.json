@@ -35,6 +35,7 @@
     "sinho": "^0.3.7"
   },
   "devDependencies": {
+    "@sabaki/shudan": "file:.",
     "@rspack/cli": "^1.7.10",
     "@rspack/core": "^1.7.10",
     "typescript": "^6.0.2"
