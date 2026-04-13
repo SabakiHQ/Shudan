@@ -17,22 +17,23 @@ export function unitSvg(value: number = 1): number {
   return value * 60;
 }
 
+export interface LayerOptions {
+  visibleOverflow?: boolean;
+  renderHTML?: boolean;
+}
+
 export declare abstract class _LayerComponent {
   readonly goban: Goban;
   abstract renderContent(): Template;
   render(): Template;
 }
 
-export interface LayerOptions {
-  visibleOverflow?: boolean;
-  renderHTML?: boolean;
-}
+export type Layer<M extends Metadata> = Component<M> & _LayerComponent;
 
 export function Layer<const M extends Metadata>(
   metadata: M,
   opts: LayerOptions = {},
-): Omit<ComponentConstructor<M>, never> &
-  (new () => Component<M> & _LayerComponent) {
+): Omit<ComponentConstructor<M>, never> & (new () => Layer<M>) {
   abstract class LayerComponent extends (Component(
     metadata,
   ) as ComponentConstructor<{}>) {

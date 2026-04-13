@@ -7,7 +7,7 @@ export {
   unit,
   unitSvg,
 } from "./layers/layer.tsx";
-export { GridLayer } from "./layers/grid.tsx";
+export { GridLayer, getHoshis } from "./layers/grid.tsx";
 export { StoneLayer } from "./layers/stone.tsx";
 export { GhostStoneLayer } from "./layers/ghost-stone.tsx";
 export { MarkerLayer, type Marker, type MarkerType } from "./layers/marker.tsx";

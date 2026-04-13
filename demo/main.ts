@@ -1,4 +1,4 @@
-import "@sabaki/shudan";
+import "../src/main.ts";
 import type {
   GridLayer,
   Goban,
@@ -9,7 +9,7 @@ import type {
   LineLayer,
   HeatLayer,
   PaintLayer,
-} from "@sabaki/shudan";
+} from "../src/main.ts";
 
 const goban = document.querySelector<Goban>("shudan-goban")!;
 const stones = goban.querySelector<StoneLayer>("shudan-goban .stones")!.stones;

@@ -3,7 +3,10 @@
   "version": "2.0.0",
   "description": "A highly customizable, low-level Goban web component.",
   "type": "module",
-  "main": "./dist/main.js",
+  "exports": {
+    "import": "./dist/main.js",
+    "types": "./dist/main.d.ts"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SabakiHQ/Shudan.git"
@@ -35,7 +38,6 @@
     "sinho": "^0.3.7"
   },
   "devDependencies": {
-    "@sabaki/shudan": "file:.",
     "@rspack/cli": "^1.7.10",
     "@rspack/core": "^1.7.10",
     "typescript": "^6.0.2"

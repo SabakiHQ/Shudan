@@ -4,7 +4,7 @@ import { Layer, unitSvg } from "./layer.tsx";
 import { Vertex } from "../vertex.ts";
 import { GobanContext } from "../goban.tsx";
 
-function getHoshis(width: number, height: number): Vertex[] {
+export function getHoshis(width: number, height: number): Vertex[] {
   if (Math.min(width, height) <= 6) return [];
 
   let [nearX, nearY] = [width, height].map((x) => (x >= 13 ? 3 : 2));
