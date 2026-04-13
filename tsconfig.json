@@ -13,5 +13,6 @@
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "erasableSyntaxOnly": true
-  }
+  },
+  "include": ["./src"]
 }

@@ -3,7 +3,7 @@ import { defineConfig } from "@rspack/cli";
 
 export default defineConfig({
   entry: {
-    main: "./src/main.ts",
+    main: "./demo/main.ts",
   },
   output: {
     path: resolve(import.meta.dirname, "./demo"),
