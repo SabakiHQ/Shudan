@@ -8,6 +8,9 @@ export default defineConfig({
   output: {
     path: resolve(import.meta.dirname, "./demo"),
   },
+  optimization: {
+    minimize: false,
+  },
   module: {
     rules: [
       {
