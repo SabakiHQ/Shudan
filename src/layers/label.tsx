@@ -1,5 +1,5 @@
 import { defineComponents, For, prop, useContext, useMemo } from "sinho";
-import { Layer, unitSvg } from "./layer.tsx";
+import { Layer, unit } from "./layer.tsx";
 import { GobanContext } from "../goban.tsx";
 import { Vertex } from "../vertex.ts";
 import { COMPONENT_PREFIX } from "../constants.ts";
@@ -55,18 +55,18 @@ export class LabelLayer extends Layer({
 
             return (
               <foreignObject
-                x={() => unitSvg(label().x)}
-                y={() => unitSvg(height() - 1 - label().y)}
-                width={unitSvg()}
-                height={unitSvg()}
+                x={() => unit(label().x)}
+                y={() => unit(height() - 1 - label().y)}
+                width={unit()}
+                height={unit()}
               >
                 <div
                   style={{
                     position: "absolute",
                     left: "50%",
                     top: "50%",
-                    maxWidth: unitSvg(),
-                    maxHeight: unitSvg(),
+                    maxWidth: unit(),
+                    maxHeight: unit(),
                     overflow: "hidden",
                     transform: "translate(-50%, -50%)",
                     background: () =>
@@ -77,12 +77,12 @@ export class LabelLayer extends Layer({
                     fontSize: () =>
                       (label().text?.length ?? 0) >= 3 ||
                       label().text?.includes("\n")
-                        ? unitSvg(0.35)
-                        : unitSvg(1 / 1.7),
+                        ? unit(0.35)
+                        : unit(1 / 1.7),
                     lineHeight: () =>
                       label().text?.includes("\n")
-                        ? `${unitSvg(0.4)}px`
-                        : `${unitSvg(1 / 1.7)}px`,
+                        ? `${unit(0.4)}px`
+                        : `${unit(1 / 1.7)}px`,
                     textAlign: "center",
                     whiteSpace: "pre",
                     textOverflow: "ellipsis",

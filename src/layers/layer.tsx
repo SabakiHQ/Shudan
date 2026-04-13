@@ -9,11 +9,7 @@ import {
 } from "sinho";
 import { Goban, GobanContext } from "../goban.tsx";
 
-export function unit(value: number | string = 1): string {
-  return `calc(${value} * var(--_shudan-vertex-size))`;
-}
-
-export function unitSvg(value: number = 1): number {
+export function unit(value: number = 1): number {
   return value * 60;
 }
 
@@ -71,20 +67,20 @@ export function Layer<const M extends Metadata>(
             <svg
               class="shudan-layer-content"
               viewBox={() =>
-                `${unitSvg(-padding)} ${unitSvg(-padding)} ` +
-                `${unitSvg(width() + 2 * padding)} ${unitSvg(height() + 2 * padding)}`
+                `${unit(-padding)} ${unit(-padding)} ` +
+                `${unit(width() + 2 * padding)} ${unit(height() + 2 * padding)}`
               }
             >
               <defs>
                 <mask id="shudan-layer-mask">
                   <rect
-                    x={() => unitSvg(Math.max(rangeX()[0], 0))}
-                    y={() => unitSvg(Math.max(height() - 1 - rangeY()[1], 0))}
+                    x={() => unit(Math.max(rangeX()[0], 0))}
+                    y={() => unit(Math.max(height() - 1 - rangeY()[1], 0))}
                     width={() =>
-                      unitSvg(Math.min(rangeX()[1] - rangeX()[0] + 1, width()))
+                      unit(Math.min(rangeX()[1] - rangeX()[0] + 1, width()))
                     }
                     height={() =>
-                      unitSvg(Math.min(rangeY()[1] - rangeY()[0] + 1, height()))
+                      unit(Math.min(rangeY()[1] - rangeY()[0] + 1, height()))
                     }
                     fill="white"
                   />
@@ -105,22 +101,22 @@ export function Layer<const M extends Metadata>(
 
           <Style>{css`
             :host {
-              position: relative;
+              display: block;
               pointer-events: none;
             }
 
             .shudan-layer-content {
               position: absolute;
-              left: ${() => unit(-padding)};
-              top: ${() => unit(-padding)};
-              width: ${() => unit(width() + 2 * padding)};
-              height: ${() => unit(height() + 2 * padding)};
+              left: ${() => unit(-padding)}px;
+              top: ${() => unit(-padding)}px;
+              right: ${() => unit(-padding)}px;
+              bottom: ${() => unit(-padding)}px;
             }
 
             ::slotted(*) {
               position: absolute;
-              top: 0;
               left: 0;
+              top: 0;
               right: 0;
               bottom: 0;
             }

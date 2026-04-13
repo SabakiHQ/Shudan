@@ -1,6 +1,6 @@
 import { defineComponents, For, prop, useContext, useMemo } from "sinho";
 import { COMPONENT_PREFIX } from "../constants.ts";
-import { Layer, unitSvg } from "./layer.tsx";
+import { Layer, unit } from "./layer.tsx";
 import { Vertex } from "../vertex.ts";
 import { GobanContext } from "../goban.tsx";
 
@@ -67,16 +67,16 @@ export class GridLayer extends Layer({
           {(y, i) => (
             <line
               stroke-width={() =>
-                unitSvg(
+                unit(
                   i() === 0 || i() === ys().length - 1
                     ? this.props.borderStrokeWidth()
                     : this.props.strokeWidth(),
                 )
               }
-              x1={() => unitSvg(0.5)}
-              y1={() => unitSvg(y() + 0.5)}
-              x2={() => unitSvg(width() - 0.5)}
-              y2={() => unitSvg(y() + 0.5)}
+              x1={() => unit(0.5)}
+              y1={() => unit(y() + 0.5)}
+              x2={() => unit(width() - 0.5)}
+              y2={() => unit(y() + 0.5)}
             />
           )}
         </For>
@@ -85,16 +85,16 @@ export class GridLayer extends Layer({
           {(x, i) => (
             <line
               stroke-width={() =>
-                unitSvg(
+                unit(
                   i() === 0 || i() === ys().length - 1
                     ? this.props.borderStrokeWidth()
                     : this.props.strokeWidth(),
                 )
               }
-              x1={() => unitSvg(x() + 0.5)}
-              y1={() => unitSvg(0.5)}
-              x2={() => unitSvg(x() + 0.5)}
-              y2={() => unitSvg(height() - 0.5)}
+              x1={() => unit(x() + 0.5)}
+              y1={() => unit(0.5)}
+              x2={() => unit(x() + 0.5)}
+              y2={() => unit(height() - 0.5)}
             />
           )}
         </For>
@@ -102,9 +102,9 @@ export class GridLayer extends Layer({
         <For each={hoshis}>
           {(hoshi) => (
             <circle
-              cx={() => unitSvg(hoshi()[0] + 0.5)}
-              cy={() => unitSvg(height() - 1 - hoshi()[1] + 0.5)}
-              r={unitSvg(0.12)}
+              cx={() => unit(hoshi()[0] + 0.5)}
+              cy={() => unit(height() - 1 - hoshi()[1] + 0.5)}
+              r={unit(0.12)}
               stroke-width="0"
               fill={this.props.color}
             />

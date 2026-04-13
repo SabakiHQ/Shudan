@@ -1,5 +1,5 @@
 import { defineComponents, For, prop, useContext, useMemo } from "sinho";
-import { Layer, unitSvg } from "./layer.tsx";
+import { Layer, unit } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { Vertex } from "../vertex.ts";
 import { GobanContext } from "../goban.tsx";
@@ -43,31 +43,31 @@ export class MarkerLayer extends Layer({
         <defs>
           <filter
             id="outline"
-            x={-unitSvg()}
-            y={-unitSvg()}
-            width={unitSvg(3)}
-            height={unitSvg(3)}
+            x={-unit()}
+            y={-unit()}
+            width={unit(3)}
+            height={unit(3)}
           >
             <feDropShadow
               dx="0"
-              dy={unitSvg(0.05)}
+              dy={unit(0.05)}
               stdDeviation={0}
               flood-color="var(--shudan-board-background-color)"
             />
             <feDropShadow
               dx="0"
-              dy={unitSvg(-0.05)}
+              dy={unit(-0.05)}
               stdDeviation={0}
               flood-color="var(--shudan-board-background-color)"
             />
             <feDropShadow
-              dx={unitSvg(0.05)}
+              dx={unit(0.05)}
               dy="0"
               stdDeviation={0}
               flood-color="var(--shudan-board-background-color)"
             />
             <feDropShadow
-              dx={unitSvg(-0.05)}
+              dx={unit(-0.05)}
               dy="0"
               stdDeviation={0}
               flood-color="var(--shudan-board-background-color)"
@@ -145,10 +145,10 @@ export class MarkerLayer extends Layer({
               <use
                 href={() => `#${marker().type ?? "cross"}`}
                 style={{ "--color": color }}
-                x={() => unitSvg(marker().x)}
-                y={() => unitSvg(height() - 1 - marker().y)}
-                width={unitSvg()}
-                height={unitSvg()}
+                x={() => unit(marker().x)}
+                y={() => unit(height() - 1 - marker().y)}
+                width={unit()}
+                height={unit()}
                 filter={() =>
                   stones() != null && stone() === 0
                     ? "url(#outline)"

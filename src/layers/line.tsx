@@ -7,7 +7,7 @@ import {
   useMemo,
   useRef,
 } from "sinho";
-import { Layer, unitSvg } from "./layer.tsx";
+import { Layer, unit } from "./layer.tsx";
 import { GobanContext, Vertex } from "../main.ts";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { useLightDomReference } from "../utils.ts";
@@ -59,31 +59,31 @@ export class LineLayer extends Layer({
         <defs ref={defsRef}>
           <filter
             id="shudan-outline"
-            x={-unitSvg()}
-            y={-unitSvg()}
-            width={unitSvg(3)}
-            height={unitSvg(3)}
+            x={-unit()}
+            y={-unit()}
+            width={unit(3)}
+            height={unit(3)}
           >
             <feDropShadow
               dx="0"
-              dy={unitSvg(0.05)}
+              dy={unit(0.05)}
               stdDeviation={0}
               flood-color="var(--shudan-board-background-color)"
             />
             <feDropShadow
               dx="0"
-              dy={unitSvg(-0.05)}
+              dy={unit(-0.05)}
               stdDeviation={0}
               flood-color="var(--shudan-board-background-color)"
             />
             <feDropShadow
-              dx={unitSvg(0.05)}
+              dx={unit(0.05)}
               dy="0"
               stdDeviation={0}
               flood-color="var(--shudan-board-background-color)"
             />
             <feDropShadow
-              dx={unitSvg(-0.05)}
+              dx={unit(-0.05)}
               dy="0"
               stdDeviation={0}
               flood-color="var(--shudan-board-background-color)"
@@ -98,7 +98,7 @@ export class LineLayer extends Layer({
         <g
           fill="none"
           stroke={this.props.color}
-          stroke-width={() => unitSvg(this.props.width())}
+          stroke-width={() => unit(this.props.width())}
         >
           <For each={this.props.lines}>
             {(line) => {
@@ -112,12 +112,12 @@ export class LineLayer extends Layer({
               );
               const angle = () => (Math.atan2(dy(), dx()) * 180) / Math.PI;
               const length = () =>
-                Math.sqrt(unitSvg(dx()) ** 2 + unitSvg(dy()) ** 2);
+                Math.sqrt(unit(dx()) ** 2 + unit(dy()) ** 2);
 
               return (
                 <g
                   transform={() =>
-                    `translate(${unitSvg(x1() + 0.5)} ${unitSvg(height() - y1() - 0.5)})
+                    `translate(${unit(x1() + 0.5)} ${unit(height() - y1() - 0.5)})
                     rotate(${angle()} 0 0)`
                   }
                   filter="url(#shudan-outline)"
@@ -130,7 +130,7 @@ export class LineLayer extends Layer({
                     x={0}
                     y={0}
                     width={() => length()}
-                    height={unitSvg(0.11)}
+                    height={unit(0.11)}
                     opacity={0}
                   />
 
@@ -139,10 +139,10 @@ export class LineLayer extends Layer({
                   <If condition={() => this.props.tail() !== "none"}>
                     <use
                       href={`#${customTailId}`}
-                      x={-unitSvg(0.5)}
-                      y={-unitSvg(0.5)}
-                      width={unitSvg()}
-                      height={unitSvg()}
+                      x={-unit(0.5)}
+                      y={-unit(0.5)}
+                      width={unit()}
+                      height={unit()}
                       stroke-width={this.props.width}
                     />
                   </If>
@@ -153,10 +153,10 @@ export class LineLayer extends Layer({
                           ? "#shudan-arrowhead"
                           : `#${customHeadId}`
                       }
-                      x={() => length() - unitSvg(0.5)}
-                      y={-unitSvg(0.5)}
-                      width={unitSvg()}
-                      height={unitSvg()}
+                      x={() => length() - unit(0.5)}
+                      y={-unit(0.5)}
+                      width={unit()}
+                      height={unit()}
                       stroke-width={this.props.width}
                     />
                   </If>

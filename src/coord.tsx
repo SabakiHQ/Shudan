@@ -1,5 +1,5 @@
 import { For, MaybeSignal, useMemo, type FunctionalComponent } from "sinho";
-import { unit } from "./layers/layer.tsx";
+import { unitCSS } from "./goban.tsx";
 
 export const Coord: FunctionalComponent<{
   size: MaybeSignal<number>;
@@ -18,7 +18,7 @@ export const Coord: FunctionalComponent<{
       .map((_, i) => props.label(i))
       .slice(range()[0], range()[1] + 1),
   );
-  const grid = () => `repeat(${labels().length}, ${unit()})`;
+  const grid = () => `repeat(${labels().length}, ${unitCSS()})`;
 
   return (
     <div
@@ -29,7 +29,7 @@ export const Coord: FunctionalComponent<{
         placeItems: "stretch",
         gridArea: props.position,
         position: "relative",
-        fontSize: unit(1 / 1.7),
+        fontSize: unitCSS(1 / 1.7),
       }}
     >
       <For each={labels}>

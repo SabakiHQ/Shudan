@@ -1,6 +1,6 @@
 import { defineComponents, For, prop, useContext } from "sinho";
 import { Vertex } from "../vertex.ts";
-import { Layer, unitSvg } from "./layer.tsx";
+import { Layer, unit } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { GobanContext } from "../goban.tsx";
 
@@ -25,9 +25,9 @@ export class GhostStoneLayer extends Layer({
 
             return (
               <circle
-                cx={unitSvg(x + 0.5)}
-                cy={() => unitSvg(height() - 1 - y + 0.5)}
-                r={unitSvg(0.18)}
+                cx={unit(x + 0.5)}
+                cy={() => unit(height() - 1 - y + 0.5)}
+                r={unit(0.18)}
                 fill={color}
                 stroke="none"
               />

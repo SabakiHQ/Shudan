@@ -17,6 +17,12 @@ import { unit } from "./layers/layer.tsx";
 import { Vertex, xToLetter } from "./vertex.ts";
 import { VertexEvent, VertexPointerEvent } from "./events.ts";
 
+const layerPadding = 2;
+
+export function unitCSS(value: number | string = 1): string {
+  return `calc((${value}) * var(--_shudan-vertex-size))`;
+}
+
 export const GobanContext = {
   width: createContext<number>(19),
   height: createContext<number>(19),
@@ -246,7 +252,21 @@ export class Goban extends Component({
               }
             }}
           >
-            <slot />
+            <svg
+              viewBox={() =>
+                `${unit(-layerPadding)} ${unit(-layerPadding)} ` +
+                `${unit(viewportWidth() + 2 * layerPadding)} ${unit(viewportHeight() + 2 * layerPadding)}`
+              }
+            >
+              <foreignObject
+                x={unit(-layerPadding)}
+                y={unit(-layerPadding)}
+                width={() => unit(viewportWidth() + 2 * layerPadding)}
+                height={() => unit(viewportHeight() + 2 * layerPadding)}
+              >
+                <slot />
+              </foreignObject>
+            </svg>
           </div>
 
           <If condition={coords}>
@@ -289,10 +309,15 @@ export class Goban extends Component({
           }
 
           ::slotted(*) {
+            position: absolute;
             transform: translate(
-              ${() => unit(layerLeft())},
-              ${() => unit(layerTop())}
+              ${() => unit(layerLeft())}px,
+              ${() => unit(layerTop())}px
             );
+            width: ${() => unit(width())}px;
+            height: ${() => unit(height())}px;
+            top: ${unit(layerPadding)}px;
+            left: ${unit(layerPadding)}px;
           }
         `}</Style>
 
@@ -307,7 +332,7 @@ export class Goban extends Component({
 
             position: relative;
             display: inline-block;
-            border-radius: ${unit(0.3)};
+            border-radius: ${unitCSS(0.3)};
             overflow: hidden;
           }
           :host(:focus) {
@@ -333,8 +358,8 @@ export class Goban extends Component({
               ". top ."
               "left center right"
               ". bottom .";
-            gap: ${unit(0.1)};
-            padding: ${unit(0.35)};
+            gap: ${unitCSS(0.1)};
+            padding: ${unitCSS(0.35)};
             background: var(--shudan-board-background);
             color: var(--shudan-board-foreground-color);
             overflow: hidden;
@@ -346,17 +371,19 @@ export class Goban extends Component({
           .viewport {
             grid-area: center;
             position: relative;
-            width: ${unit("var(--_shudan-viewport-width)")};
-            height: ${unit("var(--_shudan-viewport-height)")};
+            width: ${unitCSS("var(--_shudan-viewport-width)")};
+            height: ${unitCSS("var(--_shudan-viewport-height)")};
           }
-
-          .viewport > *,
-          .viewport > ::slotted(*) {
+          .viewport > svg {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: ${unit("var(--_shudan-width)")};
-            height: ${unit("var(--_shudan-height)")};
+            left: ${unitCSS(-layerPadding)};
+            top: ${unitCSS(-layerPadding)};
+            width: ${unitCSS(
+              `var(--_shudan-viewport-width) + ${2 * layerPadding}`,
+            )};
+            height: ${unitCSS(
+              `var(--_shudan-viewport-height) + ${2 * layerPadding}`,
+            )};
           }
         `}</Style>
       </>

@@ -9,7 +9,7 @@ import {
   useRef,
 } from "sinho";
 import { GobanContext } from "../goban.tsx";
-import { Layer, unitSvg } from "./layer.tsx";
+import { Layer, unit } from "./layer.tsx";
 import { Vertex } from "../vertex.ts";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { BlackStone, WhiteStone } from "../assets.tsx";
@@ -69,13 +69,13 @@ export class FocusLayer extends Layer(
           <If condition={() => this.props.type() === "outline"}>
             <circle
               ref={el}
-              cx={() => unitSvg(position()![0] + 0.5)}
-              cy={() => unitSvg(height() - position()![1] - 0.5)}
-              r={unitSvg(1.02 / 2)}
+              cx={() => unit(position()![0] + 0.5)}
+              cy={() => unit(height() - position()![1] - 0.5)}
+              r={unit(1.02 / 2)}
               fill="none"
               stroke="var(--shudan-board-foreground-color)"
-              stroke-width={unitSvg(0.1)}
-              stroke-dasharray={`${unitSvg(0.1)} ${unitSvg(0.1)}`}
+              stroke-width={unit(0.1)}
+              stroke-dasharray={`${unit(0.1)} ${unit(0.1)}`}
             />
           </If>
           <Else>
@@ -88,10 +88,10 @@ export class FocusLayer extends Layer(
                     ? "#shudan-white-stone"
                     : `#${customId}`
               }
-              x={() => unitSvg(position()![0] + 0.05)}
-              y={() => unitSvg(height() - position()![1] - 0.05)}
-              width={unitSvg(0.9)}
-              height={unitSvg(0.9)}
+              x={() => unit(position()![0] + 0.05)}
+              y={() => unit(height() - position()![1] - 0.05)}
+              width={unit(0.9)}
+              height={unit(0.9)}
             />
           </Else>
         </If>

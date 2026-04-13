@@ -8,7 +8,7 @@ import {
 } from "sinho";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { Vertex } from "../vertex.ts";
-import { Layer, unitSvg } from "./layer.tsx";
+import { Layer, unit } from "./layer.tsx";
 import { GobanContext } from "../goban.tsx";
 import { useLightDomReference } from "../utils.ts";
 import { BlackStone, WhiteStone } from "../assets.tsx";
@@ -88,13 +88,13 @@ export class StoneLayer extends Layer(
 
           <filter
             id="shudan-shadow"
-            x={-unitSvg()}
-            y={-unitSvg()}
-            width={unitSvg(3)}
-            height={unitSvg(3)}
+            x={-unit()}
+            y={-unit()}
+            width={unit(3)}
+            height={unit(3)}
           >
-            <feOffset in="SourceGraphic" dx="0" dy={unitSvg(0.1)} />
-            <feGaussianBlur stdDeviation={unitSvg(0.1)} />
+            <feOffset in="SourceGraphic" dx="0" dy={unit(0.1)} />
+            <feGaussianBlur stdDeviation={unit(0.1)} />
           </filter>
         </defs>
 
@@ -103,9 +103,9 @@ export class StoneLayer extends Layer(
           <For each={stones} key={(stone) => stone.vertex}>
             {(stone) => (
               <circle
-                r={unitSvg(0.9 / 2)}
-                cx={() => unitSvg(stone().x + 0.5)}
-                cy={() => unitSvg(height() - stone().y - 0.5)}
+                r={unit(0.9 / 2)}
+                cx={() => unit(stone().x + 0.5)}
+                cy={() => unit(height() - stone().y - 0.5)}
                 opacity={
                   () =>
                     this.props.dimmedStones().includes(stone().vertex)
@@ -134,10 +134,10 @@ export class StoneLayer extends Layer(
                 style={{
                   "--shudan-random": () => randomMap()[stone().y]?.[stone().x],
                 }}
-                width={unitSvg(0.9)}
-                height={unitSvg(0.9)}
-                x={() => unitSvg(stone().x + 0.05)}
-                y={() => unitSvg(height() - 1 - stone().y + 0.05)}
+                width={unit(0.9)}
+                height={unit(0.9)}
+                x={() => unit(stone().x + 0.05)}
+                y={() => unit(height() - 1 - stone().y + 0.05)}
                 opacity={() =>
                   this.props.dimmedStones().includes(stone().vertex) ? 0.6 : 1
                 }

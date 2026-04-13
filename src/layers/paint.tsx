@@ -1,5 +1,5 @@
 import { defineComponents, For, prop, useContext, useMemo } from "sinho";
-import { Layer, unitSvg } from "./layer.tsx";
+import { Layer, unit } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { Vertex } from "../vertex.ts";
 import { GobanContext } from "../goban.tsx";
@@ -156,7 +156,7 @@ export class PaintLayer extends Layer(
           const directionN = Vertex(xn - x2, yn - y2);
 
           const vectorSvg = (vertex: number[]) =>
-            vertex.map((x) => unitSvg(x)).join(" ");
+            vertex.map((x) => unit(x)).join(" ");
 
           return (
             (directionP === direction
@@ -171,7 +171,7 @@ export class PaintLayer extends Layer(
                   borderRadius(),
                   0,
                   0,
-                  directionP === rotatedDirection ? 0 : 1 / unitSvg(),
+                  directionP === rotatedDirection ? 0 : 1 / unit(),
                   x1 + (x2 - x1) * borderRadius(),
                   height() - y1 - (y2 - y1) * borderRadius(),
                 ])) +
@@ -192,20 +192,20 @@ export class PaintLayer extends Layer(
         <defs>
           <mask id="holes">
             <rect
-              rx={() => unitSvg(borderRadius())}
-              ry={() => unitSvg(borderRadius())}
-              x={() => unitSvg(Math.max(rangeX()[0], 0) - padding())}
+              rx={() => unit(borderRadius())}
+              ry={() => unit(borderRadius())}
+              x={() => unit(Math.max(rangeX()[0], 0) - padding())}
               y={() =>
-                unitSvg(Math.max(height() - 1 - rangeY()[1], 0) - padding())
+                unit(Math.max(height() - 1 - rangeY()[1], 0) - padding())
               }
               width={() =>
-                unitSvg(
+                unit(
                   Math.min(rangeX()[1] - rangeX()[0] + 1, width()) +
                     2 * padding(),
                 )
               }
               height={() =>
-                unitSvg(
+                unit(
                   Math.min(rangeY()[1] - rangeY()[0] + 1, height()) +
                     2 * padding(),
                 )
@@ -216,7 +216,7 @@ export class PaintLayer extends Layer(
             <g
               fill="black"
               stroke={() => (this.props.stroke() === "none" ? "none" : "white")}
-              stroke-width={() => unitSvg(this.props.strokeWidth())}
+              stroke-width={() => unit(this.props.strokeWidth())}
             >
               <For each={() => borders().holes} key={(vertices) => vertices[0]}>
                 {(vertices) => <path d={() => drawPath(vertices())} />}
@@ -229,7 +229,7 @@ export class PaintLayer extends Layer(
           mask="url(#holes)"
           fill={this.props.color}
           stroke={this.props.stroke}
-          stroke-width={() => unitSvg(this.props.strokeWidth())}
+          stroke-width={() => unit(this.props.strokeWidth())}
         >
           {[() => borders().areas, () => borders().holes].map((paths, i) => (
             <For each={paths} key={(vertices) => vertices[0]}>

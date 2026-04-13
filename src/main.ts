@@ -5,7 +5,6 @@ export {
   type LayerOptions,
   type _LayerComponent,
   unit,
-  unitSvg,
 } from "./layers/layer.tsx";
 export { GridLayer, getHoshis } from "./layers/grid.tsx";
 export { StoneLayer } from "./layers/stone.tsx";
