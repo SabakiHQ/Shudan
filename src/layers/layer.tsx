@@ -17,7 +17,7 @@ export function unitSvg(value: number = 1): number {
   return value * 60;
 }
 
-declare abstract class _LayerComponent {
+export declare abstract class _LayerComponent {
   readonly goban: Goban;
   abstract renderContent(): Template;
   render(): Template;
