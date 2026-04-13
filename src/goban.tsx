@@ -339,6 +339,9 @@ export class Goban extends Component({
             color: var(--shudan-board-foreground-color);
             overflow: hidden;
           }
+          .layout:focus {
+            outline: none;
+          }
 
           .viewport {
             grid-area: center;

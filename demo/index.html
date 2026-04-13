@@ -9,7 +9,7 @@
     <style>
       body {
         display: grid;
-        grid: auto / auto 1fr;
+        grid: auto / 17em 1fr;
         gap: 2em;
         font-family: sans-serif;
       }
@@ -32,21 +32,25 @@
           <label>
             <input type="checkbox" class="interactive" checked /> Interactive
           </label>
-        </li>
-        <li>
-          <label> <input type="checkbox" class="hover" /> Hover</label>
+          <ul>
+            <li>
+              <label> <input type="checkbox" class="hover" /> Hover</label>
+            </li>
+          </ul>
         </li>
         <li>
           <label>
             <input type="checkbox" class="coordinates" checked /> Show
             coordinates
           </label>
-        </li>
-        <li>
-          <label>
-            <input type="checkbox" class="alt-coordinates" /> Alternate
-            coordinates
-          </label>
+          <ul>
+            <li>
+              <label>
+                <input type="checkbox" class="alt-coordinates" /> Alternate
+                coordinates
+              </label>
+            </li>
+          </ul>
         </li>
         <li>
           <label>
@@ -62,11 +66,13 @@
           <label>
             <input type="checkbox" class="stones" checked /> Show stones
           </label>
-        </li>
-        <li>
-          <label>
-            <input type="checkbox" class="dead" /> Dim dead stones
-          </label>
+          <ul>
+            <li>
+              <label>
+                <input type="checkbox" class="dead" /> Dim dead stones
+              </label>
+            </li>
+          </ul>
         </li>
         <li>
           <label>
