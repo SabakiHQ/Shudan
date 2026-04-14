@@ -48,6 +48,14 @@ const deadStones = [
   "T6",
 ];
 
+goban.addEventListener("focused-vertex-change", (evt) => {
+  console.log(evt);
+});
+
+goban.addEventListener("vertex-click", (evt) => {
+  console.log(evt);
+});
+
 document
   .querySelector<HTMLInputElement>("input.interactive")!
   .addEventListener("change", (event) => {

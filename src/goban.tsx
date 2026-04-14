@@ -220,14 +220,6 @@ export class Goban extends Component({
       this.focusedVertex = undefined;
     }, [rangeX, rangeY, width, height, this.props.interactive]);
 
-    useEffect(() => {
-      // Emit focused vertex change event
-
-      if (this.props.focusedVertex()) {
-        this.events.onFocusedVertexChange(this.props.focusedVertex()!);
-      }
-    });
-
     function getVertexFromEvent(evt: PointerEvent): Vertex {
       const viewportElement = evt.currentTarget as HTMLElement;
       const rect = viewportElement.getBoundingClientRect();
@@ -286,25 +278,29 @@ export class Goban extends Component({
             } else if (evt.code === "Escape") {
               this.focusedVertex = undefined;
               return;
-            } else if (this.focusedVertex == null) {
-              this.focusedVertex = Vertex(
-                Math.max(0, rangeX()[0]),
-                Math.min(height() - 1, rangeY()[1]),
-              );
-              return;
             }
 
-            const [x, y] = Vertex.parse(this.focusedVertex);
             const newPosition =
-              evt.code === "ArrowLeft"
-                ? [x - 1, y]
-                : evt.code === "ArrowUp"
-                  ? [x, y + 1]
-                  : evt.code === "ArrowRight"
-                    ? [x + 1, y]
-                    : [x, y - 1];
+              this.focusedVertex == null
+                ? ([
+                    Math.max(0, rangeX()[0]),
+                    Math.min(height() - 1, rangeY()[1]),
+                  ] as const)
+                : (() => {
+                    const [x, y] = Vertex.parse(this.focusedVertex);
+                    return (
+                      (
+                        {
+                          ArrowLeft: [x - 1, y],
+                          ArrowUp: [x, y + 1],
+                          ArrowRight: [x + 1, y],
+                          ArrowDown: [x, y - 1],
+                        } as const
+                      )[evt.code] ?? [x, y]
+                    );
+                  })();
 
-            this.focusedVertex = Vertex(
+            const focusedVertex = Vertex(
               Math.max(
                 0,
                 rangeX()[0],
@@ -316,6 +312,9 @@ export class Goban extends Component({
                 Math.min(height() - 1, rangeY()[1], newPosition[1]),
               ),
             );
+
+            const prevented = this.events.onFocusedVertexChange(focusedVertex);
+            if (prevented) this.focusedVertex = focusedVertex;
           }}
         >
           <div
@@ -346,7 +345,8 @@ export class Goban extends Component({
                   this.focus();
                 }
 
-                this.focusedVertex = vertex;
+                const prevented = this.events.onFocusedVertexChange(vertex);
+                if (prevented) this.focusedVertex = vertex;
               }
 
               this.events.onVertexPointerMove({
@@ -411,8 +411,6 @@ export class Goban extends Component({
         <Style>{css`
           :host {
             --_shudan-vertex-size: ${vertexSize};
-            --_shudan-width: ${width};
-            --_shudan-height: ${height};
             --_shudan-viewport-width: ${viewportWidth};
             --_shudan-viewport-height: ${viewportHeight};
           }

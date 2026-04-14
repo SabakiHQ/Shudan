@@ -10,7 +10,7 @@ export class VertexEvent extends Event {
   vertex: Vertex;
 
   constructor(type: string, vertex: Vertex) {
-    super(type);
+    super(type, { cancelable: true });
 
     this.vertex = vertex;
   }
