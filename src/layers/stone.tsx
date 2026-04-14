@@ -1,15 +1,8 @@
-import {
-  defineComponents,
-  For,
-  prop,
-  useContext,
-  useMemo,
-  useRef,
-} from "sinho";
+import { defineComponents, For, prop, useMemo, useRef } from "sinho";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { Vertex } from "../vertex.ts";
 import { Layer, unit } from "./layer.tsx";
-import { GobanContext, useRanges } from "../goban.tsx";
+import { GobanContext, useGobanContext, useRanges } from "../goban.tsx";
 import { useLightDomReference } from "../utils.ts";
 import { BlackStone, WhiteStone } from "../assets.tsx";
 
@@ -44,8 +37,7 @@ export class StoneLayer extends Layer(
   { visibleOverflow: true },
 ) {
   renderContent() {
-    const width = useContext(GobanContext.width);
-    const height = useContext(GobanContext.height);
+    const { width, height } = useGobanContext();
     const { rangeX, rangeY } = useRanges();
 
     const stones = useMemo(() =>

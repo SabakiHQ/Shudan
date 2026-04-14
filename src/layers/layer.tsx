@@ -7,7 +7,7 @@ import {
   type Metadata,
   type Template,
 } from "sinho";
-import { Goban, GobanContext, useRanges } from "../goban.tsx";
+import { Goban, useGobanContext, useRanges } from "../goban.tsx";
 import { LAYER_PADDING } from "../constants.ts";
 
 /**
@@ -81,8 +81,7 @@ export function Layer<const M extends Metadata>(
         );
       }
 
-      const width = useContext(GobanContext.width);
-      const height = useContext(GobanContext.height);
+      const { width, height } = useGobanContext();
       const { rangeX, rangeY } = useRanges();
 
       const content = this.renderContent();

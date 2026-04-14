@@ -1,8 +1,8 @@
-import { defineComponents, For, prop, useContext, useMemo } from "sinho";
+import { defineComponents, For, prop, useMemo } from "sinho";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { Layer, unit } from "./layer.tsx";
 import { Vertex } from "../vertex.ts";
-import { GobanContext } from "../goban.tsx";
+import { useGobanContext } from "../goban.tsx";
 
 /**
  * Returns the standard hoshi positions for a board of the given dimensions.
@@ -56,8 +56,7 @@ export class GridLayer extends Layer({
   borderStrokeWidth: prop<number>(0.04, { attribute: Number }),
 }) {
   renderContent() {
-    const width = useContext(GobanContext.width);
-    const height = useContext(GobanContext.height);
+    const { width, height } = useGobanContext();
 
     const xs = useMemo(() => [...Array(width())].map((_, i) => i));
     const ys = useMemo(() => [...Array(height())].map((_, i) => i));

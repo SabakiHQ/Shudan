@@ -1,8 +1,8 @@
-import { defineComponents, For, prop, useContext } from "sinho";
+import { defineComponents, For, prop } from "sinho";
 import { Vertex } from "../vertex.ts";
 import { Layer, unit } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
-import { GobanContext } from "../goban.tsx";
+import { useGobanContext } from "../goban.tsx";
 
 /**
  * A layer that renders small ghost stone indicators, typically used to show
@@ -15,7 +15,7 @@ export class GhostStoneLayer extends Layer({
   stones: prop<Record<Vertex, string>>({}, { attribute: JSON.parse }),
 }) {
   renderContent() {
-    const height = useContext(GobanContext.height);
+    const { height } = useGobanContext();
 
     return (
       <>

@@ -1,8 +1,8 @@
-import { defineComponents, For, prop, useContext, useMemo } from "sinho";
+import { defineComponents, For, prop, useMemo } from "sinho";
 import { Layer, unit } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { Vertex } from "../vertex.ts";
-import { GobanContext, useRanges } from "../goban.tsx";
+import { useGobanContext, useRanges } from "../goban.tsx";
 
 /**
  * Finds the border polygons of a set of painted grid cells.
@@ -126,8 +126,7 @@ export class PaintLayer extends Layer(
   { visibleOverflow: true },
 ) {
   renderContent() {
-    const width = useContext(GobanContext.width);
-    const height = useContext(GobanContext.height);
+    const { width, height } = useGobanContext();
     const { rangeX, rangeY } = useRanges();
 
     const borderRadius = this.props.borderRadius;

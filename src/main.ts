@@ -1,4 +1,4 @@
-export { Goban, GobanContext, useRanges } from "./goban.tsx";
+export { Goban, useGobanContext, useRanges } from "./goban.tsx";
 export { Vertex } from "./vertex.ts";
 export {
   Layer,

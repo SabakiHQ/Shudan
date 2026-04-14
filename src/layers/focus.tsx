@@ -3,17 +3,16 @@ import {
   Else,
   If,
   prop,
-  useContext,
   useEffect,
   useMemo,
   useRef,
 } from "sinho";
-import { GobanContext } from "../goban.tsx";
 import { Layer, unit } from "./layer.tsx";
 import { Vertex } from "../vertex.ts";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { BlackStone, WhiteStone } from "../assets.tsx";
 import { useLightDomReference } from "../utils.ts";
+import { useGobanContext } from "../goban.tsx";
 
 /**
  * A layer that renders a focus indicator over the currently focused vertex.
@@ -31,10 +30,7 @@ export class FocusLayer extends Layer(
   { visibleOverflow: true },
 ) {
   renderContent() {
-    const height = useContext(GobanContext.height);
-    const interactive = useContext(GobanContext.interactive);
-    const focused = useContext(GobanContext.focused);
-    const focusedVertex = useContext(GobanContext.focusedVertex);
+    const { height, interactive, focused, focusedVertex } = useGobanContext();
     const position = () =>
       focusedVertex() == null ? null : Vertex.parse(focusedVertex()!);
 

@@ -1,8 +1,8 @@
-import { defineComponents, For, prop, useContext, useMemo } from "sinho";
+import { defineComponents, For, prop, useMemo } from "sinho";
 import { Layer, unit } from "./layer.tsx";
-import { GobanContext } from "../goban.tsx";
 import { Vertex } from "../vertex.ts";
 import { COMPONENT_PREFIX } from "../constants.ts";
+import { useGobanContext } from "../goban.tsx";
 
 /**
  * A text label placed on a vertex. Can be a plain string, or an object with
@@ -32,8 +32,7 @@ export class LabelLayer extends Layer({
   labels: prop<Record<Vertex, Label>>({}, { attribute: JSON.parse }),
 }) {
   renderContent() {
-    const stones = useContext(GobanContext.stones);
-    const height = useContext(GobanContext.height);
+    const { stones, height } = useGobanContext();
 
     const labels = useMemo(() =>
       Object.entries(this.props.labels()).map(([vertex, label]) => {

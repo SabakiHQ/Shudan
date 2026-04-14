@@ -1,16 +1,9 @@
-import {
-  defineComponents,
-  For,
-  If,
-  prop,
-  useContext,
-  useMemo,
-  useRef,
-} from "sinho";
+import { defineComponents, For, If, prop, useMemo, useRef } from "sinho";
 import { Layer, unit } from "./layer.tsx";
-import { GobanContext, Vertex } from "../main.ts";
+import { Vertex } from "../main.ts";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { useLightDomReference } from "../utils.ts";
+import { useGobanContext } from "../goban.tsx";
 
 /**
  * A layer that renders lines between pairs of vertices.
@@ -42,7 +35,7 @@ export class LineLayer extends Layer({
   lines: prop<[start: Vertex, end: Vertex][]>([], { attribute: JSON.parse }),
 }) {
   renderContent() {
-    const height = useContext(GobanContext.height);
+    const { height } = useGobanContext();
 
     const defsRef = useRef<Element>();
     const customHead = useMemo(() =>
@@ -114,8 +107,7 @@ export class LineLayer extends Layer({
                 i === 0 ? () => x2() - x1() : () => y1() - y2(),
               );
               const angle = () => (Math.atan2(dy(), dx()) * 180) / Math.PI;
-              const length = () =>
-                Math.sqrt(unit(dx()) ** 2 + unit(dy()) ** 2);
+              const length = () => Math.sqrt(unit(dx()) ** 2 + unit(dy()) ** 2);
 
               return (
                 <g

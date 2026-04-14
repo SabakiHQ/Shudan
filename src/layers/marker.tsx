@@ -1,8 +1,8 @@
-import { defineComponents, For, prop, useContext, useMemo } from "sinho";
+import { defineComponents, For, prop, useMemo } from "sinho";
 import { Layer, unit } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { Vertex } from "../vertex.ts";
-import { GobanContext } from "../goban.tsx";
+import { useGobanContext } from "../goban.tsx";
 
 /**
  * The shape of a marker placed on a vertex.
@@ -37,8 +37,7 @@ export class MarkerLayer extends Layer({
   markers: prop<Record<Vertex, Marker>>({}, { attribute: JSON.parse }),
 }) {
   renderContent() {
-    const stones = useContext(GobanContext.stones);
-    const height = useContext(GobanContext.height);
+    const { stones, height } = useGobanContext();
 
     const markers = useMemo(() =>
       Object.entries(this.props.markers()).map(([vertex, marker]) => {
