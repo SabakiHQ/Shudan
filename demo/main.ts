@@ -80,11 +80,11 @@ document
   });
 
 document.querySelector("input.partial")!.addEventListener("change", (event) => {
-  goban.rangeX = (event.target! as HTMLInputElement).checked
-    ? [8, 18]
+  goban.topLeft = (event.target! as HTMLInputElement).checked
+    ? "J7"
     : undefined;
-  goban.rangeY = (event.target! as HTMLInputElement).checked
-    ? [0, 6]
+  goban.bottomRight = (event.target! as HTMLInputElement).checked
+    ? "T1"
     : undefined;
 });
 

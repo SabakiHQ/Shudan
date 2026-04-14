@@ -11,57 +11,166 @@ import {
   useEffect,
   useMemo,
 } from "sinho";
-import { COMPONENT_PREFIX } from "./constants.ts";
+import { COMPONENT_PREFIX, LAYER_PADDING } from "./constants.ts";
 import { Coord } from "./coord.tsx";
 import { unit } from "./layers/layer.tsx";
 import { Vertex, xToLetter } from "./vertex.ts";
 import { VertexEvent, VertexPointerEvent } from "./events.ts";
-
-const layerPadding = 2;
 
 export function unitCSS(value: number | string = 1): string {
   return `calc((${value}) * var(--_shudan-vertex-size))`;
 }
 
 export const GobanContext = {
+  /**
+   * The width of the goban in vertices.
+   */
   width: createContext<number>(19),
+  /**
+   * The height of the goban in vertices.
+   */
   height: createContext<number>(19),
+  /**
+   * The size of a vertex. Can be specified as any CSS length unit, or as a pixel number.
+   */
   vertexSize: createContext<string | number>("1.7em"),
+  /**
+   * Whether the goban should be focusable and emit events when vertices are clicked or hovered.
+   */
   interactive: createContext<boolean>(false),
+  /**
+   * Whether hovering over vertices should focus them. Only has an effect if `interactive` is enabled.
+   */
   hover: createContext<boolean>(false),
+  /**
+   * Whether coordinates should be displayed around the goban.
+   */
   coords: createContext<boolean>(false),
+  /**
+   * A function that returns the label to be displayed for a given x coordinate. Only has an effect if `coords` is enabled.
+   */
   coordX: createContext<(x: number) => string>((x) => xToLetter(x)),
+  /**
+   * A function that returns the label to be displayed for a given y coordinate. Only has an effect if `coords` is enabled.
+   */
   coordY: createContext<(y: number) => string>((y) => (y + 1).toString()),
-  rangeX: createContext<[number, number]>([0, Infinity]),
-  rangeY: createContext<[number, number]>([0, Infinity]),
+  /**
+   * Cuts off the goban to only display the area from the given vertex to the bottom-right vertex, inclusive.
+   */
+  topLeft: createContext<Vertex | undefined>(undefined),
+  /**
+   * Cuts off the goban to only display the area from the top-left vertex to the given vertex, inclusive.
+   */
+  bottomRight: createContext<Vertex | undefined>(undefined),
+  /**
+   * Whether the goban is currently focused.
+   */
   focused: createContext<boolean>(false),
+  /**
+   * The currently focused vertex. Only has a value if `interactive` is enabled.
+   */
   focusedVertex: createContext<Vertex>(),
 
+  /**
+   * A mapping from vertices to `-1` representing a white stone, or `1` representing a black stone. Only has a value if queried from inside a `StoneLayer`.
+   */
   stones: createContext<Record<string, number>>(),
 };
 
+export function useGobanRanges() {
+  const topLeftVertex = useContext(GobanContext.topLeft);
+  const bottomRightVertex = useContext(GobanContext.bottomRight);
+
+  const topLeftParsed = useMemo<[number, number]>(() =>
+    topLeftVertex() != null ? Vertex.parse(topLeftVertex()!) : [0, Infinity],
+  );
+  const bottomRightParsed = useMemo<[number, number]>(() =>
+    bottomRightVertex() != null
+      ? Vertex.parse(bottomRightVertex()!)
+      : [Infinity, 0],
+  );
+
+  const rangeX = (): [number, number] => [
+    topLeftParsed()[0],
+    bottomRightParsed()[0],
+  ];
+  const rangeY = (): [number, number] => [
+    bottomRightParsed()[1],
+    topLeftParsed()[1],
+  ];
+
+  return { rangeX, rangeY };
+}
+
 export class Goban extends Component({
+  /**
+   * The width of the goban in vertices.
+   */
   width: prop(GobanContext.width, { attribute: Number }),
+  /**
+   * The height of the goban in vertices.
+   */
   height: prop(GobanContext.height, { attribute: Number }),
+  /**
+   * The size of a vertex. Can be specified as any CSS length unit, or as a pixel number.
+   */
   vertexSize: prop(GobanContext.vertexSize, { attribute: String }),
+  /**
+   * Whether the goban should be focusable and emit events when vertices are clicked or hovered.
+   */
   interactive: prop(GobanContext.interactive, { attribute: () => true }),
+  /**
+   * Whether hovering over vertices should focus them. Only has an effect if `interactive` is enabled.
+   */
   hover: prop(GobanContext.hover, { attribute: () => true }),
+  /**
+   * Whether coordinates should be displayed around the goban.
+   */
   coords: prop(GobanContext.coords, { attribute: () => true }),
+  /**
+   * A function that returns the label to be displayed for a given x coordinate. Only has an effect if `coords` is enabled.
+   */
   coordX: prop(GobanContext.coordX),
+  /**
+   * A function that returns the label to be displayed for a given y coordinate. Only has an effect if `coords` is enabled.
+   */
   coordY: prop(GobanContext.coordY),
-  rangeX: prop<[number, number]>(GobanContext.rangeX, {
-    attribute: JSON.parse,
-  }),
-  rangeY: prop<[number, number]>(GobanContext.rangeY, {
-    attribute: JSON.parse,
-  }),
+  /**
+   * Cuts off the goban to only display the area from the given vertex to the bottom-right vertex, inclusive.
+   */
+  topLeft: prop(GobanContext.topLeft, { attribute: Vertex }),
+  /**
+   * Cuts off the goban to only display the area from the top-left vertex to the given vertex, inclusive.
+   */
+  bottomRight: prop(GobanContext.bottomRight, { attribute: Vertex }),
+  /**
+   * @ignore
+   */
   _focused: prop(GobanContext.focused),
+  /**
+   * The currently focused vertex. Only has a value if `interactive` is enabled.
+   */
   focusedVertex: prop(GobanContext.focusedVertex, { attribute: Vertex }),
 
+  /**
+   * This event is emitted when the focused vertex changes. Only emitted if `interactive` is enabled.
+   */
   onFocusedVertexChange: event(VertexEvent),
+  /**
+   * This event is emitted when a vertex is clicked. Only emitted if `interactive` is enabled.
+   */
   onVertexClick: event(VertexPointerEvent),
+  /**
+   * This event is emitted when a pointer is released while hovering over a vertex. Only emitted if `interactive` is enabled.
+   */
   onVertexPointerUp: event(VertexPointerEvent),
+  /**
+   * This event is emitted when a pointer is pressed down while hovering over a vertex. Only emitted if `interactive` is enabled.
+   */
   onVertexPointerDown: event(VertexPointerEvent),
+  /**
+   * This event is emitted when a pointer moves while hovering over a vertex. Only emitted if `interactive` is enabled.
+   */
   onVertexPointerMove: event(VertexPointerEvent),
 }) {
   render() {
@@ -78,8 +187,7 @@ export class Goban extends Component({
     const coordX = useContext(GobanContext.coordX);
     const coordY = useContext(GobanContext.coordY);
 
-    const rangeX = useContext(GobanContext.rangeX);
-    const rangeY = useContext(GobanContext.rangeY);
+    const { rangeX, rangeY } = useGobanRanges();
     const viewportWidth = () =>
       Math.min(rangeX()[1] - rangeX()[0] + 1, width());
     const viewportHeight = () =>
@@ -254,15 +362,16 @@ export class Goban extends Component({
           >
             <svg
               viewBox={() =>
-                `${unit(-layerPadding)} ${unit(-layerPadding)} ` +
-                `${unit(viewportWidth() + 2 * layerPadding)} ${unit(viewportHeight() + 2 * layerPadding)}`
+                `${unit(-LAYER_PADDING)} ${unit(-LAYER_PADDING)} ` +
+                `${unit(viewportWidth() + 2 * LAYER_PADDING)} ` +
+                `${unit(viewportHeight() + 2 * LAYER_PADDING)}`
               }
             >
               <foreignObject
-                x={unit(-layerPadding)}
-                y={unit(-layerPadding)}
-                width={() => unit(viewportWidth() + 2 * layerPadding)}
-                height={() => unit(viewportHeight() + 2 * layerPadding)}
+                x={unit(-LAYER_PADDING)}
+                y={unit(-LAYER_PADDING)}
+                width={() => unit(viewportWidth() + 2 * LAYER_PADDING)}
+                height={() => unit(viewportHeight() + 2 * LAYER_PADDING)}
               >
                 <slot />
               </foreignObject>
@@ -272,25 +381,25 @@ export class Goban extends Component({
           <If condition={coords}>
             <Coord
               size={width}
-              range={rangeX}
+              range={() => rangeX()}
               label={(x) => coordX()(x)}
               position="top"
             />
             <Coord
               size={height}
-              range={rangeY}
+              range={() => rangeY()}
               label={(y) => coordY()(y)}
               position="left"
             />
             <Coord
               size={height}
-              range={rangeY}
+              range={() => rangeY()}
               label={(y) => coordY()(y)}
               position="right"
             />
             <Coord
               size={width}
-              range={rangeX}
+              range={() => rangeX()}
               label={(x) => coordX()(x)}
               position="bottom"
             />
@@ -316,8 +425,8 @@ export class Goban extends Component({
             );
             width: ${() => unit(width())}px;
             height: ${() => unit(height())}px;
-            top: ${unit(layerPadding)}px;
-            left: ${unit(layerPadding)}px;
+            top: ${unit(LAYER_PADDING)}px;
+            left: ${unit(LAYER_PADDING)}px;
           }
         `}</Style>
 
@@ -376,13 +485,13 @@ export class Goban extends Component({
           }
           .viewport > svg {
             position: absolute;
-            left: ${unitCSS(-layerPadding)};
-            top: ${unitCSS(-layerPadding)};
+            left: ${unitCSS(-LAYER_PADDING)};
+            top: ${unitCSS(-LAYER_PADDING)};
             width: ${unitCSS(
-              `var(--_shudan-viewport-width) + ${2 * layerPadding}`,
+              `var(--_shudan-viewport-width) + ${2 * LAYER_PADDING}`,
             )};
             height: ${unitCSS(
-              `var(--_shudan-viewport-height) + ${2 * layerPadding}`,
+              `var(--_shudan-viewport-height) + ${2 * LAYER_PADDING}`,
             )};
           }
         `}</Style>

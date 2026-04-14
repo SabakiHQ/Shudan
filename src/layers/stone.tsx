@@ -9,7 +9,7 @@ import {
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { Vertex } from "../vertex.ts";
 import { Layer, unit } from "./layer.tsx";
-import { GobanContext } from "../goban.tsx";
+import { GobanContext, useGobanRanges } from "../goban.tsx";
 import { useLightDomReference } from "../utils.ts";
 import { BlackStone, WhiteStone } from "../assets.tsx";
 
@@ -43,8 +43,7 @@ export class StoneLayer extends Layer(
   renderContent() {
     const width = useContext(GobanContext.width);
     const height = useContext(GobanContext.height);
-    const rangeX = useContext(GobanContext.rangeX);
-    const rangeY = useContext(GobanContext.rangeY);
+    const { rangeX, rangeY } = useGobanRanges();
 
     const stones = useMemo(() =>
       Object.entries(this.props.stones() ?? {})
