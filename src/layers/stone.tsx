@@ -13,6 +13,9 @@ import { GobanContext, useGobanRanges } from "../goban.tsx";
 import { useLightDomReference } from "../utils.ts";
 import { BlackStone, WhiteStone } from "../assets.tsx";
 
+/**
+ * A layer that renders black and white stones including shadows.
+ */
 export class StoneLayer extends Layer(
   {
     /**

@@ -4,6 +4,10 @@ import { GobanContext } from "../goban.tsx";
 import { Vertex } from "../vertex.ts";
 import { COMPONENT_PREFIX } from "../constants.ts";
 
+/**
+ * A text label placed on a vertex. Can be a plain string, or an object with
+ * optional `text`, `color`, and `tooltip` overrides.
+ */
 export type Label =
   | string
   | {
@@ -12,6 +16,9 @@ export type Label =
       tooltip?: string;
     };
 
+/**
+ * A layer that renders text labels on specified vertices.
+ */
 export class LabelLayer extends Layer({
   /**
    * The text color of the labels. If set to `undefined`, it uses the default

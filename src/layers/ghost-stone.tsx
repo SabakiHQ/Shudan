@@ -4,6 +4,10 @@ import { Layer, unit } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { GobanContext } from "../goban.tsx";
 
+/**
+ * A layer that renders small ghost stone indicators, typically used to show
+ * move suggestions or candidate moves.
+ */
 export class GhostStoneLayer extends Layer({
   /**
    * A mapping from vertices to stone colors.

@@ -1,6 +1,12 @@
 import { Vertex } from "./vertex.ts";
 
+/**
+ * An event that carries a vertex, emitted when the focused vertex changes.
+ */
 export class VertexEvent extends Event {
+  /**
+   * The vertex associated with the event.
+   */
   vertex: Vertex;
 
   constructor(type: string, vertex: Vertex) {
@@ -10,8 +16,17 @@ export class VertexEvent extends Event {
   }
 }
 
+/**
+ * A pointer event that also carries the board vertex the pointer was over.
+ */
 export class VertexPointerEvent extends PointerEvent {
+  /**
+   * The vertex the pointer was over when the event was fired.
+   */
   vertex: Vertex;
+  /**
+   * The original DOM pointer event that triggered this event.
+   */
   originalEvent: PointerEvent;
 
   constructor(

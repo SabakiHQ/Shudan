@@ -95,6 +95,9 @@ class BorderDetector {
   }
 }
 
+/**
+ * A layer that renders filled regions over groups of adjacent vertices.
+ */
 export class PaintLayer extends Layer(
   {
     /**

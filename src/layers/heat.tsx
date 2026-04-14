@@ -4,6 +4,10 @@ import { COMPONENT_PREFIX } from "../constants.ts";
 import { PaintLayer } from "./paint.tsx";
 import { Vertex } from "../main.ts";
 
+/**
+ * A layer that renders a heatmap of numeric values over vertices using a
+ * configurable color palette.
+ */
 export class HeatLayer extends Layer(
   {
     /**

@@ -12,6 +12,9 @@ import { GobanContext, Vertex } from "../main.ts";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { useLightDomReference } from "../utils.ts";
 
+/**
+ * A layer that renders lines between pairs of vertices.
+ */
 export class LineLayer extends Layer({
   /**
    * The color of the lines. Defaults to the board foreground color.

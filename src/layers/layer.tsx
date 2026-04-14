@@ -10,23 +10,52 @@ import {
 import { Goban, GobanContext, useGobanRanges } from "../goban.tsx";
 import { LAYER_PADDING } from "../constants.ts";
 
+/**
+ * Converts a vertex-count value to coordinate units.
+ */
 export function unit(value: number = 1): number {
   return value * 60;
 }
 
+/**
+ * Options for the `Layer` base class factory.
+ */
 export interface LayerOptions {
+  /**
+   * When `true`, layer content that extends beyond the visible viewport is
+   * not clipped.
+   */
   visibleOverflow?: boolean;
+  /**
+   * When `true`, the layer content is rendered as HTML instead of SVG.
+   */
   renderHTML?: boolean;
 }
 
+/**
+ * Abstract base class mixed into every layer component.
+ */
 export declare abstract class _LayerComponent {
+  /**
+   * The nearest ancestor `<shudan-goban>` element.
+   */
   readonly goban: Goban;
+  /**
+   * Renders the content of the layer. This method needs to be implemented by all concrete layer classes.
+   */
   abstract renderContent(): Template;
   render(): Template;
 }
 
 export type Layer<M extends Metadata> = Component<M> & _LayerComponent;
 
+/**
+ * Base class factory for all goban layers. Extend the returned class and
+ * implement `renderContent()` to create a custom layer.
+ *
+ * @param metadata Prop and event declarations passed to the underlying `Component`.
+ * @param opts Layer rendering options.
+ */
 export function Layer<const M extends Metadata>(
   metadata: M,
   opts: LayerOptions = {},

@@ -15,6 +15,9 @@ import { COMPONENT_PREFIX } from "../constants.ts";
 import { BlackStone, WhiteStone } from "../assets.tsx";
 import { useLightDomReference } from "../utils.ts";
 
+/**
+ * A layer that renders a focus indicator over the currently focused vertex.
+ */
 export class FocusLayer extends Layer(
   {
     /**

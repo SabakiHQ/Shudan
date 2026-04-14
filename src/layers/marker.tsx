@@ -4,8 +4,15 @@ import { COMPONENT_PREFIX } from "../constants.ts";
 import { Vertex } from "../vertex.ts";
 import { GobanContext } from "../goban.tsx";
 
+/**
+ * The shape of a marker placed on a vertex.
+ */
 export type MarkerType = "point" | "circle" | "cross" | "triangle" | "square";
 
+/**
+ * A marker placed on a vertex. Can be a shorthand `MarkerType` string, or an
+ * object with optional `type` and `color` overrides.
+ */
 export type Marker =
   | MarkerType
   | {
@@ -13,6 +20,10 @@ export type Marker =
       color?: string;
     };
 
+/**
+ * A layer that renders shape markers (circles, crosses, triangles, etc.) on
+ * specified vertices.
+ */
 export class MarkerLayer extends Layer({
   /**
    * The color of the markers. If set to `undefined`, it uses the default colors

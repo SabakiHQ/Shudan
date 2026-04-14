@@ -4,6 +4,9 @@ import { Layer, unit } from "./layer.tsx";
 import { Vertex } from "../vertex.ts";
 import { GobanContext } from "../goban.tsx";
 
+/**
+ * Returns the standard hoshi positions for a board of the given dimensions.
+ */
 export function getHoshis(width: number, height: number): Vertex[] {
   if (Math.min(width, height) <= 6) return [];
 
@@ -28,6 +31,9 @@ export function getHoshis(width: number, height: number): Vertex[] {
   return result;
 }
 
+/**
+ * A layer that renders the grid lines and hoshi markers.
+ */
 export class GridLayer extends Layer({
   /**
    * The color of the grid lines and hoshi markers. Defaults to the board

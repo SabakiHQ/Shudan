@@ -1,5 +1,10 @@
 const LETTERS = "ABCDEFGHJKLMNOPQRSTUVWXYZ";
 
+/**
+ * A Go coordinate string such as `"A1"`, `"T19"`, or `"AA3"`. The column letter
+ * follows standard Go notation (skipping `I`), and the row number is 1-based
+ * from the bottom.
+ */
 export type Vertex = `${string}${number}`;
 
 /**
