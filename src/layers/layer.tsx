@@ -7,7 +7,7 @@ import {
   type Metadata,
   type Template,
 } from "sinho";
-import { Goban, GobanContext, useGobanRanges } from "../goban.tsx";
+import { Goban, GobanContext, useRanges } from "../goban.tsx";
 import { LAYER_PADDING } from "../constants.ts";
 
 /**
@@ -83,7 +83,7 @@ export function Layer<const M extends Metadata>(
 
       const width = useContext(GobanContext.width);
       const height = useContext(GobanContext.height);
-      const { rangeX, rangeY } = useGobanRanges();
+      const { rangeX, rangeY } = useRanges();
 
       const content = this.renderContent();
       const padding = opts.visibleOverflow ? LAYER_PADDING : 0;

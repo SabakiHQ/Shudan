@@ -77,7 +77,7 @@ export const GobanContext = {
   stones: createContext<Record<string, number>>(),
 };
 
-export function useGobanRanges() {
+export function useRanges() {
   const topLeftVertex = useContext(GobanContext.topLeft);
   const bottomRightVertex = useContext(GobanContext.bottomRight);
 
@@ -187,7 +187,7 @@ export class Goban extends Component({
     const coordX = useContext(GobanContext.coordX);
     const coordY = useContext(GobanContext.coordY);
 
-    const { rangeX, rangeY } = useGobanRanges();
+    const { rangeX, rangeY } = useRanges();
     const viewportWidth = () =>
       Math.min(rangeX()[1] - rangeX()[0] + 1, width());
     const viewportHeight = () =>
