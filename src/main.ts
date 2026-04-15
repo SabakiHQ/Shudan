@@ -2,9 +2,9 @@ export { Goban, useGobanContext, useRanges } from "./goban.tsx";
 export { Vertex } from "./vertex.ts";
 export {
   Layer,
+  unit,
   type LayerOptions,
   type _LayerComponent,
-  unit,
 } from "./layers/layer.tsx";
 export { GridLayer, getHoshis } from "./layers/grid.tsx";
 export { StoneLayer } from "./layers/stone.tsx";

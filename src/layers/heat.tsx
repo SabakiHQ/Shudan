@@ -34,35 +34,23 @@ export class HeatLayer extends Layer(
     const max = useMemo(() => Math.max(...Object.values(this.props.values())));
 
     return (
-      <>
-        <For each={this.props.colors}>
-          {(color, i, colors) => (
-            <PaintLayer
-              class="layer"
-              color={color}
-              paintedVertices={() =>
-                Object.entries(this.props.values())
-                  .filter(
-                    ([, value]) =>
-                      i() / colors().length < value / max() &&
-                      value / max() <= (i() + 1) / colors().length,
-                  )
-                  .map(([vertex]) => vertex as Vertex)
-              }
-            />
-          )}
-        </For>
-
-        <Style>{css`
-          .layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-          }
-        `}</Style>
-      </>
+      <For each={this.props.colors}>
+        {(color, i, colors) => (
+          <PaintLayer
+            class="layer"
+            color={color}
+            paintedVertices={() =>
+              Object.entries(this.props.values())
+                .filter(
+                  ([, value]) =>
+                    i() / colors().length < value / max() &&
+                    value / max() <= (i() + 1) / colors().length,
+                )
+                .map(([vertex]) => vertex as Vertex)
+            }
+          />
+        )}
+      </For>
     );
   }
 }
