@@ -97,7 +97,7 @@ export class StoneLayer extends Layer(
           <For each={stones} key={(stone) => stone.vertex}>
             {(stone) => (
               <circle
-                r={unit(0.9 / 2)}
+                r={unit(0.95 / 2)}
                 cx={() => unit(stone().x + 0.5)}
                 cy={() => unit(height() - stone().y - 0.5)}
                 opacity={
@@ -128,10 +128,10 @@ export class StoneLayer extends Layer(
                 style={{
                   "--shudan-random": () => randomMap()[stone().y]?.[stone().x],
                 }}
-                width={unit(0.9)}
-                height={unit(0.9)}
-                x={() => unit(stone().x + 0.05)}
-                y={() => unit(height() - 1 - stone().y + 0.05)}
+                width={unit(0.95)}
+                height={unit(0.95)}
+                x={() => unit(stone().x + 0.025)}
+                y={() => unit(height() - 1 - stone().y + 0.025)}
                 opacity={() =>
                   this.props.dimmedStones().includes(stone().vertex) ? 0.6 : 1
                 }
