@@ -223,7 +223,7 @@ export class Goban extends Component({
     const height = useContext(GobanContext.height);
     const _vertexSize = useContext(GobanContext.vertexSize);
     const vertexSize = useMemo(() =>
-      /^\d+$/.test(_vertexSize().toString())
+      /^\d+(\.\d+)?|\.\d+$/.test(_vertexSize().toString())
         ? _vertexSize() + "px"
         : _vertexSize().toString(),
     );
