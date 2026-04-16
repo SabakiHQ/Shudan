@@ -15,7 +15,8 @@
       }
 
       shudan-goban {
-        --shudan-board-background: url("./board.jpg") center #f1b458;
+        --shudan-board-background: url("./board.jpg") center
+          var(--shudan-board-background-color);
       }
 
       shudan-goban.smallcoord::part(coord-x) {
