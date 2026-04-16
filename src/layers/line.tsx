@@ -2,7 +2,7 @@ import { defineComponents, For, If, prop, useMemo, useRef } from "sinho";
 import { Layer, unit } from "./layer.tsx";
 import { Vertex } from "../main.ts";
 import { COMPONENT_PREFIX } from "../constants.ts";
-import { useLightDomReference } from "../utils.ts";
+import { useExternalReference } from "../utils.ts";
 import { useGobanContext } from "../goban.tsx";
 
 /**
@@ -47,8 +47,16 @@ export class LineLayer extends Layer({
       this.props.tail() === "none" ? undefined : this.props.tail(),
     );
 
-    const customHeadId = useLightDomReference(customHead, defsRef);
-    const customTailId = useLightDomReference(customTail, defsRef);
+    const customHeadId = useExternalReference(
+      this.getRootNode() as Element,
+      customHead,
+      defsRef,
+    );
+    const customTailId = useExternalReference(
+      this.getRootNode() as Element,
+      customTail,
+      defsRef,
+    );
 
     return (
       <>

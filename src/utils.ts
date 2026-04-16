@@ -1,7 +1,8 @@
 import { useEffect, type RefSignal, type Signal } from "sinho";
 
-export function useLightDomReference(
-  lightDomHref: Signal<string | null | undefined>,
+export function useExternalReference(
+  rootElement: Element,
+  externalHref: Signal<string | null | undefined>,
   container: RefSignal<Element | undefined>,
 ): string {
   const shadowDomId = "shudan-lightdom-" + crypto.randomUUID();
@@ -14,12 +15,12 @@ export function useLightDomReference(
       ?.querySelector("#" + shadowDomId)
       ?.remove();
 
-    if (lightDomHref() == null) return;
+    if (externalHref() == null) return;
 
-    const lightDomElement = document.querySelector(lightDomHref()!);
+    const externalElement = rootElement.querySelector(externalHref()!);
 
-    if (lightDomElement != null) {
-      const clonedStone = lightDomElement.cloneNode(true) as Element;
+    if (externalElement != null) {
+      const clonedStone = externalElement.cloneNode(true) as Element;
       clonedStone.id = shadowDomId;
 
       container()?.appendChild(clonedStone);

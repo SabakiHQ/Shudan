@@ -3,7 +3,7 @@ import { COMPONENT_PREFIX } from "../constants.ts";
 import { Vertex } from "../vertex.ts";
 import { Layer, unit } from "./layer.tsx";
 import { GobanContext, useGobanContext, useRanges } from "../goban.tsx";
-import { useLightDomReference } from "../utils.ts";
+import { useExternalReference } from "../utils.ts";
 import { BlackStone, WhiteStone } from "../assets.tsx";
 
 /**
@@ -64,12 +64,14 @@ export class StoneLayer extends Layer(
 
     const defsContainer = useRef<Element>();
 
-    const customBlackStoneId = useLightDomReference(
+    const customBlackStoneId = useExternalReference(
+      this.getRootNode() as Element,
       this.props.blackStoneHref,
       defsContainer,
     );
 
-    const customWhiteStoneId = useLightDomReference(
+    const customWhiteStoneId = useExternalReference(
+      this.getRootNode() as Element,
       this.props.whiteStoneHref,
       defsContainer,
     );
