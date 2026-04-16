@@ -98,22 +98,23 @@ export class LineLayer extends Layer({
         >
           <For each={this.props.lines}>
             {(line) => {
-              const [start, end] = [0, 1].map((i) => () => line()[i]);
-              const [x1, y1] = [0, 1].map(
-                (i) => () => Vertex.parse(start())[i],
-              );
-              const [x2, y2] = [0, 1].map((i) => () => Vertex.parse(end())[i]);
-              const [dx, dy] = [0, 1].map((i) =>
-                i === 0 ? () => x2() - x1() : () => y1() - y2(),
-              );
-              const angle = () => (Math.atan2(dy(), dx()) * 180) / Math.PI;
-              const length = () => Math.sqrt(unit(dx()) ** 2 + unit(dy()) ** 2);
+              const data = useMemo(() => {
+                const [start, end] = line();
+                const [x1, y1] = Vertex.parse(start);
+                const [x2, y2] = Vertex.parse(end);
+                const [dx, dy] = [x2 - x1, y1 - y2];
+
+                const angle = (Math.atan2(dy, dx) * 180) / Math.PI;
+                const length = Math.sqrt(unit(dx) ** 2 + unit(dy) ** 2);
+
+                return { x1, y1, angle, length };
+              });
 
               return (
                 <g
                   transform={() =>
-                    `translate(${unit(x1() + 0.5)} ${unit(height() - y1() - 0.5)})
-                    rotate(${angle()} 0 0)`
+                    `translate(${unit(data().x1 + 0.5)} ${unit(height() - data().y1 - 0.5)})
+                    rotate(${data().angle} 0 0)`
                   }
                   filter="url(#shudan-outline)"
                 >
@@ -124,12 +125,12 @@ export class LineLayer extends Layer({
                   <rect
                     x={0}
                     y={0}
-                    width={() => length()}
+                    width={() => data().length}
                     height={unit(0.11)}
                     opacity={0}
                   />
 
-                  <path d={() => `M 0 0 h ${length()}`} />
+                  <path d={() => `M 0 0 h ${data().length}`} />
 
                   <If condition={() => this.props.tail() !== "none"}>
                     <use
@@ -148,7 +149,7 @@ export class LineLayer extends Layer({
                           ? "#shudan-arrowhead"
                           : `#${customHeadId}`
                       }
-                      x={() => length() - unit(0.5)}
+                      x={() => data().length - unit(0.5)}
                       y={-unit(0.5)}
                       width={unit()}
                       height={unit()}
