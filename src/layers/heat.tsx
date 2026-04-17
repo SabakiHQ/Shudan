@@ -32,6 +32,7 @@ export class HeatLayer extends Layer(
 ) {
   renderContent() {
     const max = useMemo(() => Math.max(...Object.values(this.props.values())));
+    const min = useMemo(() => Math.min(...Object.values(this.props.values())));
 
     return (
       <For each={this.props.colors}>
@@ -43,8 +44,9 @@ export class HeatLayer extends Layer(
               Object.entries(this.props.values())
                 .filter(
                   ([, value]) =>
-                    i() / colors().length < value / max() &&
-                    value / max() <= (i() + 1) / colors().length,
+                    (i() * (max() - min())) / colors().length + min() < value &&
+                    value <=
+                      ((i() + 1) * (max() - min())) / colors().length + min(),
                 )
                 .map(([vertex]) => vertex as Vertex)
             }
