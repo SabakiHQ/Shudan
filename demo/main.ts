@@ -101,6 +101,19 @@ document
   });
 
 document
+  .querySelector<HTMLInputElement>("input.custom")!
+  .addEventListener("change", (event) => {
+    const layer = goban.querySelector<StoneLayer>("shudan-goban .stones")!;
+
+    layer.blackStoneHref = (event.target! as HTMLInputElement).checked
+      ? "#custom-black-stone"
+      : undefined;
+    layer.whiteStoneHref = (event.target! as HTMLInputElement).checked
+      ? "#custom-white-stone"
+      : undefined;
+  });
+
+document
   .querySelector<HTMLInputElement>("input.dead")!
   .addEventListener("change", (event) => {
     const layer = goban.querySelector<StoneLayer>("shudan-goban .stones")!;

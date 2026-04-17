@@ -65,6 +65,11 @@
           <ul>
             <li>
               <label>
+                <input type="checkbox" class="custom" /> Custom stones
+              </label>
+            </li>
+            <li>
+              <label>
                 <input type="checkbox" class="dead" /> Dim dead stones
               </label>
             </li>
@@ -113,6 +118,17 @@
     </div>
 
     <div>
+      <svg style="position: absolute; left: -9999px">
+        <defs>
+          <symbol id="custom-black-stone" viewBox="0 0 1 1">
+            <circle cx="0.5" cy="0.5" r="0.5" fill="black" stroke="none" />
+          </symbol>
+          <symbol id="custom-white-stone" viewBox="0 0 1 1">
+            <circle cx="0.5" cy="0.5" r="0.5" fill="white" stroke="none" />
+          </symbol>
+        </defs>
+      </svg>
+
       <shudan-goban interactive coords vertex-size="28">
         <shudan-grid-layer class="grid"></shudan-grid-layer>
 
