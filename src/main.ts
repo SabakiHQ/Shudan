@@ -8,6 +8,7 @@ export {
 
 export { GridLayer, getHoshis } from "./layers/grid.tsx";
 export { StoneLayer } from "./layers/stone.tsx";
+export { HoverStoneLayer } from "./layers/hover-stone.tsx";
 export { GhostStoneLayer } from "./layers/ghost-stone.tsx";
 export { MarkerLayer, type Marker, type MarkerType } from "./layers/marker.tsx";
 export { LabelLayer, type Label } from "./layers/label.tsx";

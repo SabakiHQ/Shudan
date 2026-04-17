@@ -91,7 +91,7 @@ export function Layer<const M extends Metadata>(
       return (
         <>
           {opts.renderHTML ? (
-            <div class="shudan-layer-content">{content}</div>
+            content
           ) : (
             <svg
               class="shudan-layer-content"
@@ -131,6 +131,11 @@ export function Layer<const M extends Metadata>(
           <Style>{css`
             :host {
               display: block;
+              position: absolute;
+              left: 0;
+              top: 0;
+              right: 0;
+              bottom: 0;
               pointer-events: none;
             }
 
@@ -140,14 +145,6 @@ export function Layer<const M extends Metadata>(
               top: ${() => unit(-padding)}px;
               right: ${() => unit(-padding)}px;
               bottom: ${() => unit(-padding)}px;
-            }
-
-            ::slotted(*) {
-              position: absolute;
-              left: 0;
-              top: 0;
-              right: 0;
-              bottom: 0;
             }
           `}</Style>
         </>

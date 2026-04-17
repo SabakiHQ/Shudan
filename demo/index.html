@@ -33,11 +33,6 @@
           <label>
             <input type="checkbox" class="interactive" checked /> Interactive
           </label>
-          <ul>
-            <li>
-              <label> <input type="checkbox" class="hover" /> Hover</label>
-            </li>
-          </ul>
         </li>
         <li>
           <label>
@@ -71,6 +66,11 @@
             <li>
               <label>
                 <input type="checkbox" class="dead" /> Dim dead stones
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" class="hover" /> Show hover stone
               </label>
             </li>
           </ul>
@@ -151,26 +151,31 @@
               "T4": "Long\nlabel with linebreak"
             }'
           ></shudan-label-layer>
-        </shudan-stone-layer>
 
-        <shudan-ghost-stone-layer
-          class="ghost-stones"
-          style="display: none"
-          stones='{
-            "A19": "rgba(0, 0, 0, .6)",
-            "A18": "rgba(255, 255, 255, .6)",
-            "A17": "rgba(240, 35, 17, .6)",
-            "A16": "rgba(146, 39, 143, .6)",
-            "A15": "rgba(72, 134, 213, .6)",
-            "A14": "rgba(79, 157, 5, .6)",
-            "B19": "rgba(0, 0, 0, .3)",
-            "B18": "rgba(255, 255, 255, .3)",
-            "B17": "rgba(240, 35, 17, .3)",
-            "B16": "rgba(146, 39, 143, .3)",
-            "B15": "rgba(72, 134, 213, .3)",
-            "B14": "rgba(79, 157, 5, .3)"
-          }'
-        ></shudan-ghost-stone-layer>
+          <shudan-ghost-stone-layer
+            class="ghost-stones"
+            style="display: none"
+            stones='{
+              "A19": "rgba(0, 0, 0, .6)",
+              "A18": "rgba(255, 255, 255, .6)",
+              "A17": "rgba(240, 35, 17, .6)",
+              "A16": "rgba(146, 39, 143, .6)",
+              "A15": "rgba(72, 134, 213, .6)",
+              "A14": "rgba(79, 157, 5, .6)",
+              "B19": "rgba(0, 0, 0, .3)",
+              "B18": "rgba(255, 255, 255, .3)",
+              "B17": "rgba(240, 35, 17, .3)",
+              "B16": "rgba(146, 39, 143, .3)",
+              "B15": "rgba(72, 134, 213, .3)",
+              "B14": "rgba(79, 157, 5, .3)"
+            }'
+          ></shudan-ghost-stone-layer>
+
+          <shudan-hover-stone-layer
+            class="hover"
+            style="display: none"
+          ></shudan-hover-stone-layer>
+        </shudan-stone-layer>
 
         <shudan-heat-layer
           class="heat"

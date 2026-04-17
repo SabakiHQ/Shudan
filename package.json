@@ -32,6 +32,10 @@
       "import": "./dist/layers/heat.js",
       "types": "./dist/layers/heat.d.ts"
     },
+    "./HoverStoneLayer": {
+      "import": "./dist/layers/hover-stone.js",
+      "types": "./dist/layers/hover-stone.d.ts"
+    },
     "./LabelLayer": {
       "import": "./dist/layers/label.js",
       "types": "./dist/layers/label.d.ts"

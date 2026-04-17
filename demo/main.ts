@@ -8,6 +8,7 @@ import type {
   LineLayer,
   HeatLayer,
   PaintLayer,
+  HoverStoneLayer,
 } from "../src/main.ts";
 
 const goban = document.querySelector<Goban>("shudan-goban")!;
@@ -25,12 +26,6 @@ document
   .querySelector<HTMLInputElement>("input.interactive")!
   .addEventListener("change", (event) => {
     goban.interactive = (event.target! as HTMLInputElement).checked;
-  });
-
-document
-  .querySelector<HTMLInputElement>("input.hover")!
-  .addEventListener("change", (event) => {
-    goban.hover = (event.target! as HTMLInputElement).checked;
   });
 
 document
@@ -113,6 +108,16 @@ document
     layer.dimmedStones = (event.target! as HTMLInputElement).checked
       ? ["C6", "C5", "F6", "G6", "K16", "K14", "L14", "P12", "O6", "O5", "T6"]
       : [];
+  });
+
+document
+  .querySelector<HTMLInputElement>("input.hover")!
+  .addEventListener("change", (event) => {
+    const layer = goban.querySelector<HoverStoneLayer>("shudan-goban .hover")!;
+
+    layer.style.display = (event.target! as HTMLInputElement).checked
+      ? "block"
+      : "none";
   });
 
 document

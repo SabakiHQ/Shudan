@@ -25,7 +25,6 @@ export const GobanContext = {
   height: createContext<number>(19),
   vertexSize: createContext<string | number>("1.7em"),
   interactive: createContext<boolean>(false),
-  hover: createContext<boolean>(false),
   coords: createContext<boolean>(false),
   coordX: createContext<(x: number) => string>((x) => xToLetter(x)),
   coordY: createContext<(y: number) => string>((y) => (y + 1).toString()),
@@ -62,12 +61,6 @@ export function useGobanContext() {
      */
     get interactive() {
       return useContext(GobanContext.interactive);
-    },
-    /**
-     * Whether hovering over vertices should focus them. Only has an effect if `interactive` is enabled.
-     */
-    get hover() {
-      return useContext(GobanContext.hover);
     },
     /**
      * Whether coordinates should be displayed around the goban.
@@ -164,10 +157,6 @@ export class Goban extends Component({
    */
   interactive: prop(GobanContext.interactive, { attribute: () => true }),
   /**
-   * Whether hovering over vertices should focus them. Only has an effect if `interactive` is enabled.
-   */
-  hover: prop(GobanContext.hover, { attribute: () => true }),
-  /**
    * Whether coordinates should be displayed around the goban.
    */
   coords: prop(GobanContext.coords, { attribute: () => true }),
@@ -216,6 +205,8 @@ export class Goban extends Component({
    * This event is emitted when a pointer moves while hovering over a vertex. Only emitted if `interactive` is enabled.
    */
   onVertexPointerMove: event(VertexPointerEvent),
+  onVertexPointerEnter: event(VertexPointerEvent),
+  onVertexPointerLeave: event(PointerEvent),
 }) {
   render() {
     const width = useContext(GobanContext.width);
@@ -381,27 +372,20 @@ export class Goban extends Component({
                 vertex: getVertexFromEvent(evt),
               })
             }
-            onpointermove={(evt) => {
-              const vertex = getVertexFromEvent(evt);
-
-              if (this.props.hover() && this.focusedVertex !== vertex) {
-                if (!this._focused) {
-                  this.focus();
-                }
-
-                const prevented = this.events.onFocusedVertexChange(vertex);
-                if (prevented) this.focusedVertex = vertex;
-              }
-
+            onpointerenter={(evt) =>
+              this.events.onVertexPointerEnter({
+                originalEvent: evt,
+                vertex: getVertexFromEvent(evt),
+              })
+            }
+            onpointermove={(evt) =>
               this.events.onVertexPointerMove({
                 originalEvent: evt,
-                vertex,
-              });
-            }}
-            onpointerleave={() => {
-              if (this.props.hover()) {
-                this.focusedVertex = undefined;
-              }
+                vertex: getVertexFromEvent(evt),
+              })
+            }
+            onpointerleave={(evt) => {
+              this.events.onVertexPointerLeave({ ...evt });
             }}
           >
             <svg
@@ -535,6 +519,7 @@ export class Goban extends Component({
             height: ${unitCSS(
               `var(--_shudan-viewport-height) + ${2 * LAYER_PADDING}`,
             )};
+            pointer-events: none;
           }
         `}</Style>
       </>
