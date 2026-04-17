@@ -10,6 +10,8 @@ import {
   useContext,
   useEffect,
   useMemo,
+  type Context,
+  type Signal,
 } from "sinho";
 import { COMPONENT_PREFIX, LAYER_PADDING } from "./constants.ts";
 import { Coord } from "./coord.tsx";
@@ -21,97 +23,93 @@ import { unitCSS } from "./utils.ts";
 export { Vertex } from "./vertex.ts";
 
 export const GobanContext = {
+  /**
+   * The width of the goban in vertices.
+   */
   width: createContext<number>(19),
+  /**
+   * The height of the goban in vertices.
+   */
   height: createContext<number>(19),
+  /**
+   * The size of a vertex. Can be specified as any CSS length unit, or as a pixel number.
+   */
   vertexSize: createContext<string | number>("1.7em"),
+  /**
+   * Whether the goban should be focusable and emit events when vertices are clicked or hovered.
+   */
   interactive: createContext<boolean>(false),
+  /**
+   * Whether coordinates should be displayed around the goban.
+   */
   coords: createContext<boolean>(false),
+  /**
+   * A function that returns the label to be displayed for a given x coordinate. Only has an effect if `coords` is enabled.
+   */
   coordX: createContext<(x: number) => string>((x) => xToLetter(x)),
+  /**
+   * A function that returns the label to be displayed for a given y coordinate. Only has an effect if `coords` is enabled.
+   */
   coordY: createContext<(y: number) => string>((y) => (y + 1).toString()),
+  /**
+   * Cuts off the goban to only display the area from the given vertex to the `bottomRight` vertex, inclusive.
+   */
   topLeft: createContext<Vertex | undefined>(undefined),
+  /**
+   * Cuts off the goban to only display the area from the `topLeft` vertex to the given vertex, inclusive.
+   */
   bottomRight: createContext<Vertex | undefined>(undefined),
+  /**
+   * @ignore
+   */
   focused: createContext<boolean>(false),
+  /**
+   * The currently focused vertex. Only has a value if `interactive` is enabled.
+   */
   focusedVertex: createContext<Vertex>(),
 
+  /**
+   * A mapping from vertices to `-1` representing a white stone, or `1`
+   * representing a black stone.
+   */
   stones: createContext<Record<string, number>>(),
+  /**
+   * A list of stones that should be marked as dimmed. Has no effect on
+   * empty vertices.
+   */
+  dimmedStones: createContext<Vertex[]>(),
+  /**
+   * An id referencing an SVG object that should be used to represent a
+   * black stone.
+   */
+  blackStoneHref: createContext<string>(),
+  /**
+   * An id referencing an SVG object that should be used to represent a
+   * white stone.
+   */
+  whiteStoneHref: createContext<string>(),
 };
 
-export function useGobanContext() {
-  return {
-    /**
-     * The width of the goban in vertices.
-     */
-    get width() {
-      return useContext(GobanContext.width);
-    },
-    /**
-     * The height of the goban in vertices.
-     */
-    get height() {
-      return useContext(GobanContext.height);
-    },
-    /**
-     * The size of a vertex. Can be specified as any CSS length unit, or as a pixel number.
-     */
-    get vertexSize() {
-      return useContext(GobanContext.vertexSize);
-    },
-    /**
-     * Whether the goban should be focusable and emit events when vertices are clicked or hovered.
-     */
-    get interactive() {
-      return useContext(GobanContext.interactive);
-    },
-    /**
-     * Whether coordinates should be displayed around the goban.
-     */
-    get coords() {
-      return useContext(GobanContext.coords);
-    },
-    /**
-     * A function that returns the label to be displayed for a given x coordinate. Only has an effect if `coords` is enabled.
-     */
-    get coordX() {
-      return useContext(GobanContext.coordX);
-    },
-    /**
-     * A function that returns the label to be displayed for a given y coordinate. Only has an effect if `coords` is enabled.
-     */
-    get coordY() {
-      return useContext(GobanContext.coordY);
-    },
-    /**
-     * Cuts off the goban to only display the area from the given vertex to the `bottomRight` vertex, inclusive.
-     */
-    get topLeft() {
-      return useContext(GobanContext.topLeft);
-    },
-    /**
-     * Cuts off the goban to only display the area from the `topLeft` vertex to the given vertex, inclusive.
-     */
-    get bottomRight() {
-      return useContext(GobanContext.bottomRight);
-    },
-    /**
-     * @ignore
-     */
-    get focused() {
-      return useContext(GobanContext.focused);
-    },
-    /**
-     * The currently focused vertex. Only has a value if `interactive` is enabled.
-     */
-    get focusedVertex() {
-      return useContext(GobanContext.focusedVertex);
-    },
+export function useGobanContext(): {
+  readonly [K in keyof typeof GobanContext]: (typeof GobanContext)[K] extends Context<
+    infer T
+  >
+    ? Signal<T>
+    : never;
+} {
+  const result: any = {};
 
-    /**
-     * A mapping from vertices to `-1` representing a white stone, or `1` representing a black stone. Only has a value if queried from inside a `StoneLayer`.
-     */
-    get stones() {
-      return useContext(GobanContext.stones);
-    },
-  };
+  for (const key of Object.keys(GobanContext)) {
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      get: () =>
+        useContext(
+          GobanContext[key as keyof typeof GobanContext] as Context<unknown>,
+        ),
+    });
+  }
+
+  return result;
 }
 
 export function useRanges() {

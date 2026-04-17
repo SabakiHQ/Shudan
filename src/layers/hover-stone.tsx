@@ -4,13 +4,25 @@ import { StoneLayer } from "./stone.tsx";
 import { useGobanContext, type Vertex } from "../main.ts";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import type { VertexPointerEvent } from "../events.ts";
+import { GobanContext } from "../goban.tsx";
 
 export class HoverStoneLayer extends Layer(
   {
-    type: prop<"black" | "white" | (string & {})>("black", {
-      attribute: String,
-    }),
-    opacity: prop<number>(0.5, { attribute: Number }),
+    /**
+     * The color of the stone to be rendered on hover, either 1 or -1.
+     * @default 1
+     */
+    color: prop<1 | -1 | (number & {})>(1, { attribute: Number }),
+    /**
+     * An id referencing an SVG object that should be used to represent a
+     * black stone.
+     */
+    blackStoneHref: prop(GobanContext.blackStoneHref, { attribute: String }),
+    /**
+     * An id referencing an SVG object that should be used to represent a
+     * white stone.
+     */
+    whiteStoneHref: prop(GobanContext.whiteStoneHref, { attribute: String }),
   },
   {
     visibleOverflow: true,
@@ -18,7 +30,7 @@ export class HoverStoneLayer extends Layer(
   },
 ) {
   renderContent() {
-    const { stones } = useGobanContext();
+    const { stones, blackStoneHref, whiteStoneHref } = useGobanContext();
     const [hoverVertex, setHoverVertex] = useSignal<Vertex>();
 
     useEffect(() => {
@@ -58,25 +70,14 @@ export class HoverStoneLayer extends Layer(
     });
 
     return (
-      <>
-        <StoneLayer
-          style={{
-            opacity: this.props.opacity,
-          }}
-          stones={() =>
-            hoverVertex() == null
-              ? {}
-              : {
-                  [hoverVertex()!]:
-                    this.props.type() === "black"
-                      ? 1
-                      : this.props.type() === "white"
-                        ? -1
-                        : 0,
-                }
-          }
-        />
-      </>
+      <StoneLayer
+        stones={() =>
+          hoverVertex() == null ? {} : { [hoverVertex()!]: this.props.color() }
+        }
+        dimmedStones={() => (hoverVertex() == null ? [] : [hoverVertex()!])}
+        blackStoneHref={blackStoneHref}
+        whiteStoneHref={whiteStoneHref}
+      />
     );
   }
 }

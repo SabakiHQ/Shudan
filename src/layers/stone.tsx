@@ -22,17 +22,19 @@ export class StoneLayer extends Layer(
      * A list of stones that should be marked as dimmed. Has no effect on
      * empty vertices.
      */
-    dimmedStones: prop<Vertex[]>([], { attribute: JSON.parse }),
+    dimmedStones: prop<Vertex[] | undefined>(GobanContext.dimmedStones, {
+      attribute: JSON.parse,
+    }),
     /**
      * An id referencing an SVG object that should be used to represent a
      * black stone.
      */
-    blackStoneHref: prop<string>(undefined, { attribute: String }),
+    blackStoneHref: prop(GobanContext.blackStoneHref, { attribute: String }),
     /**
      * An id referencing an SVG object that should be used to represent a
-     * black stone.
+     * white stone.
      */
-    whiteStoneHref: prop<string>(undefined, { attribute: String }),
+    whiteStoneHref: prop(GobanContext.whiteStoneHref, { attribute: String }),
   },
   { visibleOverflow: true },
 ) {
@@ -104,7 +106,7 @@ export class StoneLayer extends Layer(
                 cy={() => unit(height() - stone().y - 0.5)}
                 opacity={
                   () =>
-                    this.props.dimmedStones().includes(stone().vertex)
+                    this.props.dimmedStones()?.includes(stone().vertex)
                       ? 0.4
                       : 0.999 // Somehow makes hover faster
                 }
@@ -135,7 +137,7 @@ export class StoneLayer extends Layer(
                 x={() => unit(stone().x + 0.025)}
                 y={() => unit(height() - 1 - stone().y + 0.025)}
                 opacity={() =>
-                  this.props.dimmedStones().includes(stone().vertex) ? 0.6 : 1
+                  this.props.dimmedStones()?.includes(stone().vertex) ? 0.6 : 1
                 }
               />
             )}
