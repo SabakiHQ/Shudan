@@ -240,10 +240,88 @@ export class Goban extends Component({
     });
 
     useEffect(() => {
-      // Auto focus .layout
+      // Host events
 
       this.addEventListener("focus", () => {
-        this.shadowRoot!.querySelector<HTMLElement>(".layout")!.focus();
+        this._focused = true;
+      });
+
+      this.addEventListener("blur", () => {
+        this._focused = false;
+      });
+
+      this.addEventListener("keydown", (evt) => {
+        // Keyboard navigation
+
+        if (
+          !this.interactive ||
+          ![
+            "ArrowLeft",
+            "ArrowUp",
+            "ArrowRight",
+            "ArrowDown",
+            "Escape",
+            "Enter",
+            "Space",
+          ].includes(evt.code)
+        ) {
+          return;
+        }
+
+        evt.preventDefault();
+
+        if (["Enter", "Space"].includes(evt.code)) {
+          if (this.focusedVertex != null) {
+            this.events.onVertexClick({
+              originalEvent: new PointerEvent("click"),
+              vertex: this.focusedVertex,
+            });
+          }
+          return;
+        } else if (evt.code === "Escape") {
+          if (this.focusedVertex != null) {
+            this.focusedVertex = undefined;
+          } else {
+            this.blur();
+          }
+          return;
+        }
+
+        const newPosition =
+          this.focusedVertex == null
+            ? ([
+                Math.max(0, rangeX()[0]),
+                Math.min(height() - 1, rangeY()[1]),
+              ] as const)
+            : (() => {
+                const [x, y] = Vertex.parse(this.focusedVertex);
+                return (
+                  (
+                    {
+                      ArrowLeft: [x - 1, y],
+                      ArrowUp: [x, y + 1],
+                      ArrowRight: [x + 1, y],
+                      ArrowDown: [x, y - 1],
+                    } as const
+                  )[evt.code] ?? [x, y]
+                );
+              })();
+
+        const focusedVertex = Vertex(
+          Math.max(
+            0,
+            rangeX()[0],
+            Math.min(width() - 1, rangeX()[1], newPosition[0]),
+          ),
+          Math.max(
+            0,
+            rangeY()[0],
+            Math.min(height() - 1, rangeY()[1], newPosition[1]),
+          ),
+        );
+
+        const prevented = this.events.onFocusedVertexChange(focusedVertex);
+        if (prevented) this.focusedVertex = focusedVertex;
       });
     });
 
@@ -277,79 +355,7 @@ export class Goban extends Component({
 
     return (
       <>
-        <div
-          class="layout"
-          tabIndex={() => (this.props.interactive() ? 0 : undefined)}
-          onfocus={() => (this._focused = true)}
-          onblur={() => (this._focused = false)}
-          onkeydown={(evt) => {
-            if (
-              !this.interactive ||
-              ![
-                "ArrowLeft",
-                "ArrowUp",
-                "ArrowRight",
-                "ArrowDown",
-                "Escape",
-                "Enter",
-                "Space",
-              ].includes(evt.code)
-            ) {
-              return;
-            }
-
-            evt.preventDefault();
-
-            if (["Enter", "Space"].includes(evt.code)) {
-              if (this.focusedVertex != null) {
-                this.events.onVertexClick({
-                  originalEvent: new PointerEvent("click"),
-                  vertex: this.focusedVertex,
-                });
-              }
-              return;
-            } else if (evt.code === "Escape") {
-              this.focusedVertex = undefined;
-              return;
-            }
-
-            const newPosition =
-              this.focusedVertex == null
-                ? ([
-                    Math.max(0, rangeX()[0]),
-                    Math.min(height() - 1, rangeY()[1]),
-                  ] as const)
-                : (() => {
-                    const [x, y] = Vertex.parse(this.focusedVertex);
-                    return (
-                      (
-                        {
-                          ArrowLeft: [x - 1, y],
-                          ArrowUp: [x, y + 1],
-                          ArrowRight: [x + 1, y],
-                          ArrowDown: [x, y - 1],
-                        } as const
-                      )[evt.code] ?? [x, y]
-                    );
-                  })();
-
-            const focusedVertex = Vertex(
-              Math.max(
-                0,
-                rangeX()[0],
-                Math.min(width() - 1, rangeX()[1], newPosition[0]),
-              ),
-              Math.max(
-                0,
-                rangeY()[0],
-                Math.min(height() - 1, rangeY()[1], newPosition[1]),
-              ),
-            );
-
-            const prevented = this.events.onFocusedVertexChange(focusedVertex);
-            if (prevented) this.focusedVertex = focusedVertex;
-          }}
-        >
+        <div class="layout">
           <div
             class="viewport"
             onclick={(evt) =>
