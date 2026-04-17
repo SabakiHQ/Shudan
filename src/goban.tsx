@@ -16,10 +16,9 @@ import { Coord } from "./coord.tsx";
 import { unit } from "./layers/layer.tsx";
 import { Vertex, xToLetter } from "./vertex.ts";
 import { VertexEvent, VertexPointerEvent } from "./events.ts";
+import { unitCSS } from "./utils.ts";
 
-export function unitCSS(value: number | string = 1): string {
-  return `calc((${value}) * var(--_shudan-vertex-size))`;
-}
+export { Vertex } from "./vertex.ts";
 
 export const GobanContext = {
   width: createContext<number>(19),

@@ -1,11 +1,11 @@
-export { Goban, useGobanContext, useRanges } from "./goban.tsx";
-export { Vertex } from "./vertex.ts";
+export { Goban, useGobanContext, useRanges, Vertex } from "./goban.tsx";
 export {
   Layer,
   unit,
   type LayerOptions,
-  type _LayerComponent,
+  type LayerComponent,
 } from "./layers/layer.tsx";
+
 export { GridLayer, getHoshis } from "./layers/grid.tsx";
 export { StoneLayer } from "./layers/stone.tsx";
 export { GhostStoneLayer } from "./layers/ghost-stone.tsx";

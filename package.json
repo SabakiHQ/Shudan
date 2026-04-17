@@ -4,8 +4,54 @@
   "description": "A highly customizable, low-level Goban web component.",
   "type": "module",
   "exports": {
-    "import": "./dist/main.js",
-    "types": "./dist/main.d.ts"
+    ".": {
+      "import": "./dist/main.js",
+      "types": "./dist/main.d.ts"
+    },
+    "./Goban": {
+      "import": "./dist/layers/goban.js",
+      "types": "./dist/layers/goban.d.ts"
+    },
+    "./Layer": {
+      "import": "./dist/layers/layer.js",
+      "types": "./dist/layers/layer.d.ts"
+    },
+    "./FocusLayer": {
+      "import": "./dist/layers/focus.js",
+      "types": "./dist/layers/focus.d.ts"
+    },
+    "./GhostStoneLayer": {
+      "import": "./dist/layers/ghost-stone.js",
+      "types": "./dist/layers/ghost-stone.d.ts"
+    },
+    "./GridLayer": {
+      "import": "./dist/layers/grid.js",
+      "types": "./dist/layers/grid.d.ts"
+    },
+    "./HeatLayer": {
+      "import": "./dist/layers/heat.js",
+      "types": "./dist/layers/heat.d.ts"
+    },
+    "./LabelLayer": {
+      "import": "./dist/layers/label.js",
+      "types": "./dist/layers/label.d.ts"
+    },
+    "./LineLayer": {
+      "import": "./dist/layers/line.js",
+      "types": "./dist/layers/line.d.ts"
+    },
+    "./MarkerLayer": {
+      "import": "./dist/layers/marker.js",
+      "types": "./dist/layers/marker.d.ts"
+    },
+    "./PaintLayer": {
+      "import": "./dist/layers/paint.js",
+      "types": "./dist/layers/paint.d.ts"
+    },
+    "./StoneLayer": {
+      "import": "./dist/layers/stone.js",
+      "types": "./dist/layers/stone.d.ts"
+    }
   },
   "repository": {
     "type": "git",

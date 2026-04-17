@@ -2,7 +2,6 @@ import {
   Component,
   css,
   Style,
-  useContext,
   type ComponentConstructor,
   type Metadata,
   type Template,
@@ -32,10 +31,7 @@ export interface LayerOptions {
   renderHTML?: boolean;
 }
 
-/**
- * Abstract base class mixed into every layer component.
- */
-export declare abstract class _LayerComponent {
+declare abstract class _LayerComponent {
   /**
    * The nearest ancestor `<shudan-goban>` element.
    */
@@ -47,7 +43,12 @@ export declare abstract class _LayerComponent {
   render(): Template;
 }
 
-export type Layer<M extends Metadata> = Component<M> & _LayerComponent;
+/**
+ * Abstract base class mixed into every layer component.
+ */
+export type LayerComponent = _LayerComponent;
+
+export type Layer<M extends Metadata> = Component<M> & LayerComponent;
 
 /**
  * Base class factory for all goban layers. Extend the returned class and

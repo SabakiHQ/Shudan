@@ -1,5 +1,5 @@
 import { For, MaybeSignal, useMemo, type FunctionalComponent } from "sinho";
-import { unitCSS } from "./goban.tsx";
+import { unitCSS } from "./utils.ts";
 
 export const Coord: FunctionalComponent<{
   size: MaybeSignal<number>;

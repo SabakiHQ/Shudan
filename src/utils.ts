@@ -1,5 +1,9 @@
 import { useEffect, type RefSignal, type Signal } from "sinho";
 
+export function unitCSS(value: number | string = 1): string {
+  return `calc((${value}) * var(--_shudan-vertex-size))`;
+}
+
 export function useExternalReference(
   rootElement: Element,
   externalHref: Signal<string | null | undefined>,
