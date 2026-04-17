@@ -27,6 +27,11 @@ export class LabelLayer extends Layer({
    */
   color: prop<string>(undefined, { attribute: String }),
   /**
+   * The background of the labels. If set to `undefined`, it uses the board
+   * background on empty vertices, and is transparent on occupied vertices.
+   */
+  background: prop<string>(undefined, { attribute: String }),
+  /**
    * A map of vertices and their labels.
    */
   labels: prop<Record<Vertex, Label>>({}, { attribute: JSON.parse }),
@@ -76,9 +81,11 @@ export class LabelLayer extends Layer({
                     overflow: "hidden",
                     transform: "translate(-50%, -50%)",
                     background: () =>
-                      stones() != null && stone() === 0
+                      stones() != null &&
+                      stone() === 0 &&
+                      this.props.background() === undefined
                         ? "var(--shudan-board-background)"
-                        : undefined,
+                        : this.props.background(),
                     color,
                     fontSize: () =>
                       (label().text?.length ?? 0) >= 3 ||

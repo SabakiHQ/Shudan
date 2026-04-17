@@ -32,6 +32,11 @@ export class MarkerLayer extends Layer({
    */
   color: prop<string>(undefined, { attribute: String }),
   /**
+   * The outline color of the markers. If set to `undefined`, it uses the board
+   * background color on empty vertices, and is transparent on occupied vertices.
+   */
+  outline: prop<string>(undefined, { attribute: String }),
+  /**
    * A mapping from vertices to markers.
    */
   markers: prop<Record<Vertex, Marker>>({}, { attribute: JSON.parse }),
@@ -62,25 +67,33 @@ export class MarkerLayer extends Layer({
               dx="0"
               dy={unit(0.05)}
               stdDeviation={0}
-              flood-color="var(--shudan-board-background-color)"
+              flood-color={() =>
+                this.props.outline() ?? "var(--shudan-board-background-color)"
+              }
             />
             <feDropShadow
               dx="0"
               dy={unit(-0.05)}
               stdDeviation={0}
-              flood-color="var(--shudan-board-background-color)"
+              flood-color={() =>
+                this.props.outline() ?? "var(--shudan-board-background-color)"
+              }
             />
             <feDropShadow
               dx={unit(0.05)}
               dy="0"
               stdDeviation={0}
-              flood-color="var(--shudan-board-background-color)"
+              flood-color={() =>
+                this.props.outline() ?? "var(--shudan-board-background-color)"
+              }
             />
             <feDropShadow
               dx={unit(-0.05)}
               dy="0"
               stdDeviation={0}
-              flood-color="var(--shudan-board-background-color)"
+              flood-color={() =>
+                this.props.outline() ?? "var(--shudan-board-background-color)"
+              }
             />
           </filter>
 
@@ -160,7 +173,8 @@ export class MarkerLayer extends Layer({
                 width={unit()}
                 height={unit()}
                 filter={() =>
-                  stones() != null && stone() === 0
+                  this.props.outline() != null ||
+                  (stones() != null && stone() === 0)
                     ? "url(#outline)"
                     : undefined
                 }
