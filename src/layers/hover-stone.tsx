@@ -7,6 +7,10 @@ import type { VertexPointerEvent } from "../events.ts";
 import { GobanContext } from "../goban.tsx";
 import { useExternalReference } from "../utils.ts";
 
+/**
+ * A layer that renders a semi-transparent stone on the vertex currently being
+ * hovered by the pointer.
+ */
 export class HoverStoneLayer extends Layer(
   {
     /**

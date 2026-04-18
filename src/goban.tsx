@@ -21,6 +21,7 @@ import { VertexEvent, VertexPointerEvent } from "./events.ts";
 import { unitCSS } from "./utils.ts";
 
 export { Vertex } from "./vertex.ts";
+export * from "./events.ts";
 
 export const GobanContext = {
   /**
@@ -141,6 +142,10 @@ export function useRanges() {
   return { rangeX, rangeY };
 }
 
+/**
+ * Main board component. It provides board sizing, coordinates, viewport cropping,
+ * keyboard navigation, pointer/vertex events, and contains all layer components.
+ */
 export class Goban extends Component({
   /**
    * The width of the goban in vertices.

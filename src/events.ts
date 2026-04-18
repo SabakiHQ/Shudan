@@ -1,4 +1,4 @@
-import { Vertex } from "./vertex.ts";
+import type { Vertex } from "./vertex.ts";
 
 /**
  * An event that carries a vertex, emitted when the focused vertex changes.

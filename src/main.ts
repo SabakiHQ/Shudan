@@ -1,4 +1,11 @@
-export { Goban, useGobanContext, useRanges, Vertex } from "./goban.tsx";
+export {
+  Goban,
+  useGobanContext,
+  useRanges,
+  Vertex,
+  VertexEvent,
+  VertexPointerEvent,
+} from "./goban.tsx";
 export {
   Layer,
   unit,
