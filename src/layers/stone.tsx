@@ -26,6 +26,11 @@ export class StoneLayer extends Layer(
       attribute: JSON.parse,
     }),
     /**
+     * The opacity of the dimmed stones, between 0 and 1.
+     * @default 0.6
+     */
+    dimOpacity: prop(0.6, { attribute: Number }),
+    /**
      * An id referencing an SVG object that should be used to represent a
      * black stone.
      */
@@ -106,7 +111,7 @@ export class StoneLayer extends Layer(
                 opacity={
                   () =>
                     this.props.dimmedStones()?.includes(stone().vertex)
-                      ? 0.4
+                      ? this.props.dimOpacity() / 2
                       : 0.999 // Somehow makes hover faster
                 }
               />
@@ -136,7 +141,9 @@ export class StoneLayer extends Layer(
                 x={() => unit(stone().x + 0.025)}
                 y={() => unit(height() - 1 - stone().y + 0.025)}
                 opacity={() =>
-                  this.props.dimmedStones()?.includes(stone().vertex) ? 0.6 : 1
+                  this.props.dimmedStones()?.includes(stone().vertex)
+                    ? this.props.dimOpacity()
+                    : 1
                 }
               />
             )}

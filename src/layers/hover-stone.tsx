@@ -15,6 +15,11 @@ export class HoverStoneLayer extends Layer(
      */
     color: prop<1 | -1 | (number & {})>(1, { attribute: Number }),
     /**
+     * The opacity of the hover stone, between 0 and 1.
+     * @default 0.6
+     */
+    opacity: prop<number>(0.6, { attribute: Number }),
+    /**
      * An id referencing an SVG object that should be used to represent a
      * black stone.
      */
@@ -103,6 +108,7 @@ export class HoverStoneLayer extends Layer(
               : { [hoverVertex()!]: this.props.color() }
           }
           dimmedStones={() => (hoverVertex() == null ? [] : [hoverVertex()!])}
+          dimOpacity={this.props.opacity}
           blackStoneHref={() =>
             customBlackStoneId() != null
               ? `#${customBlackStoneId()}`
