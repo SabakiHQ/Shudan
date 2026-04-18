@@ -48,10 +48,12 @@ export class GridLayer extends Layer({
   hoshis: prop<Vertex[]>(undefined, { attribute: JSON.parse }),
   /**
    * The stroke width of the grid lines as a fraction of the vertex size.
+   * @default 0.04
    */
   strokeWidth: prop<number>(0.04, { attribute: Number }),
   /**
    * The stroke width of the border lines as a fraction of the vertex size.
+   * @default 0.04
    */
   borderStrokeWidth: prop<number>(0.04, { attribute: Number }),
 }) {

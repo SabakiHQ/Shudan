@@ -102,6 +102,7 @@ export class PaintLayer extends Layer(
   {
     /**
      * The color of the painted vertices.
+     * @default "rgba(0, 0, 0, .5)"
      */
     color: prop<string>("rgba(0, 0, 0, .5)", { attribute: String }),
     /**
@@ -111,15 +112,18 @@ export class PaintLayer extends Layer(
     /**
      * The color of the stroke around the painted areas. If set to `"none"`,
      * no stroke is drawn.
+     * @default "none"
      */
     stroke: prop<string>("none", { attribute: String }),
     /**
      * The stroke width around the painted areas as a fraction of the
      * vertex size.
+     * @default 0.08
      */
     strokeWidth: prop<number>(0.08, { attribute: Number }),
     /**
      * The border radius of the painted areas as a fraction of the vertex size.
+     * @default 0.2
      */
     borderRadius: prop<number>(0.2, { attribute: Number }),
   },

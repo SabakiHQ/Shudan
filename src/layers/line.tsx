@@ -17,16 +17,19 @@ export class LineLayer extends Layer({
   }),
   /**
    * The width of the lines as a fraction of the vertex size.
+   * @default 0.11
    */
   width: prop<number>(0.11, { attribute: Number }),
   /**
    * The style of the head of the lines. Can be "none", "arrow", or an id
    * referencing a custom SVG object.
+   * @default "none"
    */
   head: prop<"none" | "arrow" | (string & {})>("none", { attribute: String }),
   /**
    * The style of the tail of the lines. Can be "none" or an id
    * referencing a custom SVG object.
+   * @default "none"
    */
   tail: prop<"none" | (string & {})>("none", { attribute: String }),
   /**
