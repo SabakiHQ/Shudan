@@ -101,19 +101,6 @@ document
   });
 
 document
-  .querySelector<HTMLInputElement>("input.custom")!
-  .addEventListener("change", (event) => {
-    const layer = goban.querySelector<StoneLayer>("shudan-goban .stones")!;
-
-    layer.blackStoneHref = (event.target! as HTMLInputElement).checked
-      ? "#custom-black-stone"
-      : undefined;
-    layer.whiteStoneHref = (event.target! as HTMLInputElement).checked
-      ? "#custom-white-stone"
-      : undefined;
-  });
-
-document
   .querySelector<HTMLInputElement>("input.dead")!
   .addEventListener("change", (event) => {
     const layer = goban.querySelector<StoneLayer>("shudan-goban .stones")!;
@@ -162,6 +149,31 @@ document
   });
 
 document
+  .querySelector<HTMLInputElement>("input.heat")!
+  .addEventListener("change", (event) => {
+    const heatLayers = goban.querySelectorAll<HeatLayer>("shudan-goban .heat");
+
+    heatLayers.forEach((layer) => {
+      layer.style.opacity = (event.target! as HTMLInputElement).checked
+        ? "1"
+        : "0";
+    });
+  });
+
+document
+  .querySelector<HTMLInputElement>("input.custom")!
+  .addEventListener("change", (event) => {
+    const layer = goban.querySelector<StoneLayer>("shudan-goban .stones")!;
+
+    layer.blackStoneHref = (event.target! as HTMLInputElement).checked
+      ? "#custom-black-stone"
+      : undefined;
+    layer.whiteStoneHref = (event.target! as HTMLInputElement).checked
+      ? "#custom-white-stone"
+      : undefined;
+  });
+
+document
   .querySelector<HTMLInputElement>("input.line")!
   .addEventListener("change", (event) => {
     const lineLayers = goban.querySelectorAll<LineLayer>("shudan-goban .line")!;
@@ -181,18 +193,6 @@ document
     );
 
     territoryLayers.forEach((layer) => {
-      layer.style.opacity = (event.target! as HTMLInputElement).checked
-        ? "1"
-        : "0";
-    });
-  });
-
-document
-  .querySelector<HTMLInputElement>("input.heat")!
-  .addEventListener("change", (event) => {
-    const heatLayers = goban.querySelectorAll<HeatLayer>("shudan-goban .heat");
-
-    heatLayers.forEach((layer) => {
       layer.style.opacity = (event.target! as HTMLInputElement).checked
         ? "1"
         : "0";

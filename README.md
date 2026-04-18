@@ -6,7 +6,7 @@ A highly customizable, low-level Goban web component.
 
 ## Features
 
-- 📐 Resizable
+- 📐 Resizable with SVG
 - ⌨️ Keyboard accessibility
 - 🔠 Board coordinates
 - 🎛️ Easy customization
@@ -19,9 +19,7 @@ Import library and use the web components directly in your HTML. A minimal setup
 looks like follows:
 
 ```html
-<script>
-  import "@sabaki/shudan";
-</script>
+<script type="module" src="./path/to/shudan.js"></script>
 
 <shudan-goban coords width="9" height="9">
   <shudan-grid-layer></shudan-grid-layer>
