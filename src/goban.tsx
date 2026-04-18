@@ -74,6 +74,10 @@ export const GobanContext = {
    */
   stones: createContext<Record<string, number>>(),
   /**
+   * Whether to render shadows under the stones.
+   */
+  noShadows: createContext<boolean>(),
+  /**
    * A list of stones that should be marked as dimmed. Has no effect on
    * empty vertices.
    */
@@ -487,8 +491,8 @@ export class Goban extends Component({
             bottom: 0;
             right: 0;
             background:
-              linear-gradient(to bottom, rgba(234, 220, 192, 0.1), transparent),
-              linear-gradient(to bottom, transparent, rgba(23, 10, 2, 0.05));
+              linear-gradient(to bottom, rgba(234, 220, 192, 0.1), transparent 66%),
+              linear-gradient(to bottom, transparent 33%, rgba(23, 10, 2, 0.05));
             pointer-events: none;
           }
 

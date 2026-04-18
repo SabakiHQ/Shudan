@@ -1,4 +1,4 @@
-import { defineComponents, For, prop, useMemo, useRef } from "sinho";
+import { defineComponents, For, If, prop, useMemo, useRef } from "sinho";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { Vertex } from "../vertex.ts";
 import { Layer, unit } from "./layer.tsx";
@@ -18,6 +18,11 @@ export class StoneLayer extends Layer(
     stones: prop<Record<Vertex, number> | undefined>(GobanContext.stones, {
       attribute: JSON.parse,
     }),
+    /**
+     * Whether to render shadows under the stones.
+     * @default false
+     */
+    noShadows: prop(GobanContext.noShadows, { attribute: () => true }),
     /**
      * A list of stones that should be marked as dimmed. Has no effect on
      * empty vertices.
@@ -44,7 +49,7 @@ export class StoneLayer extends Layer(
   { visibleOverflow: true },
 ) {
   renderContent() {
-    const { width, height } = useGobanContext();
+    const { width, height, noShadows } = useGobanContext();
     const { rangeX, rangeY } = useRanges();
 
     const stones = useMemo(() =>
@@ -101,23 +106,25 @@ export class StoneLayer extends Layer(
         </defs>
 
         {/* Render shadows */}
-        <g fill="rgba(23, 10, 2, .4)" filter="url(#shudan-shadow)">
-          <For each={stones} key={(stone) => stone.vertex}>
-            {(stone) => (
-              <circle
-                r={unit(0.95 / 2)}
-                cx={() => unit(stone().x + 0.5)}
-                cy={() => unit(height() - stone().y - 0.5)}
-                opacity={
-                  () =>
-                    this.props.dimmedStones()?.includes(stone().vertex)
-                      ? this.props.dimOpacity() / 2
-                      : 0.999 // Somehow makes hover faster
-                }
-              />
-            )}
-          </For>
-        </g>
+        <If condition={() => !noShadows()}>
+          <g fill="rgba(23, 10, 2, .4)" filter="url(#shudan-shadow)">
+            <For each={stones} key={(stone) => stone.vertex}>
+              {(stone) => (
+                <circle
+                  r={unit(0.95 / 2)}
+                  cx={() => unit(stone().x + 0.5)}
+                  cy={() => unit(height() - stone().y - 0.5)}
+                  opacity={
+                    () =>
+                      this.props.dimmedStones()?.includes(stone().vertex)
+                        ? this.props.dimOpacity() / 2
+                        : 0.999 // Somehow makes hover faster
+                  }
+                />
+              )}
+            </For>
+          </g>
+        </If>
 
         {/* Render stones */}
         <g>

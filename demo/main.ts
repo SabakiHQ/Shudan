@@ -165,6 +165,7 @@ document
   .addEventListener("change", (event) => {
     const layer = goban.querySelector<StoneLayer>("shudan-goban .stones")!;
 
+    layer.noShadows = (event.target! as HTMLInputElement).checked;
     layer.blackStoneHref = (event.target! as HTMLInputElement).checked
       ? "#custom-black-stone"
       : undefined;
