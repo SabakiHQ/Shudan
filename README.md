@@ -32,15 +32,13 @@ Alternatively, components can be constructed programmatically:
 ```ts
 import { Goban, GridLayer, StoneLayer } from "./path/to/shudan.js";
 
-const goban = Object.assign(new Goban(), {
-  coords: true,
-  width: 9,
-  height: 9,
-});
+const goban = new Goban();
+goban.width = 9;
+goban.height = 9;
+goban.coords = true;
 
-const stoneLayer = Object.assign(new StoneLayer(), {
-  stones: { C3: 1, G7: -1 };
-});
+const stoneLayer = new StoneLayer();
+stoneLayer.stones = { C3: 1, G7: -1 };
 
 goban.append(new GridLayer(), stoneLayer);
 document.body.append(goban);

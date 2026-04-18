@@ -144,22 +144,27 @@ export function useRanges() {
 export class Goban extends Component({
   /**
    * The width of the goban in vertices.
+   * @default 19
    */
   width: prop(GobanContext.width, { attribute: Number }),
   /**
    * The height of the goban in vertices.
+   * @default 19
    */
   height: prop(GobanContext.height, { attribute: Number }),
   /**
    * The size of a vertex. Can be specified as any CSS length unit, or as a pixel number.
+   * @default "1.7em"
    */
   vertexSize: prop(GobanContext.vertexSize, { attribute: String }),
   /**
-   * Whether the goban should be focusable and emit events when vertices are clicked or hovered.
+   * Whether the goban should be focusable and support keyboard navigation.
+   * @default false
    */
   interactive: prop(GobanContext.interactive, { attribute: () => true }),
   /**
    * Whether coordinates should be displayed around the goban.
+   * @default false
    */
   coords: prop(GobanContext.coords, { attribute: () => true }),
   /**
@@ -188,26 +193,32 @@ export class Goban extends Component({
   focusedVertex: prop(GobanContext.focusedVertex, { attribute: Vertex }),
 
   /**
-   * This event is emitted when the focused vertex changes. Only emitted if `interactive` is enabled.
+   * This event is emitted when the focused vertex changes.
    */
   onFocusedVertexChange: event(VertexEvent),
   /**
-   * This event is emitted when a vertex is clicked. Only emitted if `interactive` is enabled.
+   * This event is emitted when a vertex is clicked.
    */
   onVertexClick: event(VertexPointerEvent),
   /**
-   * This event is emitted when a pointer is released while hovering over a vertex. Only emitted if `interactive` is enabled.
+   * This event is emitted when a pointer is released while hovering over a vertex.
    */
   onVertexPointerUp: event(VertexPointerEvent),
   /**
-   * This event is emitted when a pointer is pressed down while hovering over a vertex. Only emitted if `interactive` is enabled.
+   * This event is emitted when a pointer is pressed down while hovering over a vertex.
    */
   onVertexPointerDown: event(VertexPointerEvent),
   /**
-   * This event is emitted when a pointer moves while hovering over a vertex. Only emitted if `interactive` is enabled.
+   * This event is emitted when a pointer moves while hovering over a vertex.
    */
   onVertexPointerMove: event(VertexPointerEvent),
+  /**
+   * This event is emitted when a pointer enters the vertices area.
+   */
   onVertexPointerEnter: event(VertexPointerEvent),
+  /**
+   * This event is emitted when a pointer leaves the vertices area.
+   */
   onVertexPointerLeave: event(PointerEvent),
 }) {
   render() {
@@ -491,7 +502,11 @@ export class Goban extends Component({
             bottom: 0;
             right: 0;
             background:
-              linear-gradient(to bottom, rgba(234, 220, 192, 0.1), transparent 66%),
+              linear-gradient(
+                to bottom,
+                rgba(234, 220, 192, 0.1),
+                transparent 66%
+              ),
               linear-gradient(to bottom, transparent 33%, rgba(23, 10, 2, 0.05));
             pointer-events: none;
           }
