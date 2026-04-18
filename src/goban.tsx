@@ -149,26 +149,31 @@ export function useRanges() {
 export class Goban extends Component({
   /**
    * The width of the goban in vertices.
+   *
    * @default 19
    */
   width: prop(GobanContext.width, { attribute: Number }),
   /**
    * The height of the goban in vertices.
+   *
    * @default 19
    */
   height: prop(GobanContext.height, { attribute: Number }),
   /**
    * The size of a vertex. Can be specified as any CSS length unit, or as a pixel number.
+   *
    * @default "1.7em"
    */
   vertexSize: prop(GobanContext.vertexSize, { attribute: String }),
   /**
    * Whether the goban should be focusable and support keyboard navigation.
+   *
    * @default false
    */
   interactive: prop(GobanContext.interactive, { attribute: () => true }),
   /**
    * Whether coordinates should be displayed around the goban.
+   *
    * @default false
    */
   coords: prop(GobanContext.coords, { attribute: () => true }),

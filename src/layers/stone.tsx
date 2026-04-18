@@ -20,6 +20,7 @@ export class StoneLayer extends Layer(
     }),
     /**
      * Whether to render shadows under the stones.
+     *
      * @default false
      */
     noShadows: prop(GobanContext.noShadows, { attribute: () => true }),
@@ -32,6 +33,7 @@ export class StoneLayer extends Layer(
     }),
     /**
      * The opacity of the dimmed stones, between 0 and 1.
+     *
      * @default 0.6
      */
     dimOpacity: prop(0.6, { attribute: Number }),

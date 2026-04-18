@@ -15,11 +15,13 @@ export class HoverStoneLayer extends Layer(
   {
     /**
      * The color of the stone to be rendered on hover, either 1 or -1.
+     *
      * @default 1
      */
     color: prop<1 | -1 | (number & {})>(1, { attribute: Number }),
     /**
      * The opacity of the hover stone, between 0 and 1.
+     *
      * @default 0.6
      */
     opacity: prop<number>(0.6, { attribute: Number }),
