@@ -142,7 +142,11 @@ export class LineLayer extends Layer({
 
                   <If condition={() => this.props.tail() !== "none"}>
                     <use
-                      href={`#${customTailId}`}
+                      href={() =>
+                        customTailId() != null
+                          ? `#${customTailId()}`
+                          : undefined
+                      }
                       x={-unit(0.5)}
                       y={-unit(0.5)}
                       width={unit()}
@@ -155,7 +159,9 @@ export class LineLayer extends Layer({
                       href={() =>
                         this.props.head() === "arrow"
                           ? "#shudan-arrowhead"
-                          : `#${customHeadId}`
+                          : customHeadId() != null
+                            ? `#${customHeadId()}`
+                            : undefined
                       }
                       x={() => data().length - unit(0.5)}
                       y={-unit(0.5)}

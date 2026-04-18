@@ -64,23 +64,22 @@ export class StoneLayer extends Layer(
       ),
     );
 
-    const defsContainer = useRef<Element>();
+    const defsRef = useRef<Element>();
 
     const customBlackStoneId = useExternalReference(
       this.getRootNode() as Element,
       this.props.blackStoneHref,
-      defsContainer,
+      defsRef,
     );
-
     const customWhiteStoneId = useExternalReference(
       this.getRootNode() as Element,
       this.props.whiteStoneHref,
-      defsContainer,
+      defsRef,
     );
 
     return (
       <>
-        <defs ref={defsContainer}>
+        <defs ref={defsRef}>
           <BlackStone id="shudan-black-stone" />
           <WhiteStone id="shudan-white-stone" />
 
@@ -122,11 +121,11 @@ export class StoneLayer extends Layer(
               <use
                 href={() =>
                   stone().sign > 0
-                    ? this.props.blackStoneHref() != null
-                      ? `#${customBlackStoneId}`
+                    ? customBlackStoneId() != null
+                      ? `#${customBlackStoneId()}`
                       : "#shudan-black-stone"
-                    : this.props.whiteStoneHref() != null
-                      ? `#${customWhiteStoneId}`
+                    : customWhiteStoneId() != null
+                      ? `#${customWhiteStoneId()}`
                       : "#shudan-white-stone"
                 }
                 style={{

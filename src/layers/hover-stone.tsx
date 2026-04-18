@@ -1,10 +1,11 @@
-import { defineComponents, prop, useEffect, useSignal } from "sinho";
+import { defineComponents, prop, useEffect, useRef, useSignal } from "sinho";
 import { Layer } from "./layer.tsx";
 import { StoneLayer } from "./stone.tsx";
 import { useGobanContext, type Vertex } from "../main.ts";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import type { VertexPointerEvent } from "../events.ts";
 import { GobanContext } from "../goban.tsx";
+import { useExternalReference } from "../utils.ts";
 
 export class HoverStoneLayer extends Layer(
   {
@@ -32,6 +33,19 @@ export class HoverStoneLayer extends Layer(
   renderContent() {
     const { stones, blackStoneHref, whiteStoneHref } = useGobanContext();
     const [hoverVertex, setHoverVertex] = useSignal<Vertex>();
+    const defsRef = useRef<Element>();
+    const stoneLayerRef = useRef<StoneLayer>();
+
+    const customBlackStoneId = useExternalReference(
+      this.getRootNode() as Element,
+      blackStoneHref,
+      defsRef,
+    );
+    const customWhiteStoneId = useExternalReference(
+      this.getRootNode() as Element,
+      whiteStoneHref,
+      defsRef,
+    );
 
     useEffect(() => {
       function handleVertexPointerMove(evt: VertexPointerEvent) {
@@ -70,14 +84,37 @@ export class HoverStoneLayer extends Layer(
     });
 
     return (
-      <StoneLayer
-        stones={() =>
-          hoverVertex() == null ? {} : { [hoverVertex()!]: this.props.color() }
-        }
-        dimmedStones={() => (hoverVertex() == null ? [] : [hoverVertex()!])}
-        blackStoneHref={blackStoneHref}
-        whiteStoneHref={whiteStoneHref}
-      />
+      <>
+        <svg
+          style={{
+            position: "absolute",
+            left: -9999,
+            top: -9999,
+          }}
+        >
+          <defs ref={defsRef}></defs>
+        </svg>
+
+        <StoneLayer
+          ref={stoneLayerRef}
+          stones={() =>
+            hoverVertex() == null
+              ? {}
+              : { [hoverVertex()!]: this.props.color() }
+          }
+          dimmedStones={() => (hoverVertex() == null ? [] : [hoverVertex()!])}
+          blackStoneHref={() =>
+            customBlackStoneId() != null
+              ? `#${customBlackStoneId()}`
+              : undefined
+          }
+          whiteStoneHref={() =>
+            customWhiteStoneId() != null
+              ? `#${customWhiteStoneId()}`
+              : undefined
+          }
+        />
+      </>
     );
   }
 }
