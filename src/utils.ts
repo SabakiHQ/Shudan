@@ -5,7 +5,7 @@ export function unitCSS(value: number | string = 1): string {
 }
 
 export function useExternalReference(
-  rootElement: Element,
+  externalRoot: Element,
   externalHref: Signal<string | null | undefined>,
   container: RefSignal<Element | undefined>,
 ): Signal<string | undefined> {
@@ -16,26 +16,22 @@ export function useExternalReference(
     // Clone referenced light DOM elements into the shadow DOM so they can
     // be used in shadow DOM
 
-    if (externalHref() == null) {
+    if (container() == null || externalHref() == null) {
       setResult(undefined);
       return;
     }
 
-    const externalElement = rootElement.querySelector(externalHref()!);
+    const externalElement = externalRoot.querySelector(externalHref()!);
 
     if (externalElement != null) {
       const clonedStone = externalElement.cloneNode(true) as Element;
       clonedStone.id = shadowDomId;
 
-      container()?.appendChild(clonedStone);
+      container()!.appendChild(clonedStone);
       setResult(shadowDomId);
-    }
 
-    return () => {
-      container()
-        ?.querySelector("#" + shadowDomId)
-        ?.remove();
-    };
+      return () => clonedStone.remove();
+    }
   });
 
   return result;
