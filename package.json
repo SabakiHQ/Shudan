@@ -20,10 +20,6 @@
       "import": "./dist/layers/focus.js",
       "types": "./dist/layers/focus.d.ts"
     },
-    "./GhostStoneLayer": {
-      "import": "./dist/layers/ghost-stone.js",
-      "types": "./dist/layers/ghost-stone.d.ts"
-    },
     "./GridLayer": {
       "import": "./dist/layers/grid.js",
       "types": "./dist/layers/grid.d.ts"
@@ -51,6 +47,10 @@
     "./PaintLayer": {
       "import": "./dist/layers/paint.js",
       "types": "./dist/layers/paint.d.ts"
+    },
+    "./StoneIndicatorLayer": {
+      "import": "./dist/layers/stone-indicator.js",
+      "types": "./dist/layers/stone-indicator.d.ts"
     },
     "./StoneLayer": {
       "import": "./dist/layers/stone.js",

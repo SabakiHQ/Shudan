@@ -5,10 +5,10 @@ import { COMPONENT_PREFIX } from "../constants.ts";
 import { useGobanContext } from "../goban.tsx";
 
 /**
- * A layer that renders small ghost stone indicators, typically used to show
+ * A layer that renders small stone indicators, typically used to show
  * move suggestions or candidate moves.
  */
-export class GhostStoneLayer extends Layer({
+export class StoneIndicatorLayer extends Layer({
   /**
    * A mapping from vertices to stone colors.
    */
@@ -43,4 +43,4 @@ export class GhostStoneLayer extends Layer({
   }
 }
 
-defineComponents(COMPONENT_PREFIX, GhostStoneLayer);
+defineComponents(COMPONENT_PREFIX, StoneIndicatorLayer);

@@ -4,7 +4,7 @@ import type {
   Goban,
   StoneLayer,
   MarkerLayer,
-  GhostStoneLayer,
+  StoneIndicatorLayer,
   LineLayer,
   HeatLayer,
   PaintLayer,
@@ -135,10 +135,10 @@ document
   });
 
 document
-  .querySelector<HTMLInputElement>("input.ghost-stones")!
+  .querySelector<HTMLInputElement>("input.stone-indicator")!
   .addEventListener("change", (event) => {
-    const layers = goban.querySelectorAll<GhostStoneLayer>(
-      "shudan-goban .ghost-stones",
+    const layers = goban.querySelectorAll<StoneIndicatorLayer>(
+      "shudan-goban .stone-indicator",
     )!;
 
     layers.forEach((layer) => {

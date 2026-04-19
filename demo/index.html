@@ -86,7 +86,8 @@
         </li>
         <li>
           <label>
-            <input type="checkbox" class="ghost-stones" /> Show ghost stones
+            <input type="checkbox" class="stone-indicator" /> Show stone
+            indicators
           </label>
         </li>
         <li>
@@ -172,8 +173,8 @@
             }'
           ></shudan-label-layer>
 
-          <shudan-ghost-stone-layer
-            class="ghost-stones"
+          <shudan-stone-indicator-layer
+            class="stone-indicator"
             style="display: none"
             stones='{
               "A19": "rgba(0, 0, 0, .6)",
@@ -189,7 +190,7 @@
               "B15": "rgba(72, 134, 213, .3)",
               "B14": "rgba(79, 157, 5, .3)"
             }'
-          ></shudan-ghost-stone-layer>
+          ></shudan-stone-indicator-layer>
 
           <shudan-heat-layer
             class="heat"
