@@ -72,6 +72,7 @@ export class LabelLayer extends Layer({
                 height={unit()}
               >
                 <div
+                  part="label"
                   style={{
                     position: "absolute",
                     left: "50%",
