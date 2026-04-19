@@ -231,20 +231,21 @@ export class Goban extends Component({
   onVertexPointerLeave: event(VertexPointerEvent),
 }) {
   render() {
-    const width = useContext(GobanContext.width);
-    const height = useContext(GobanContext.height);
-    const _vertexSize = useContext(GobanContext.vertexSize);
+    const {
+      width,
+      height,
+      vertexSize: _vertexSize,
+      coords,
+      coordX,
+      coordY,
+    } = useGobanContext();
+    const { rangeX, rangeY } = useRanges();
+
     const vertexSize = useMemo(() =>
       /^\d+(\.\d+)?|\.\d+$/.test(_vertexSize().toString())
         ? _vertexSize() + "px"
         : _vertexSize().toString(),
     );
-
-    const coords = useContext(GobanContext.coords);
-    const coordX = useContext(GobanContext.coordX);
-    const coordY = useContext(GobanContext.coordY);
-
-    const { rangeX, rangeY } = useRanges();
     const viewportWidth = () =>
       Math.min(rangeX()[1] - rangeX()[0] + 1, width());
     const viewportHeight = () =>
