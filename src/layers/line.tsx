@@ -16,6 +16,12 @@ export class LineLayer extends Layer({
     attribute: String,
   }),
   /**
+   * The color of the outline around the lines. Defaults to the board background color.
+   */
+  outline: prop<string>("var(--shudan-board-background-color)", {
+    attribute: String,
+  }),
+  /**
    * The width of the lines as a fraction of the vertex size.
    *
    * @default 0.11
@@ -78,25 +84,25 @@ export class LineLayer extends Layer({
               dx="0"
               dy={unit(0.05)}
               stdDeviation={0}
-              flood-color="var(--shudan-board-background-color)"
+              flood-color={this.props.outline}
             />
             <feDropShadow
               dx="0"
               dy={unit(-0.05)}
               stdDeviation={0}
-              flood-color="var(--shudan-board-background-color)"
+              flood-color={this.props.outline}
             />
             <feDropShadow
               dx={unit(0.05)}
               dy="0"
               stdDeviation={0}
-              flood-color="var(--shudan-board-background-color)"
+              flood-color={this.props.outline}
             />
             <feDropShadow
               dx={unit(-0.05)}
               dy="0"
               stdDeviation={0}
-              flood-color="var(--shudan-board-background-color)"
+              flood-color={this.props.outline}
             />
           </filter>
 
