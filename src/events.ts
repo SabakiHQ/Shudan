@@ -19,7 +19,7 @@ export class VertexEvent extends Event {
 /**
  * A pointer event that also carries the board vertex the pointer was over.
  */
-export class VertexPointerEvent extends PointerEvent {
+export class VertexPointerEvent extends Event {
   /**
    * The vertex the pointer was over when the event was fired.
    */
@@ -27,43 +27,40 @@ export class VertexPointerEvent extends PointerEvent {
   /**
    * The original DOM pointer event that triggered this event.
    */
-  originalEvent: PointerEvent;
+  pointerEvent: PointerEvent;
 
   constructor(
     type: string,
     init: {
       vertex: Vertex;
-      originalEvent: PointerEvent;
+      pointerEvent: PointerEvent;
       cancelable?: boolean;
+      bubbles?: boolean;
+      composed?: boolean;
     },
   ) {
-    super(
-      type,
-      new Proxy<PointerEventInit>(
-        { cancelable: init.cancelable },
-        {
-          get: (target, prop) =>
-            ((prop in target ? target : init.originalEvent) as any)[prop],
-        },
-      ),
-    );
+    super(type, {
+      cancelable: init.cancelable,
+      bubbles: init.bubbles,
+      composed: init.composed,
+    });
 
     this.vertex = init.vertex;
-    this.originalEvent = init.originalEvent;
+    this.pointerEvent = init.pointerEvent;
   }
 
   preventDefault(): void {
     super.preventDefault();
-    this.originalEvent.preventDefault();
+    this.pointerEvent.preventDefault();
   }
 
   stopPropagation(): void {
     super.stopPropagation();
-    this.originalEvent.stopPropagation();
+    this.pointerEvent.stopPropagation();
   }
 
   stopImmediatePropagation(): void {
     super.stopImmediatePropagation();
-    this.originalEvent.stopImmediatePropagation();
+    this.pointerEvent.stopImmediatePropagation();
   }
 }

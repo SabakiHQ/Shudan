@@ -20,8 +20,7 @@ import { Vertex, xToLetter } from "./vertex.ts";
 import { VertexEvent, VertexPointerEvent } from "./events.ts";
 import { unitCSS } from "./utils.ts";
 
-export { Vertex } from "./vertex.ts";
-export * from "./events.ts";
+export { Vertex, VertexEvent, VertexPointerEvent };
 
 export const GobanContext = {
   /**
@@ -229,7 +228,7 @@ export class Goban extends Component({
   /**
    * This event is emitted when a pointer leaves the vertices area.
    */
-  onVertexPointerLeave: event(PointerEvent),
+  onVertexPointerLeave: event(VertexPointerEvent),
 }) {
   render() {
     const width = useContext(GobanContext.width);
@@ -298,7 +297,7 @@ export class Goban extends Component({
         if (["Enter", "Space"].includes(evt.code)) {
           if (this.focusedVertex != null) {
             this.events.onVertexClick({
-              originalEvent: new PointerEvent("click"),
+              pointerEvent: new PointerEvent("click"),
               vertex: this.focusedVertex,
             });
           }
@@ -386,7 +385,7 @@ export class Goban extends Component({
             onclick={(evt) => {
               const vertex = getVertexFromEvent(evt);
               const cont = this.events.onVertexClick({
-                originalEvent: evt,
+                pointerEvent: evt,
                 vertex,
                 cancelable: true,
               });
@@ -396,32 +395,35 @@ export class Goban extends Component({
                 if (cont) this.focusedVertex = vertex;
               }
             }}
-            onpointerup={(evt) =>
+            onpointerup={(evt) => {
               this.events.onVertexPointerUp({
-                originalEvent: evt,
+                pointerEvent: evt,
                 vertex: getVertexFromEvent(evt),
-              })
-            }
-            onpointerdown={(evt) =>
+              });
+            }}
+            onpointerdown={(evt) => {
               this.events.onVertexPointerDown({
-                originalEvent: evt,
+                pointerEvent: evt,
                 vertex: getVertexFromEvent(evt),
-              })
-            }
-            onpointerenter={(evt) =>
+              });
+            }}
+            onpointerenter={(evt) => {
               this.events.onVertexPointerEnter({
-                originalEvent: evt,
+                pointerEvent: evt,
                 vertex: getVertexFromEvent(evt),
-              })
-            }
-            onpointermove={(evt) =>
+              });
+            }}
+            onpointermove={(evt) => {
               this.events.onVertexPointerMove({
-                originalEvent: evt,
+                pointerEvent: evt,
                 vertex: getVertexFromEvent(evt),
-              })
-            }
+              });
+            }}
             onpointerleave={(evt) => {
-              this.events.onVertexPointerLeave({ ...evt });
+              this.events.onVertexPointerLeave({
+                pointerEvent: evt,
+                vertex: getVertexFromEvent(evt),
+              });
             }}
           >
             <svg
