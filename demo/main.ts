@@ -9,6 +9,7 @@ import type {
   HeatLayer,
   PaintLayer,
   HoverStoneLayer,
+  LayerGroup,
 } from "../src/main.ts";
 
 const goban = document.querySelector<Goban>("shudan-goban")!;
@@ -123,41 +124,33 @@ document
 document
   .querySelector<HTMLInputElement>("input.markers")!
   .addEventListener("change", (event) => {
-    const layers = goban.querySelectorAll<MarkerLayer>(
-      "shudan-goban .markers",
-    )!;
+    const layer = goban.querySelector<LayerGroup>("shudan-goban .markers")!;
 
-    layers.forEach((layer) => {
-      layer.style.display = (event.target! as HTMLInputElement).checked
-        ? "block"
-        : "none";
-    });
+    layer.style.display = (event.target! as HTMLInputElement).checked
+      ? "block"
+      : "none";
   });
 
 document
   .querySelector<HTMLInputElement>("input.stone-indicator")!
   .addEventListener("change", (event) => {
-    const layers = goban.querySelectorAll<StoneIndicatorLayer>(
+    const layer = goban.querySelector<StoneIndicatorLayer>(
       "shudan-goban .stone-indicator",
     )!;
 
-    layers.forEach((layer) => {
-      layer.style.display = (event.target! as HTMLInputElement).checked
-        ? "block"
-        : "none";
-    });
+    layer.style.display = (event.target! as HTMLInputElement).checked
+      ? "block"
+      : "none";
   });
 
 document
   .querySelector<HTMLInputElement>("input.heat")!
   .addEventListener("change", (event) => {
-    const heatLayers = goban.querySelectorAll<HeatLayer>("shudan-goban .heat");
+    const layer = goban.querySelector<HeatLayer>("shudan-goban .heat")!;
 
-    heatLayers.forEach((layer) => {
-      layer.style.opacity = (event.target! as HTMLInputElement).checked
-        ? "1"
-        : "0";
-    });
+    layer.style.opacity = (event.target! as HTMLInputElement).checked
+      ? "1"
+      : "0";
   });
 
 document
@@ -177,27 +170,21 @@ document
 document
   .querySelector<HTMLInputElement>("input.line")!
   .addEventListener("change", (event) => {
-    const lineLayers = goban.querySelectorAll<LineLayer>("shudan-goban .line")!;
+    const layer = goban.querySelector<LayerGroup>("shudan-goban .line")!;
 
-    lineLayers.forEach((layer) => {
-      layer.style.display = (event.target! as HTMLInputElement).checked
-        ? "block"
-        : "none";
-    });
+    layer.style.display = (event.target! as HTMLInputElement).checked
+      ? "block"
+      : "none";
   });
 
 document
   .querySelector<HTMLInputElement>("input.territory")!
   .addEventListener("change", (event) => {
-    const territoryLayers = goban.querySelectorAll<PaintLayer>(
-      "shudan-goban .territory",
-    );
+    const layer = goban.querySelector<LayerGroup>("shudan-goban .territory")!;
 
-    territoryLayers.forEach((layer) => {
-      layer.style.opacity = (event.target! as HTMLInputElement).checked
-        ? "1"
-        : "0";
-    });
+    layer.style.opacity = (event.target! as HTMLInputElement).checked
+      ? "1"
+      : "0";
   });
 
 document

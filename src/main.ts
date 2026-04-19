@@ -8,6 +8,7 @@ export {
 } from "./goban.tsx";
 export {
   Layer,
+  LayerGroup,
   unit,
   type LayerOptions,
   type LayerComponent,

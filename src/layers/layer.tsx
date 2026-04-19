@@ -1,20 +1,17 @@
 import {
   Component,
   css,
+  defineComponents,
   Style,
   type ComponentConstructor,
   type Metadata,
   type Template,
 } from "sinho";
 import { Goban, useGobanContext, useRanges } from "../goban.tsx";
-import { LAYER_PADDING } from "../constants.ts";
+import { COMPONENT_PREFIX, LAYER_PADDING } from "../constants.ts";
+import { unit } from "../utils.ts";
 
-/**
- * Converts a vertex-count value to coordinate units.
- */
-export function unit(value: number = 1): number {
-  return value * 60;
-}
+export { unit };
 
 /**
  * Options for the `Layer` base class factory.
@@ -154,3 +151,11 @@ export function Layer<const M extends Metadata>(
 
   return LayerComponent as any;
 }
+
+export class LayerGroup extends Layer({}, { renderHTML: true }) {
+  renderContent() {
+    return <></>;
+  }
+}
+
+defineComponents(COMPONENT_PREFIX, LayerGroup);

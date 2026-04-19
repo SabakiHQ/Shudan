@@ -1,5 +1,12 @@
 import { useEffect, useSignal, type RefSignal, type Signal } from "sinho";
 
+/**
+ * Converts a vertex-count value to coordinate units.
+ */
+export function unit(value: number = 1): number {
+  return value * 60;
+}
+
 export function unitCSS(value: number | string = 1): string {
   return `calc((${value}) * var(--_shudan-vertex-size))`;
 }

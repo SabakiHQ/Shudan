@@ -15,10 +15,9 @@ import {
 } from "sinho";
 import { COMPONENT_PREFIX, LAYER_PADDING } from "./constants.ts";
 import { Coord } from "./coord.tsx";
-import { unit } from "./layers/layer.tsx";
 import { Vertex, xToLetter } from "./vertex.ts";
 import { VertexEvent, VertexPointerEvent } from "./events.ts";
-import { unitCSS } from "./utils.ts";
+import { unit, unitCSS } from "./utils.ts";
 
 export { Vertex, VertexEvent, VertexPointerEvent };
 
