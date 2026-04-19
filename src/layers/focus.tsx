@@ -47,7 +47,7 @@ export class FocusLayer extends Layer(
           ref={el}
           cx={() => unit(position()![0] + 0.5)}
           cy={() => unit(height() - position()![1] - 0.5)}
-          r={() => unit(0.5 + this.props.strokeWidth())}
+          r={unit(0.5)}
           fill="none"
           stroke={this.props.stroke}
           stroke-width={() => unit(this.props.strokeWidth())}

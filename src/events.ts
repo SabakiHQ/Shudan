@@ -34,9 +34,19 @@ export class VertexPointerEvent extends PointerEvent {
     init: {
       vertex: Vertex;
       originalEvent: PointerEvent;
+      cancelable?: boolean;
     },
   ) {
-    super(type, init.originalEvent);
+    super(
+      type,
+      new Proxy<PointerEventInit>(
+        { cancelable: init.cancelable },
+        {
+          get: (target, prop) =>
+            ((prop in target ? target : init.originalEvent) as any)[prop],
+        },
+      ),
+    );
 
     this.vertex = init.vertex;
     this.originalEvent = init.originalEvent;

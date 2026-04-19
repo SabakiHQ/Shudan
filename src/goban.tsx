@@ -345,8 +345,8 @@ export class Goban extends Component({
           ),
         );
 
-        const prevented = this.events.onFocusedVertexChange(focusedVertex);
-        if (prevented) this.focusedVertex = focusedVertex;
+        const cont = this.events.onFocusedVertexChange(focusedVertex);
+        if (cont) this.focusedVertex = focusedVertex;
       });
     });
 
@@ -383,12 +383,19 @@ export class Goban extends Component({
         <div class="layout">
           <div
             class="viewport"
-            onclick={(evt) =>
-              this.events.onVertexClick({
+            onclick={(evt) => {
+              const vertex = getVertexFromEvent(evt);
+              const cont = this.events.onVertexClick({
                 originalEvent: evt,
-                vertex: getVertexFromEvent(evt),
-              })
-            }
+                vertex,
+                cancelable: true,
+              });
+
+              if (cont && this.focusedVertex !== vertex) {
+                const cont = this.events.onFocusedVertexChange(vertex);
+                if (cont) this.focusedVertex = vertex;
+              }
+            }}
             onpointerup={(evt) =>
               this.events.onVertexPointerUp({
                 originalEvent: evt,
