@@ -497,10 +497,10 @@ export class Goban extends Component({
 
         <Style>{css`
           :host {
-            --shudan-board-background: var(--shudan-board-background-color);
+            --shudan-board-outline-color: #ca933a;
+            --shudan-board-background: none;
             --shudan-board-background-color: #f1b458;
             --shudan-board-foreground-color: #5e2e0c;
-            --shudan-board-outline-color: #ca933a;
             --shudan-black-foreground-color: #eee;
             --shudan-white-foreground-color: #222;
 
@@ -508,7 +508,9 @@ export class Goban extends Component({
             display: inline-block;
             border-radius: ${unitCSS(0.3)};
             overflow: hidden;
-            background: var(--shudan-board-background);
+            background:
+              var(--shudan-board-background),
+              var(--shudan-board-background-color);
             color: var(--shudan-board-foreground-color);
           }
           :host(:focus) {
@@ -541,9 +543,6 @@ export class Goban extends Component({
             gap: ${unitCSS(0.1)};
             padding: ${unitCSS(0.35)};
             overflow: hidden;
-          }
-          .layout:focus {
-            outline: none;
           }
 
           .viewport {

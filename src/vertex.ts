@@ -39,7 +39,7 @@ export function xToLetter(x: number): string {
 }
 
 /**
- * Converts [x, y] (0-based, bottom-origin) back to a Go coordinate string.
+ * Converts numerical coordinates (0-based, bottom-left-origin) to a Go coordinate string.
  *
  * @example Vertex(0, 13)  // → "A14"
  * @example Vertex(18, 0)  // → "T1"
@@ -55,8 +55,8 @@ export function Vertex(x: number | string, y?: number): Vertex {
 }
 
 /**
- * Parses a Go coordinate string (e.g. "A6", "T19", "AA3") into [x, y] where
- * x is 0-based from the left and y is 0-based from the bottom.
+ * Parses a Go coordinate string (e.g. `"A6"`, `"T19"`, `"AA3"`) into numerical
+ * coordinates (0-based, bottom-left-origin).
  *
  * @example Vertex.parse("A6")  // → [0, 5]
  * @example Vertex.parse("T19") // → [18, 18]

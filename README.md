@@ -13,7 +13,7 @@ A highly customizable, low-level Goban web component.
 - 🧱 Flexible layer system
 - 🧩 Partial board support
 
-## Usage
+## Quick Start
 
 Import library and use the web components directly in your HTML. A minimal setup
 looks like follows:
@@ -23,14 +23,14 @@ looks like follows:
 
 <shudan-goban coords width="9" height="9">
   <shudan-grid-layer></shudan-grid-layer>
-  <shudan-stone-layer stones='{"C3": 1, "G7": -1}'></shudan-stone-layer>
+  <shudan-stone-layer stones='{ "C3": 1, "G7": -1 }'></shudan-stone-layer>
 </shudan-goban>
 ```
 
 Alternatively, components can be constructed programmatically:
 
 ```ts
-import { Goban, GridLayer, StoneLayer } from "./path/to/shudan.js";
+import { Goban, GridLayer, StoneLayer } from "@sabaki/shudan";
 
 const goban = new Goban();
 goban.width = 9;
@@ -43,3 +43,7 @@ stoneLayer.stones = { C3: 1, G7: -1 };
 goban.append(new GridLayer(), stoneLayer);
 document.body.append(goban);
 ```
+
+## Documentation
+
+See [documentation](./docs/README.md).
