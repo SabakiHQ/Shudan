@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="43" height="43">
   <defs>
     <linearGradient
-      id="w-ambient"
+      id="shudan-w-ambient"
       x1="0"
       x2="0"
       y1="40.65"
@@ -13,7 +13,7 @@
     </linearGradient>
 
     <linearGradient
-      id="w-base"
+      id="shudan-w-base"
       x1="0"
       x2="0"
       y1="43"
@@ -24,7 +24,7 @@
       <stop offset="1" stop-color="#f6f7ff" />
     </linearGradient>
 
-    <filter id="w-wavy">
+    <filter id="shudan-w-wavy">
       <feTurbulence
         type="fractalNoise"
         baseFrequency="0.08 0.02"
@@ -35,62 +35,67 @@
       <feDisplacementMap
         in="SourceGraphic"
         in2="noise"
-        result="displacement"
         scale="3"
         xChannelSelector="R"
         yChannelSelector="G"
       />
-      <feGaussianBlur in="displacement" stdDeviation=".5" />
     </filter>
 
-    <radialGradient id="w-specular" cx="32%" cy="28%" r="18%">
+    <radialGradient id="shudan-w-specular" cx="32%" cy="28%" r="18%">
       <stop offset="0" stop-color="#fff" />
       <stop offset=".15" stop-color="#fff" stop-opacity=".6" />
       <stop offset=".35" stop-color="#fff" stop-opacity=".25" />
       <stop offset="1" stop-color="#fff" stop-opacity="0" />
     </radialGradient>
 
-    <mask id="w-stone-mask">
+    <mask id="shudan-w-stone-mask">
+      <circle cx="21.5" cy="21.5" r="20" fill="#888" />
       <circle cx="21.5" cy="21.5" r="18.5" fill="#fff" />
     </mask>
   </defs>
 
-  <circle cx="21.5" cy="21.5" r="20.5" fill="url(#w-base)" stroke="#c3c3c3" />
-  <circle cx="21.5" cy="21.5" r="18.5" fill="url(#w-ambient)" />
+  <circle
+    cx="21.5"
+    cy="21.5"
+    r="20.5"
+    fill="url(#shudan-w-base)"
+    stroke="#c3c3c3"
+  />
+  <circle cx="21.5" cy="21.5" r="18.5" fill="url(#shudan-w-ambient)" />
 
   <g
-    mask="url(#w-stone-mask)"
-    filter="url(#w-wavy)"
-    stroke="#c0bab6"
+    mask="url(#shudan-w-stone-mask)"
+    filter="url(#shudan-w-wavy)"
+    stroke="#c6bda7"
     stroke-width="2"
     fill="none"
     opacity=".4"
   >
     <path d="M0 0h43v43H0z" />
     <path
-      d="M1.324 32.87s2.363 1.361 5.347 2.326c7.343 2.373 22.915 2.014 27.722-.008 4.507-1.895 7.33-3.361 7.33-3.361"
+      d="m 1.324,32.87 c 0,0 2.363,1.361 5.347,2.326 7.343,2.373 22.915,2.014 27.722,-0.008 4.507,-1.895 7.33,-3.361 7.33,-3.361"
     />
     <path
-      d="M1.084 28.41s1.761 1.731 4.826 2.4c7.398 1.616 25.49 1.16 30.253-.23 4.694-1.371 6.623-2.655 6.623-2.655"
+      d="m 1.084,28.41 c 0,0 1.761,1.731 4.826,2.4 7.398,1.616 25.49,1.16 30.253,-0.23 4.694,-1.371 6.623,-2.655 6.623,-2.655"
     />
     <path
-      d="M.5 23.603s1.8 1.575 4.826 2.4c6.273 1.712 26.148.736 30.253-.23 4.73-1.114 6.623-2.654 6.623-2.654"
+      d="m 0.5,23.603 c 0,0 1.8,1.575 4.826,2.4 6.273,2.094545 26.148,1.243243 30.253,-0.23 4.73,-1.114 6.623,-2.654 6.623,-2.654"
     />
     <path
-      d="M.5 18.697s1.79 1.996 4.863 2.624c7.093 1.45 26.466.914 30.254-.23 4.68-1.415 6.585-2.878 6.585-2.878"
+      d="m 0.5,18.697 c 0,0 1.79,1.996 4.863,2.624 6.995988,2.032072 26.364476,1.523144 30.254,-0.23 4.68,-1.415 6.585,-2.878 6.585,-2.878"
     />
     <path
-      d="M.845 11.242s2.089 3.103 4.922 4.45c5.32 2.528 25.884 1.896 30.141.587 3.36-1.033 6.247-4.54 6.247-4.54"
+      d="m 0.65704446,11.428147 c 0,0 2.08900004,3.103 4.92200004,4.45 5.2465435,2.895279 25.7615695,2.508151 30.1409995,0.587 3.397229,-1.070229 6.247,-4.54 6.247,-4.54"
     />
     <path
-      d="M5.197 6.028s1.753 3.704 4.33 5.493c2.754 1.913 22.354 2.028 25.744-.813C38.68 7.85 38.916 5.26 38.916 5.26"
+      d="m 5.9138028,4.8802726 c 0,0 1.157329,4.3369004 3.734329,6.1259004 2.2488832,1.520938 5.5836422,2.297263 10.4730002,2.49848 6.276621,0.258309 13.366074,-1.23989 15.271,-3.31148 3.409,-2.858 2.230281,-6.4122725 2.230281,-6.4122725"
     />
     <path
-      d="M13.052 1.988s-3.576 2.675-.907 4.323c3.863 2.386 14.317 3.192 18.64.25 4-2.723-.722-4.455-.722-4.455"
+      d="m 16.982117,-0.46914282 c 0.0045,-0.001915 -4.95961,1.65647262 -5.002238,5.29096532 -0.249868,2.89205 4.239925,4.0065656 8.579393,4.0335966 4.63336,0.02886 9.253624,-0.7502807 10.730736,-3.3368433 1.989611,-3.9888009 -3.030225,-5.64634196 -3.030225,-5.64634196"
     />
   </g>
 
-  <g mask="url(#w-stone-mask)" fill="url(#w-specular)">
+  <g mask="url(#shudan-w-stone-mask)" fill="url(#shudan-w-specular)">
     <ellipse cx="20" cy="9" rx="24" ry="12" transform="rotate(-40 20 9)" />
     <ellipse
       cx="41"
