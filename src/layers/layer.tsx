@@ -138,10 +138,10 @@ export function Layer<const M extends Metadata>(
 
             .shudan-layer-content {
               position: absolute;
-              left: ${() => unit(-padding)}px;
-              top: ${() => unit(-padding)}px;
-              right: ${() => unit(-padding)}px;
-              bottom: ${() => unit(-padding)}px;
+              left: ${unit(-padding)}px;
+              top: ${unit(-padding)}px;
+              right: ${unit(-padding)}px;
+              bottom: ${unit(-padding)}px;
             }
           `}</Style>
         </>
