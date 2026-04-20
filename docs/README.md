@@ -85,6 +85,73 @@ Vertex.parse("A6"); // → [0, 5]
 Vertex.parse("T19"); // → [18, 18]
 ```
 
+## Layers
+
+Shudan renders a board by stacking child layer elements inside `<shudan-goban>`.
+Each layer is positioned on the same board coordinates and draws one visual
+concern (grid, stones, markers, labels, overlays, and so on).
+
+### Layer Order
+
+Layers are painted in DOM order:
+
+- Earlier children are drawn below later children.
+- Later children appear on top.
+
+For example, a `GridLayer` should usually be before `StoneLayer`, and marker or
+label layers usually come after stones so they stay visible.
+
+### Layer Groups
+
+Use `LayerGroup` (HTML tag: `<shudan-layer-group>`) to organize multiple layers
+as a single subtree.
+
+Common uses:
+
+- Keep related overlays together (for example labels + markers + lines).
+- Toggle visibility by applying attributes/classes/styles to one group host.
+- Improve readability when composing many layers.
+
+A `LayerGroup` does not draw anything by itself; it only groups nested layers.
+Nested layers still follow normal DOM stacking rules.
+
+**Example:**
+
+```ts
+import {
+  Goban,
+  GridLayer,
+  StoneLayer,
+  MarkerLayer,
+  LabelLayer,
+  LayerGroup,
+} from "@sabaki/shudan";
+
+const goban = new Goban();
+
+const base = new LayerGroup();
+base.append(new GridLayer(), new StoneLayer());
+
+const annotations = new LayerGroup();
+annotations.append(new MarkerLayer(), new LabelLayer());
+
+goban.append(base, annotations);
+```
+
+```html
+<shudan-goban>
+  <shudan-layer-group>
+    <shudan-grid-layer></shudan-grid-layer>
+    <shudan-stone-layer></shudan-stone-layer>
+  </shudan-layer-group>
+
+  <shudan-layer-group>
+    <shudan-marker-layer></shudan-marker-layer>
+    <shudan-label-layer></shudan-label-layer>
+  </shudan-layer-group>
+</shudan-goban>
+```
+
 ## `class Goban`
 
 **HTML Tag:** `<shudan-goban>`
