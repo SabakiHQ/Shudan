@@ -1,7 +1,7 @@
 import { defineComponents, For, prop, useMemo } from "sinho";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { Layer, unit } from "./layer.tsx";
-import { Vertex } from "../vertex.ts";
+import { Vertex, type VertexRange } from "../vertex.ts";
 import { useGobanContext } from "../goban.tsx";
 
 /**
@@ -43,9 +43,9 @@ export class GridLayer extends Layer({
     attribute: String,
   }),
   /**
-   * The positions of the hoshi markers.
+    * The positions or ranges of hoshi markers.
    */
-  hoshis: prop<Vertex[]>(undefined, { attribute: JSON.parse }),
+  hoshis: prop<VertexRange[]>(undefined, { attribute: JSON.parse }),
   /**
    * The stroke width of the grid lines as a fraction of the vertex size.
    *
@@ -65,9 +65,9 @@ export class GridLayer extends Layer({
     const xs = useMemo(() => [...Array(width())].map((_, i) => i));
     const ys = useMemo(() => [...Array(height())].map((_, i) => i));
     const hoshis = useMemo(() =>
-      (this.props.hoshis() ?? getHoshis(width(), height())).map((v) =>
-        Vertex.parse(v),
-      ),
+      (this.props.hoshis() ?? getHoshis(width(), height()))
+        .flatMap((range) => Vertex.range(range))
+        .map((v) => Vertex.parse(v)),
     );
 
     return (

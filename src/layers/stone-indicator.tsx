@@ -1,5 +1,9 @@
 import { defineComponents, For, prop } from "sinho";
-import { Vertex } from "../vertex.ts";
+import {
+  Vertex,
+  vertexRangeMapToVertexMap,
+  type VertexRange,
+} from "../vertex.ts";
 import { Layer, unit } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { useGobanContext } from "../goban.tsx";
@@ -10,9 +14,9 @@ import { useGobanContext } from "../goban.tsx";
  */
 export class StoneIndicatorLayer extends Layer({
   /**
-   * A mapping from vertices to stone colors.
+   * A mapping from vertex ranges to stone colors.
    */
-  stones: prop<Record<Vertex, string>>({}, { attribute: JSON.parse }),
+  stones: prop<Record<VertexRange, string>>({}, { attribute: JSON.parse }),
 }) {
   renderContent() {
     const { height } = useGobanContext();
@@ -20,7 +24,9 @@ export class StoneIndicatorLayer extends Layer({
     return (
       <>
         <For
-          each={() => Object.entries(this.props.stones())}
+          each={() =>
+            Object.entries(vertexRangeMapToVertexMap(this.props.stones()))
+          }
           key={([vertex]) => vertex}
         >
           {(stone) => {

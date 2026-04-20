@@ -8,6 +8,14 @@ const LETTERS = "ABCDEFGHJKLMNOPQRSTUVWXYZ";
 export type Vertex = `${string}${number}`;
 
 /**
+ * A range of Go coordinates, represented as a string with two `Vertex` values
+ * separated by a colon. For example, `"A1:C3"` represents the rectangle
+ * from A1 to C3. Can also be a single `Vertex` string, which is treated as a
+ * range of one vertex (e.g. `"D4"` is equivalent to `"D4:D4"`).
+ */
+export type VertexRange = `${Vertex}:${Vertex}` | Vertex;
+
+/**
  * Converts a Go column letter string (e.g. "A", "Z", "AA") to a 0-based x
  * coordinate.  Letters skip I and wrap into multi-character sequences beyond Z:
  *   A=0, B=1, …, Z=24, AA=25, AB=26, …
@@ -61,7 +69,7 @@ export function Vertex(x: number | string, y?: number): Vertex {
  * @example Vertex.parse("A6")  // → [0, 5]
  * @example Vertex.parse("T19") // → [18, 18]
  */
-Vertex.parse = function (coord: string): [number, number] {
+Vertex.parse = function (coord: string): [x: number, y: number] {
   const match = coord.toUpperCase().match(/^([A-HJ-Z]+)(\d+)$/);
   if (!match) return [NaN, NaN];
   const [, letters, digits] = match;
@@ -69,3 +77,38 @@ Vertex.parse = function (coord: string): [number, number] {
   const y = parseInt(digits, 10) - 1;
   return [x, y];
 };
+
+/**
+ * Generates all `Vertex` values within a given `VertexRange`. For example,
+ * the range `"A1:C3"` would produce the vertices for the rectangle from A1 to C3.
+ */
+Vertex.range = function (range: VertexRange): Vertex[] {
+  if (!range.includes(":")) return [range as Vertex];
+
+  const [start, end] = range.split(":") as [Vertex, Vertex];
+  const [x1, y1] = Vertex.parse(start);
+  const [x2, y2] = Vertex.parse(end);
+  if (isNaN(x1) || isNaN(y1) || isNaN(x2) || isNaN(y2)) return [];
+
+  const result: Vertex[] = [];
+
+  for (let x = Math.min(x1, x2); x <= Math.max(x1, x2); x++) {
+    for (let y = Math.min(y1, y2); y <= Math.max(y1, y2); y++) {
+      result.push(Vertex(x, y));
+    }
+  }
+
+  return result;
+};
+
+export function vertexRangeMapToVertexMap<T>(
+  vertexRangeMap: Record<VertexRange, T>,
+): Record<Vertex, T> {
+  const vertexMap: Record<Vertex, T> = {};
+  for (const [range, value] of Object.entries(vertexRangeMap)) {
+    for (const vertex of Vertex.range(range as VertexRange)) {
+      vertexMap[vertex] = value;
+    }
+  }
+  return vertexMap;
+}

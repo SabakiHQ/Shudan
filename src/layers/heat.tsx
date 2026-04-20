@@ -2,7 +2,11 @@ import { css, defineComponents, For, prop, Style, useMemo } from "sinho";
 import { Layer } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { PaintLayer } from "./paint.tsx";
-import { Vertex } from "../main.ts";
+import {
+  Vertex,
+  vertexRangeMapToVertexMap,
+  type VertexRange,
+} from "../vertex.ts";
 
 /**
  * A layer that renders a heatmap of numeric values over vertices using a
@@ -24,9 +28,9 @@ export class HeatLayer extends Layer(
       { attribute: JSON.parse },
     ),
     /**
-     * The values for each vertex in the heatmap.
+      * The values for each vertex range in the heatmap.
      */
-    values: prop<Record<Vertex, number>>({}, { attribute: JSON.parse }),
+    values: prop<Record<VertexRange, number>>({}, { attribute: JSON.parse }),
   },
   { renderHTML: true },
 ) {
@@ -41,7 +45,7 @@ export class HeatLayer extends Layer(
             class="layer"
             color={color}
             paintedVertices={() =>
-              Object.entries(this.props.values())
+              Object.entries(vertexRangeMapToVertexMap(this.props.values()))
                 .filter(
                   ([, value]) =>
                     (i() * (max() - min())) / colors().length + min() < value &&

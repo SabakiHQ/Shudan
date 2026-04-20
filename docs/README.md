@@ -85,6 +85,21 @@ Vertex.parse("A6"); // → [0, 5]
 Vertex.parse("T19"); // → [18, 18]
 ```
 
+### `VertexRange`
+
+Many layer props accept `VertexRange` values in addition to single vertices.
+
+- A single vertex like `"D4"`
+- A rectangle range like `"C3:F6"`
+
+Ranges are inclusive on both ends. For example, `"A1:C2"` expands to
+`A1, A2, B1, B2, C1, C2`.
+
+### `Vertex.range(range: VertexRange): Vertex[]`
+
+Generates all `Vertex` values within a given `VertexRange`. For example,
+the range `"A1:C3"` would produce the vertices for the rectangle from A1 to C3.
+
 ## Layers
 
 Shudan renders a board by stacking child layer elements inside `<shudan-goban>`.
@@ -254,9 +269,9 @@ A layer that renders the grid lines and hoshi markers.
   - **Attribute:** `color`
   - The color of the grid lines and hoshi markers. Defaults to the board
     foreground color.
-- `hoshis: Vertex[]`
+- `hoshis: VertexRange[]`
   - **Attribute:** `hoshis`
-  - The positions of the hoshi markers.
+  - The positions or ranges of hoshi markers.
 - `strokeWidth: number` (default `0.04`)
   - **Attribute:** `stroke-width`
   - The stroke width of the grid lines as a fraction of the vertex size.
@@ -272,14 +287,14 @@ A layer that renders black and white stones including shadows.
 
 ### Props and Attributes
 
-- `stones: Record<Vertex, number> | undefined`
+- `stones: Record<VertexRange, number> | undefined`
   - **Attribute:** `stones`
-  - A mapping from vertices to `-1` representing a white stone, or `1`
+  - A mapping from vertex ranges to `-1` representing a white stone, or `1`
     representing a black stone.
 - `noShadows: boolean` (default `false`)
   - **Attribute:** `no-shadows`
   - Whether to render shadows under the stones.
-- `dimmedStones: Vertex[] | undefined`
+- `dimmedStones: VertexRange[] | undefined`
   - **Attribute:** `dimmed-stones`
   - A list of stones that should be marked as dimmed. Has no effect on empty
     vertices.
@@ -344,9 +359,9 @@ suggestions or candidate moves.
 
 ### Props and Attributes
 
-- `stones: Record<Vertex, string>` (default `{}`)
+- `stones: Record<VertexRange, string>` (default `{}`)
   - **Attribute:** `stones`
-  - A mapping from vertices to stone colors.
+  - A mapping from vertex ranges to stone colors.
 
 ## `class MarkerLayer`
 
@@ -366,9 +381,9 @@ specified vertices.
   - **Attribute:** `outline`
   - The outline color of the markers. If set to `undefined`, it uses the board
     background color on empty vertices, and is transparent on occupied vertices.
-- `markers: Record<Vertex, Marker>` (default `{}`)
+- `markers: Record<VertexRange, Marker>` (default `{}`)
   - **Attribute:** `markers`
-  - A mapping from vertices to markers.
+  - A mapping from vertex ranges to markers.
 
 ## `class LabelLayer`
 
@@ -387,9 +402,9 @@ A layer that renders text labels on specified vertices.
   - **Attribute:** `background`
   - The background of the labels. If set to `undefined`, it uses the board
     background on empty vertices, and is transparent on occupied vertices.
-- `labels: Record<Vertex, Label>` (default `{}`)
+- `labels: Record<VertexRange, Label>` (default `{}`)
   - **Attribute:** `labels`
-  - A map of vertices and their labels.
+  - A map of vertex ranges and their labels.
 
 ### CSS Parts
 
@@ -407,9 +422,9 @@ A layer that renders filled regions over groups of adjacent vertices.
 - `color: string` (default `"rgba(0, 0, 0, .5)"`)
   - **Attribute:** `color`
   - The color of the painted vertices.
-- `paintedVertices: Vertex[]` (default `[]`)
+- `paintedVertices: VertexRange[]` (default `[]`)
   - **Attribute:** `painted-vertices`
-  - A list of vertices that should be painted.
+  - A list of vertices or ranges that should be painted.
 - `stroke: string` (default `"none"`)
   - **Attribute:** `stroke`
   - The color of the stroke around the painted areas. If set to `"none"`, no
@@ -434,9 +449,9 @@ configurable color palette.
   - **Attribute:** `colors`
   - The palette of the heatmap. Each color corresponds to a range of values,
     sorted from low to high.
-- `values: Record<Vertex, number>` (default `{}`)
+- `values: Record<VertexRange, number>` (default `{}`)
   - **Attribute:** `values`
-  - The values for each vertex in the heatmap.
+  - The values for each vertex range in the heatmap.
 
 ## `class LineLayer`
 

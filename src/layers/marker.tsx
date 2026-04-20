@@ -1,7 +1,11 @@
 import { defineComponents, For, prop, useMemo } from "sinho";
 import { Layer, unit } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
-import { Vertex } from "../vertex.ts";
+import {
+  Vertex,
+  vertexRangeMapToVertexMap,
+  type VertexRange,
+} from "../vertex.ts";
 import { useGobanContext } from "../goban.tsx";
 
 /**
@@ -22,7 +26,7 @@ export type Marker =
 
 /**
  * A layer that renders shape markers (circles, crosses, triangles, etc.) on
- * specified vertices.
+ * specified vertices or vertex ranges.
  */
 export class MarkerLayer extends Layer({
   /**
@@ -37,20 +41,24 @@ export class MarkerLayer extends Layer({
    */
   outline: prop<string>(undefined, { attribute: String }),
   /**
-   * A mapping from vertices to markers.
+   * A mapping from vertex ranges to markers.
    */
-  markers: prop<Record<Vertex, Marker>>({}, { attribute: JSON.parse }),
+  markers: prop<Record<VertexRange, Marker>>({}, { attribute: JSON.parse }),
 }) {
   renderContent() {
     const { stones, height } = useGobanContext();
+    const stoneMap = useMemo(() => vertexRangeMapToVertexMap(stones() ?? {}));
 
     const markers = useMemo(() =>
-      Object.entries(this.props.markers()).map(([vertex, marker]) => {
-        const [x, y] = Vertex.parse(vertex as Vertex);
-        const _marker = typeof marker === "string" ? { type: marker } : marker;
+      Object.entries(vertexRangeMapToVertexMap(this.props.markers())).map(
+        ([vertex, marker]) => {
+          const [x, y] = Vertex.parse(vertex as Vertex);
+          const _marker =
+            typeof marker === "string" ? { type: marker } : marker;
 
-        return { x, y, vertex, ..._marker };
-      }),
+          return { x, y, vertex: vertex as Vertex, ..._marker };
+        },
+      ),
     );
 
     return (
@@ -152,7 +160,7 @@ export class MarkerLayer extends Layer({
 
         <For each={markers} key={(marker) => marker.vertex}>
           {(marker) => {
-            const stone = () => stones()?.[marker().vertex] ?? 0;
+            const stone = () => stoneMap()?.[marker().vertex] ?? 0;
             const color = () =>
               marker().color ??
               this.props.color() ??

@@ -1,6 +1,10 @@
 import { defineComponents, For, If, prop, useMemo, useRef } from "sinho";
 import { COMPONENT_PREFIX } from "../constants.ts";
-import { Vertex } from "../vertex.ts";
+import {
+  Vertex,
+  vertexRangeMapToVertexMap,
+  type VertexRange,
+} from "../vertex.ts";
 import { Layer, unit } from "./layer.tsx";
 import { GobanContext, useGobanContext, useRanges } from "../goban.tsx";
 import { useExternalReference } from "../utils.ts";
@@ -12,10 +16,10 @@ import { BlackStone, WhiteStone } from "../assets.tsx";
 export class StoneLayer extends Layer(
   {
     /**
-     * A mapping from vertices to `-1` representing a white stone, or `1`
+      * A mapping from vertex ranges to `-1` representing a white stone, or `1`
      * representing a black stone.
      */
-    stones: prop<Record<Vertex, number> | undefined>(GobanContext.stones, {
+    stones: prop<Record<VertexRange, number> | undefined>(GobanContext.stones, {
       attribute: JSON.parse,
     }),
     /**
@@ -28,7 +32,7 @@ export class StoneLayer extends Layer(
      * A list of stones that should be marked as dimmed. Has no effect on
      * empty vertices.
      */
-    dimmedStones: prop<Vertex[] | undefined>(GobanContext.dimmedStones, {
+    dimmedStones: prop<VertexRange[] | undefined>(GobanContext.dimmedStones, {
       attribute: JSON.parse,
     }),
     /**
@@ -36,7 +40,7 @@ export class StoneLayer extends Layer(
      *
      * @default 0.6
      */
-    dimOpacity: prop(0.6, { attribute: Number }),
+    dimOpacity: prop(GobanContext.dimOpacity, { attribute: Number }),
     /**
      * An id referencing an SVG object that should be used to represent a
      * black stone.
@@ -51,11 +55,18 @@ export class StoneLayer extends Layer(
   { visibleOverflow: true },
 ) {
   renderContent() {
-    const { width, height, noShadows } = useGobanContext();
+    const {
+      width,
+      height,
+      noShadows,
+      dimOpacity: _dimOpacity,
+    } = useGobanContext();
     const { rangeX, rangeY } = useRanges();
 
+    const dimOpacity = () => _dimOpacity() ?? 0.6;
+
     const stones = useMemo(() =>
-      Object.entries(this.props.stones() ?? {})
+      Object.entries(vertexRangeMapToVertexMap(this.props.stones() ?? {}))
         .map(([vertex, sign]) => {
           const [x, y] = Vertex.parse(vertex as Vertex);
           return { sign, x, y, vertex: vertex as Vertex };
@@ -89,6 +100,12 @@ export class StoneLayer extends Layer(
       defsRef,
     );
 
+    const dimmedStones = useMemo(
+      () =>
+        this.props.dimmedStones()?.flatMap((range) => Vertex.range(range)) ??
+        [],
+    );
+
     return (
       <>
         <defs ref={defsRef}>
@@ -118,8 +135,8 @@ export class StoneLayer extends Layer(
                   cy={() => unit(height() - stone().y - 0.5)}
                   opacity={
                     () =>
-                      this.props.dimmedStones()?.includes(stone().vertex)
-                        ? this.props.dimOpacity() / 2
+                      dimmedStones().includes(stone().vertex)
+                        ? dimOpacity() / 2
                         : 0.999 // Somehow makes hover faster
                   }
                 />
@@ -150,9 +167,7 @@ export class StoneLayer extends Layer(
                 x={() => unit(stone().x + 0.025)}
                 y={() => unit(height() - 1 - stone().y + 0.025)}
                 opacity={() =>
-                  this.props.dimmedStones()?.includes(stone().vertex)
-                    ? this.props.dimOpacity()
-                    : 1
+                  dimmedStones().includes(stone().vertex) ? dimOpacity() : 1
                 }
               />
             )}

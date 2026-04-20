@@ -15,11 +15,11 @@ import {
 } from "sinho";
 import { COMPONENT_PREFIX, LAYER_PADDING } from "./constants.ts";
 import { Coord } from "./coord.tsx";
-import { Vertex, xToLetter } from "./vertex.ts";
+import { Vertex, xToLetter, type VertexRange } from "./vertex.ts";
 import { VertexEvent, VertexPointerEvent } from "./events.ts";
 import { unit, unitCSS } from "./utils.ts";
 
-export { Vertex, VertexEvent, VertexPointerEvent };
+export { Vertex, VertexEvent, VertexPointerEvent, type VertexRange };
 
 export const GobanContext = {
   /**
@@ -68,10 +68,10 @@ export const GobanContext = {
   focusedVertex: createContext<Vertex>(),
 
   /**
-   * A mapping from vertices to `-1` representing a white stone, or `1`
+   * A mapping from vertex ranges to `-1` representing a white stone, or `1`
    * representing a black stone.
    */
-  stones: createContext<Record<string, number>>(),
+  stones: createContext<Record<VertexRange, number>>(),
   /**
    * Whether to render shadows under the stones.
    */
@@ -80,7 +80,11 @@ export const GobanContext = {
    * A list of stones that should be marked as dimmed. Has no effect on
    * empty vertices.
    */
-  dimmedStones: createContext<Vertex[]>(),
+  dimmedStones: createContext<VertexRange[]>(),
+  /**
+   * The opacity of the dimmed stones, between 0 and 1.
+   */
+  dimOpacity: createContext<number>(),
   /**
    * An id referencing an SVG object that should be used to represent a
    * black stone.

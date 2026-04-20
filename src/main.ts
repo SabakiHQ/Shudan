@@ -3,6 +3,7 @@ export {
   useGobanContext,
   useRanges,
   Vertex,
+  type VertexRange,
   VertexEvent,
   VertexPointerEvent,
 } from "./goban.tsx";

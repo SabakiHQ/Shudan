@@ -1,6 +1,10 @@
 import { defineComponents, For, prop, useMemo } from "sinho";
 import { Layer, unit } from "./layer.tsx";
-import { Vertex } from "../vertex.ts";
+import {
+  Vertex,
+  vertexRangeMapToVertexMap,
+  type VertexRange,
+} from "../vertex.ts";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { useGobanContext } from "../goban.tsx";
 
@@ -17,7 +21,7 @@ export type Label =
     };
 
 /**
- * A layer that renders text labels on specified vertices.
+ * A layer that renders text labels on specified vertices or vertex ranges.
  */
 export class LabelLayer extends Layer({
   /**
@@ -32,27 +36,30 @@ export class LabelLayer extends Layer({
    */
   background: prop<string>(undefined, { attribute: String }),
   /**
-   * A map of vertices and their labels.
+   * A map of vertex ranges and their labels.
    */
-  labels: prop<Record<Vertex, Label>>({}, { attribute: JSON.parse }),
+  labels: prop<Record<VertexRange, Label>>({}, { attribute: JSON.parse }),
 }) {
   renderContent() {
     const { stones, height } = useGobanContext();
+    const stoneMap = useMemo(() => vertexRangeMapToVertexMap(stones() ?? {}));
 
     const labels = useMemo(() =>
-      Object.entries(this.props.labels()).map(([vertex, label]) => {
-        const [x, y] = Vertex.parse(vertex as Vertex);
-        const _label = typeof label === "string" ? { text: label } : label;
+      Object.entries(vertexRangeMapToVertexMap(this.props.labels())).map(
+        ([vertex, label]) => {
+          const [x, y] = Vertex.parse(vertex as Vertex);
+          const _label = typeof label === "string" ? { text: label } : label;
 
-        return { x, y, vertex, ..._label };
-      }),
+          return { x, y, vertex: vertex as Vertex, ..._label };
+        },
+      ),
     );
 
     return (
       <>
         <For each={labels} key={(label) => label.vertex}>
           {(label) => {
-            const stone = () => stones()?.[label().vertex] ?? 0;
+            const stone = () => stoneMap()?.[label().vertex] ?? 0;
             const color = () =>
               label().color ??
               this.props.color() ??

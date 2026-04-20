@@ -1,7 +1,7 @@
 import { defineComponents, For, prop, useMemo } from "sinho";
 import { Layer, unit } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
-import { Vertex } from "../vertex.ts";
+import { Vertex, type VertexRange } from "../vertex.ts";
 import { useGobanContext, useRanges } from "../goban.tsx";
 
 /**
@@ -107,9 +107,9 @@ export class PaintLayer extends Layer(
      */
     color: prop<string>("rgba(0, 0, 0, .5)", { attribute: String }),
     /**
-     * A list of vertices that should be painted.
+      * A list of vertices or ranges that should be painted.
      */
-    paintedVertices: prop<Vertex[]>([], { attribute: JSON.parse }),
+    paintedVertices: prop<VertexRange[]>([], { attribute: JSON.parse }),
     /**
      * The color of the stroke around the painted areas. If set to `"none"`,
      * no stroke is drawn.
@@ -142,7 +142,9 @@ export class PaintLayer extends Layer(
       this.props.stroke() === "none" ? 0 : this.props.strokeWidth() / 2;
     const borders = useMemo(() => {
       const result = new BorderDetector();
-      const paintedVertices = new Set(this.props.paintedVertices());
+      const paintedVertices = new Set(
+        this.props.paintedVertices().flatMap((range) => Vertex.range(range)),
+      );
 
       for (const vertex of paintedVertices) {
         result.add(vertex);
