@@ -2,8 +2,7 @@ import { defineComponents, For, If, prop, useMemo, useRef } from "sinho";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import {
   Vertex,
-  vertexRangeMapToVertexMap,
-  type VertexRange,
+  VertexRange,
 } from "../vertex.ts";
 import { Layer, unit } from "./layer.tsx";
 import { GobanContext, useGobanContext, useRanges } from "../goban.tsx";
@@ -66,7 +65,7 @@ export class StoneLayer extends Layer(
     const dimOpacity = () => _dimOpacity() ?? 0.6;
 
     const stones = useMemo(() =>
-      Object.entries(vertexRangeMapToVertexMap(this.props.stones() ?? {}))
+      VertexRange.entries(this.props.stones() ?? {})
         .map(([vertex, sign]) => {
           const [x, y] = Vertex.parse(vertex as Vertex);
           return { sign, x, y, vertex: vertex as Vertex };
@@ -102,7 +101,7 @@ export class StoneLayer extends Layer(
 
     const dimmedStones = useMemo(
       () =>
-        this.props.dimmedStones()?.flatMap((range) => Vertex.range(range)) ??
+        this.props.dimmedStones()?.flatMap((range) => VertexRange.values(range)) ??
         [],
     );
 

@@ -55,10 +55,10 @@ export function xToLetter(x: number): string {
 export function Vertex(vertex: string): Vertex;
 export function Vertex(x: number, y: number): Vertex;
 export function Vertex(x: number | string, y?: number): Vertex {
-  if (typeof x === "string") {
+  if (y == null) {
     return x as Vertex;
   } else {
-    return `${xToLetter(x)}${y! + 1}`;
+    return `${xToLetter(x as number)}${y + 1}`;
   }
 }
 
@@ -79,10 +79,33 @@ Vertex.parse = function (coord: string): [x: number, y: number] {
 };
 
 /**
+ * Creates a `VertexRange` string from a pair of `Vertex` values or a single `Vertex`.
+ */
+export function VertexRange(range: string): VertexRange;
+export function VertexRange(vertex: Vertex): VertexRange;
+export function VertexRange(start: Vertex, end: Vertex): VertexRange;
+export function VertexRange(start: Vertex | string, end?: Vertex): VertexRange {
+  if (end == null) {
+    return start as VertexRange;
+  } else {
+    return `${start as Vertex}:${end}`;
+  }
+}
+
+/**
+ * Parses a `VertexRange` string into its start and end `Vertex` values.
+ */
+VertexRange.parse = function (range: string): [start: Vertex, end: Vertex] {
+  if (!range.includes(":")) return [range as Vertex, range as Vertex];
+  const [start, end] = range.split(":") as [Vertex, Vertex];
+  return [start, end];
+};
+
+/**
  * Generates all `Vertex` values within a given `VertexRange`. For example,
  * the range `"A1:C3"` would produce the vertices for the rectangle from A1 to C3.
  */
-Vertex.range = function (range: VertexRange): Vertex[] {
+VertexRange.values = function (range: VertexRange): Vertex[] {
   if (!range.includes(":")) return [range as Vertex];
 
   const [start, end] = range.split(":") as [Vertex, Vertex];
@@ -101,14 +124,18 @@ Vertex.range = function (range: VertexRange): Vertex[] {
   return result;
 };
 
-export function vertexRangeMapToVertexMap<T>(
-  vertexRangeMap: Record<VertexRange, T>,
-): Record<Vertex, T> {
+/**
+ * Converts a mapping of `VertexRange` to some value `T` into a flat array of
+ * `[Vertex, T]` pairs.
+ */
+VertexRange.entries = function <T>(data: Record<VertexRange, T>): [Vertex, T][] {
   const vertexMap: Record<Vertex, T> = {};
-  for (const [range, value] of Object.entries(vertexRangeMap)) {
-    for (const vertex of Vertex.range(range as VertexRange)) {
+
+  for (const [range, value] of Object.entries(data) as [VertexRange, T][]) {
+    for (const vertex of VertexRange.values(range)) {
       vertexMap[vertex] = value;
     }
   }
-  return vertexMap;
-}
+
+  return Object.entries(vertexMap) as [Vertex, T][];
+};

@@ -95,7 +95,7 @@ Many layer props accept `VertexRange` values in addition to single vertices.
 Ranges are inclusive on both ends. For example, `"A1:C2"` expands to
 `A1, A2, B1, B2, C1, C2`.
 
-### `Vertex.range(range: VertexRange): Vertex[]`
+### `VertexRange.values(range: VertexRange): Vertex[]`
 
 Generates all `Vertex` values within a given `VertexRange`. For example,
 the range `"A1:C3"` would produce the vertices for the rectangle from A1 to C3.

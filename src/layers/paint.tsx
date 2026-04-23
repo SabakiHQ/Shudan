@@ -1,7 +1,7 @@
 import { defineComponents, For, prop, useMemo } from "sinho";
 import { Layer, unit } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
-import { Vertex, type VertexRange } from "../vertex.ts";
+import { Vertex, VertexRange } from "../vertex.ts";
 import { useGobanContext, useRanges } from "../goban.tsx";
 
 /**
@@ -143,7 +143,7 @@ export class PaintLayer extends Layer(
     const borders = useMemo(() => {
       const result = new BorderDetector();
       const paintedVertices = new Set(
-        this.props.paintedVertices().flatMap((range) => Vertex.range(range)),
+        this.props.paintedVertices().flatMap((range) => VertexRange.values(range)),
       );
 
       for (const vertex of paintedVertices) {

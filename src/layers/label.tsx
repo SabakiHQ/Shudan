@@ -2,8 +2,7 @@ import { defineComponents, For, prop, useMemo } from "sinho";
 import { Layer, unit } from "./layer.tsx";
 import {
   Vertex,
-  vertexRangeMapToVertexMap,
-  type VertexRange,
+  VertexRange,
 } from "../vertex.ts";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { useGobanContext } from "../goban.tsx";
@@ -42,10 +41,10 @@ export class LabelLayer extends Layer({
 }) {
   renderContent() {
     const { stones, height } = useGobanContext();
-    const stoneMap = useMemo(() => vertexRangeMapToVertexMap(stones() ?? {}));
+    const stoneMap = useMemo(() => Object.fromEntries(VertexRange.entries(stones() ?? {})));
 
     const labels = useMemo(() =>
-      Object.entries(vertexRangeMapToVertexMap(this.props.labels())).map(
+      VertexRange.entries(this.props.labels()).map(
         ([vertex, label]) => {
           const [x, y] = Vertex.parse(vertex as Vertex);
           const _label = typeof label === "string" ? { text: label } : label;

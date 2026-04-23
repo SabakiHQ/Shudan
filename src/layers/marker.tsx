@@ -3,8 +3,7 @@ import { Layer, unit } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import {
   Vertex,
-  vertexRangeMapToVertexMap,
-  type VertexRange,
+  VertexRange,
 } from "../vertex.ts";
 import { useGobanContext } from "../goban.tsx";
 
@@ -47,10 +46,10 @@ export class MarkerLayer extends Layer({
 }) {
   renderContent() {
     const { stones, height } = useGobanContext();
-    const stoneMap = useMemo(() => vertexRangeMapToVertexMap(stones() ?? {}));
+    const stoneMap = useMemo(() => Object.fromEntries(VertexRange.entries(stones() ?? {})));
 
     const markers = useMemo(() =>
-      Object.entries(vertexRangeMapToVertexMap(this.props.markers())).map(
+      VertexRange.entries(this.props.markers()).map(
         ([vertex, marker]) => {
           const [x, y] = Vertex.parse(vertex as Vertex);
           const _marker =

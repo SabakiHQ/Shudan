@@ -1,8 +1,7 @@
 import { defineComponents, For, prop } from "sinho";
 import {
   Vertex,
-  vertexRangeMapToVertexMap,
-  type VertexRange,
+  VertexRange,
 } from "../vertex.ts";
 import { Layer, unit } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
@@ -24,9 +23,7 @@ export class StoneIndicatorLayer extends Layer({
     return (
       <>
         <For
-          each={() =>
-            Object.entries(vertexRangeMapToVertexMap(this.props.stones()))
-          }
+          each={() => VertexRange.entries(this.props.stones())}
           key={([vertex]) => vertex}
         >
           {(stone) => {
