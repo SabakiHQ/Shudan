@@ -75,11 +75,8 @@ document
 document
   .querySelector<HTMLInputElement>("input.partial")!
   .addEventListener("change", (event) => {
-    goban.topLeft = (event.target! as HTMLInputElement).checked
-      ? "J7"
-      : undefined;
-    goban.bottomRight = (event.target! as HTMLInputElement).checked
-      ? "T1"
+    goban.partial = (event.target! as HTMLInputElement).checked
+      ? "J7:T1"
       : undefined;
   });
 

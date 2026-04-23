@@ -95,10 +95,27 @@ Many layer props accept `VertexRange` values in addition to single vertices.
 Ranges are inclusive on both ends. For example, `"A1:C2"` expands to
 `A1, A2, B1, B2, C1, C2`.
 
+### `VertexRange(vertex: Vertex): VertexRange`
+
+Creates a `VertexRange` string from a single `Vertex`.
+
+### `VertexRange(start: Vertex, end: Vertex): VertexRange`
+
+Creates a `VertexRange` string from a pair of `Vertex` values.
+
+### `VertexRange.parse(range: string): [Vertex, Vertex]`
+
+Parses a `VertexRange` string into its start and end `Vertex` values.
+
 ### `VertexRange.values(range: VertexRange): Vertex[]`
 
-Generates all `Vertex` values within a given `VertexRange`. For example,
-the range `"A1:C3"` would produce the vertices for the rectangle from A1 to C3.
+Generates all `Vertex` values within a given `VertexRange`. For example, the
+range `"A1:C3"` would produce the vertices for the rectangle from A1 to C3.
+
+### `VertexRange.entries<T>(data: Record<VertexRange, T>): [Vertex, T][]`
+
+Converts a mapping of `VertexRange` to some value `T` into a flat array of
+`[Vertex, T]` pairs.
 
 ## Layers
 
@@ -198,14 +215,10 @@ keyboard navigation, pointer/vertex events, and contains all layer components.
 - `coordY: (y: number) => string`
   - A function that returns the label to be displayed for a given y coordinate.
     Only has an effect if `coords` is enabled.
-- `topLeft?: Vertex`
-  - **Attribute:** `top-left`
-  - Cuts off the goban to only display the area from the given vertex to the
-    bottom-right vertex, inclusive.
-- `bottomRight?: Vertex`
-  - **Attribute:** `bottom-right`
-  - Cuts off the goban to only display the area from the top-left vertex to the
-    given vertex, inclusive.
+- `partial?: VertexRange`
+  - **Attribute:** `partial`
+  - Cuts off the goban to only display the area defined by the given vertex
+    range.
 - `focusedVertex?: Vertex`
   - **Attribute:** `focused-vertex`
   - The currently focused vertex. Only has a value if `interactive` is enabled.

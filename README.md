@@ -2,6 +2,10 @@
 
 A highly customizable, low-level Goban web component.
 
+Shudan is a web component library for rendering Go boards. It provides a
+flexible and customizable goban component with support for multiple layers,
+including stones, markers, labels, and more.
+
 <img src="./screenshot.png" alt="Screenshot" width="600" />
 
 ## Features
@@ -9,7 +13,8 @@ A highly customizable, low-level Goban web component.
 - 📐 Resizable with SVG
 - ⌨️ Keyboard accessibility
 - 🔠 Board coordinates
-- 🎛️ Easy customization
+- ✒️ Easy to author
+- 🎛️ Customizable
 - 🧱 Flexible layer system
 - 🧩 Partial board support
 

@@ -15,11 +15,11 @@ import {
 } from "sinho";
 import { COMPONENT_PREFIX, LAYER_PADDING } from "./constants.ts";
 import { Coord } from "./coord.tsx";
-import { Vertex, xToLetter, type VertexRange } from "./vertex.ts";
+import { Vertex, VertexRange, xToLetter } from "./vertex.ts";
 import { VertexEvent, VertexPointerEvent } from "./events.ts";
 import { unit, unitCSS } from "./utils.ts";
 
-export { Vertex, VertexEvent, VertexPointerEvent, type VertexRange };
+export { Vertex, VertexRange, VertexEvent, VertexPointerEvent };
 
 export const GobanContext = {
   /**
@@ -51,13 +51,9 @@ export const GobanContext = {
    */
   coordY: createContext<(y: number) => string>((y) => (y + 1).toString()),
   /**
-   * Cuts off the goban to only display the area from the given vertex to the `bottomRight` vertex, inclusive.
+   * Cuts off the goban to only display the area defined by the given vertex range.
    */
-  topLeft: createContext<Vertex | undefined>(undefined),
-  /**
-   * Cuts off the goban to only display the area from the `topLeft` vertex to the given vertex, inclusive.
-   */
-  bottomRight: createContext<Vertex | undefined>(undefined),
+  partial: createContext<VertexRange | undefined>(undefined),
   /**
    * @ignore
    */
@@ -120,25 +116,27 @@ export function useGobanContext(): {
 }
 
 export function useRanges() {
-  const topLeftVertex = useContext(GobanContext.topLeft);
-  const bottomRightVertex = useContext(GobanContext.bottomRight);
+  const partial = useContext(GobanContext.partial);
+  const partialParsed = useMemo<[[number, number], [number, number]]>(() => {
+    if (partial() == null) return [[0, Infinity], [Infinity, 0]];
 
-  const topLeftParsed = useMemo<[number, number]>(() =>
-    topLeftVertex() != null ? Vertex.parse(topLeftVertex()!) : [0, Infinity],
-  );
-  const bottomRightParsed = useMemo<[number, number]>(() =>
-    bottomRightVertex() != null
-      ? Vertex.parse(bottomRightVertex()!)
-      : [Infinity, 0],
-  );
+    const [v1, v2] = VertexRange.parse(partial()!);
+    const [x1, y1] = Vertex.parse(v1);
+    const [x2, y2] = Vertex.parse(v2);
+
+    return [
+      [Math.min(x1, x2), Math.max(y1, y2)],
+      [Math.max(x1, x2), Math.min(y1, y2)],
+    ];
+  });
 
   const rangeX = (): [number, number] => [
-    topLeftParsed()[0],
-    bottomRightParsed()[0],
+    partialParsed()[0][0],
+    partialParsed()[1][0],
   ];
   const rangeY = (): [number, number] => [
-    bottomRightParsed()[1],
-    topLeftParsed()[1],
+    partialParsed()[1][1],
+    partialParsed()[0][1],
   ];
 
   return { rangeX, rangeY };
@@ -188,13 +186,9 @@ export class Goban extends Component({
    */
   coordY: prop(GobanContext.coordY),
   /**
-   * Cuts off the goban to only display the area from the given vertex to the bottom-right vertex, inclusive.
+   * Cuts off the goban to only display the area defined by the given vertex range.
    */
-  topLeft: prop(GobanContext.topLeft, { attribute: Vertex }),
-  /**
-   * Cuts off the goban to only display the area from the top-left vertex to the given vertex, inclusive.
-   */
-  bottomRight: prop(GobanContext.bottomRight, { attribute: Vertex }),
+  partial: prop(GobanContext.partial, { attribute: VertexRange }),
   /**
    * @ignore
    */

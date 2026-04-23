@@ -78,11 +78,14 @@ Vertex.parse = function (coord: string): [x: number, y: number] {
   return [x, y];
 };
 
-/**
- * Creates a `VertexRange` string from a pair of `Vertex` values or a single `Vertex`.
- */
 export function VertexRange(range: string): VertexRange;
+/**
+ * Creates a `VertexRange` string from a single `Vertex`.
+ */
 export function VertexRange(vertex: Vertex): VertexRange;
+/**
+ * Creates a `VertexRange` string from a pair of `Vertex` values.
+ */
 export function VertexRange(start: Vertex, end: Vertex): VertexRange;
 export function VertexRange(start: Vertex | string, end?: Vertex): VertexRange {
   if (end == null) {
@@ -128,7 +131,9 @@ VertexRange.values = function (range: VertexRange): Vertex[] {
  * Converts a mapping of `VertexRange` to some value `T` into a flat array of
  * `[Vertex, T]` pairs.
  */
-VertexRange.entries = function <T>(data: Record<VertexRange, T>): [Vertex, T][] {
+VertexRange.entries = function <T>(
+  data: Record<VertexRange, T>,
+): [Vertex, T][] {
   const vertexMap: Record<Vertex, T> = {};
 
   for (const [range, value] of Object.entries(data) as [VertexRange, T][]) {
