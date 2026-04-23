@@ -503,6 +503,7 @@ export class Goban extends Component({
 
             position: relative;
             display: inline-block;
+            padding: ${unitCSS(0.3)};
             border-radius: ${unitCSS(0.3)};
             overflow: hidden;
             background:
@@ -538,8 +539,6 @@ export class Goban extends Component({
               "left center right"
               ". bottom .";
             gap: ${unitCSS(0.1)};
-            padding: ${unitCSS(0.35)};
-            overflow: hidden;
           }
 
           .viewport {
