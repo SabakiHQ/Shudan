@@ -195,6 +195,10 @@ A layer that renders a focus indicator over the currently focused vertex.
 A layer that renders a semi-transparent stone on the vertex currently being
 hovered by the pointer.
 
+If used as a child of a `StoneLayer`, hover stones will only be rendered on
+empty vertices, and it can automatically adjust the stone rendering according
+to the underlying stones.
+
 ### Props and Attributes
 
 - `color: 1 | -1 | number` (default `1`)
@@ -206,11 +210,13 @@ hovered by the pointer.
 - `blackStoneHref: string`
   - **Attribute:** `black-stone-href`
   - An id referencing an SVG object that should be used to represent a black
-    stone.
+    stone. If set to `undefined`, it uses the stone rendering of the underlying
+    `StoneLayer` if available.
 - `whiteStoneHref: string`
   - **Attribute:** `white-stone-href`
   - An id referencing an SVG object that should be used to represent a white
-    stone.
+    stone. If set to `undefined`, it uses the stone rendering of the underlying
+    `StoneLayer` if available.
 
 ## `class StoneIndicatorLayer`
 
@@ -230,7 +236,10 @@ suggestions or candidate moves.
 **HTML Tag:** `<shudan-marker-layer>`
 
 A layer that renders shape markers (circles, crosses, triangles, etc.) on
-specified vertices.
+specified vertices or vertex ranges.
+
+As child of a `StoneLayer`, it can automatically adjust the color and outline
+according to the underlying stones.
 
 ### Props and Attributes
 
@@ -242,7 +251,8 @@ specified vertices.
 - `outline: string`
   - **Attribute:** `outline`
   - The outline color of the markers. If set to `undefined`, it uses the board
-    background color on empty vertices, and is transparent on occupied vertices.
+    background color on empty vertices, and is transparent on occupied vertices
+    according to the `stoneMap` of an underlying stone layer if available.
 - `markers: Record<VertexRange, Marker>` (default `{}`)
   - **Attribute:** `markers`
   - A mapping from vertex ranges to markers.
@@ -251,7 +261,10 @@ specified vertices.
 
 **HTML Tag:** `<shudan-label-layer>`
 
-A layer that renders text labels on specified vertices.
+A layer that renders text labels on specified vertices or vertex ranges.
+
+If used as a child of a `StoneLayer`, it can automatically adjust the text
+color and background according to the underlying stones.
 
 ### Props and Attributes
 
@@ -263,7 +276,8 @@ A layer that renders text labels on specified vertices.
 - `background: string`
   - **Attribute:** `background`
   - The background of the labels. If set to `undefined`, it uses the board
-    background on empty vertices, and is transparent on occupied vertices.
+    background on empty vertices, and is transparent on occupied vertices
+    according to the `stoneMap` of an underlying stone layer if available.
 - `labels: Record<VertexRange, Label>` (default `{}`)
   - **Attribute:** `labels`
   - A map of vertex ranges and their labels.
