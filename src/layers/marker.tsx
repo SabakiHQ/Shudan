@@ -54,11 +54,11 @@ export class MarkerLayer extends Layer({
     const outline = () =>
       this.props.outline() ?? "var(--shudan-board-background-color)";
     const stoneMap = useMemo(() =>
-      Object.fromEntries(VertexRange.entries(stones() ?? {})),
+      VertexRange.index(stones() ?? {}),
     );
 
     const markers = useMemo(() =>
-      VertexRange.entries(this.props.markers()).map(([vertex, marker]) => {
+      Object.entries(VertexRange.index(this.props.markers())).map(([vertex, marker]) => {
         const [x, y] = Vertex.parse(vertex as Vertex);
         const _marker = typeof marker === "string" ? { type: marker } : marker;
 

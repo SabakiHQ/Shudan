@@ -49,8 +49,9 @@ export function xToLetter(x: number): string {
 /**
  * Converts numerical coordinates (0-based, bottom-left-origin) to a Go coordinate string.
  *
- * @example Vertex(0, 13)  // → "A14"
- * @example Vertex(18, 0)  // → "T1"
+ * @example
+ * Vertex(0, 13)  // → "A14"
+ * Vertex(18, 0)  // → "T1"
  */
 export function Vertex(vertex: string): Vertex;
 export function Vertex(x: number, y: number): Vertex;
@@ -66,8 +67,9 @@ export function Vertex(x: number | string, y?: number): Vertex {
  * Parses a Go coordinate string (e.g. `"A6"`, `"T19"`, `"AA3"`) into numerical
  * coordinates (0-based, bottom-left-origin).
  *
- * @example Vertex.parse("A6")  // → [0, 5]
- * @example Vertex.parse("T19") // → [18, 18]
+ * @example
+ * Vertex.parse("A6")  // → [0, 5]
+ * Vertex.parse("T19") // → [18, 18]
  */
 Vertex.parse = function (coord: string): [x: number, y: number] {
   const match = coord.toUpperCase().match(/^([A-HJ-Z]+)(\d+)$/);
@@ -128,12 +130,17 @@ VertexRange.values = function (range: VertexRange): Vertex[] {
 };
 
 /**
- * Converts a mapping of `VertexRange` to some value `T` into a flat array of
- * `[Vertex, T]` pairs.
+ * Indexes an object keyed by `VertexRange` into an object keyed by individual
+ * `Vertex` values. Each range key is resolved to all the vertices it covers,
+ * and every resulting vertex maps to the same value as its source range.
+ *
+ * @example
+ * VertexRange.index({ "A1:C1": "x", D4: "o" });
+ * // → { A1: "x", B1: "x", C1: "x", D4: "o" }
  */
-VertexRange.entries = function <T>(
+VertexRange.index = function <T>(
   data: Record<VertexRange, T>,
-): [Vertex, T][] {
+): Record<Vertex, T> {
   const vertexMap: Record<Vertex, T> = {};
 
   for (const [range, value] of Object.entries(data) as [VertexRange, T][]) {
@@ -142,5 +149,5 @@ VertexRange.entries = function <T>(
     }
   }
 
-  return Object.entries(vertexMap) as [Vertex, T][];
+  return vertexMap;
 };

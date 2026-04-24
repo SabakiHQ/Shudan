@@ -70,6 +70,8 @@ Use `Vertex` to convert between vertex strings and numerical coordinates:
 
 Converts numerical coordinate to a Go coordinate string.
 
+**Example:**
+
 ```ts
 Vertex(0, 13); // → "A14"
 Vertex(18, 0); // → "T1"
@@ -79,6 +81,8 @@ Vertex(18, 0); // → "T1"
 
 Parses a Go coordinate string (e.g. `"A6"`, `"T19"`, `"AA3"`) into numerical
 coordinates:
+
+**Example:**
 
 ```ts
 Vertex.parse("A6"); // → [0, 5]
@@ -112,10 +116,18 @@ Parses a `VertexRange` string into its start and end `Vertex` values.
 Generates all `Vertex` values within a given `VertexRange`. For example, the
 range `"A1:C3"` would produce the vertices for the rectangle from A1 to C3.
 
-### `VertexRange.entries<T>(data: Record<VertexRange, T>): [Vertex, T][]`
+### `VertexRange.index<T>(data: Record<VertexRange, T>): Record<Vertex, T>`
 
-Converts a mapping of `VertexRange` to some value `T` into a flat array of
-`[Vertex, T]` pairs.
+Indexes an object keyed by `VertexRange` into an object keyed by individual
+`Vertex` values. Each range key is resolved to all the vertices it covers, and
+every resulting vertex maps to the same value as its source range.
+
+**Example:**
+
+```ts
+VertexRange.index({ "A1:C1": "x", D4: "o" });
+// → { A1: "x", B1: "x", C1: "x", D4: "o" }
+```
 
 ## Layers
 

@@ -66,7 +66,7 @@ export class StoneLayer extends Layer(
     const dimOpacity = () => _dimOpacity() ?? 0.6;
 
     const stones = useMemo(() =>
-      VertexRange.entries(this.props.stones() ?? {})
+      Object.entries(VertexRange.index(this.props.stones() ?? {}))
         .map(([vertex, sign]) => {
           const [x, y] = Vertex.parse(vertex as Vertex);
           return { sign, x, y, vertex: vertex as Vertex };

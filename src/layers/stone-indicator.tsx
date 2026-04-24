@@ -23,7 +23,7 @@ export class StoneIndicatorLayer extends Layer({
     return (
       <>
         <For
-          each={() => VertexRange.entries(this.props.stones())}
+          each={() => Object.entries(VertexRange.index(this.props.stones()))}
           key={([vertex]) => vertex}
         >
           {(stone) => {

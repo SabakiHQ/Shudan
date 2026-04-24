@@ -41,7 +41,7 @@ export class HeatLayer extends Layer(
             class="layer"
             color={color}
             paintedVertices={() =>
-              VertexRange.entries(this.props.values())
+              Object.entries(VertexRange.index(this.props.values()))
                 .filter(
                   ([, value]) =>
                     (i() * (max() - min())) / colors().length + min() < value &&
