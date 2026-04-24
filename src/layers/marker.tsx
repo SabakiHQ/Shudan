@@ -51,6 +51,8 @@ export class MarkerLayer extends Layer({
 }) {
   renderContent() {
     const { stones, height } = useGobanContext();
+    const outline = () =>
+      this.props.outline() ?? "var(--shudan-board-background-color)";
     const stoneMap = useMemo(() =>
       Object.fromEntries(VertexRange.entries(stones() ?? {})),
     );
@@ -78,33 +80,25 @@ export class MarkerLayer extends Layer({
               dx="0"
               dy={unit(0.05)}
               stdDeviation={0}
-              flood-color={() =>
-                this.props.outline() ?? "var(--shudan-board-background-color)"
-              }
+              flood-color={outline}
             />
             <feDropShadow
               dx="0"
               dy={unit(-0.05)}
               stdDeviation={0}
-              flood-color={() =>
-                this.props.outline() ?? "var(--shudan-board-background-color)"
-              }
+              flood-color={outline}
             />
             <feDropShadow
               dx={unit(0.05)}
               dy="0"
               stdDeviation={0}
-              flood-color={() =>
-                this.props.outline() ?? "var(--shudan-board-background-color)"
-              }
+              flood-color={outline}
             />
             <feDropShadow
               dx={unit(-0.05)}
               dy="0"
               stdDeviation={0}
-              flood-color={() =>
-                this.props.outline() ?? "var(--shudan-board-background-color)"
-              }
+              flood-color={outline}
             />
           </filter>
 
@@ -114,7 +108,7 @@ export class MarkerLayer extends Layer({
               cy={0.5}
               r={0.25}
               fill="none"
-              stroke="var(--color)"
+              stroke="currentColor"
               stroke-width={0.08}
             />
           </symbol>
@@ -124,7 +118,7 @@ export class MarkerLayer extends Layer({
               cx={0.5}
               cy={0.5}
               r={0.18}
-              fill="var(--color)"
+              fill="currentColor"
               stroke="none"
             />
           </symbol>
@@ -136,7 +130,7 @@ export class MarkerLayer extends Layer({
               width={0.5}
               height={0.5}
               fill="none"
-              stroke="var(--color)"
+              stroke="currentColor"
               stroke-width={0.08}
             />
           </symbol>
@@ -146,7 +140,7 @@ export class MarkerLayer extends Layer({
               d="M 0 0.5 L 0.6 0.5 L 0.3 0 z"
               transform="translate(0.2 0.2)"
               fill="none"
-              stroke="var(--color)"
+              stroke="currentColor"
               stroke-width={0.08}
             />
           </symbol>
@@ -155,7 +149,7 @@ export class MarkerLayer extends Layer({
             <path
               d="M 0 0 L 0.5 0.5 M 0.5 0 L 0 0.5"
               transform="translate(0.25 0.25)"
-              stroke="var(--color)"
+              stroke="currentColor"
               stroke-width={0.08}
             />
           </symbol>
@@ -178,7 +172,7 @@ export class MarkerLayer extends Layer({
             return (
               <use
                 href={() => `#shudan-${marker().type ?? "cross"}`}
-                style={{ "--color": color }}
+                style={{ color }}
                 x={() => unit(marker().x)}
                 y={() => unit(height() - 1 - marker().y)}
                 width={unit()}

@@ -55,12 +55,10 @@ export class LineLayer extends Layer({
 
     const defsRef = useRef<Element>();
     const customHead = useMemo(() =>
-      ["none", "arrow"].includes(this.props.head())
-        ? undefined
-        : this.props.head(),
+      this.props.head().startsWith("#") ? this.props.head() : undefined,
     );
     const customTail = useMemo(() =>
-      this.props.tail() === "none" ? undefined : this.props.tail(),
+      this.props.tail().startsWith("#") ? this.props.tail() : undefined,
     );
 
     const customHeadId = useExternalReference(
