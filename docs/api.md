@@ -256,6 +256,11 @@ according to the underlying stones.
 - `markers: Record<VertexRange, Marker>` (default `{}`)
   - **Attribute:** `markers`
   - A mapping from vertex ranges to markers.
+  - `Marker` is either a shorthand `MarkerType` string, or an object with
+    optional fields:
+    - `type?: MarkerType` — one of `"point"`, `"circle"`, `"cross"`,
+      `"triangle"`, `"square"`
+    - `color?: string`
 
 ## `class LabelLayer`
 
@@ -281,6 +286,10 @@ color and background according to the underlying stones.
 - `labels: Record<VertexRange, Label>` (default `{}`)
   - **Attribute:** `labels`
   - A map of vertex ranges and their labels.
+  - `Label` is either a plain string, or an object with optional fields:
+    - `text?: string`
+    - `color?: string`
+    - `tooltip?: string`
 
 ### CSS Parts
 
