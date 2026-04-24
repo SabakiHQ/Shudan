@@ -42,27 +42,33 @@ keyboard navigation, pointer/vertex events, and contains all layer components.
 ### Events
 
 - `focused-vertex-change`
-  - **Event:** [`VertexEvent`](#class-vertexevent)
+  - **Event:** [`VertexEvent`](#class-vertexevent-extends-event)
   - This event is emitted when the focused vertex changes.
 - `vertex-click`
-  - **Event:** [`VertexPointerEvent`](#class-vertexpointerevent)
+  - **Event:**
+    [`VertexPointerEvent`](#class-vertexpointerevent-extends-pointerevent)
   - This event is emitted when a vertex is clicked.
 - `vertex-pointer-up`
-  - **Event:** [`VertexPointerEvent`](#class-vertexpointerevent)
+  - **Event:**
+    [`VertexPointerEvent`](#class-vertexpointerevent-extends-pointerevent)
   - This event is emitted when a pointer is released while hovering over a
     vertex.
 - `vertex-pointer-down`
-  - **Event:** [`VertexPointerEvent`](#class-vertexpointerevent)
+  - **Event:**
+    [`VertexPointerEvent`](#class-vertexpointerevent-extends-pointerevent)
   - This event is emitted when a pointer is pressed down while hovering over a
     vertex.
 - `vertex-pointer-move`
-  - **Event:** [`VertexPointerEvent`](#class-vertexpointerevent)
+  - **Event:**
+    [`VertexPointerEvent`](#class-vertexpointerevent-extends-pointerevent)
   - This event is emitted when a pointer moves while hovering over a vertex.
 - `vertex-pointer-enter`
-  - **Event:** [`VertexPointerEvent`](#class-vertexpointerevent)
+  - **Event:**
+    [`VertexPointerEvent`](#class-vertexpointerevent-extends-pointerevent)
   - This event is emitted when a pointer enters the vertices area.
 - `vertex-pointer-leave`
-  - **Event:** [`VertexPointerEvent`](#class-vertexpointerevent)
+  - **Event:**
+    [`VertexPointerEvent`](#class-vertexpointerevent-extends-pointerevent)
   - This event is emitted when a pointer leaves the vertices area.
 
 ### CSS Variables
