@@ -135,17 +135,18 @@ label layers usually come after stones so they stay visible.
 
 ### Layer Groups
 
-Use `LayerGroup` (HTML tag: `<shudan-layer-group>`) to organize multiple layers
-as a single subtree.
+Any layer element can act as a layer group by containing other layer elements as
+children. Child layers are rendered on top of their parent layer, and siblings
+among those children are painted in DOM order.
+
+Use `LayerGroup` (HTML tag: `<shudan-layer-group>`) when you only need grouping
+without any rendering of its own.
 
 Common uses:
 
 - Keep related overlays together (for example labels + markers + lines).
 - Toggle visibility by applying attributes/classes/styles to one group host.
 - Improve readability when composing many layers.
-
-A `LayerGroup` does not draw anything by itself; it only groups nested layers.
-Nested layers still follow normal DOM stacking rules.
 
 **Example:**
 
