@@ -42,20 +42,27 @@ keyboard navigation, pointer/vertex events, and contains all layer components.
 ### Events
 
 - `focused-vertex-change`
+  - **Event:** [`VertexEvent`](#class-vertexevent)
   - This event is emitted when the focused vertex changes.
 - `vertex-click`
+  - **Event:** [`VertexPointerEvent`](#class-vertexpointerevent)
   - This event is emitted when a vertex is clicked.
 - `vertex-pointer-up`
+  - **Event:** [`VertexPointerEvent`](#class-vertexpointerevent)
   - This event is emitted when a pointer is released while hovering over a
     vertex.
 - `vertex-pointer-down`
+  - **Event:** [`VertexPointerEvent`](#class-vertexpointerevent)
   - This event is emitted when a pointer is pressed down while hovering over a
     vertex.
 - `vertex-pointer-move`
+  - **Event:** [`VertexPointerEvent`](#class-vertexpointerevent)
   - This event is emitted when a pointer moves while hovering over a vertex.
 - `vertex-pointer-enter`
+  - **Event:** [`VertexPointerEvent`](#class-vertexpointerevent)
   - This event is emitted when a pointer enters the vertices area.
 - `vertex-pointer-leave`
+  - **Event:** [`VertexPointerEvent`](#class-vertexpointerevent)
   - This event is emitted when a pointer leaves the vertices area.
 
 ### CSS Variables
@@ -85,6 +92,26 @@ appearance of the goban which can be overridden in your stylesheets:
   - The CSS part for x coordinate labels.
 - `shudan-goban::part(coord-y)`
   - The CSS part for y coordinate labels.
+
+## `class VertexEvent extends Event`
+
+An event that carries a vertex, emitted when the focused vertex changes.
+
+### Properties
+
+- `vertex: Vertex`
+  - The vertex associated with the event.
+
+## `class VertexPointerEvent extends PointerEvent`
+
+A pointer event that also carries the board vertex the pointer was over.
+
+### Properties
+
+- `vertex: Vertex`
+  - The vertex associated with the event.
+- `pointerEvent: PointerEvent`
+  - The original DOM pointer event that triggered this event.
 
 ## `class GridLayer`
 
