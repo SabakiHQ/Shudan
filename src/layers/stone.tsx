@@ -1,9 +1,6 @@
 import { defineComponents, For, If, prop, useMemo, useRef } from "sinho";
 import { COMPONENT_PREFIX } from "../constants.ts";
-import {
-  Vertex,
-  VertexRange,
-} from "../vertex.ts";
+import { Vertex, VertexRange } from "../vertex.ts";
 import { Layer, unit } from "./layer.tsx";
 import { GobanContext, useGobanContext, useRanges } from "../goban.tsx";
 import { useExternalReference } from "../utils.ts";
@@ -15,7 +12,7 @@ import { BlackStone, WhiteStone } from "../assets.tsx";
 export class StoneLayer extends Layer(
   {
     /**
-      * A mapping from vertex ranges to `-1` representing a white stone, or `1`
+     * A mapping from vertex ranges to `-1` representing a white stone, or `1`
      * representing a black stone.
      */
     stones: prop<Record<VertexRange, number> | undefined>(GobanContext.stones, {
@@ -44,12 +41,16 @@ export class StoneLayer extends Layer(
      * An id referencing an SVG object that should be used to represent a
      * black stone.
      */
-    blackStoneHref: prop(GobanContext.blackStoneHref, { attribute: String }),
+    blackStoneHref: prop(GobanContext.blackStoneHref, {
+      attribute: (x) => x as never,
+    }),
     /**
      * An id referencing an SVG object that should be used to represent a
      * white stone.
      */
-    whiteStoneHref: prop(GobanContext.whiteStoneHref, { attribute: String }),
+    whiteStoneHref: prop(GobanContext.whiteStoneHref, {
+      attribute: (x) => x as never,
+    }),
   },
   { visibleOverflow: true },
 ) {
@@ -101,8 +102,9 @@ export class StoneLayer extends Layer(
 
     const dimmedStones = useMemo(
       () =>
-        this.props.dimmedStones()?.flatMap((range) => VertexRange.values(range)) ??
-        [],
+        this.props
+          .dimmedStones()
+          ?.flatMap((range) => VertexRange.values(range)) ?? [],
     );
 
     return (

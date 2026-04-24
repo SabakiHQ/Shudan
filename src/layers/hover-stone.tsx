@@ -36,7 +36,9 @@ export class HoverStoneLayer extends Layer(
      * If set to `undefined`, it uses the stone rendering of the underlying
      * `StoneLayer` if available.
      */
-    blackStoneHref: prop(GobanContext.blackStoneHref, { attribute: String }),
+    blackStoneHref: prop(GobanContext.blackStoneHref, {
+      attribute: (x) => x as never,
+    }),
     /**
      * An id referencing an SVG object that should be used to represent a
      * white stone.
@@ -44,7 +46,9 @@ export class HoverStoneLayer extends Layer(
      * If set to `undefined`, it uses the stone rendering of the underlying
      * `StoneLayer` if available.
      */
-    whiteStoneHref: prop(GobanContext.whiteStoneHref, { attribute: String }),
+    whiteStoneHref: prop(GobanContext.whiteStoneHref, {
+      attribute: (x) => x as never,
+    }),
   },
   {
     visibleOverflow: true,

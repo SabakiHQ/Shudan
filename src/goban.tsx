@@ -97,12 +97,12 @@ export const GobanContext = {
    * An id referencing an SVG object that should be used to represent a
    * black stone.
    */
-  blackStoneHref: createContext<string>(),
+  blackStoneHref: createContext<`#${string}`>(),
   /**
    * An id referencing an SVG object that should be used to represent a
    * white stone.
    */
-  whiteStoneHref: createContext<string>(),
+  whiteStoneHref: createContext<`#${string}`>(),
 };
 
 export function useGobanContext(): {

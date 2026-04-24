@@ -33,14 +33,18 @@ export class LineLayer extends Layer({
    *
    * @default "none"
    */
-  head: prop<"none" | "arrow" | (string & {})>("none", { attribute: String }),
+  head: prop<"none" | "arrow" | `#${string}`>("none", {
+    attribute: (x) => x as never,
+  }),
   /**
    * The style of the tail of the lines. Can be "none" or an id
    * referencing a custom SVG object.
    *
    * @default "none"
    */
-  tail: prop<"none" | (string & {})>("none", { attribute: String }),
+  tail: prop<"none" | `#${string}`>("none", {
+    attribute: (x) => x as never,
+  }),
   /**
    * The list of lines, each defined by a pair of start and end vertices.
    */
