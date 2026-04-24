@@ -16,10 +16,22 @@ import {
 import { COMPONENT_PREFIX, LAYER_PADDING } from "./constants.ts";
 import { Coord } from "./coord.tsx";
 import { Vertex, VertexRange, xToLetter } from "./vertex.ts";
-import { VertexEvent, VertexPointerEvent } from "./events.ts";
+import {
+  VertexEvent,
+  VertexPointerEvent,
+  type VertexEventInit,
+  type VertexPointerEventInit,
+} from "./events.ts";
 import { unit, unitCSS } from "./utils.ts";
 
-export { Vertex, VertexRange, VertexEvent, VertexPointerEvent };
+export {
+  Vertex,
+  VertexRange,
+  VertexEvent,
+  VertexPointerEvent,
+  type VertexEventInit,
+  type VertexPointerEventInit,
+};
 
 export const GobanContext = {
   /**
@@ -118,7 +130,11 @@ export function useGobanContext(): {
 export function useRanges() {
   const partial = useContext(GobanContext.partial);
   const partialParsed = useMemo<[[number, number], [number, number]]>(() => {
-    if (partial() == null) return [[0, Infinity], [Infinity, 0]];
+    if (partial() == null)
+      return [
+        [0, Infinity],
+        [Infinity, 0],
+      ];
 
     const [v1, v2] = VertexRange.parse(partial()!);
     const [x1, y1] = Vertex.parse(v1);
@@ -342,7 +358,10 @@ export class Goban extends Component({
           ),
         );
 
-        const cont = this.events.onFocusedVertexChange(focusedVertex);
+        const cont = this.events.onFocusedVertexChange({
+          vertex: focusedVertex,
+          cancelable: true,
+        });
         if (cont) this.focusedVertex = focusedVertex;
       });
     });
@@ -389,7 +408,10 @@ export class Goban extends Component({
               });
 
               if (cont && this.focusedVertex !== vertex) {
-                const cont = this.events.onFocusedVertexChange(vertex);
+                const cont = this.events.onFocusedVertexChange({
+                  vertex,
+                  cancelable: true,
+                });
                 if (cont) this.focusedVertex = vertex;
               }
             }}

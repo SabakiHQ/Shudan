@@ -6,6 +6,8 @@ export {
   VertexRange,
   VertexEvent,
   VertexPointerEvent,
+  type VertexEventInit,
+  type VertexPointerEventInit,
 } from "./goban.tsx";
 export {
   Layer,

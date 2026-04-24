@@ -1,5 +1,9 @@
 import type { Vertex } from "./vertex.ts";
 
+export interface VertexEventInit extends EventInit {
+  vertex: Vertex;
+}
+
 /**
  * An event that carries a vertex, emitted when the focused vertex changes.
  */
@@ -9,43 +13,29 @@ export class VertexEvent extends Event {
    */
   vertex: Vertex;
 
-  constructor(type: string, vertex: Vertex) {
-    super(type, { cancelable: true });
+  constructor(type: string, init: VertexEventInit) {
+    super(type, init);
 
-    this.vertex = vertex;
+    this.vertex = init.vertex;
   }
+}
+
+export interface VertexPointerEventInit extends VertexEventInit {
+  pointerEvent: PointerEvent;
 }
 
 /**
  * A pointer event that also carries the board vertex the pointer was over.
  */
-export class VertexPointerEvent extends Event {
-  /**
-   * The vertex the pointer was over when the event was fired.
-   */
-  vertex: Vertex;
+export class VertexPointerEvent extends VertexEvent {
   /**
    * The original DOM pointer event that triggered this event.
    */
   pointerEvent: PointerEvent;
 
-  constructor(
-    type: string,
-    init: {
-      vertex: Vertex;
-      pointerEvent: PointerEvent;
-      cancelable?: boolean;
-      bubbles?: boolean;
-      composed?: boolean;
-    },
-  ) {
-    super(type, {
-      cancelable: init.cancelable,
-      bubbles: init.bubbles,
-      composed: init.composed,
-    });
+  constructor(type: string, init: VertexPointerEventInit) {
+    super(type, init);
 
-    this.vertex = init.vertex;
     this.pointerEvent = init.pointerEvent;
   }
 
