@@ -1,10 +1,7 @@
 import { defineComponents, For, prop, useMemo } from "sinho";
 import { Layer, unit } from "./layer.tsx";
 import { COMPONENT_PREFIX } from "../constants.ts";
-import {
-  Vertex,
-  VertexRange,
-} from "../vertex.ts";
+import { Vertex, VertexRange } from "../vertex.ts";
 import { useGobanContext } from "../goban.tsx";
 
 /**
@@ -26,17 +23,25 @@ export type Marker =
 /**
  * A layer that renders shape markers (circles, crosses, triangles, etc.) on
  * specified vertices or vertex ranges.
+ *
+ * As child of a `StoneLayer`, it can automatically adjust the color and outline
+ * according to the underlying stones.
  */
 export class MarkerLayer extends Layer({
   /**
-   * The color of the markers. If set to `undefined`, it uses the default colors
-   * according to the `stoneMap` of an underlying stone layer if available, or
-   * the board foreground color.
+   * The color of the markers.
+   *
+   * If set to `undefined`, it uses the default colors according to the
+   * `stoneMap` of an underlying stone layer if available, or the board
+   * foreground color.
    */
   color: prop<string>(undefined, { attribute: String }),
   /**
-   * The outline color of the markers. If set to `undefined`, it uses the board
-   * background color on empty vertices, and is transparent on occupied vertices.
+   * The outline color of the markers.
+   *
+   * If set to `undefined`, it uses the board background color on empty
+   * vertices, and is transparent on occupied vertices according to the
+   * `stoneMap` of an underlying stone layer if available.
    */
   outline: prop<string>(undefined, { attribute: String }),
   /**
@@ -46,25 +51,24 @@ export class MarkerLayer extends Layer({
 }) {
   renderContent() {
     const { stones, height } = useGobanContext();
-    const stoneMap = useMemo(() => Object.fromEntries(VertexRange.entries(stones() ?? {})));
+    const stoneMap = useMemo(() =>
+      Object.fromEntries(VertexRange.entries(stones() ?? {})),
+    );
 
     const markers = useMemo(() =>
-      VertexRange.entries(this.props.markers()).map(
-        ([vertex, marker]) => {
-          const [x, y] = Vertex.parse(vertex as Vertex);
-          const _marker =
-            typeof marker === "string" ? { type: marker } : marker;
+      VertexRange.entries(this.props.markers()).map(([vertex, marker]) => {
+        const [x, y] = Vertex.parse(vertex as Vertex);
+        const _marker = typeof marker === "string" ? { type: marker } : marker;
 
-          return { x, y, vertex: vertex as Vertex, ..._marker };
-        },
-      ),
+        return { x, y, vertex: vertex as Vertex, ..._marker };
+      }),
     );
 
     return (
       <>
         <defs>
           <filter
-            id="outline"
+            id="shudan-outline"
             x={-unit()}
             y={-unit()}
             width={unit(3)}
@@ -104,7 +108,7 @@ export class MarkerLayer extends Layer({
             />
           </filter>
 
-          <symbol id="circle" viewBox="0 0 1 1">
+          <symbol id="shudan-circle" viewBox="0 0 1 1">
             <circle
               cx={0.5}
               cy={0.5}
@@ -115,7 +119,7 @@ export class MarkerLayer extends Layer({
             />
           </symbol>
 
-          <symbol id="point" viewBox="0 0 1 1">
+          <symbol id="shudan-point" viewBox="0 0 1 1">
             <circle
               cx={0.5}
               cy={0.5}
@@ -125,7 +129,7 @@ export class MarkerLayer extends Layer({
             />
           </symbol>
 
-          <symbol id="square" viewBox="0 0 1 1">
+          <symbol id="shudan-square" viewBox="0 0 1 1">
             <rect
               x={0.25}
               y={0.25}
@@ -137,7 +141,7 @@ export class MarkerLayer extends Layer({
             />
           </symbol>
 
-          <symbol id="triangle" viewBox="0 0 1 1">
+          <symbol id="shudan-triangle" viewBox="0 0 1 1">
             <path
               d="M 0 0.5 L 0.6 0.5 L 0.3 0 z"
               transform="translate(0.2 0.2)"
@@ -147,7 +151,7 @@ export class MarkerLayer extends Layer({
             />
           </symbol>
 
-          <symbol id="cross" viewBox="0 0 1 1">
+          <symbol id="shudan-cross" viewBox="0 0 1 1">
             <path
               d="M 0 0 L 0.5 0.5 M 0.5 0 L 0 0.5"
               transform="translate(0.25 0.25)"
@@ -173,7 +177,7 @@ export class MarkerLayer extends Layer({
 
             return (
               <use
-                href={() => `#${marker().type ?? "cross"}`}
+                href={() => `#shudan-${marker().type ?? "cross"}`}
                 style={{ "--color": color }}
                 x={() => unit(marker().x)}
                 y={() => unit(height() - 1 - marker().y)}
@@ -182,7 +186,7 @@ export class MarkerLayer extends Layer({
                 filter={() =>
                   this.props.outline() != null ||
                   (stones() != null && stone() === 0)
-                    ? "url(#outline)"
+                    ? "url(#shudan-outline)"
                     : undefined
                 }
               />

@@ -1,9 +1,6 @@
 import { defineComponents, For, prop, useMemo } from "sinho";
 import { Layer, unit } from "./layer.tsx";
-import {
-  Vertex,
-  VertexRange,
-} from "../vertex.ts";
+import { Vertex, VertexRange } from "../vertex.ts";
 import { COMPONENT_PREFIX } from "../constants.ts";
 import { useGobanContext } from "../goban.tsx";
 
@@ -21,17 +18,25 @@ export type Label =
 
 /**
  * A layer that renders text labels on specified vertices or vertex ranges.
+ *
+ * If used as a child of a `StoneLayer`, it can automatically adjust the text
+ * color and background according to the underlying stones.
  */
 export class LabelLayer extends Layer({
   /**
-   * The text color of the labels. If set to `undefined`, it uses the default
-   * colors according to the `stoneMap` of an underlying stone layer if
-   * available, or the board foreground color.
+   * The text color of the labels.
+   *
+   * If set to `undefined`, it uses the default colors according to the
+   * `stoneMap` of an underlying stone layer if available, or the board
+   * foreground color.
    */
   color: prop<string>(undefined, { attribute: String }),
   /**
-   * The background of the labels. If set to `undefined`, it uses the board
-   * background on empty vertices, and is transparent on occupied vertices.
+   * The background of the labels.
+   *
+   * If set to `undefined`, it uses the board background on empty vertices, and
+   * is transparent on occupied vertices according to the `stoneMap` of an
+   * underlying stone layer if available.
    */
   background: prop<string>(undefined, { attribute: String }),
   /**
@@ -41,17 +46,17 @@ export class LabelLayer extends Layer({
 }) {
   renderContent() {
     const { stones, height } = useGobanContext();
-    const stoneMap = useMemo(() => Object.fromEntries(VertexRange.entries(stones() ?? {})));
+    const stoneMap = useMemo(() =>
+      Object.fromEntries(VertexRange.entries(stones() ?? {})),
+    );
 
     const labels = useMemo(() =>
-      VertexRange.entries(this.props.labels()).map(
-        ([vertex, label]) => {
-          const [x, y] = Vertex.parse(vertex as Vertex);
-          const _label = typeof label === "string" ? { text: label } : label;
+      VertexRange.entries(this.props.labels()).map(([vertex, label]) => {
+        const [x, y] = Vertex.parse(vertex as Vertex);
+        const _label = typeof label === "string" ? { text: label } : label;
 
-          return { x, y, vertex: vertex as Vertex, ..._label };
-        },
-      ),
+        return { x, y, vertex: vertex as Vertex, ..._label };
+      }),
     );
 
     return (

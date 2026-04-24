@@ -10,6 +10,10 @@ import { useExternalReference } from "../utils.ts";
 /**
  * A layer that renders a semi-transparent stone on the vertex currently being
  * hovered by the pointer.
+ *
+ * If used as a child of a `StoneLayer`, hover stones will only be rendered on
+ * empty vertices, and it can automatically adjust the stone rendering according
+ * to the underlying stones.
  */
 export class HoverStoneLayer extends Layer(
   {
@@ -28,11 +32,17 @@ export class HoverStoneLayer extends Layer(
     /**
      * An id referencing an SVG object that should be used to represent a
      * black stone.
+     *
+     * If set to `undefined`, it uses the stone rendering of the underlying
+     * `StoneLayer` if available.
      */
     blackStoneHref: prop(GobanContext.blackStoneHref, { attribute: String }),
     /**
      * An id referencing an SVG object that should be used to represent a
      * white stone.
+     *
+     * If set to `undefined`, it uses the stone rendering of the underlying
+     * `StoneLayer` if available.
      */
     whiteStoneHref: prop(GobanContext.whiteStoneHref, { attribute: String }),
   },
