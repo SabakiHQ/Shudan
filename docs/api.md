@@ -163,11 +163,11 @@ A layer that renders black and white stones including shadows.
 - `dimOpacity: number` (default `0.6`)
   - **Attribute:** `dim-opacity`
   - The opacity of the dimmed stones, between 0 and 1.
-- `blackStoneHref: string`
+- ``blackStoneHref: `#${string}` ``
   - **Attribute:** `black-stone-href`
   - An id referencing an SVG object that should be used to represent a black
     stone.
-- `whiteStoneHref: string`
+- ``whiteStoneHref: `#${string}` ``
   - **Attribute:** `white-stone-href`
   - An id referencing an SVG object that should be used to represent a white
     stone.
@@ -181,7 +181,6 @@ A layer that renders a focus indicator over the currently focused vertex.
 ### Props and Attributes
 
 - `stroke: string`
-  - **Attribute:** `stroke`
   - The color of the focus indicator. By default, it uses the foreground color
     of the board.
 - `strokeWidth: number` (default `0.1`)
@@ -207,12 +206,12 @@ to the underlying stones.
 - `opacity: number` (default `0.6`)
   - **Attribute:** `opacity`
   - The opacity of the hover stone, between 0 and 1.
-- `blackStoneHref: string`
+- ``blackStoneHref: `#${string}` ``
   - **Attribute:** `black-stone-href`
   - An id referencing an SVG object that should be used to represent a black
     stone. If set to `undefined`, it uses the stone rendering of the underlying
     `StoneLayer` if available.
-- `whiteStoneHref: string`
+- ``whiteStoneHref: `#${string}` ``
   - **Attribute:** `white-stone-href`
   - An id referencing an SVG object that should be used to represent a white
     stone. If set to `undefined`, it uses the stone rendering of the underlying
@@ -356,11 +355,11 @@ A layer that renders lines between pairs of vertices.
 - `width: number` (default `0.11`)
   - **Attribute:** `width`
   - The width of the lines as a fraction of the vertex size.
-- `head: "none" | "arrow" | string` (default `"none"`)
+- ``head: "none" | "arrow" | `#${string}` `` (default `"none"`)
   - **Attribute:** `head`
   - The style of the head of the lines. Can be `"none"`, `"arrow"`, or an id
     referencing a custom SVG object.
-- `tail: "none" | string` (default `"none"`)
+- ``tail: "none" | `#${string}` `` (default `"none"`)
   - **Attribute:** `tail`
   - The style of the tail of the lines. Can be `"none"` or an id referencing a
     custom SVG object.
