@@ -79,6 +79,7 @@
   },
   "homepage": "https://github.com/SabakiHQ/Shudan",
   "scripts": {
+    "test": "npm run build && node --test \"dist/**/*.test.js\"",
     "prepublishOnly": "npm run build",
     "build": "tsc",
     "serve-demo": "rspack dev --watch",
@@ -88,8 +89,10 @@
     "sinho": "^0.3.7"
   },
   "devDependencies": {
+    "@happy-dom/global-registrator": "^20.9.0",
     "@rspack/cli": "^1.7.10",
     "@rspack/core": "^1.7.10",
+    "@types/node": "^22.19.17",
     "typescript": "^6.0.2"
   }
 }
