@@ -8,7 +8,7 @@ import { GridLayer, getHoshis } from "./grid.tsx";
 function renderGrid(template: Template) {
   const result = render(template);
   const goban = result.element()! as Goban;
-  const layer = goban.querySelector("shudan-grid-layer")! as HTMLElement;
+  const layer = goban.querySelector<GridLayer>("shudan-grid-layer")!;
   const svg = layer.shadowRoot!.querySelector("svg")!;
 
   return {

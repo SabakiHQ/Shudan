@@ -28,7 +28,7 @@ export interface LayerOptions {
   renderHTML?: boolean;
 }
 
-declare abstract class _LayerComponent {
+declare abstract class LayerComponent {
   /**
    * The nearest ancestor `<shudan-goban>` element.
    */
@@ -43,7 +43,7 @@ declare abstract class _LayerComponent {
 /**
  * Abstract base class mixed into every layer component.
  */
-export type LayerComponent = _LayerComponent;
+export type { LayerComponent };
 
 export type Layer<M extends Metadata> = Component<M> & LayerComponent;
 
