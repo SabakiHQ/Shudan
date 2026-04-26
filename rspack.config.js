@@ -1,5 +1,6 @@
 import { resolve } from "node:path";
 import { defineConfig } from "@rspack/cli";
+import { SwcJsMinimizerRspackPlugin } from "@rspack/core";
 
 export default defineConfig({
   entry: {
@@ -9,7 +10,16 @@ export default defineConfig({
     path: resolve(import.meta.dirname, "./demo"),
   },
   optimization: {
-    minimize: false,
+    minimizer: [
+      new SwcJsMinimizerRspackPlugin({
+        minimizerOptions: {
+          mangle: {
+            keep_classnames: true,
+          },
+        },
+      }),
+    ],
+    minimize: true,
   },
   module: {
     rules: [
