@@ -8,6 +8,7 @@
     "jsx": "react-jsx",
     "jsxImportSource": "sinho",
     "declaration": true,
+    "sourceMap": true,
     "allowImportingTsExtensions": true,
     "rewriteRelativeImportExtensions": true,
     "verbatimModuleSyntax": true,
