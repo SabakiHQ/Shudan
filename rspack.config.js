@@ -4,10 +4,11 @@ import { SwcJsMinimizerRspackPlugin } from "@rspack/core";
 
 export default defineConfig({
   entry: {
-    main: "./demo/main.ts",
+    main: "./src/main.ts",
   },
   output: {
-    path: resolve(import.meta.dirname, "./demo"),
+    path: resolve(import.meta.dirname, "./dist"),
+    filename: "min.js",
   },
   optimization: {
     minimizer: [
@@ -47,8 +48,5 @@ export default defineConfig({
         type: "javascript/auto",
       },
     ],
-  },
-  devServer: {
-    static: ["./demo"],
   },
 });

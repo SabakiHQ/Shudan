@@ -24,7 +24,7 @@ Import library and use the web components directly in your HTML. A minimal setup
 looks like follows:
 
 ```html
-<script type="module" src="./path/to/shudan.js"></script>
+<script type="module" src="./path/to/shudan/dist/min.js"></script>
 
 <shudan-goban coords width="9" height="9">
   <shudan-grid-layer></shudan-grid-layer>

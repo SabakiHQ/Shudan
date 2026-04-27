@@ -8,6 +8,10 @@
       "import": "./dist/main.js",
       "types": "./dist/main.d.ts"
     },
+    "./min": {
+      "import": "./dist/min.js",
+      "types": "./dist/main.d.ts"
+    },
     "./Goban": {
       "import": "./dist/layers/goban.js",
       "types": "./dist/layers/goban.d.ts"
@@ -82,9 +86,9 @@
     "test-base": "npm run build && node --enable-source-maps --test --experimental-test-coverage",
     "test": "npm run test-base -- \"dist/**/*.test.js\"",
     "prepublishOnly": "npm run build",
-    "build": "tsc",
-    "serve-demo": "rspack dev --watch",
-    "build-demo": "rspack build"
+    "build": "tsc && rspack build",
+    "serve-demo": "rspack --config ./rspack.demo.config.js dev --watch",
+    "build-demo": "rspack --config ./rspack.demo.config.js build"
   },
   "peerDependencies": {
     "sinho": "^0.3.7"

@@ -50,6 +50,9 @@ module is imported:
 </shudan-goban>
 ```
 
+A minified bundle is also available at `@sabaki/shudan/min` or `dist/min.js` for
+direct use in the browser without a bundler.
+
 ## Coordinate System
 
 Board positions are represented by a vertex, which is a string coordinate in
