@@ -28,7 +28,6 @@ export function render(template: Template) {
     container,
     elements: () => [...container.shadowRoot!.children] as HTMLElement[],
     element: () => container.shadowRoot!.firstElementChild as HTMLElement,
-    cleanup: () => container.remove(),
   };
 }
 
@@ -41,7 +40,9 @@ export function renderGoban(template: Template) {
     container: result.container,
     goban,
     svg: () => goban().shadowRoot!.querySelector("svg")!,
-    layers: () => [...goban().querySelectorAll<HTMLElement>("*")],
-    cleanup: result.cleanup,
   };
+}
+
+export function cleanupRender(): void {
+  document.body.innerHTML = "";
 }

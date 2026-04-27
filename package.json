@@ -79,7 +79,8 @@
   },
   "homepage": "https://github.com/SabakiHQ/Shudan",
   "scripts": {
-    "test": "npm run build && node --enable-source-maps --test --experimental-test-coverage \"dist/**/*.test.js\"",
+    "test-base": "npm run build && node --enable-source-maps --test --experimental-test-coverage",
+    "test": "npm run test-base -- \"dist/**/*.test.js\"",
     "prepublishOnly": "npm run build",
     "build": "tsc",
     "serve-demo": "rspack dev --watch",

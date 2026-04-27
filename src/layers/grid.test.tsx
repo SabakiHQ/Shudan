@@ -1,28 +1,29 @@
-import { describe, test } from "node:test";
+import { afterEach, describe, test } from "node:test";
 import assert from "node:assert/strict";
 import type { Template } from "sinho";
-import { render } from "../test/utils.tsx";
-import { Goban } from "../goban.tsx";
-import { GridLayer, getHoshis } from "./grid.tsx";
+import { cleanupRender, renderGoban } from "../test/utils.tsx";
+import { Goban, GridLayer, getHoshis } from "../main.ts";
 
 function renderGrid(template: Template) {
-  const result = render(template);
-  const goban = result.element()! as Goban;
-  const layer = goban.querySelector<GridLayer>("shudan-grid-layer")!;
-  const svg = layer.shadowRoot!.querySelector("svg")!;
+  const result = renderGoban(template);
+  const layer = result.goban().querySelector<GridLayer>("shudan-grid-layer")!;
+  const svg = () => layer.shadowRoot!.querySelector("svg")!;
 
   return {
-    goban,
+    goban: result.goban,
     svg,
-    get lines() {
-      return [...svg.querySelectorAll<SVGLineElement>("line")];
+    lines() {
+      return [...svg().querySelectorAll<SVGLineElement>("line")];
     },
-    get circles() {
-      return [...svg.querySelectorAll<SVGCircleElement>("circle")];
+    circles() {
+      return [...svg().querySelectorAll<SVGCircleElement>("circle")];
     },
-    cleanup: result.cleanup,
   };
 }
+
+afterEach(() => {
+  cleanupRender();
+});
 
 // -- getHoshis --
 
@@ -73,33 +74,30 @@ describe("getHoshis: standard board sizes", () => {
 
 describe("GridLayer: line count", () => {
   test("3×3 board renders 6 lines (3 horizontal + 3 vertical)", () => {
-    const { lines, cleanup } = renderGrid(
+    const { lines } = renderGrid(
       <Goban width={3} height={3}>
         <GridLayer />
       </Goban>,
     );
-    assert.equal(lines.length, 6);
-    cleanup();
+    assert.equal(lines().length, 6);
   });
 
   test("9×9 board renders 18 lines", () => {
-    const { lines, cleanup } = renderGrid(
+    const { lines } = renderGrid(
       <Goban width={9} height={9}>
         <GridLayer />
       </Goban>,
     );
-    assert.equal(lines.length, 18);
-    cleanup();
+    assert.equal(lines().length, 18);
   });
 
   test("non-square 9×13 board renders 22 lines", () => {
-    const { lines, cleanup } = renderGrid(
+    const { lines } = renderGrid(
       <Goban width={9} height={13}>
         <GridLayer />
       </Goban>,
     );
-    assert.equal(lines.length, 22);
-    cleanup();
+    assert.equal(lines().length, 22);
   });
 
   test("line count updates reactively when board width changes", () => {
@@ -108,104 +106,95 @@ describe("GridLayer: line count", () => {
         <GridLayer />
       </Goban>,
     );
-    assert.equal(result.lines.length, 18);
-    result.goban.width = 13;
-    assert.equal(result.lines.length, 22); // 13 + 9
-    result.cleanup();
+    assert.equal(result.lines().length, 18);
+    result.goban().width = 13;
+    assert.equal(result.lines().length, 22); // 13 + 9
   });
 });
 
 describe("GridLayer: hoshi circles", () => {
   test("3×3 board renders no circles", () => {
-    const { circles, cleanup } = renderGrid(
+    const { circles } = renderGrid(
       <Goban width={3} height={3}>
         <GridLayer />
       </Goban>,
     );
     assert.equal(circles.length, 0);
-    cleanup();
   });
 
   test("9×9 board renders 9 default hoshi circles", () => {
-    const { circles, cleanup } = renderGrid(
+    const { circles } = renderGrid(
       <Goban width={9} height={9}>
         <GridLayer />
       </Goban>,
     );
-    assert.equal(circles.length, 9);
-    cleanup();
+    assert.equal(circles().length, 9);
   });
 
   test("custom hoshis prop overrides default positions", () => {
-    const { circles, cleanup } = renderGrid(
+    const { circles } = renderGrid(
       <Goban width={9} height={9}>
         <GridLayer hoshis={["C3", "G7"]} />
       </Goban>,
     );
-    assert.equal(circles.length, 2);
-    cleanup();
+    assert.equal(circles().length, 2);
   });
 
   test("hoshis prop accepts vertex range notation", () => {
     // C3:E5 expands to a 3×3 range → 9 vertices
-    const { circles, cleanup } = renderGrid(
+    const { circles } = renderGrid(
       <Goban width={9} height={9}>
         <GridLayer hoshis={["C3:E5"]} />
       </Goban>,
     );
-    assert.equal(circles.length, 9);
-    cleanup();
+    assert.equal(circles().length, 9);
   });
 });
 
 describe("GridLayer: color prop", () => {
   test("default color is the board foreground CSS variable", () => {
-    const { svg, cleanup } = renderGrid(
+    const { svg } = renderGrid(
       <Goban width={3} height={3}>
         <GridLayer />
       </Goban>,
     );
     assert.equal(
-      svg.querySelector("g > g")!.getAttribute("stroke"),
+      svg().querySelector("g > g")!.getAttribute("stroke"),
       "var(--shudan-board-foreground-color)",
     );
-    cleanup();
   });
 
   test("custom color is applied as stroke on the <g> element", () => {
-    const { svg, cleanup } = renderGrid(
+    const { svg } = renderGrid(
       <Goban width={3} height={3}>
         <GridLayer color="red" />
       </Goban>,
     );
-    assert.equal(svg.querySelector("g > g")!.getAttribute("stroke"), "red");
-    cleanup();
+    assert.equal(svg().querySelector("g > g")!.getAttribute("stroke"), "red");
   });
 
   test("custom color fills hoshi circles", () => {
-    const { circles, cleanup } = renderGrid(
+    const { circles } = renderGrid(
       <Goban width={9} height={9}>
         <GridLayer color="blue" />
       </Goban>,
     );
-    for (const circle of circles) {
+    for (const circle of circles()) {
       assert.equal(circle.getAttribute("fill"), "blue");
     }
-    cleanup();
   });
 });
 
 describe("GridLayer: stroke widths", () => {
   test("border lines are thicker than interior lines when widths differ", () => {
     // 3×3 board: lines[0]=h-row0 (border), lines[1]=h-row1 (interior), lines[2]=h-row2 (border)
-    const { lines, cleanup } = renderGrid(
+    const { lines } = renderGrid(
       <Goban width={3} height={3}>
         <GridLayer strokeWidth={0.04} borderStrokeWidth={0.1} />
       </Goban>,
     );
-    const borderWidth = parseFloat(lines[0].getAttribute("stroke-width")!);
-    const interiorWidth = parseFloat(lines[1].getAttribute("stroke-width")!);
+    const borderWidth = parseFloat(lines()[0].getAttribute("stroke-width")!);
+    const interiorWidth = parseFloat(lines()[1].getAttribute("stroke-width")!);
     assert.ok(borderWidth > interiorWidth, "border should be thicker");
-    cleanup();
   });
 });
