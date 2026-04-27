@@ -39,7 +39,6 @@ export const Coord: FunctionalComponent<{
               style={{
                 display: "grid",
                 placeItems: "center",
-                fontSize: unitCSS(1 / 1.7),
                 gridRow: () =>
                   direction() === "column" ? labels().length - i() : undefined,
               }}
