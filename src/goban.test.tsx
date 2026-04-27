@@ -98,6 +98,11 @@ describe("Goban interactive", () => {
     const { goban } = renderGoban(<Goban interactive />);
     assert.equal(goban().getAttribute("tabindex"), "0");
   });
+
+  test("existing tabindex is preserved when interactive is set", () => {
+    const { goban } = renderGoban(<Goban interactive tabindex="3" />);
+    assert.equal(goban().getAttribute("tabindex"), "3");
+  });
 });
 
 describe("Goban vertex pointer events", () => {
@@ -343,6 +348,20 @@ describe("Goban keyboard navigation", () => {
     assert.notEqual(goban().focusedVertex, undefined);
     keydown(goban(), "Escape");
     assert.equal(goban().focusedVertex, undefined);
+  });
+
+  test("Escape without focused vertex blurs the board", () => {
+    const { goban } = renderGoban(<Goban interactive />);
+    let blurred = false;
+    const originalBlur = goban().blur.bind(goban());
+    goban().blur = () => {
+      blurred = true;
+      return originalBlur();
+    };
+
+    keydown(goban(), "Escape");
+
+    assert.equal(blurred, true);
   });
 
   test("partial range constrains initial position and navigation", () => {
