@@ -1,11 +1,11 @@
 # API Reference
 
-## `class Goban`
+## `class Goban extends HTMLElement`
 
 **HTML Tag:** `<shudan-goban>`
 
 Main board component. It provides board sizing, coordinates, viewport cropping,
-keyboard navigation, pointer/vertex events, and contains all layer components.
+keyboard navigation, vertex events, and contains all layer components.
 
 ### Props and Attributes
 
@@ -46,29 +46,29 @@ keyboard navigation, pointer/vertex events, and contains all layer components.
   - This event is emitted when the focused vertex changes.
 - `vertex-click`
   - **Event:**
-    [`VertexPointerEvent`](#class-vertexpointerevent-extends-pointerevent)
+    [`VertexPointerEvent`](#class-vertexpointerevent-extends-vertexevent)
   - This event is emitted when a vertex is clicked.
 - `vertex-pointer-up`
   - **Event:**
-    [`VertexPointerEvent`](#class-vertexpointerevent-extends-pointerevent)
+    [`VertexPointerEvent`](#class-vertexpointerevent-extends-vertexevent)
   - This event is emitted when a pointer is released while hovering over a
     vertex.
 - `vertex-pointer-down`
   - **Event:**
-    [`VertexPointerEvent`](#class-vertexpointerevent-extends-pointerevent)
+    [`VertexPointerEvent`](#class-vertexpointerevent-extends-vertexevent)
   - This event is emitted when a pointer is pressed down while hovering over a
     vertex.
 - `vertex-pointer-move`
   - **Event:**
-    [`VertexPointerEvent`](#class-vertexpointerevent-extends-pointerevent)
+    [`VertexPointerEvent`](#class-vertexpointerevent-extends-vertexevent)
   - This event is emitted when a pointer moves while hovering over a vertex.
 - `vertex-pointer-enter`
   - **Event:**
-    [`VertexPointerEvent`](#class-vertexpointerevent-extends-pointerevent)
+    [`VertexPointerEvent`](#class-vertexpointerevent-extends-vertexevent)
   - This event is emitted when a pointer enters the vertices area.
 - `vertex-pointer-leave`
   - **Event:**
-    [`VertexPointerEvent`](#class-vertexpointerevent-extends-pointerevent)
+    [`VertexPointerEvent`](#class-vertexpointerevent-extends-vertexevent)
   - This event is emitted when a pointer leaves the vertices area.
 
 ### CSS Variables
@@ -108,7 +108,7 @@ An event that carries a vertex, emitted when the focused vertex changes.
 - `vertex: Vertex`
   - The vertex associated with the event.
 
-## `class VertexPointerEvent extends PointerEvent`
+## `class VertexPointerEvent extends VertexEvent`
 
 A pointer event that also carries the board vertex the pointer was over.
 
@@ -119,7 +119,7 @@ A pointer event that also carries the board vertex the pointer was over.
 - `pointerEvent: PointerEvent`
   - The original DOM pointer event that triggered this event.
 
-## `class GridLayer`
+## `class GridLayer extends HTMLElement`
 
 **HTML Tag:** `<shudan-grid-layer>`
 
@@ -141,7 +141,7 @@ A layer that renders the grid lines and hoshi markers.
   - **Attribute:** `border-stroke-width`
   - The stroke width of the border lines as a fraction of the vertex size.
 
-## `class StoneLayer`
+## `class StoneLayer extends HTMLElement`
 
 **HTML Tag:** `<shudan-stone-layer>`
 
@@ -172,7 +172,7 @@ A layer that renders black and white stones including shadows.
   - An id referencing an SVG object that should be used to represent a white
     stone.
 
-## `class FocusLayer`
+## `class FocusLayer extends HTMLElement`
 
 **HTML Tag:** `<shudan-focus-layer>`
 
@@ -187,7 +187,7 @@ A layer that renders a focus indicator over the currently focused vertex.
   - **Attribute:** `stroke-width`
   - The stroke width of the focus indicator as a fraction of the vertex size.
 
-## `class HoverStoneLayer`
+## `class HoverStoneLayer extends HTMLElement`
 
 **HTML Tag:** `<shudan-hover-stone-layer>`
 
@@ -195,8 +195,8 @@ A layer that renders a semi-transparent stone on the vertex currently being
 hovered by the pointer.
 
 If used as a child of a `StoneLayer`, hover stones will only be rendered on
-empty vertices, and it can automatically adjust the stone rendering according
-to the underlying stones.
+empty vertices, and it can automatically adjust the stone rendering according to
+the underlying stones.
 
 ### Props and Attributes
 
@@ -217,7 +217,7 @@ to the underlying stones.
     stone. If set to `undefined`, it uses the stone rendering of the underlying
     `StoneLayer` if available.
 
-## `class StoneIndicatorLayer`
+## `class StoneIndicatorLayer extends HTMLElement`
 
 **HTML Tag:** `<shudan-stone-indicator-layer>`
 
@@ -230,7 +230,7 @@ suggestions or candidate moves.
   - **Attribute:** `stones`
   - A mapping from vertex ranges to stone colors.
 
-## `class MarkerLayer`
+## `class MarkerLayer extends HTMLElement`
 
 **HTML Tag:** `<shudan-marker-layer>`
 
@@ -261,14 +261,14 @@ according to the underlying stones.
       `"triangle"`, `"square"`
     - `color?: string`
 
-## `class LabelLayer`
+## `class LabelLayer extends HTMLElement`
 
 **HTML Tag:** `<shudan-label-layer>`
 
 A layer that renders text labels on specified vertices or vertex ranges.
 
-If used as a child of a `StoneLayer`, it can automatically adjust the text
-color and background according to the underlying stones.
+If used as a child of a `StoneLayer`, it can automatically adjust the text color
+and background according to the underlying stones.
 
 ### Props and Attributes
 
@@ -295,7 +295,7 @@ color and background according to the underlying stones.
 - `shudan-label-layer::part(label)`
   - The CSS part for label elements.
 
-## `class PaintLayer`
+## `class PaintLayer extends HTMLElement`
 
 **HTML Tag:** `<shudan-paint-layer>`
 
@@ -320,7 +320,7 @@ A layer that renders filled regions over groups of adjacent vertices.
   - **Attribute:** `border-radius`
   - The border radius of the painted areas as a fraction of the vertex size.
 
-## `class HeatLayer`
+## `class HeatLayer extends HTMLElement`
 
 **HTML Tag:** `<shudan-heat-layer>`
 
@@ -337,7 +337,7 @@ configurable color palette.
   - **Attribute:** `values`
   - The values for each vertex range in the heatmap.
 
-## `class LineLayer`
+## `class LineLayer extends HTMLElement`
 
 **HTML Tag:** `<shudan-line-layer>`
 
