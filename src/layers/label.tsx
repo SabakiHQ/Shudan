@@ -46,17 +46,17 @@ export class LabelLayer extends Layer({
 }) {
   renderContent() {
     const { stones, height } = useGobanContext();
-    const stoneMap = useMemo(() =>
-      VertexRange.index(stones() ?? {}),
-    );
+    const stoneMap = useMemo(() => VertexRange.index(stones() ?? {}));
 
     const labels = useMemo(() =>
-      Object.entries(VertexRange.index(this.props.labels())).map(([vertex, label]) => {
-        const [x, y] = Vertex.parse(vertex as Vertex);
-        const _label = typeof label === "string" ? { text: label } : label;
+      Object.entries(VertexRange.index(this.props.labels())).map(
+        ([vertex, label]) => {
+          const [x, y] = Vertex.parse(vertex as Vertex);
+          const _label = typeof label === "string" ? { text: label } : label;
 
-        return { x, y, vertex: vertex as Vertex, ..._label };
-      }),
+          return { x, y, vertex: vertex as Vertex, ..._label };
+        },
+      ),
     );
 
     return (
