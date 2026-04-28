@@ -24,15 +24,6 @@ import {
 } from "./events.ts";
 import { unit, unitCSS } from "./utils.ts";
 
-export {
-  Vertex,
-  VertexRange,
-  VertexEvent,
-  VertexPointerEvent,
-  type VertexEventInit,
-  type VertexPointerEventInit,
-};
-
 export const GobanContext = {
   /**
    * The width of the goban in vertices.

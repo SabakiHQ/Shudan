@@ -31,15 +31,6 @@ goban.append(new GridLayer(), stoneLayer);
 document.body.append(goban);
 ```
 
-It is possible to import the components individually if you only need a subset
-of the functionality:
-
-```ts
-import { Goban } from "@sabaki/shudan/Goban";
-import { GridLayer } from "@sabaki/shudan/GridLayer";
-import { StoneLayer } from "@sabaki/shudan/StoneLayer";
-```
-
 Alternatively, you can use the web components directly in your HTML once the
 module is imported:
 

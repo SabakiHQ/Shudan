@@ -1,14 +1,11 @@
+export { Goban, useGobanContext, useRanges } from "./goban.tsx";
+export { Vertex, VertexRange } from "./vertex.ts";
 export {
-  Goban,
-  useGobanContext,
-  useRanges,
-  Vertex,
-  VertexRange,
   VertexEvent,
   VertexPointerEvent,
   type VertexEventInit,
   type VertexPointerEventInit,
-} from "./goban.tsx";
+} from "./events.ts";
 export {
   Layer,
   LayerGroup,
