@@ -1,5 +1,7 @@
 # Shudan Goban
 
+[![CI](https://github.com/SabakiHQ/Shudan/actions/workflows/ci.yml/badge.svg)](https://github.com/SabakiHQ/Shudan/actions/workflows/ci.yml)
+
 A highly customizable, low-level Preact Goban component.
 
 ![Screenshot](./screenshot.png)

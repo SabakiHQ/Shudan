@@ -1,0 +1,62 @@
+name: Publish
+
+# Release flow: `npm version <patch|minor|major>` then `git push --follow-tags`.
+# Pushing the resulting `vX.Y.Z` tag triggers this workflow, which publishes that
+# version to npm using the NPM_TOKEN secret (a granular access token scoped to the
+# @sabaki packages with read-write + bypass-2fa) and cuts a matching GitHub Release.
+#
+# A prerelease tag (e.g. v1.7.2-rc.0) publishes under the `next` dist-tag instead
+# of `latest`, and its GitHub Release is marked as a prerelease.
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write # publish creates a GitHub Release
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Check tag matches package.json version
+        run: |
+          pkg="v$(node -p "require('./package.json').version")"
+          if [ "$pkg" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::tag $GITHUB_REF_NAME does not match package.json ($pkg)"
+            exit 1
+          fi
+
+      - run: npm ci
+
+      # No test suite; build the demo bundle as a smoke check that the source
+      # compiles and bundles cleanly before publishing.
+      - name: Build demo
+        run: npm run build-demo
+
+      - name: Publish to npm
+        run: |
+          case "$GITHUB_REF_NAME" in
+            *-*) npm publish --tag next ;;   # prerelease -> next
+            *)   npm publish ;;              # stable -> latest
+          esac
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Shudan's release-title convention is the brand name: "Shudan vX.Y.Z".
+          case "$GITHUB_REF_NAME" in
+            *-*) gh release create "$GITHUB_REF_NAME" --title "Shudan $GITHUB_REF_NAME" --generate-notes --prerelease ;;
+            *)   gh release create "$GITHUB_REF_NAME" --title "Shudan $GITHUB_REF_NAME" --generate-notes ;;
+          esac
