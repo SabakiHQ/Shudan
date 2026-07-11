@@ -52,6 +52,7 @@ export interface GobanProps {
 
   fuzzyStonePlacement?: boolean;
   animateStonePlacement?: boolean;
+  stoneVariationCounts?: Partial<Record<1 | -1, number>>;
 
   signMap?: Map<0 | 1 | -1>;
   markerMap?: Map<Marker | null>;

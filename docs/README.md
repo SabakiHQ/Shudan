@@ -164,10 +164,12 @@ Also override Shudan's default CSS custom properties to adjust the colors:
 }
 ```
 
-Shudan adds random classes `.shudan-random_{n}` where `n = 0,...,4` to
-`.shudan-stone-image`. Say, you have white shell stone images with different
-shell patterns. You can use the random classes to randomly assign a different
-pattern to each stone:
+Shudan adds random classes `.shudan-random_{n}` to `.shudan-stone-image`. By
+default, `n = 0,...,4`. Pass `stoneVariationCounts` to configure independent
+counts for black and white stones, for example `{1: 12, [-1]: 7}`. Invalid or
+missing counts default to five. Say, you have white shell stone images with
+different shell patterns. You can use the random classes to randomly assign a
+different pattern to each stone:
 
 ```css
 .shudan-stone-image.shudan-sign_-1 {
