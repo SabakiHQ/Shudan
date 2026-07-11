@@ -108,6 +108,44 @@ certain classes to customize the appearance:
 }
 ```
 
+The goban also has a size-specific class such as `shudan-board-9x9`,
+`shudan-board-13x13`, or `shudan-board-19x19`. Its `data-shudan-board-width` and
+`data-shudan-board-height` attributes expose the same dimensions separately.
+Themes can use these hooks to replace the vector grid with a board image that
+has its grid baked in:
+
+```css
+.shudan-board-9x9 .shudan-content {
+  background: url("./board-9x9.png") center / 100% 100% no-repeat;
+}
+
+.shudan-board-9x9 .shudan-grid {
+  display: none;
+}
+
+.shudan-board-13x13 .shudan-content {
+  background: url("./board-13x13.png") center / 100% 100% no-repeat;
+}
+
+.shudan-board-13x13 .shudan-grid {
+  display: none;
+}
+
+.shudan-board-19x19 .shudan-content {
+  background: url("./board-19x19.png") center / 100% 100% no-repeat;
+}
+
+.shudan-board-19x19 .shudan-grid {
+  display: none;
+}
+```
+
+Target `.shudan-content` so the baked grid aligns with the vertex area. The
+first and last intersections should be half a vertex apart from the image edges.
+Sizes without a matching rule keep the regular board background and vector grid.
+These simple rules assume the whole board is visible; themes that use `rangeX`
+or `rangeY` must also crop and align their background accordingly.
+
 Also override Shudan's default CSS custom properties to adjust the colors:
 
 ```css
