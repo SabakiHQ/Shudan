@@ -36,9 +36,9 @@
     "@sabaki/go-board": "^1.4.2",
     "onchange": "^7.1.0",
     "preact": "^10.5.14",
-    "prettier": "^2.7.1",
+    "prettier": "^3.9.4",
     "webpack": "^5.52.0",
-    "webpack-cli": "^4.8.0"
+    "webpack-cli": "^7.2.1"
   },
   "prettier": {
     "proseWrap": "always"
