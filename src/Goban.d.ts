@@ -15,6 +15,7 @@ export interface Marker {
     | "label"
     | null;
   label?: string | null;
+  tooltip?: string | null;
 }
 
 export interface GhostStone {

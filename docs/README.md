@@ -278,11 +278,12 @@ All props are optional. The following props are supported:
   {
     type?: <string> | null,
     label?: <string> | null
+    tooltip?: <string> | null
   }
   ```
 
-  The string specified in `label` is shown as tooltip. Shudan provides styles
-  for the following types:
+  The string specified in `label` is shown as tooltip by default if `tooltip`
+  is not given. Shudan provides styles for the following types:
 
   - `'circle'`
   - `'cross'`

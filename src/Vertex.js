@@ -65,7 +65,7 @@ export default function Vertex(props) {
         "data-x": position[0],
         "data-y": position[1],
 
-        title: marker?.label,
+        title: marker?.tooltip ?? marker?.label,
         style: {
           position: "relative",
         },
