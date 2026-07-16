@@ -16,6 +16,8 @@ import Grid from "./Grid.js";
 import Vertex from "./Vertex.js";
 import Line from "./Line.js";
 
+const defaultStoneVariationCount = 5;
+
 export default class Goban extends Component {
   constructor(props) {
     super(props);
@@ -71,7 +73,17 @@ export default class Goban extends Component {
       lines = [],
       selectedVertices = [],
       dimmedVertices = [],
+      stoneVariationCounts = {},
     } = this.props;
+
+    let getStoneVariation = (sign, seed) => {
+      let count = stoneVariationCounts?.[sign];
+      if (!Number.isSafeInteger(count) || count < 1) {
+        count = defaultStoneVariationCount;
+      }
+
+      return Math.floor(seed * count);
+    };
 
     let animatedVertices = [].concat(
       ...this.state.animatedVertices.map(neighborhood)
@@ -85,12 +97,15 @@ export default class Goban extends Component {
         className: classnames(
           "shudan-goban",
           "shudan-goban-image",
+          `shudan-board-${width}x${height}`,
           {
             "shudan-busy": busy,
             "shudan-coordinates": showCoordinates,
           },
           this.props.class ?? this.props.className
         ),
+        "data-shudan-board-width": width,
+        "data-shudan-board-height": height,
         style: {
           display: "inline-grid",
           gridTemplateRows: showCoordinates ? "1em 1fr 1em" : "1fr",
@@ -154,6 +169,9 @@ export default class Goban extends Component {
             xs.map((x) => {
               let equalsVertex = (v) => vertexEquals(v, [x, y]);
               let selected = selectedVertices.some(equalsVertex);
+              let sign = signMap?.[y]?.[x];
+              let ghostStone = ghostStoneMap?.[y]?.[x];
+              let variationSign = sign || ghostStone?.sign;
 
               return h(
                 Vertex,
@@ -163,12 +181,15 @@ export default class Goban extends Component {
                     position: [x, y],
 
                     shift: fuzzyStonePlacement ? shiftMap?.[y]?.[x] : 0,
-                    random: randomMap?.[y]?.[x],
-                    sign: signMap?.[y]?.[x],
+                    random: getStoneVariation(
+                      variationSign,
+                      randomMap?.[y]?.[x]
+                    ),
+                    sign,
 
                     heat: heatMap?.[y]?.[x],
                     marker: markerMap?.[y]?.[x],
-                    ghostStone: ghostStoneMap?.[y]?.[x],
+                    ghostStone,
                     dimmed: dimmedVertices.some(equalsVertex),
                     animate: animatedVertices.some(equalsVertex),
 
@@ -302,6 +323,6 @@ Goban.getDerivedStateFromProps = function (props, state) {
     ys: range(height).slice(rangeY[0], rangeY[1] + 1),
     hoshis: getHoshis(width, height),
     shiftMap: readjustShifts(signMap.map((row) => row.map((_) => random(8)))),
-    randomMap: signMap.map((row) => row.map((_) => random(4))),
+    randomMap: signMap.map((row) => row.map((_) => Math.random())),
   };
 };

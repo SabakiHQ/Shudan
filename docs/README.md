@@ -108,6 +108,44 @@ certain classes to customize the appearance:
 }
 ```
 
+The goban also has a size-specific class such as `shudan-board-9x9`,
+`shudan-board-13x13`, or `shudan-board-19x19`. Its `data-shudan-board-width` and
+`data-shudan-board-height` attributes expose the same dimensions separately.
+Themes can use these hooks to replace the vector grid with a board image that
+has its grid baked in:
+
+```css
+.shudan-board-9x9 .shudan-content {
+  background: url("./board-9x9.png") center / 100% 100% no-repeat;
+}
+
+.shudan-board-9x9 .shudan-grid {
+  display: none;
+}
+
+.shudan-board-13x13 .shudan-content {
+  background: url("./board-13x13.png") center / 100% 100% no-repeat;
+}
+
+.shudan-board-13x13 .shudan-grid {
+  display: none;
+}
+
+.shudan-board-19x19 .shudan-content {
+  background: url("./board-19x19.png") center / 100% 100% no-repeat;
+}
+
+.shudan-board-19x19 .shudan-grid {
+  display: none;
+}
+```
+
+Target `.shudan-content` so the baked grid aligns with the vertex area. The
+first and last intersections should be half a vertex apart from the image edges.
+Sizes without a matching rule keep the regular board background and vector grid.
+These simple rules assume the whole board is visible; themes that use `rangeX`
+or `rangeY` must also crop and align their background accordingly.
+
 Also override Shudan's default CSS custom properties to adjust the colors:
 
 ```css
@@ -126,10 +164,12 @@ Also override Shudan's default CSS custom properties to adjust the colors:
 }
 ```
 
-Shudan adds random classes `.shudan-random_{n}` where `n = 0,...,4` to
-`.shudan-stone-image`. Say, you have white shell stone images with different
-shell patterns. You can use the random classes to randomly assign a different
-pattern to each stone:
+Shudan adds random classes `.shudan-random_{n}` to `.shudan-stone-image`. By
+default, `n = 0,...,4`. Pass `stoneVariationCounts` to configure independent
+counts for black and white stones, for example `{1: 12, [-1]: 7}`. Invalid or
+missing counts default to five. Say, you have white shell stone images with
+different shell patterns. You can use the random classes to randomly assign a
+different pattern to each stone:
 
 ```css
 .shudan-stone-image.shudan-sign_-1 {
