@@ -14,8 +14,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
-      # Shudan has no test suite. Building the demo bundle is a smoke check that
-      # the library source compiles and bundles cleanly -- the demo entry imports
-      # ../src/main.js, so webpack pulls in the whole component.
+      - name: Run tests
+        run: npm test
+      # The demo build doubles as a bundle smoke check: the demo entry imports
+      # ../src/main.js, so webpack pulling it in confirms the source compiles.
       - name: Build demo
         run: npm run build-demo
