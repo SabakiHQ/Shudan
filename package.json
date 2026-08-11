@@ -35,7 +35,7 @@
   "devDependencies": {
     "@sabaki/go-board": "^1.4.2",
     "@testing-library/preact": "^3.2.4",
-    "jsdom": "^29.1.1",
+    "jsdom": "^30.0.1",
     "onchange": "^7.1.0",
     "preact": "^10.5.14",
     "prettier": "^3.9.4",
