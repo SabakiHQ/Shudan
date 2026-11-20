@@ -94,7 +94,7 @@ export default function Vertex(props) {
             [`shudan-marker_${marker?.type}`]: !!marker?.type,
             "shudan-smalllabel":
               marker?.type === "label" &&
-              (marker.label?.includes("\n") || marker.label.length >= 3),
+              (marker.label?.includes("\n") || marker.label?.length >= 3),
 
             [`shudan-ghost_${ghostStone?.sign}`]: !!ghostStone,
             [`shudan-ghost_${ghostStone?.type}`]: !!ghostStone?.type,
