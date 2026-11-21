@@ -35,8 +35,8 @@ export default class BoundedGoban extends Component {
       maxVertexSize !== prevProps.maxVertexSize ||
       JSON.stringify(rangeX) !== JSON.stringify(prevProps.rangeX) ||
       JSON.stringify(rangeY) !== JSON.stringify(prevProps.rangeY) ||
-      signMap.length !== prevProps.signMap.length ||
-      (signMap[0] || []).length !== (prevProps.signMap[0] || []).length
+      signMap?.length !== prevProps.signMap?.length ||
+      (signMap?.[0] || []).length !== (prevProps.signMap?.[0] || []).length
     ) {
       let { offsetWidth, offsetHeight } = this.element;
       let scale = Math.min(maxWidth / offsetWidth, maxHeight / offsetHeight);
